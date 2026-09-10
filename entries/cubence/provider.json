@@ -1,0 +1,36 @@
+{
+  "id": "cubence",
+  "name": "Cubence",
+  "logo_char": "C",
+  "logo_color": "#059669",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://api.cubence.com/v1",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "claude-haiku-4-5-20251001"
+  ],
+  "protocol": "openai",
+  "icon": "cubence",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.cubence.com",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://api.cubence.com",
+      "models": [
+        "gemini-3.6-flash"
+      ]
+    }
+  ]
+}

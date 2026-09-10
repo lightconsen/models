@@ -1,0 +1,33 @@
+{
+  "id": "baidu-qianfan-token-plan",
+  "name": "Baidu Qianfan Token Plan",
+  "logo_char": "B",
+  "logo_color": "#7C3AED",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://qianfan.baidubce.com/v2/tokenplan/personal",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "deepseek-v4-pro",
+    "deepseek-v4-flash",
+    "deepseek-v4-flash-0731",
+    "glm-5.2"
+  ],
+  "protocol": "openai",
+  "icon": "baidu",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://qianfan.baidubce.com/anthropic/coding",
+      "models": [
+        "qianfan-code-latest",
+        "deepseek-v4-pro"
+      ]
+    }
+  ]
+}

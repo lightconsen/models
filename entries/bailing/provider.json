@@ -1,0 +1,29 @@
+{
+  "id": "bailing",
+  "name": "BaiLing",
+  "logo_char": "B",
+  "logo_color": "#2B7AFF",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://api.tbox.cn/v1",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "Ling-2.5-1T"
+  ],
+  "protocol": "openai",
+  "icon": null,
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.tbox.cn/api/anthropic",
+      "models": [
+        "Ling-2.5-1T"
+      ]
+    }
+  ]
+}

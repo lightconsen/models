@@ -1,0 +1,27 @@
+{
+  "id": "sudocode-chat",
+  "name": "SudoCode.chat",
+  "logo_char": "S",
+  "logo_color": "#0891B2",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://api.sudocode.chat/v1",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "sudocode",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.sudocode.chat",
+      "models": []
+    }
+  ]
+}

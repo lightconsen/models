@@ -1,0 +1,29 @@
+{
+  "id": "longcat",
+  "name": "Longcat",
+  "logo_char": "L",
+  "logo_color": "#FF6A00",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://api.longcat.chat/openai/v1",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "LongCat-2.0"
+  ],
+  "protocol": "openai",
+  "icon": "longcat",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.longcat.chat/anthropic",
+      "models": [
+        "LongCat-2.0"
+      ]
+    }
+  ]
+}

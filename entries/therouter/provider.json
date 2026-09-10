@@ -1,0 +1,39 @@
+{
+  "id": "therouter",
+  "name": "TheRouter",
+  "logo_char": "T",
+  "logo_color": "#EA580C",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.therouter.ai/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "anthropic/claude-sonnet-5",
+    "openai/gpt-5.3-codex",
+    "openai/gpt-5.2",
+    "google/gemini-3.6-flash"
+  ],
+  "protocol": "openai",
+  "icon": null,
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.therouter.ai",
+      "models": [
+        "anthropic/claude-sonnet-5"
+      ]
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://api.therouter.ai",
+      "models": [
+        "gemini-3.6-flash"
+      ]
+    }
+  ]
+}

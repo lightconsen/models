@@ -1,0 +1,32 @@
+{
+  "id": "tencent-token-plan",
+  "name": "Tencent Token Plan",
+  "logo_char": "T",
+  "logo_color": "#D97757",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://api.lkeap.cloud.tencent.com/plan/v3",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "tc-code-latest",
+    "deepseek-v4-flash-202605",
+    "deepseek-v4-pro-202606",
+    "minimax-m2.7"
+  ],
+  "protocol": "openai",
+  "icon": "tencent",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.lkeap.cloud.tencent.com/plan/anthropic",
+      "models": [
+        "tc-code-latest"
+      ]
+    }
+  ]
+}

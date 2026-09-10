@@ -1,0 +1,32 @@
+{
+  "id": "pipellm",
+  "name": "PIPELLM",
+  "logo_char": "P",
+  "logo_color": "#0EA5E9",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://cc-api.pipellm.ai",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol",
+    "claude-opus-5",
+    "claude-sonnet-5",
+    "claude-haiku-4-5-20251001"
+  ],
+  "protocol": "openai",
+  "icon": "pipellm",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://cc-api.pipellm.ai",
+      "models": [
+        "claude-opus-5"
+      ]
+    }
+  ]
+}

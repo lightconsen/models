@@ -1,0 +1,22 @@
+{
+  "id": "anthropic",
+  "name": "Anthropic",
+  "logo_char": "A",
+  "logo_color": "#D97757",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4.9,
+  "endpoint": "https://api.anthropic.com",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "claude-haiku-4-5"
+  ],
+  "protocol": "anthropic",
+  "icon": "anthropic"
+}

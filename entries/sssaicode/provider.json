@@ -1,0 +1,36 @@
+{
+  "id": "sssaicode",
+  "name": "SSSAiCode",
+  "logo_char": "S",
+  "logo_color": "#7C3AED",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://node-hk.sssaicodeapi.com/api",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "claude-haiku-4-5-20251001"
+  ],
+  "protocol": "openai",
+  "icon": "sssaicode",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://node-hk.sssaicodeapi.com/api",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://node-hk.sssaicodeapi.com/api",
+      "models": [
+        "gemini-3.6-flash"
+      ]
+    }
+  ]
+}

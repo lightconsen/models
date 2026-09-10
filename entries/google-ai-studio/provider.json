@@ -1,0 +1,21 @@
+{
+  "id": "google-ai-studio",
+  "name": "Google AI Studio",
+  "logo_char": "G",
+  "logo_color": "#1E6FEB",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4.9,
+  "endpoint": "https://generativelanguage.googleapis.com",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gemini-3.6-flash",
+    "gemini-3.6-pro"
+  ],
+  "protocol": "gemini",
+  "icon": "gemini"
+}

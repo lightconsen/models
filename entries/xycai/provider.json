@@ -1,0 +1,34 @@
+{
+  "id": "xycai",
+  "name": "XycAi",
+  "logo_char": "X",
+  "logo_color": "#DB2777",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://apicdn.xycai.us/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "xycai",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://apicdn.xycai.us",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://apicdn.xycai.us",
+      "models": [
+        "gemini-3.6-flash"
+      ]
+    }
+  ]
+}

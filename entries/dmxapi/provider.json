@@ -1,0 +1,29 @@
+{
+  "id": "dmxapi",
+  "name": "DMXAPI",
+  "logo_char": "D",
+  "logo_color": "#7C3AED",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://www.dmxapi.cn/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": null,
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://www.dmxapi.cn",
+      "models": []
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "sudocode-us",
+  "name": "SudoCode.us",
+  "logo_char": "S",
+  "logo_color": "#0EA5E9",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://sudocode.us/v1",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "sudocode-us",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://sudocode.us",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://sudocode.us",
+      "models": [
+        "gemini-3.1-flash-lite"
+      ]
+    }
+  ]
+}

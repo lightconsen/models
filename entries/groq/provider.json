@@ -1,0 +1,20 @@
+{
+  "id": "groq",
+  "name": "Groq",
+  "logo_char": "G",
+  "logo_color": "#F55036",
+  "tag": "free",
+  "tag_label": "Free",
+  "rating": 4.7,
+  "endpoint": "https://api.groq.com/openai/v1",
+  "price_line": "Free",
+  "billing": "unl",
+  "users": "Llama · ultra-fast inference",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "llama-3.3-70b-versatile"
+  ],
+  "protocol": "openai",
+  "icon": "groq"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "minimax-intl",
+  "name": "MiniMax (Intl)",
+  "logo_char": "M",
+  "logo_color": "#FF3D3D",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://api.minimax.io/v1",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "MiniMax-M2.7"
+  ],
+  "protocol": "openai",
+  "icon": "minimax",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.minimax.io/anthropic",
+      "models": [
+        "MiniMax-M2.7"
+      ]
+    }
+  ]
+}

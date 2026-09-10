@@ -1,0 +1,28 @@
+{
+  "id": "compshare",
+  "name": "Compshare",
+  "logo_char": "C",
+  "logo_color": "#7C3AED",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.modelverse.cn/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-opus-5",
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "ucloud",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.modelverse.cn",
+      "models": []
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "qwencloud",
+  "name": "QwenCloud",
+  "logo_char": "Q",
+  "logo_color": "#615CED",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "qwen3.7-max",
+    "qwen3.7-plus",
+    "qwen3.6-plus"
+  ],
+  "protocol": "openai",
+  "icon": "qwen",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://dashscope-intl.aliyuncs.com/apps/anthropic",
+      "models": [
+        "qwen3.7-max"
+      ]
+    }
+  ]
+}

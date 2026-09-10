@@ -1,0 +1,30 @@
+{
+  "id": "novita-ai",
+  "name": "Novita AI",
+  "logo_char": "N",
+  "logo_color": "#0EA5E9",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.novita.ai/openai",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "zai-org/glm-5.1",
+    "glm-5.1"
+  ],
+  "protocol": "openai",
+  "icon": "novita",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.novita.ai/anthropic",
+      "models": [
+        "zai-org/glm-5.1"
+      ]
+    }
+  ]
+}

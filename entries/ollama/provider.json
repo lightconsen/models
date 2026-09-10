@@ -1,0 +1,22 @@
+{
+  "id": "ollama",
+  "name": "Ollama",
+  "logo_char": "O",
+  "logo_color": "#1c1c1e",
+  "logo_border": true,
+  "tag": "local",
+  "tag_label": "Local",
+  "rating": 4.9,
+  "endpoint": "http://localhost:11434",
+  "price_line": "Runs locally",
+  "billing": "unl",
+  "users": "Fully offline",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "qwen3:32b",
+    "llama3.3:70b"
+  ],
+  "protocol": "openai",
+  "icon": "ollama"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "together-ai",
+  "name": "Together AI",
+  "logo_char": "T",
+  "logo_color": "#0F6FFF",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.together.xyz/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+    "deepseek-ai/DeepSeek-V3.2",
+    "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
+  ],
+  "protocol": "openai",
+  "icon": "together"
+}

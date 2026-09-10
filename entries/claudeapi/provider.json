@@ -1,0 +1,18 @@
+{
+  "id": "claudeapi",
+  "name": "ClaudeAPI",
+  "logo_char": "C",
+  "logo_color": "#65A30D",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://gw.apito.ai",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [],
+  "protocol": "anthropic",
+  "icon": "claudeapi"
+}

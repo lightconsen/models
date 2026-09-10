@@ -1,0 +1,32 @@
+{
+  "id": "doubaoseed",
+  "name": "DouBaoSeed",
+  "logo_char": "D",
+  "logo_color": "#65A30D",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://ark.cn-beijing.volces.com/api/coding/v3",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "ark-code-latest",
+    "doubao-seed-2-1-pro-260628",
+    "doubao-seed-2.1-pro"
+  ],
+  "protocol": "openai",
+  "icon": "huoshan",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://ark.cn-beijing.volces.com/api/coding",
+      "models": [
+        "ark-code-latest",
+        "doubao-seed-2-1-pro-260628"
+      ]
+    }
+  ]
+}

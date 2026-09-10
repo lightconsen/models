@@ -1,0 +1,21 @@
+{
+  "id": "nous-research",
+  "name": "Nous Research",
+  "logo_char": "N",
+  "logo_color": "#6467F2",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://inference-api.nousresearch.com/v1",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "Hermes-4-405B",
+    "Hermes-4-70B"
+  ],
+  "protocol": "openai",
+  "icon": "hermes"
+}

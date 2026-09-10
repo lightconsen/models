@@ -1,0 +1,18 @@
+{
+  "id": "bailian",
+  "name": "Bailian",
+  "logo_char": "B",
+  "logo_color": "#615CED",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://dashscope.aliyuncs.com/apps/anthropic",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [],
+  "protocol": "anthropic",
+  "icon": "bailian"
+}

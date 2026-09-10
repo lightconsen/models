@@ -1,0 +1,27 @@
+{
+  "id": "zetaapi",
+  "name": "ZetaAPI",
+  "logo_char": "Z",
+  "logo_color": "#0EA5E9",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.zetaapi.ai/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "zetaapi",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.zetaapi.ai",
+      "models": []
+    }
+  ]
+}

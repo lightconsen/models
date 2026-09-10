@@ -1,0 +1,25 @@
+{
+  "id": "patewayai",
+  "name": "PatewayAI",
+  "logo_char": "P",
+  "logo_color": "#8B5CF6",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://api.pateway.ai",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [],
+  "protocol": "anthropic",
+  "icon": "pateway",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.pateway.ai/v1",
+      "models": []
+    }
+  ]
+}

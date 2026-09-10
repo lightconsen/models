@@ -1,0 +1,32 @@
+{
+  "id": "deepseek",
+  "name": "DeepSeek",
+  "logo_char": "D",
+  "logo_color": "#4D6BFE",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4.8,
+  "endpoint": "https://api.deepseek.com",
+  "price_line": "¥4 /M in · ¥16 /M out",
+  "billing": "payg",
+  "users": "12.4k users",
+  "blurb": "",
+  "added": true,
+  "models": [
+    "deepseek-chat (V3)",
+    "deepseek-reasoner (R1)"
+  ],
+  "protocol": "openai",
+  "icon": "deepseek",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.deepseek.com/anthropic",
+      "models": [
+        "deepseek-chat (V3)",
+        "deepseek-reasoner (R1)",
+        "deepseek-v4-pro"
+      ]
+    }
+  ]
+}

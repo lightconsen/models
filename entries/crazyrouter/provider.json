@@ -1,0 +1,36 @@
+{
+  "id": "crazyrouter",
+  "name": "CrazyRouter",
+  "logo_char": "C",
+  "logo_color": "#059669",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://cn.crazyrouter.com/v1",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "claude-haiku-4-5-20251001"
+  ],
+  "protocol": "openai",
+  "icon": "crazyrouter",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://cn.crazyrouter.com",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://cn.crazyrouter.com",
+      "models": [
+        "gemini-3.6-flash"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "aicoding",
+  "name": "AICoding",
+  "logo_char": "A",
+  "logo_color": "#EA580C",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://api.aicoding.inc",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "claude-haiku-4-5-20251001"
+  ],
+  "protocol": "openai",
+  "icon": "aicoding",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.aicoding.inc",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://api.aicoding.inc",
+      "models": [
+        "gemini-3.6-flash"
+      ]
+    }
+  ]
+}

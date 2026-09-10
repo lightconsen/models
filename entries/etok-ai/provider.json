@@ -1,0 +1,36 @@
+{
+  "id": "etok-ai",
+  "name": "ETok.ai",
+  "logo_char": "E",
+  "logo_color": "#DC2626",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://api.etok.ai/v1",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-opus-5",
+    "claude-sonnet-5",
+    "claude-haiku-4-5-20251001"
+  ],
+  "protocol": "openai",
+  "icon": "etok",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.etok.ai",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://api.etok.ai/v1beta",
+      "models": [
+        "gemini-3.6-flash"
+      ]
+    }
+  ]
+}

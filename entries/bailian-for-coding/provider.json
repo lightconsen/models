@@ -1,0 +1,22 @@
+{
+  "id": "bailian-for-coding",
+  "name": "Bailian For Coding",
+  "logo_char": "B",
+  "logo_color": "#0EA5E9",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "qwen3-coder-plus",
+    "qwen3-max"
+  ],
+  "protocol": "anthropic",
+  "icon": "bailian",
+  "endpoints": []
+}

@@ -1,0 +1,39 @@
+{
+  "id": "cherryin",
+  "name": "CherryIN",
+  "logo_char": "C",
+  "logo_color": "#8B5CF6",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://open.cherryin.net/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "anthropic/claude-sonnet-5",
+    "anthropic/claude-opus-5",
+    "claude-sonnet-5",
+    "claude-opus-5"
+  ],
+  "protocol": "openai",
+  "icon": "cherryin",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://open.cherryin.net",
+      "models": [
+        "anthropic/claude-sonnet-5"
+      ]
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://open.cherryin.net",
+      "models": [
+        "google/gemini-3.6-flash"
+      ]
+    }
+  ]
+}

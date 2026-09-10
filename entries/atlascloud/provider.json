@@ -1,0 +1,30 @@
+{
+  "id": "atlascloud",
+  "name": "AtlasCloud",
+  "logo_char": "A",
+  "logo_color": "#DB2777",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.atlascloud.ai/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "zai-org/glm-5.1",
+    "glm-5.1"
+  ],
+  "protocol": "openai",
+  "icon": "atlascloud",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.atlascloud.ai",
+      "models": [
+        "zai-org/glm-5.1"
+      ]
+    }
+  ]
+}

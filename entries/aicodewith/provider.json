@@ -1,0 +1,36 @@
+{
+  "id": "aicodewith",
+  "name": "AICodeWith",
+  "logo_char": "A",
+  "logo_color": "#0EA5E9",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.aicodewith.ai/chatgpt/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "aicodewith",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.aicodewith.ai",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://api.aicodewith.ai/gemini_cli",
+      "models": [
+        "gemini-3.1-pro-preview"
+      ]
+    }
+  ]
+}

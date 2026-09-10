@@ -1,0 +1,22 @@
+{
+  "id": "qwen",
+  "name": "Qwen",
+  "logo_char": "Q",
+  "logo_color": "#615CED",
+  "tag": "free",
+  "tag_label": "Free tier",
+  "rating": 4.5,
+  "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+  "price_line": "¥2 /M in · ¥6 /M out",
+  "billing": "payg",
+  "users": "1M tokens for new users",
+  "blurb": "",
+  "added": false,
+  "free_offer": "1M tokens for new users",
+  "models": [
+    "qwen-max",
+    "qwen-plus"
+  ],
+  "protocol": "openai",
+  "icon": "qwen"
+}

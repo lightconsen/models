@@ -1,0 +1,27 @@
+{
+  "id": "amux",
+  "name": "Amux",
+  "logo_char": "A",
+  "logo_color": "#0891B2",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.amux.ai/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "amux",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.amux.ai",
+      "models": []
+    }
+  ]
+}

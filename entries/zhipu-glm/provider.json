@@ -1,0 +1,29 @@
+{
+  "id": "zhipu-glm",
+  "name": "Zhipu GLM",
+  "logo_char": "Z",
+  "logo_color": "#3859FF",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "glm-5.1"
+  ],
+  "protocol": "openai",
+  "icon": "zhipu",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://open.bigmodel.cn/api/anthropic",
+      "models": [
+        "glm-5.1"
+      ]
+    }
+  ]
+}

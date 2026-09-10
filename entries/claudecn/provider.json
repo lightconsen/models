@@ -1,0 +1,30 @@
+{
+  "id": "claudecn",
+  "name": "ClaudeCN",
+  "logo_char": "C",
+  "logo_color": "#DB2777",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://claudecn.top",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "claude-haiku-4-5",
+    "claude-haiku-4.5"
+  ],
+  "protocol": "openai",
+  "icon": "claudecn",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://claudecn.top",
+      "models": []
+    }
+  ]
+}

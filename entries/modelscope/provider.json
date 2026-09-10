@@ -1,0 +1,30 @@
+{
+  "id": "modelscope",
+  "name": "ModelScope",
+  "logo_char": "M",
+  "logo_color": "#7B1FA2",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api-inference.modelscope.cn/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "ZhipuAI/GLM-5.2",
+    "GLM-5.2"
+  ],
+  "protocol": "openai",
+  "icon": "modelscope",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api-inference.modelscope.cn",
+      "models": [
+        "ZhipuAI/GLM-5.2"
+      ]
+    }
+  ]
+}

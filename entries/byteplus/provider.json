@@ -1,0 +1,29 @@
+{
+  "id": "byteplus",
+  "name": "BytePlus",
+  "logo_char": "B",
+  "logo_color": "#DC2626",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "ark-code-latest"
+  ],
+  "protocol": "openai",
+  "icon": "byteplus",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://ark.ap-southeast.bytepluses.com/api/coding",
+      "models": [
+        "ark-code-latest"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "relaxycode",
+  "name": "RelaxyCode",
+  "logo_char": "R",
+  "logo_color": "#DC2626",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://www.relaxycode.com",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [],
+  "protocol": "anthropic",
+  "icon": "relaxcode",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://www.relaxycode.com/v1",
+      "models": []
+    }
+  ]
+}

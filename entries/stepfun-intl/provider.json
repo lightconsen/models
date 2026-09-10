@@ -1,0 +1,30 @@
+{
+  "id": "stepfun-intl",
+  "name": "StepFun (Intl)",
+  "logo_char": "S",
+  "logo_color": "#D97757",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://api.stepfun.ai/step_plan/v1",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "step-3.5-flash-2603",
+    "step-3.5-flash"
+  ],
+  "protocol": "openai",
+  "icon": "stepfun",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.stepfun.ai/step_plan",
+      "models": [
+        "step-3.5-flash-2603"
+      ]
+    }
+  ]
+}

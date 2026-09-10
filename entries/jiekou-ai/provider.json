@@ -1,0 +1,29 @@
+{
+  "id": "jiekou-ai",
+  "name": "JieKou AI",
+  "logo_char": "J",
+  "logo_color": "#7C3AED",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.jiekou.ai/openai/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-fable-5"
+  ],
+  "protocol": "openai",
+  "icon": "jiekou",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.jiekou.ai/anthropic",
+      "models": [
+        "claude-fable-5"
+      ]
+    }
+  ]
+}

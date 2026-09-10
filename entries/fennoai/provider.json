@@ -1,0 +1,27 @@
+{
+  "id": "fennoai",
+  "name": "FennoAI",
+  "logo_char": "F",
+  "logo_color": "#6467F2",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.fenno.ai/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "fenno",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.fenno.ai",
+      "models": []
+    }
+  ]
+}

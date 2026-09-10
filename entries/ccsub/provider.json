@@ -1,0 +1,27 @@
+{
+  "id": "ccsub",
+  "name": "CCSub",
+  "logo_char": "C",
+  "logo_color": "#6467F2",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://www.ccsub.net/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "ccsub",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://www.ccsub.net",
+      "models": []
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "siliconflow-intl",
+  "name": "SiliconFlow (Intl)",
+  "logo_char": "S",
+  "logo_color": "#7C3AED",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.siliconflow.com/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "MiniMaxAI/MiniMax-M3"
+  ],
+  "protocol": "openai",
+  "icon": "siliconflow",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.siliconflow.com",
+      "models": [
+        "MiniMaxAI/MiniMax-M3"
+      ]
+    }
+  ]
+}

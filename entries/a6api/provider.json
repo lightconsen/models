@@ -1,0 +1,34 @@
+{
+  "id": "a6api",
+  "name": "A6API",
+  "logo_char": "A",
+  "logo_color": "#8B5CF6",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.a6api.com/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "a6api",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.a6api.com",
+      "models": []
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://api.a6api.com",
+      "models": [
+        "gemini-3.6-flash"
+      ]
+    }
+  ]
+}

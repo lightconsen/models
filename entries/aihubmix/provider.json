@@ -1,0 +1,29 @@
+{
+  "id": "aihubmix",
+  "name": "AiHubMix",
+  "logo_char": "A",
+  "logo_color": "#F59E0B",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://aihubmix.com/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "claude-sonnet-5",
+    "claude-opus-5",
+    "gpt-5.6-sol"
+  ],
+  "protocol": "openai",
+  "icon": "aihubmix",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://aihubmix.com",
+      "models": []
+    }
+  ]
+}

@@ -3,11 +3,13 @@
  * Validate + build the Kiwano Hub data files.
  *
  * Source of truth (hand-edited, git-reviewed):
- *   data/catalog.json  – Models-page catalog, bare array of entries
- *   data/models.json   – model pricing + exchange rates
+ *   entries/<id>/provider.json – one directory per model provider; adding a
+ *                                provider = creating one new directory
+ *   data/models.json           – model pricing + exchange rates
  *
  * Published shapes (written to dist/, uploaded to R2 by CI):
- *   dist/catalog.json   {"total": N, "entries": [...]}  – Hub protocol v0
+ *   dist/catalog.json   {"total": N, "entries": [...]}  – Hub protocol v0,
+ *                                                         entries sorted by id
  *   dist/models.json    {...source, generated_at: today}
  *   dist/manifest.json  counts/versions + sha256 of both artifacts
  *
@@ -16,7 +18,7 @@
  *   node scripts/generate.mjs --check     validate only, no writes (PR gate)
  */
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -29,14 +31,6 @@ const fail = (msg) => {
   failed++;
 };
 
-// ── data/catalog.json ──
-
-console.log("data/catalog.json");
-const catalog = read("data/catalog.json");
-if (!Array.isArray(catalog) || catalog.length === 0) {
-  fail("must be a non-empty array");
-}
-
 const BILLINGS = new Set(["plan", "payg", "unl"]);
 const PROTOCOLS = new Set(["anthropic", "openai", "gemini"]);
 const TAGS = new Set(["official", "third", "aggregate", "local", "free"]);
@@ -45,9 +39,26 @@ const REQUIRED_STRINGS = [
   "endpoint", "price_line", "users",
 ];
 
+// ── entries/<id>/provider.json ──
+
+console.log("entries/");
+const entryDirs = readdirSync(path.join(repo, "entries"), { withFileTypes: true })
+  .filter((d) => statSync(path.join(repo, "entries", d.name)).isDirectory())
+  .map((d) => d.name)
+  .sort();
+const catalog = [];
 const ids = new Set();
-for (const e of Array.isArray(catalog) ? catalog : []) {
-  const where = `entry ${e.id ?? "?"}`;
+for (const dir of entryDirs) {
+  const file = path.join("entries", dir, "provider.json");
+  let e;
+  try {
+    e = JSON.parse(readFileSync(path.join(repo, file), "utf8"));
+  } catch (err) {
+    fail(`${file}: invalid JSON (${err.message})`);
+    continue;
+  }
+  const where = `${dir}: entry ${e.id ?? "?"}`;
+  if (e.id !== dir) fail(`${where}: id must match the directory name`);
   for (const f of REQUIRED_STRINGS) {
     if (typeof e[f] !== "string" || e[f].trim() === "") fail(`${where}: missing/empty ${f}`);
   }
@@ -55,8 +66,9 @@ for (const e of Array.isArray(catalog) ? catalog : []) {
   ids.add(e.id);
   if (!BILLINGS.has(e.billing)) fail(`${where}: billing "${e.billing}" not one of ${[...BILLINGS].join("|")}`);
   if (!TAGS.has(e.tag)) fail(`${where}: tag "${e.tag}" not one of ${[...TAGS].join("|")}`);
-  if (typeof e.blurb !== "string") fail(`${where}: blurb must be a string (may be empty)`);
+  if (typeof e.rating !== "number" || e.rating < 0 || e.rating > 5) fail(`${where}: rating must be a number in 0..5`);
   if (!Array.isArray(e.models)) fail(`${where}: models must be an array (may be empty when live-fetched)`);
+  if (typeof e.blurb !== "string") fail(`${where}: blurb must be a string (may be empty)`);
   if (typeof e.added !== "boolean") fail(`${where}: added must be boolean`);
   const proto = e.protocol ?? "openai";
   if (!PROTOCOLS.has(proto)) fail(`${where}: protocol "${proto}" not one of ${[...PROTOCOLS].join("|")}`);
@@ -75,8 +87,9 @@ for (const e of Array.isArray(catalog) ? catalog : []) {
       }
     }
   }
+  catalog.push(e);
 }
-console.log(`  ✓ ${catalog.length} entries validated`);
+console.log(`  ✓ ${catalog.length} provider directories validated`);
 
 // ── data/models.json ──
 

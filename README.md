@@ -7,14 +7,17 @@ CI validates + builds + publishes to Cloudflare R2; the app fetches at runtime
 ## Layout
 
 ```
+entries/
+  <id>/provider.json   one directory per model provider; adding a provider
+                       = creating one new directory (id must match the
+                       directory name)
 data/
-  catalog.json   Models-page catalog (bare array of entries)
-  models.json    model pricing + exchange rates (version-gated)
+  models.json          model pricing + exchange rates (version-gated)
 scripts/
-  generate.mjs   validate + build dist/ artifacts (zero dependencies)
+  generate.mjs         validate + build dist/ artifacts (zero dependencies)
 .github/workflows/
-  validate.yml   PR gate: validation + dry-run build
-  publish.yml    main push: build + upload to R2
+  validate.yml         PR gate: validation + dry-run build
+  publish.yml          main push: build + upload to R2
 ```
 
 ## Data domains (enforced by generate.mjs)
@@ -26,10 +29,18 @@ scripts/
 - `models.json` `version`: positive integer, **must increase** when pricing
   rows change (the app seeds version-gated and ignores older versions)
 
-## How to update
+## Layout notes
 
-1. Edit `data/catalog.json` (add/modify a provider) or `data/models.json`
-   (price row + version bump + `exchange_rates` when adding a currency).
+- `dist/catalog.json` is assembled from all `entries/*/provider.json`,
+  sorted by id for deterministic output (the Models page sorts rows itself).
+- Keep `data/models.json` as one file for now; per-provider pricing can move
+  under `entries/<id>/` later if overrides are ever needed.
+
+1. **Add a provider**: create `entries/<id>/provider.json` (one file; `id`
+   must equal the directory name — copy an existing entry as a template).
+   **Modify a provider**: edit its `provider.json`.
+   **Update pricing**: edit `data/models.json` (add the price row, bump
+   `version`, add the currency to `exchange_rates` if new).
 2. Open a PR — the `validate` workflow checks schema + builds.
 3. Merge to `main` — the `publish` workflow uploads `catalog.json`,
    `models.json`, `manifest.json` to the R2 bucket root.

@@ -1,0 +1,30 @@
+{
+  "id": "kimi-for-coding",
+  "name": "Kimi For Coding",
+  "logo_char": "K",
+  "logo_color": "#EA580C",
+  "tag": "official",
+  "tag_label": "Official",
+  "rating": 4,
+  "endpoint": "https://api.kimi.com/coding/v1",
+  "price_line": "Official pricing",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "kimi-for-coding",
+    "kimi-k2.7-code"
+  ],
+  "protocol": "openai",
+  "icon": "kimi",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.kimi.com/coding",
+      "models": [
+        "kimi-for-coding"
+      ]
+    }
+  ]
+}

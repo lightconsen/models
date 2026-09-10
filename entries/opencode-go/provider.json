@@ -1,0 +1,32 @@
+{
+  "id": "opencode-go",
+  "name": "OpenCode Go",
+  "logo_char": "O",
+  "logo_color": "#0891B2",
+  "tag": "third",
+  "tag_label": "Third-party",
+  "rating": 4,
+  "endpoint": "https://opencode.ai/zen/go/v1",
+  "price_line": "Pay-as-you-go",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "glm-5.2",
+    "kimi-k2.7-code",
+    "deepseek-v4-pro",
+    "deepseek-v4-flash"
+  ],
+  "protocol": "openai",
+  "icon": "opencode",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://opencode.ai/zen/go",
+      "models": [
+        "deepseek-v4-flash"
+      ]
+    }
+  ]
+}

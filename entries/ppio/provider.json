@@ -1,0 +1,31 @@
+{
+  "id": "ppio",
+  "name": "PPIO",
+  "logo_char": "P",
+  "logo_color": "#DC2626",
+  "tag": "aggregate",
+  "tag_label": "Aggregator",
+  "rating": 4,
+  "endpoint": "https://api.ppio.com/openai/v1",
+  "price_line": "Upstream price",
+  "billing": "payg",
+  "users": "Listed on cc-switch",
+  "blurb": "",
+  "added": false,
+  "models": [
+    "deepseek/deepseek-v4-flash-0731",
+    "deepseek-v4-flash-0731",
+    "deepseek-v4-flash"
+  ],
+  "protocol": "openai",
+  "icon": "ppio",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.ppio.com/anthropic",
+      "models": [
+        "deepseek/deepseek-v4-flash-0731"
+      ]
+    }
+  ]
+}

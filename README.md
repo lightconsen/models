@@ -94,7 +94,7 @@ entry exposes a relative `logo` field:
 ```
 
 The app builds the full URL from its `hub_url` setting
-(`https://hub.kiwano.app/logos/example.png`). `logo_char` + `logo_color`
+(`https://hub.kiwano.cc/logos/example.png`). `logo_char` + `logo_color`
 remain required fields and are the app's fallback when the image can't load.
 
 ### Relationship to `icon`
@@ -191,23 +191,25 @@ unchanged version means the app keeps its existing table.
 ## R2 setup (one-time)
 
 1. Create the bucket (e.g. `kiwano-hub`) and enable public access via a
-   custom domain — `hub.kiwano.app` is the URL baked into the app
-   (`https://hub.kiwano.app/catalog.json`).
+   custom domain — `hub.kiwano.cc` is the default `hub_url` baked into the app
+   (`https://hub.kiwano.cc/catalog.json`).
 2. Add the three repo secrets: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`
    (R2 edit on this bucket), `R2_BUCKET`.
 3. Run the `publish` workflow once (or push to main) and verify:
-   `curl https://hub.kiwano.app/manifest.json`
+   `curl https://hub.kiwano.cc/manifest.json`
 
 ## App wiring
 
 - Catalog: the app's `hub_url` setting points at the public URL
   (`.../catalog.json`); payload shape is Hub protocol v0:
-  `{"total": N, "entries": [...]}`. Sync results are cached app-side and the
-  bundled copy is the offline fallback.
-- Pricing: the app currently reads its bundled models.json snapshot; remote
-  version-gated fetch of models.json is the pending app-side follow-up
-  (seed logic and the `version` gate already exist there).
+  `{"total": N, "entries": [...]}`. Sync is conditional — the manifest's
+  `catalog.sha256` skips the download when it matches the cached copy — and
+  the bundled copy is the offline fallback.
+- Pricing: the app fetches models.json from the Hub alongside the catalog,
+  gated by the manifest's `models.version` + `models.sha256`, and seeds the
+  rows into its local store (`model_pricing.source = 'hub'`); the bundled
+  snapshot remains the offline fallback.
 - Logos: each catalog entry's `logo` field is a relative path resolved
-  against `hub_url` (e.g. `https://hub.kiwano.app/logos/<id>.png`); the
+  against `hub_url` (e.g. `https://hub.kiwano.cc/logos/<id>.png`); the
   images are fetched from R2 at runtime, with `logo_char` / `logo_color` as
   the offline fallback.

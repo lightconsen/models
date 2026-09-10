@@ -4,7 +4,7 @@
 #   CLOUDFLARE_ACCOUNT_ID – Cloudflare account id
 #   CLOUDFLARE_API_TOKEN  – token with R2 edit permission on the bucket
 #   R2_BUCKET             – R2 bucket name; must be publicly readable
-#                           (r2.dev or a custom domain, e.g. hub.kiwano.app)
+#                           (r2.dev or a custom domain, e.g. hub.kiwano.cc)
 #
 # Published keys (bucket root, matching the app's Hub URLs):
 #   catalog.json   {"total": N, "entries": [...]}  (Hub protocol v0)

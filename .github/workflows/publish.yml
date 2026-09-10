@@ -10,6 +10,8 @@
 #   catalog.json   {"total": N, "entries": [...]}  (Hub protocol v0)
 #   models.json    pricing + fx
 #   manifest.json  counts/versions + sha256 of both
+#   logos/<id>.<ext>  provider logos, referenced by each catalog entry's
+#                     relative `logo` field
 
 name: publish
 
@@ -40,3 +42,19 @@ jobs:
           npx wrangler@latest r2 object put "$R2_BUCKET/catalog.json" --file dist/catalog.json --content-type application/json --remote
           npx wrangler r2 object put "$R2_BUCKET/models.json" --file dist/models.json --content-type application/json --remote
           npx wrangler r2 object put "$R2_BUCKET/manifest.json" --file dist/manifest.json --content-type application/json --remote
+      - name: Upload logos to R2
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: |
+          for f in dist/logos/*; do
+            case "${f##*.}" in
+              png) ct="image/png";;
+              svg) ct="image/svg+xml";;
+              jpg|jpeg) ct="image/jpeg";;
+              webp) ct="image/webp";;
+              *) ct="application/octet-stream";;
+            esac
+            npx wrangler r2 object put "$R2_BUCKET/${f#dist/}" --file "$f" --content-type "$ct" --remote
+          done

@@ -12,13 +12,16 @@
  *                                                         entries sorted by id
  *   dist/models.json    {...source, generated_at: today}
  *   dist/manifest.json  counts/versions + sha256 of both artifacts
+ *   dist/logos/<id>.png|svg|jpg|webp  – provider logo copied from
+ *                         entries/<id>/logo.<ext> (catalog entries reference
+ *                         them via the relative `logo` field)
  *
  * Usage:
  *   node scripts/generate.mjs             validate + write dist/
  *   node scripts/generate.mjs --check     validate only, no writes (PR gate)
  */
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync, copyFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -34,6 +37,7 @@ const fail = (msg) => {
 const BILLINGS = new Set(["plan", "payg", "unl"]);
 const PROTOCOLS = new Set(["anthropic", "openai", "gemini"]);
 const TAGS = new Set(["official", "third", "aggregate", "local", "free"]);
+const LOGO_EXTS = ["png", "svg", "jpg", "jpeg", "webp"];
 const REQUIRED_STRINGS = [
   "id", "name", "logo_char", "logo_color", "tag", "tag_label",
   "endpoint", "price_line", "users",
@@ -48,6 +52,7 @@ const entryDirs = readdirSync(path.join(repo, "entries"), { withFileTypes: true 
   .sort();
 const catalog = [];
 const ids = new Set();
+const logoFiles = [];
 for (const dir of entryDirs) {
   const file = path.join("entries", dir, "provider.json");
   let e;
@@ -86,6 +91,20 @@ for (const dir of entryDirs) {
         if (x.models !== undefined && !Array.isArray(x.models)) fail(`${where}: endpoint models must be an array`);
       }
     }
+  }
+  let logoExt = null;
+  for (const ext of LOGO_EXTS) {
+    const f = path.join(repo, "entries", dir, `logo.${ext}`);
+    if (existsSync(f)) {
+      if (logoExt) fail(`${where}: multiple logo files (logo.${logoExt} and logo.${ext})`);
+      else logoExt = ext;
+    }
+  }
+  if (!logoExt) {
+    fail(`${where}: missing logo file (logo.png|svg|jpg|jpeg|webp)`);
+  } else {
+    e.logo = `logos/${e.id}.${logoExt}`;
+    logoFiles.push({ id: e.id, ext: logoExt });
   }
   catalog.push(e);
 }
@@ -155,7 +174,14 @@ write("manifest.json", {
   models: { version: doc.version, sha256: modelsSha },
 });
 
+const logosDist = path.join(dist, "logos");
+mkdirSync(logosDist, { recursive: true });
+for (const { id, ext } of logoFiles) {
+  copyFileSync(path.join(repo, "entries", id, `logo.${ext}`), path.join(logosDist, `${id}.${ext}`));
+}
+
 console.log("\ndist/ written:");
 for (const f of ["catalog.json", "models.json", "manifest.json"]) {
   console.log(`  ${f}`);
 }
+console.log(`  logos/ (${logoFiles.length} files)`);

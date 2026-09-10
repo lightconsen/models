@@ -8,6 +8,7 @@
   "rating": 4.9,
   "endpoint": "https://api.anthropic.com",
   "price_line": "Official pricing",
+  "currency": "USD",
   "billing": "payg",
   "users": "Listed on cc-switch",
   "blurb": "",

@@ -5,8 +5,7 @@
     "input": "0.28",
     "output": "0.42",
     "cache_read": "0.028",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   },
   {
     "model_id": "qwen3-coder-480b-a35b-instruct",
@@ -14,7 +13,6 @@
     "input": "0.65",
     "output": "3.25",
     "cache_read": "0",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   }
 ]

@@ -5,8 +5,7 @@
     "input": "0.10",
     "output": "0.30",
     "cache_read": "0.02",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   },
   {
     "model_id": "step-3.5-flash-2603",
@@ -14,7 +13,6 @@
     "input": "0.10",
     "output": "0.30",
     "cache_read": "0.02",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   }
 ]

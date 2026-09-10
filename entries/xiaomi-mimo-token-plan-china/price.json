@@ -5,8 +5,7 @@
     "input": "0.14",
     "output": "0.29",
     "cache_read": "0.0028",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   },
   {
     "model_id": "mimo-v2.5-pro",
@@ -14,7 +13,6 @@
     "input": "0.435",
     "output": "0.87",
     "cache_read": "0.0036",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   }
 ]

@@ -8,6 +8,7 @@
   "rating": 4.3,
   "endpoint": "https://openrouter.ai/api/v1",
   "price_line": "Upstream price",
+  "currency": "USD",
   "price_note": "+5.5%",
   "billing": "payg",
   "users": "500+ models, one key",

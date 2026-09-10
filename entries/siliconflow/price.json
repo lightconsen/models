@@ -5,7 +5,6 @@
     "input": "0.15",
     "output": "0.95",
     "cache_read": "0.03",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   }
 ]

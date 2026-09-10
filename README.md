@@ -10,14 +10,17 @@ CI validates + builds + publishes to Cloudflare R2; the app fetches at runtime
 entries/
   <id>/provider.json   one directory per model provider; adding a provider
                        = creating one new directory (id must match the
-                       directory name)
+                       directory name). Its `currency` is the one the
+                       provider bills in (default USD when omitted)
   <id>/logo.<ext>      provider logo (required; png|svg|jpg|jpeg|webp),
                        published to R2 under logos/<id>.<ext>
   <id>/price.json      this provider's model prices (required; [] when none
                        of its declared models is priced), merged into the
-                       published dist/models.json
+                       published dist/models.json. Rows carry no currency:
+                       the provider's applies
 global.json            exchange rates + the vendor pricing no entry owns
-                       (version-gated)
+                       (version-gated). These rows keep their own `currency`,
+                       being shared across providers
 scripts/
   generate.mjs         validate + build dist/ artifacts (zero dependencies)
 .github/workflows/
@@ -54,6 +57,9 @@ directory name is the `id`, and the `id` field inside must equal it exactly.
   "rating": 4,                  // number 0..5
   "endpoint": "https://api.example.com/v1",
   "price_line": "Pay-as-you-go",
+  "currency": "USD",            // what this provider bills in; default USD.
+                                // Prices in price.json, and the spending limit
+                                // the app offers, are both denominated in it
   "billing": "payg",            // plan | payg | unl
   "users": "One line describing the audience",
   "blurb": "",                  // may be empty
@@ -107,21 +113,26 @@ add a `logo` file; `icon` is optional and app-side only.
 ## Pricing
 
 `entries/<id>/price.json` prices the models this provider serves — one row per
-model, in the same shape as `global.json`:
+model:
 
 ```jsonc
 [
   {
     "model_id": "claude-opus-5",
     "display_name": "Claude Opus 5",
-    "input": "5",            // currency per million tokens, TEXT decimal
+    "input": "5",            // provider currency per million tokens, TEXT decimal
     "output": "25",
     "cache_read": "0.50",
-    "cache_creation": "6.25",
-    "currency": "USD"        // must be an exchange_rates key
+    "cache_creation": "6.25"
   }
 ]
 ```
+
+Rows carry **no currency**: the provider's `currency` applies, and `generate.mjs`
+stamps it into every published row of `dist/models.json` (so the app-side table
+keeps its per-row currency). Listing one here fails validation — two places to
+disagree is exactly what this layout removes. `global.json` rows are the
+exception: they are shared across providers, so each keeps its own `currency`.
 
 `[]` is valid and means "none of this provider's models is priced" — the app
 then shows no cost rather than a wrong one. A model listed in `provider.json`
@@ -152,12 +163,19 @@ source-layout change and nothing more.
 - `tag`: `official | third | aggregate | local | free`
 - `rating`: number `0..5`
 - `models`: array of `model_id` strings (may be empty when live-fetched)
+- `currency` (`provider.json`): an `exchange_rates` key; **omitted means USD**.
+  It is what the provider's prices and its spending limit are denominated in,
+  so an unknown code fails validation rather than leaving the limit
+  unmeasurable
 - `logo`: derived, not authored — `entries/<id>/logo.<ext>` must exist and is
   published as `logos/<id>.<ext>`
-- `price.json`: array of price rows (may be `[]`), each needing the same seven
-  fields as a `global.json` row; prices are non-negative decimals and
-  `currency` must be an `exchange_rates` key. No repeated `model_id` within a
-  file, and no drift between files for a shared `model_id`
+- `price.json`: array of price rows (may be `[]`), each needing the six
+  priced fields; prices are non-negative decimals and rows must **not** carry a
+  `currency` (the provider's applies). No repeated `model_id` within a file,
+  and no drift between files for a shared `model_id` — currency included, so
+  the same model priced in USD by one provider and CNY by another is a
+  conflict
+- `global.json` rows: same shape, but each **must** carry its own `currency`
 - `exchange_rates`: units per 1 USD, `USD` pinned to `1`
 - `version` (`global.json`): positive integer, **must increase** when pricing
   rows change (the app seeds version-gated and ignores older versions)
@@ -213,3 +231,7 @@ unchanged version means the app keeps its existing table.
   against `hub_url` (e.g. `https://hub.kiwano.cc/logos/<id>.png`); the
   images are fetched from R2 at runtime, with `logo_char` / `logo_color` as
   the offline fallback.
+- Currency: a catalog entry's `currency` is what the app labels that
+  provider's spending limit with, read-only — the limit is compared against
+  cost as recorded, with no conversion. Only the dashboard converts, rolling
+  many providers into the user's display currency for comparison.

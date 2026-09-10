@@ -8,6 +8,7 @@
   "rating": 4.5,
   "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1",
   "price_line": "¥2 /M in · ¥6 /M out",
+  "currency": "USD",
   "billing": "payg",
   "users": "1M tokens for new users",
   "blurb": "",

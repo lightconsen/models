@@ -5,8 +5,7 @@
     "input": "1.4",
     "output": "4.4",
     "cache_read": "0.26",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   },
   {
     "model_id": "kimi-k2.6",
@@ -14,7 +13,6 @@
     "input": "0.95",
     "output": "4.00",
     "cache_read": "0.16",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   }
 ]

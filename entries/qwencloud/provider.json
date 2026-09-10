@@ -8,6 +8,7 @@
   "rating": 4,
   "endpoint": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
   "price_line": "Official pricing",
+  "currency": "USD",
   "billing": "payg",
   "users": "Listed on cc-switch",
   "blurb": "",

@@ -8,6 +8,7 @@
   "rating": 4,
   "endpoint": "https://api.stepfun.com/step_plan/v1",
   "price_line": "Official pricing",
+  "currency": "USD",
   "billing": "payg",
   "users": "Listed on cc-switch",
   "blurb": "",

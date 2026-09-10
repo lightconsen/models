@@ -9,6 +9,7 @@
   "rating": 4.9,
   "endpoint": "http://localhost:11434",
   "price_line": "Runs locally",
+  "currency": "USD",
   "billing": "unl",
   "users": "Fully offline",
   "blurb": "",

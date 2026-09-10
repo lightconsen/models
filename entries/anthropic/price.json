@@ -5,8 +5,7 @@
     "input": "5",
     "output": "25",
     "cache_read": "0.50",
-    "cache_creation": "6.25",
-    "currency": "USD"
+    "cache_creation": "6.25"
   },
   {
     "model_id": "claude-sonnet-5",
@@ -14,7 +13,6 @@
     "input": "3",
     "output": "15",
     "cache_read": "0.30",
-    "cache_creation": "3.75",
-    "currency": "USD"
+    "cache_creation": "3.75"
   }
 ]

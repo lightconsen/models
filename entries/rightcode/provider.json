@@ -8,6 +8,7 @@
   "rating": 4,
   "endpoint": "https://www.rightapi.ai/codex/v1",
   "price_line": "Pay-as-you-go",
+  "currency": "USD",
   "billing": "payg",
   "users": "Listed on cc-switch",
   "blurb": "",

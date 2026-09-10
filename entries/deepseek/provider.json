@@ -8,6 +8,7 @@
   "rating": 4.8,
   "endpoint": "https://api.deepseek.com",
   "price_line": "¥4 /M in · ¥16 /M out",
+  "currency": "USD",
   "billing": "payg",
   "users": "12.4k users",
   "blurb": "",

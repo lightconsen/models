@@ -5,8 +5,7 @@
     "input": "0.325",
     "output": "1.95",
     "cache_read": "0.065",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   },
   {
     "model_id": "qwen3.7-max",
@@ -14,8 +13,7 @@
     "input": "2.50",
     "output": "7.50",
     "cache_read": "0.25",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   },
   {
     "model_id": "qwen3.7-plus",
@@ -23,7 +21,6 @@
     "input": "0.40",
     "output": "1.60",
     "cache_read": "0.08",
-    "cache_creation": "0",
-    "currency": "USD"
+    "cache_creation": "0"
   }
 ]

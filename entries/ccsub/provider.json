@@ -8,6 +8,7 @@
   "rating": 4,
   "endpoint": "https://www.ccsub.net/v1",
   "price_line": "Upstream price",
+  "currency": "USD",
   "billing": "payg",
   "users": "Listed on cc-switch",
   "blurb": "",

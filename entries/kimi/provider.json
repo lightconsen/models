@@ -9,6 +9,7 @@
   "rating": 4.6,
   "endpoint": "https://api.moonshot.cn",
   "price_line": "¥49 /mo plan",
+  "currency": "USD",
   "billing": "plan",
   "users": "8.1k users",
   "blurb": "",

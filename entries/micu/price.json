@@ -1,0 +1,29 @@
+[
+  {
+    "model_id": "claude-haiku-4-5-20251001",
+    "display_name": "Claude Haiku 4.5",
+    "input": "1",
+    "output": "5",
+    "cache_read": "0.10",
+    "cache_creation": "1.25",
+    "currency": "USD"
+  },
+  {
+    "model_id": "claude-opus-5",
+    "display_name": "Claude Opus 5",
+    "input": "5",
+    "output": "25",
+    "cache_read": "0.50",
+    "cache_creation": "6.25",
+    "currency": "USD"
+  },
+  {
+    "model_id": "claude-sonnet-5",
+    "display_name": "Claude Sonnet 5",
+    "input": "3",
+    "output": "15",
+    "cache_read": "0.30",
+    "cache_creation": "3.75",
+    "currency": "USD"
+  }
+]

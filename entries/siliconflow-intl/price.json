@@ -1,0 +1,11 @@
+[
+  {
+    "model_id": "minimax-m3",
+    "display_name": "MiniMax M3",
+    "input": "0.30",
+    "output": "1.20",
+    "cache_read": "0.06",
+    "cache_creation": "0",
+    "currency": "USD"
+  }
+]

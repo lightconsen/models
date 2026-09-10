@@ -1,0 +1,29 @@
+[
+  {
+    "model_id": "qwen3.6-plus",
+    "display_name": "Qwen3.6 Plus",
+    "input": "0.325",
+    "output": "1.95",
+    "cache_read": "0.065",
+    "cache_creation": "0",
+    "currency": "USD"
+  },
+  {
+    "model_id": "qwen3.7-max",
+    "display_name": "Qwen3.7 Max",
+    "input": "2.50",
+    "output": "7.50",
+    "cache_read": "0.25",
+    "cache_creation": "0",
+    "currency": "USD"
+  },
+  {
+    "model_id": "qwen3.7-plus",
+    "display_name": "Qwen3.7 Plus",
+    "input": "0.40",
+    "output": "1.60",
+    "cache_read": "0.08",
+    "cache_creation": "0",
+    "currency": "USD"
+  }
+]

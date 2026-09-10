@@ -1,0 +1,11 @@
+[
+  {
+    "model_id": "deepseek-v4-pro",
+    "display_name": "DeepSeek V4 Pro",
+    "input": "1.32",
+    "output": "3.96",
+    "cache_read": "0.044",
+    "cache_creation": "0",
+    "currency": "USD"
+  }
+]

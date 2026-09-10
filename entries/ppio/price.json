@@ -1,0 +1,20 @@
+[
+  {
+    "model_id": "deepseek-v4-flash",
+    "display_name": "DeepSeek V4 Flash",
+    "input": "0.44",
+    "output": "1.32",
+    "cache_read": "0.014",
+    "cache_creation": "0",
+    "currency": "USD"
+  },
+  {
+    "model_id": "deepseek-v4-flash-0731",
+    "display_name": "DeepSeek V4 Flash",
+    "input": "0.44",
+    "output": "1.32",
+    "cache_read": "0.014",
+    "cache_creation": "0",
+    "currency": "USD"
+  }
+]

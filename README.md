@@ -13,8 +13,11 @@ entries/
                        directory name)
   <id>/logo.<ext>      provider logo (required; png|svg|jpg|jpeg|webp),
                        published to R2 under logos/<id>.<ext>
-data/
-  models.json          model pricing + exchange rates (version-gated)
+  <id>/price.json      this provider's model prices (required; [] when none
+                       of its declared models is priced), merged into the
+                       published dist/models.json
+global.json            exchange rates + the vendor pricing no entry owns
+                       (version-gated)
 scripts/
   generate.mjs         validate + build dist/ artifacts (zero dependencies)
 .github/workflows/
@@ -31,8 +34,10 @@ directory name is the `id`, and the `id` field inside must equal it exactly.
 2. Add a logo file `entries/<id>/logo.<ext>` (`png` | `svg` | `jpg` | `jpeg` |
    `webp`). It is **required** and published to R2 as `logos/<id>.<ext>` —
    see [Logo](#logo).
-3. Open a PR — `validate` checks the schema + builds a dry run.
-4. Merge to `main` — `publish` uploads `catalog.json` / `models.json` /
+3. Add `entries/<id>/price.json` pricing the models you declared — `[]` when
+   none of them is priced yet. It is **required** — see [Pricing](#pricing).
+4. Open a PR — `validate` checks the schema + builds a dry run.
+5. Merge to `main` — `publish` uploads `catalog.json` / `models.json` /
    `manifest.json` and `logos/` to the R2 bucket root.
 
 ### Template
@@ -99,6 +104,47 @@ app's bundled icon registry (`../src/components/icons/`). It predates the
 R2-hosted `logo` and is kept for backward compatibility. New providers should
 add a `logo` file; `icon` is optional and app-side only.
 
+## Pricing
+
+`entries/<id>/price.json` prices the models this provider serves — one row per
+model, in the same shape as `global.json`:
+
+```jsonc
+[
+  {
+    "model_id": "claude-opus-5",
+    "display_name": "Claude Opus 5",
+    "input": "5",            // currency per million tokens, TEXT decimal
+    "output": "25",
+    "cache_read": "0.50",
+    "cache_creation": "6.25",
+    "currency": "USD"        // must be an exchange_rates key
+  }
+]
+```
+
+`[]` is valid and means "none of this provider's models is priced" — the app
+then shows no cost rather than a wrong one. A model listed in `provider.json`
+`models` that has no row here is simply unpriced.
+
+### One row, several providers
+
+Aggregators resell the same vendor models, so a `model_id` may legitimately
+appear in several `price.json` files. The copies must be **identical**: the
+validator fails on drift, because the published table keeps one row per
+`model_id` and which copy won would otherwise depend on merge order.
+
+Vendor pricing that no entry owns (the OpenAI/Anthropic/Google list prices for
+models no directory declares) stays in `global.json`.
+
+### What gets published
+
+`generate.mjs` merges every `price.json` with the rows still in
+`global.json` into `dist/models.json` — the same flat global
+`model_id -> price` table as before. The app's `PricingTable` has no provider
+dimension (it looks prices up by model id alone), so this split is a
+source-layout change and nothing more.
+
 ## Data domains (enforced by generate.mjs)
 
 - `billing`: `plan | payg | unl` — one entry per billing mode
@@ -108,23 +154,31 @@ add a `logo` file; `icon` is optional and app-side only.
 - `models`: array of `model_id` strings (may be empty when live-fetched)
 - `logo`: derived, not authored — `entries/<id>/logo.<ext>` must exist and is
   published as `logos/<id>.<ext>`
+- `price.json`: array of price rows (may be `[]`), each needing the same seven
+  fields as a `global.json` row; prices are non-negative decimals and
+  `currency` must be an `exchange_rates` key. No repeated `model_id` within a
+  file, and no drift between files for a shared `model_id`
 - `exchange_rates`: units per 1 USD, `USD` pinned to `1`
-- `models.json` `version`: positive integer, **must increase** when pricing
+- `version` (`global.json`): positive integer, **must increase** when pricing
   rows change (the app seeds version-gated and ignores older versions)
 
 ## Updating pricing
 
-Edit `data/models.json`: add the price row, bump `version`, and add the
-currency to `exchange_rates` if it's new. A model row needs `model_id`,
-`display_name`, `input`, `output`, `cache_read`, `cache_creation`, and
-`currency` (must have an `exchange_rates` entry).
+Edit the price row where it lives — `entries/<id>/price.json` for a provider's
+models, `global.json` for vendor pricing no entry owns. If the model is
+resold elsewhere, update every copy or the validator fails on drift.
+
+Then bump `version` in `global.json` and, if the row introduced a new
+currency, add it to `exchange_rates`. The version is the app's seed gate: an
+unchanged version means the app keeps its existing table.
 
 ## Layout notes
 
 - `dist/catalog.json` is assembled from all `entries/*/provider.json`,
   sorted by id for deterministic output (the Models page sorts rows itself).
-- Keep `data/models.json` as one file for now; per-provider pricing can move
-  under `entries/<id>/` later if overrides are ever needed.
+- `dist/models.json` merges all `entries/*/price.json` with the rows left in
+  `global.json`, sorted by model id. A model resold by several providers
+  is written once.
 
 ## CI
 

@@ -1,0 +1,11 @@
+[
+  {
+    "model_id": "claude-fable-5",
+    "display_name": "Claude Fable 5",
+    "input": "10",
+    "output": "50",
+    "cache_read": "1.00",
+    "cache_creation": "12.50",
+    "currency": "USD"
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "model_id": "kimi-k2.7-code",
+    "display_name": "Kimi K2.7 Code",
+    "input": "0.95",
+    "output": "4.00",
+    "cache_read": "0.19",
+    "cache_creation": "0",
+    "currency": "USD"
+  }
+]

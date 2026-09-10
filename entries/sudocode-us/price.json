@@ -1,0 +1,20 @@
+[
+  {
+    "model_id": "gemini-3.1-flash-lite",
+    "display_name": "Gemini 3.1 Flash Lite",
+    "input": "0.25",
+    "output": "1.50",
+    "cache_read": "0.025",
+    "cache_creation": "0",
+    "currency": "USD"
+  },
+  {
+    "model_id": "gpt-5.6-sol",
+    "display_name": "GPT-5.6 Sol",
+    "input": "5",
+    "output": "30",
+    "cache_read": "0.50",
+    "cache_creation": "6.25",
+    "currency": "USD"
+  }
+]

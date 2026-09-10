@@ -1,0 +1,38 @@
+[
+  {
+    "model_id": "claude-sonnet-5",
+    "display_name": "Claude Sonnet 5",
+    "input": "3",
+    "output": "15",
+    "cache_read": "0.30",
+    "cache_creation": "3.75",
+    "currency": "USD"
+  },
+  {
+    "model_id": "gemini-3.6-flash",
+    "display_name": "Gemini 3.6 Flash",
+    "input": "1.50",
+    "output": "7.50",
+    "cache_read": "0.15",
+    "cache_creation": "0",
+    "currency": "USD"
+  },
+  {
+    "model_id": "gpt-5.2",
+    "display_name": "GPT-5.2",
+    "input": "1.75",
+    "output": "14",
+    "cache_read": "0.175",
+    "cache_creation": "0",
+    "currency": "USD"
+  },
+  {
+    "model_id": "gpt-5.3-codex",
+    "display_name": "GPT-5.3 Codex",
+    "input": "1.75",
+    "output": "14",
+    "cache_read": "0.175",
+    "cache_creation": "0",
+    "currency": "USD"
+  }
+]

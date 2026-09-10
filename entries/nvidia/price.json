@@ -1,0 +1,11 @@
+[
+  {
+    "model_id": "kimi-k2.5",
+    "display_name": "Kimi K2.5",
+    "input": "0.60",
+    "output": "3.00",
+    "cache_read": "0.10",
+    "cache_creation": "0",
+    "currency": "USD"
+  }
+]

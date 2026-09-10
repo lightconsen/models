@@ -1,2 +1,3 @@
 # Generated artifacts (CI builds + uploads these to R2)
 dist/
+*.secret

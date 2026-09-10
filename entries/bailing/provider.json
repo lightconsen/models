@@ -6,7 +6,7 @@
   "tag": "official",
   "tag_label": "Official",
   "rating": 4,
-  "endpoint": "https://api.tbox.cn/v1",
+  "endpoint": "https://api.tbox.cn/api/llm/v1",
   "price_line": "Official pricing",
   "currency": "USD",
   "billing": "payg",

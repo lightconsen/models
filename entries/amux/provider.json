@@ -6,7 +6,7 @@
   "tag": "aggregate",
   "tag_label": "Aggregator",
   "rating": 4,
-  "endpoint": "https://api.amux.ai/v1",
+  "endpoint": "https://gateway.amux.ai/v1",
   "price_line": "Upstream price",
   "currency": "USD",
   "billing": "payg",

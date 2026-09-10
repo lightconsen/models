@@ -2,9 +2,9 @@
   {
     "model_id": "deepseek-v4-flash",
     "display_name": "DeepSeek V4 Flash",
-    "input": "0.44",
-    "output": "1.32",
-    "cache_read": "0.014",
+    "input": "0.30",
+    "output": "1.20",
+    "cache_read": "0.006",
     "cache_creation": "0"
   },
   {

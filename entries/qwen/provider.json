@@ -3,7 +3,7 @@
   "name": "Qwen",
   "logo_char": "Q",
   "logo_color": "#615CED",
-  "tag": "free",
+  "tag": "official",
   "tag_label": "Free tier",
   "rating": 4.5,
   "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1",

@@ -10,17 +10,17 @@
   {
     "model_id": "claude-sonnet-5",
     "display_name": "Claude Sonnet 5",
-    "input": "3",
-    "output": "15",
-    "cache_read": "0.30",
-    "cache_creation": "3.75"
+    "input": "2",
+    "output": "10",
+    "cache_read": "0.20",
+    "cache_creation": "2.50"
   },
   {
     "model_id": "gemini-3.6-flash",
     "display_name": "Gemini 3.6 Flash",
-    "input": "1.50",
-    "output": "7.50",
-    "cache_read": "0.15",
+    "input": "0.75",
+    "output": "3.75",
+    "cache_read": "0.075",
     "cache_creation": "0"
   },
   {

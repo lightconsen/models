@@ -9,7 +9,7 @@
   "endpoint": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
   "price_line": "Official pricing",
   "currency": "USD",
-  "billing": "payg",
+  "billing": "plan",
   "users": "Listed on cc-switch",
   "blurb": "",
   "added": false,

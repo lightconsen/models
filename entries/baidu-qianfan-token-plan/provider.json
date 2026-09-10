@@ -9,7 +9,7 @@
   "endpoint": "https://qianfan.baidubce.com/v2/tokenplan/personal",
   "price_line": "Official pricing",
   "currency": "USD",
-  "billing": "payg",
+  "billing": "plan",
   "users": "Listed on cc-switch",
   "blurb": "",
   "added": false,

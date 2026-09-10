@@ -7,7 +7,7 @@
   "tag_label": "Official",
   "rating": 4.8,
   "endpoint": "https://api.deepseek.com",
-  "price_line": "¥4 /M in · ¥16 /M out",
+  "price_line": "¥9 /M in · ¥27 /M out (peak)",
   "currency": "USD",
   "billing": "payg",
   "users": "12.4k users",
@@ -29,5 +29,6 @@
         "deepseek-v4-pro"
       ]
     }
-  ]
+  ],
+  "price_note": "off-peak ¥4.5 / ¥13.5"
 }

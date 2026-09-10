@@ -10,9 +10,9 @@
   {
     "model_id": "qwen3.6-plus",
     "display_name": "Qwen3.6 Plus",
-    "input": "0.325",
-    "output": "1.95",
-    "cache_read": "0.065",
+    "input": "0.50",
+    "output": "3.00",
+    "cache_read": "0.05",
     "cache_creation": "0"
   },
   {

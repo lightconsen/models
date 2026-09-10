@@ -103,6 +103,40 @@ The app builds the full URL from its `hub_url` setting
 (`https://hub.kiwano.cc/logos/example.png`). `logo_char` + `logo_color`
 remain required fields and are the app's fallback when the image can't load.
 
+### Legibility on dark backgrounds
+
+The app renders the logo as a plain `<img>` on both the light and the dark
+theme, so artwork that is black on a transparent background simply disappears
+in dark mode. Two cases account for nearly all of it:
+
+- An SVG painted with `currentColor`. Inline that resolves to the surrounding
+  text colour, but a standalone file loaded through `<img>` has no CSS context
+  and resolves to black.
+- An SVG whose elements carry no `fill` at all, which also defaults to black.
+
+The fix is a white rounded rectangle as the **first** child of `<svg>`, so
+everything else paints on top of it:
+
+```xml
+<rect data-kw-bg="1" x="0" y="0" width="24" height="24" rx="5.28" fill="#FFFFFF"/>
+```
+
+Size it from the `viewBox`, with `rx` at roughly 22% of the shorter side
+(24 → 5.28, 512 → 112.64). The `data-kw-bg` marker is only there so the edit is
+idempotent.
+
+Check before adding one — two kinds of logo need nothing:
+
+- those that **already ship their own background** (a full-canvas dark rect, so
+  the white one would be covered and dead), and
+- those whose mark is **light or coloured** rather than black, which are
+  perfectly legible as-is.
+
+The reliable test is to render the file on a `#141414` page through `<img>` —
+static analysis of `fill` attributes misjudges both of those cases (it counts a
+background rect as artwork, and misses colours that come from `<style>` blocks
+or gradients).
+
 ### Relationship to `icon`
 
 `provider.json` also has an optional `icon` field — a legacy key into the

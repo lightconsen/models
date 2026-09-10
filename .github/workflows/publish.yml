@@ -37,6 +37,6 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
         run: |
-          npx wrangler@latest r2 object put "$R2_BUCKET/catalog.json" --file dist/catalog.json --content-type application/json
-          npx wrangler r2 object put "$R2_BUCKET/models.json" --file dist/models.json --content-type application/json
-          npx wrangler r2 object put "$R2_BUCKET/manifest.json" --file dist/manifest.json --content-type application/json
+          npx wrangler@latest r2 object put "$R2_BUCKET/catalog.json" --file dist/catalog.json --content-type application/json --remote
+          npx wrangler r2 object put "$R2_BUCKET/models.json" --file dist/models.json --content-type application/json --remote
+          npx wrangler r2 object put "$R2_BUCKET/manifest.json" --file dist/manifest.json --content-type application/json --remote

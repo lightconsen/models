@@ -85,8 +85,14 @@ for (const dir of entryDirs) {
     if (!Array.isArray(e.endpoints)) {
       fail(`${where}: endpoints must be an array`);
     } else {
+      // One endpoint per protocol: the primary protocol counts as taken, and
+      // the provider's PK app-side is (provider_id, protocol) — a repeat here
+      // would be silently dropped when the entry is added, losing the endpoint.
+      const seen = new Set([proto]);
       for (const x of e.endpoints) {
         if (!PROTOCOLS.has(x.protocol)) fail(`${where}: extra endpoint protocol "${x.protocol}" invalid`);
+        else if (seen.has(x.protocol)) fail(`${where}: duplicate protocol "${x.protocol}" (already the primary protocol or an earlier endpoint)`);
+        seen.add(x.protocol);
         if (typeof x.endpoint !== "string" || x.endpoint.trim() === "") fail(`${where}: extra endpoint empty`);
         if (x.models !== undefined && !Array.isArray(x.models)) fail(`${where}: endpoint models must be an array`);
       }

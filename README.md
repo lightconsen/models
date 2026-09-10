@@ -1,0 +1,55 @@
+# models — Kiwano Hub data
+
+Source of truth for the Kiwano app's two remote data files. Hand-edit here,
+CI validates + builds + publishes to Cloudflare R2; the app fetches at runtime
+(fully offline-fallbackable to its bundled snapshots).
+
+## Layout
+
+```
+data/
+  catalog.json   Models-page catalog (bare array of entries)
+  models.json    model pricing + exchange rates (version-gated)
+scripts/
+  generate.mjs   validate + build dist/ artifacts (zero dependencies)
+.github/workflows/
+  validate.yml   PR gate: validation + dry-run build
+  publish.yml    main push: build + upload to R2
+```
+
+## Data domains (enforced by generate.mjs)
+
+- `billing`: `plan | payg | unl` — one entry per billing mode
+- `protocol`: `anthropic | openai | gemini` (default `openai`)
+- `tag`: `official | third | aggregate | local | free`
+- `exchange_rates`: units per 1 USD, `USD` pinned to `1`
+- `models.json` `version`: positive integer, **must increase** when pricing
+  rows change (the app seeds version-gated and ignores older versions)
+
+## How to update
+
+1. Edit `data/catalog.json` (add/modify a provider) or `data/models.json`
+   (price row + version bump + `exchange_rates` when adding a currency).
+2. Open a PR — the `validate` workflow checks schema + builds.
+3. Merge to `main` — the `publish` workflow uploads `catalog.json`,
+   `models.json`, `manifest.json` to the R2 bucket root.
+
+## R2 setup (one-time)
+
+1. Create the bucket (e.g. `kiwano-hub`) and enable public access via a
+   custom domain — `hub.kiwano.app` is the URL baked into the app
+   (`https://hub.kiwano.app/catalog.json`).
+2. Add the three repo secrets: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`
+   (R2 edit on this bucket), `R2_BUCKET`.
+3. Run the `publish` workflow once (or push to main) and verify:
+   `curl https://hub.kiwano.app/manifest.json`
+
+## App wiring
+
+- Catalog: the app's `hub_url` setting points at the public URL
+  (`.../catalog.json`); payload shape is Hub protocol v0:
+  `{"total": N, "entries": [...]}`. Sync results are cached app-side and the
+  bundled copy is the offline fallback.
+- Pricing: the app currently reads its bundled models.json snapshot; remote
+  version-gated fetch of models.json is the pending app-side follow-up
+  (seed logic and the `version` gate already exist there).

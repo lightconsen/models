@@ -1,0 +1,42 @@
+# Publish the Hub artifacts to Cloudflare R2 on every main push.
+#
+# Required repo secrets (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_ACCOUNT_ID – Cloudflare account id
+#   CLOUDFLARE_API_TOKEN  – token with R2 edit permission on the bucket
+#   R2_BUCKET             – R2 bucket name; must be publicly readable
+#                           (r2.dev or a custom domain, e.g. hub.kiwano.app)
+#
+# Published keys (bucket root, matching the app's Hub URLs):
+#   catalog.json   {"total": N, "entries": [...]}  (Hub protocol v0)
+#   models.json    pricing + fx
+#   manifest.json  counts/versions + sha256 of both
+
+name: publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: publish-r2
+  cancel-in-progress: true
+
+jobs:
+  r2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: node scripts/generate.mjs
+      - name: Upload to R2
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: |
+          npx wrangler@latest r2 object put "$R2_BUCKET/catalog.json" --file dist/catalog.json --content-type application/json
+          npx wrangler r2 object put "$R2_BUCKET/models.json" --file dist/models.json --content-type application/json
+          npx wrangler r2 object put "$R2_BUCKET/manifest.json" --file dist/manifest.json --content-type application/json

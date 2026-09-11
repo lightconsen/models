@@ -1,9 +1,0 @@
-{
-  "kind": "new_model",
-  "provider_id": "xai",
-  "model_id": "grok-4.5",
-  "released": "2026-08-28",
-  "title": "Grok 4.5 from xAI",
-  "body": "Grok 4.5 is available on xAI's API, at $2/M in and $6/M out.",
-  "priority": 60
-}

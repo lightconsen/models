@@ -1,0 +1,9 @@
+{
+  "kind": "announce",
+  "provider_id": "deepseek",
+  "model_id": "deepseek-v4-pro",
+  "released": "2026-09-11",
+  "title": "DeepSeek V4 Pro stays available after September 14, 2026",
+  "body": "In response to the needs of our users, we have decided to continue providing the DeepSeek V4 Pro API service after September 14, 2026, with the billing method unchanged. If anything changes, we will notify you separately. Thank you for your understanding and support.",
+  "badge": "NOTICE"
+}

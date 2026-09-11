@@ -1,3 +1,7 @@
 # Generated artifacts (CI builds + uploads these to R2)
 dist/
 *.secret
+
+# Working notes scoped to one machine/session (plans, scratch drafts).
+# The app repo already ignores these; keep the data repo symmetric.
+*.local.md

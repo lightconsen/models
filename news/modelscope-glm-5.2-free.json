@@ -1,0 +1,10 @@
+{
+  "kind": "free",
+  "provider_id": "modelscope",
+  "model_id": "glm-5.2",
+  "released": "2026-09-02",
+  "title": "GLM-5.2 is free on ModelScope",
+  "body": "Call GLM-5.2 at no cost within the daily quota — no credit card, no spend cap to watch.",
+  "badge": "FREE",
+  "priority": 85
+}

@@ -21,6 +21,9 @@ entries/
 global.json            exchange rates + the vendor pricing no entry owns
                        (version-gated). These rows keep their own `currency`,
                        being shared across providers
+news/<id>.json         model news — one file per notice, each naming a
+                       (provider, model) pair; the file name is the id.
+                       Published whole as dist/news.json
 scripts/
   generate.mjs         validate + build dist/ artifacts (zero dependencies)
 .github/workflows/
@@ -190,6 +193,87 @@ models no directory declares) stays in `global.json`.
 dimension (it looks prices up by model id alone), so this split is a
 source-layout change and nothing more.
 
+## Model news (`news/`)
+
+A notice that the app can surface as an in-app feed item: "provider X has model
+Y". Every notice names **both** — `provider_id` and `model_id` — because the
+pair is what makes it actionable: the app shows the model on that provider's
+row and routes the call to action from that entry.
+
+**One file per notice**, `news/<id>.json`. Two people adding news touch
+different files, so they never conflict on a shared array — the same reason a
+provider is a directory rather than a row.
+
+```jsonc
+// news/anthropic-claude-opus-5.json
+{
+  // No "id" field: the file name IS the id, and it is what the app stores
+  // "dismissed" under. Repeating it here would be a second place to disagree —
+  // the same reason price rows carry no currency. Renaming the file re-shows
+  // the item to everyone who closed it, so treat the name as permanent.
+  "kind": "new_model",          // new_model | free | discount | announce
+  "provider_id": "anthropic",   // must be a directory in entries/
+  "model_id": "claude-opus-5",  // must be a model that provider serves
+  "released": "2026-09-08",     // YYYY-MM-DD, the day the model became usable
+  "title": "Claude Opus 5 is live on Anthropic",   // ≤ 80 chars
+  "body": "…",                                     // ≤ 300 chars
+  "badge": "NEW",               // optional, ≤ 8 chars
+  "priority": 90,               // optional integer; higher shows first
+  "expires_at": "2026-10-08",   // optional; after `released`, not before
+  "url": "https://…"            // optional; announcement page, not a signup
+}
+```
+
+The file name must be lowercase `[a-z0-9.-]`, 3–64 chars, so it is a legal id
+everywhere. An empty `news/` is valid and means "no news". Non-JSON files are
+reported and skipped; dotfiles (macOS `.DS_Store`) are skipped silently.
+
+To retire a notice, **delete its file**. `dist/news.json` is rebuilt from what
+is in `news/`, so deletion is the only pruning mechanism — see below for why
+there is deliberately no age filter.
+
+### What "that provider serves it" means
+
+`generate.mjs` fails unless `model_id` is one the entry actually declares or
+prices, matched **case-insensitively** against the union of `provider.json`
+`models`, every `endpoints[].models`, and every `price.json` `model_id`. The
+case-insensitivity is not decoration: the two names are written independently,
+so minimax declares `MiniMax-M2.7` against a `minimax-m2.7` price row and
+ModelScope declares `GLM-5.2` against `glm-5.2`.
+
+This check is what stops "OpenAI 的 claude-opus-5" from ever publishing. To
+announce a model the entry does not carry yet, add it to `provider.json` or
+`price.json` in the same PR.
+
+### Ordering
+
+`dist/news.json` is written by `priority` descending, then `released`
+descending, then `id` — so several live notices have a deterministic display
+order, and the newest release wins a tie. Each published item carries its `id`
+folded in from the file name, which the source file does not have.
+
+### Why nothing expires at build time
+
+A notice's age is **not** a build-time filter, and cannot be. `publish.yml`
+runs on push to `main` only — there is no schedule. So "keep the last 3 days"
+would mean "the last 3 days *as of whenever someone last pushed*": merge on the
+1st and nothing rebuilds, so on the 5th clients still receive the 1st's news.
+An item would disappear based on when the next commit landed, not on the
+calendar.
+
+It would also break the artifact's determinism. Age-filtered output makes the
+same commit build differently tomorrow, so the manifest's `news.sha256` would
+move with nothing changed and every PR's `--check` would depend on the day.
+
+Age is the client's call: the app knows what "today" is, and the build does
+not. `generate.mjs` publishes **everything in `news/`**, and the app hides what
+it has already shown or what `expires_at` has passed. Nothing consumes the feed
+yet — that is a separate app-side change.
+
+For the same reason the file carries **no `generated_at`** (unlike
+`dist/models.json`): a date stamp would move the hash daily and make every
+client re-download an unchanged feed. The manifest keeps the timestamp.
+
 ## Data domains (enforced by generate.mjs)
 
 - `billing`: `plan | payg | unl` — one entry per billing mode
@@ -211,6 +295,12 @@ source-layout change and nothing more.
   conflict
 - `global.json` rows: same shape, but each **must** carry its own `currency`
 - `exchange_rates`: units per 1 USD, `USD` pinned to `1`
+- `news/<id>.json`: one notice per file, the file name being the id (lowercase
+  `[a-z0-9.-]`, 3–64 chars). Each requires a `kind`, a `provider_id` that
+  exists in `entries/`, a `model_id` that provider actually serves, a real
+  `released` date, and `title`/`body` within length; `expires_at` must be after
+  `released` and `url` must be http(s). An `id` field inside the file is
+  rejected, and unknown keys are reported as warnings
 - `version` (`global.json`): positive integer, **must increase** when pricing
   rows change (the app seeds version-gated and ignores older versions)
 

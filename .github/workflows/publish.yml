@@ -9,7 +9,8 @@
 # Published keys (bucket root, matching the app's Hub URLs):
 #   catalog.json   {"total": N, "entries": [...]}  (Hub protocol v0)
 #   models.json    pricing + fx
-#   manifest.json  counts/versions + sha256 of both
+#   news.json      model news, every news/<id>.json published whole
+#   manifest.json  counts/versions + sha256 of all three
 #   logos/<id>.<ext>  provider logos, referenced by each catalog entry's
 #                     relative `logo` field
 
@@ -41,6 +42,7 @@ jobs:
         run: |
           npx wrangler@latest r2 object put "$R2_BUCKET/catalog.json" --file dist/catalog.json --content-type application/json --remote
           npx wrangler r2 object put "$R2_BUCKET/models.json" --file dist/models.json --content-type application/json --remote
+          npx wrangler r2 object put "$R2_BUCKET/news.json" --file dist/news.json --content-type application/json --remote
           npx wrangler r2 object put "$R2_BUCKET/manifest.json" --file dist/manifest.json --content-type application/json --remote
       - name: Upload logos to R2
         env:

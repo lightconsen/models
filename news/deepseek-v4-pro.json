@@ -1,0 +1,10 @@
+{
+  "kind": "new_model",
+  "provider_id": "deepseek",
+  "model_id": "deepseek-v4-pro",
+  "released": "2026-09-05",
+  "title": "DeepSeek V4 Pro released",
+  "body": "Served from the DeepSeek API with off-peak pricing on top of the standard rate.",
+  "badge": "NEW",
+  "priority": 80
+}

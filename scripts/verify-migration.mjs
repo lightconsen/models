@@ -31,11 +31,12 @@ const EXPECTED = {
   logo_border: "removed — dead field (the app hardcodes false)",
   price_note: "merged into desc",
   free_offer: "merged into desc",
-  // placeholders kept only so pre-migration app builds still parse (§8.1)
-  price_line: "published as \"\" — merged into desc, kept as a placeholder",
-  users: "published as \"\" — merged into desc, kept as a placeholder",
-  blurb: "published as \"\" — was empty in all 82 entries",
-  added: "published as false — the app derives it at read time",
+  // merged into desc, then dropped from the artifact once the app tolerated
+  // their absence (spec §8.1)
+  price_line: "removed — merged into desc",
+  users: "removed — merged into desc",
+  blurb: "removed — was empty in all 82 entries",
+  added: "removed — the app derives it at read time",
   // derived at build time
   tag_label: "derived from tag (3 entries carried a contradicting label)",
   // new

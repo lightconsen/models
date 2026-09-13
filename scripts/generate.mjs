@@ -98,15 +98,6 @@ const PROVIDER_KEYS = new Set([
 const MODEL_KEYS = new Set([
   "id", "name", "in", "out", "cache_read", "cache_creation", "serves", "flagship",
 ]);
-/**
- * The app's `CatalogEntryVm` still declares these four as REQUIRED (no
- * `#[serde(default)]`), and `crates/core/src/sync.rs` parses the whole catalog
- * through that type before caching it — so dropping them from the artifact
- * fails the entire Hub sync, it does not merely blank a few cells. Publish
- * neutral placeholders until the app makes them optional; `added` is ignored
- * and recomputed by the app at read time anyway.
- */
-const DEPRECATED_PLACEHOLDERS = { price_line: "", users: "", blurb: "", added: false };
 const CURRENCY_RE = /^[A-Z]{3}$/;
 const DEFAULT_CURRENCY = "USD";
 
@@ -148,8 +139,13 @@ const priceKey = (m) => JSON.stringify([...PRICE_FIELDS, "currency"].map((f) => 
 
 /** The published catalog entry, in a canonical key order. Canonical on purpose:
     the order used to follow each source file's own key order, which produced
-    seven different orderings across 82 entries. The deprecated placeholders
-    keep their old positions so the diff stays legible. */
+    seven different orderings across 82 entries.
+
+    Formerly price_line/users/blurb/added were emitted here as empty
+    placeholders, because the app's `CatalogEntryVm` declared them required and
+    `sync.rs` validates the whole payload before caching it — dropping them
+    broke the app's Hub sync outright. The app now tolerates their absence
+    (2026-09-13), so the artifact carries only real fields. */
 function catalogEntry(e, derived) {
   return {
     id: e.id,
@@ -160,12 +156,8 @@ function catalogEntry(e, derived) {
     tag_label: TAG_LABELS[e.tag],
     rating: e.rating,
     endpoint: e.endpoints[0].endpoint,
-    price_line: DEPRECATED_PLACEHOLDERS.price_line,
     currency: e.currency,
     billing: e.billing,
-    users: DEPRECATED_PLACEHOLDERS.users,
-    blurb: DEPRECATED_PLACEHOLDERS.blurb,
-    added: DEPRECATED_PLACEHOLDERS.added,
     models: derived.primaryModels,
     protocol: e.endpoints[0].protocol,
     // Omitted when there are no extra endpoints, matching the old artifact —

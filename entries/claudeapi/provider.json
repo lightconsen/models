@@ -1,7 +1,6 @@
 {
   "id": "claudeapi",
   "name": "ClaudeAPI",
-  "logo_color": "#65A30D",
   "tag": "aggregate",
   "rating": 4,
   "billing": "payg",

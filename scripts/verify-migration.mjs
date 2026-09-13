@@ -37,15 +37,19 @@ const EXPECTED = {
   users: "removed — merged into desc",
   blurb: "removed — was empty in all 82 entries",
   added: "removed — the app derives it at read time",
-  // derived at build time
-  tag_label: "derived from tag (3 entries carried a contradicting label)",
+  // no longer published: the app derives these from `name` / `tag` /
+  // `endpoints[0]` (spec §9)
+  logo_char: "removed — the app takes the glyph from `name`",
+  logo_color: "removed — the app paints the avatar from its own palette",
+  tag_label: "removed — the app labels the tag through i18n",
+  protocol: "removed — the app hoists it from endpoints[0]",
+  endpoint: "removed — the app hoists it from endpoints[0]",
+  models: "removed — the app hoists it from endpoints[0]",
+  // shape change: one list, primary first (the app splits it back)
+  endpoints: "one list with the primary first, instead of extras only",
   // new
   desc: "new — one line of prose",
   price_ref: "new — projected from `flagship` (71 of 82 entries flagged)",
-  // value changes with a specific cause
-  models: "same-protocol duplicates dropped (8) + deepseek's label-as-id fixed",
-  endpoints:
-    "one extra endpoint's model order follows the models array — `serves` is a per-model map, so two endpoints with different orders cannot both be expressed. Cosmetic: it is the chip order of an extra endpoint; the primary list (which supplies the default model) keeps its order",
 };
 
 const failures = [];

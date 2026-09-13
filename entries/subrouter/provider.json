@@ -1,7 +1,6 @@
 {
   "id": "subrouter",
   "name": "SubRouter",
-  "logo_color": "#0891B2",
   "tag": "aggregate",
   "rating": 4,
   "billing": "payg",

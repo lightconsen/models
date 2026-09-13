@@ -1,7 +1,6 @@
 {
   "id": "ollama",
   "name": "Ollama",
-  "logo_color": "#1c1c1e",
   "tag": "local",
   "rating": 4.9,
   "billing": "unl",

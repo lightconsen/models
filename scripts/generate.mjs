@@ -77,22 +77,10 @@ const BILLINGS = new Set(["plan", "payg", "unl"]);
 const PROTOCOLS = new Set(["anthropic", "openai", "gemini"]);
 const TAGS = new Set(["official", "third", "aggregate", "local", "free"]);
 const LOGO_EXTS = ["png", "svg", "jpg", "jpeg", "webp"];
-/** `tag` -> the label the app used to receive verbatim. Deriving it keeps the
-    two from drifting: three entries carried a label that contradicted their own
-    tag (`groq`/`qwen` said "Free"/"Free tier" while tagged official, and
-    `modelscope` said "Aggregator" while tagged free) — those meanings belong in
-    `desc`, not in a label that is supposed to mirror `tag`. */
-const TAG_LABELS = {
-  official: "Official",
-  third: "Third-party",
-  aggregate: "Aggregator",
-  free: "Free",
-  local: "Local",
-};
 /** provider.json keys we read. Anything else is warned about — that is how a
     leftover `price_line` or `icon` from the previous schema gets caught. */
 const PROVIDER_KEYS = new Set([
-  "id", "name", "logo_color", "tag", "rating", "billing", "currency", "endpoints", "desc",
+  "id", "name", "tag", "rating", "billing", "currency", "endpoints", "desc",
 ]);
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
@@ -141,28 +129,25 @@ const priceKey = (m) => JSON.stringify([...PRICE_FIELDS, "currency"].map((f) => 
     the order used to follow each source file's own key order, which produced
     seven different orderings across 82 entries.
 
-    Formerly price_line/users/blurb/added were emitted here as empty
-    placeholders, because the app's `CatalogEntryVm` declared them required and
-    `sync.rs` validates the whole payload before caching it — dropping them
-    broke the app's Hub sync outright. The app now tolerates their absence
-    (2026-09-13), so the artifact carries only real fields. */
+    Nothing derivable is published. `logo_char`, `logo_color`, `tag_label` and
+    the primary endpoint (`protocol` / `endpoint` / `models`) are all computed on
+    the app side from `name`, `tag` and `endpoints[0]` — a glyph from a name, a
+    label from a tag, an avatar colour from the palette the locally-added
+    providers already use. Keeping them here meant two sources for one value, and
+    for the tag label that drift was real: three entries carried a label
+    contradicting their own tag. */
 function catalogEntry(e, derived) {
   return {
     id: e.id,
     name: e.name,
-    logo_char: e.name.charAt(0).toUpperCase(),
-    logo_color: e.logo_color,
     tag: e.tag,
-    tag_label: TAG_LABELS[e.tag],
     rating: e.rating,
-    endpoint: e.endpoints[0].endpoint,
-    currency: e.currency,
     billing: e.billing,
-    models: derived.primaryModels,
-    protocol: e.endpoints[0].protocol,
-    // Omitted when there are no extra endpoints, matching the old artifact —
-    // the app's `endpoints` is an Option on both sides, so absent is fine.
-    ...(derived.extraEndpoints.length === 0 ? {} : { endpoints: derived.extraEndpoints }),
+    currency: e.currency,
+    // Every endpoint, primary first — the source's own shape. The app hoists the
+    // first into its own fields on the way in, because that is what its screens
+    // read.
+    endpoints: derived.endpoints,
     logo: `logos/${e.id}.${derived.logoExt}`,
     ...(e.desc === undefined ? {} : { desc: e.desc }),
     ...(derived.priceRef === undefined ? {} : { price_ref: derived.priceRef }),
@@ -205,9 +190,6 @@ for (const dir of entryDirs) {
 
   // ── provider.json ──
   if (typeof e.name !== "string" || e.name.trim() === "") fail(`${where}: missing/empty name`);
-  if (typeof e.logo_color !== "string" || !/^#[0-9A-Fa-f]{6}$/.test(e.logo_color)) {
-    fail(`${where}: logo_color must be a #RRGGBB colour (it is hand-picked, not derived)`);
-  }
   if (!TAGS.has(e.tag)) fail(`${where}: tag "${e.tag}" not one of ${[...TAGS].join("|")}`);
   if (typeof e.rating !== "number" || e.rating < 0 || e.rating > 5) fail(`${where}: rating must be a number in 0..5`);
   if (!BILLINGS.has(e.billing)) fail(`${where}: billing "${e.billing}" not one of ${[...BILLINGS].join("|")}`);
@@ -366,8 +348,7 @@ for (const dir of entryDirs) {
 
   catalog.push(
     catalogEntry(e, {
-      primaryModels: byProtocol.get(e.endpoints?.[0]?.protocol) ?? [],
-      extraEndpoints: (e.endpoints ?? []).slice(1).map((x) => ({
+      endpoints: (e.endpoints ?? []).map((x) => ({
         protocol: x.protocol,
         endpoint: x.endpoint,
         models: byProtocol.get(x.protocol) ?? [],

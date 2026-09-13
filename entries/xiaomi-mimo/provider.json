@@ -1,7 +1,6 @@
 {
   "id": "xiaomi-mimo",
   "name": "Xiaomi MiMo",
-  "logo_color": "#FF6900",
   "tag": "official",
   "rating": 4,
   "billing": "payg",

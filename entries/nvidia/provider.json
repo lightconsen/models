@@ -1,7 +1,6 @@
 {
   "id": "nvidia",
   "name": "Nvidia",
-  "logo_color": "#76B900",
   "tag": "aggregate",
   "rating": 4,
   "billing": "payg",

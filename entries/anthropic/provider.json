@@ -1,7 +1,6 @@
 {
   "id": "anthropic",
   "name": "Anthropic",
-  "logo_color": "#D97757",
   "tag": "official",
   "rating": 4.9,
   "billing": "payg",

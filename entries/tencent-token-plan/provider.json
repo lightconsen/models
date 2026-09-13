@@ -1,7 +1,6 @@
 {
   "id": "tencent-token-plan",
   "name": "Tencent Token Plan",
-  "logo_color": "#D97757",
   "tag": "official",
   "rating": 4,
   "billing": "plan",

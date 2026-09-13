@@ -64,10 +64,6 @@ it exactly.
 {
   "id": "example",              // must equal the directory name
   "name": "Example AI",
-  "logo_color": "#3B82F6",      // fallback avatar background (hex). Hand-picked
-                                // on purpose — brand colours are the point, so
-                                // it is NOT derived. `logo_char` is derived
-                                // from `name` at build time and not stored
   "tag": "third",               // official | third | aggregate | local | free
   "rating": 4,                  // number 0..5
   "billing": "payg",            // plan | payg | unl
@@ -85,6 +81,11 @@ it exactly.
                                            // provider's row and detail card
 }
 ```
+
+Eight fields, and that is deliberate: anything the app can work out for itself is
+not stored here. The letter-avatar glyph comes from `name`, the avatar colour and
+the category label from the app's own palette and translations, and the primary
+endpoint from the first entry of `endpoints`.
 
 ```jsonc
 // entries/<id>/models.json — volatile: one record per model, prices inline
@@ -140,8 +141,8 @@ entry exposes a relative `logo` field:
 The app builds the full URL from its `hub_url` setting
 (`https://hub.kiwano.cc/logos/example.png`). When the image can't load — or the
 app has never synced and is showing its bundled snapshot — it falls back to a
-letter avatar: `logo_char` (derived from `name` at build time) on `logo_color`
-(authored, so brand colours survive).
+letter avatar: the first letter of `name`, on a colour the app picks from the
+same palette it uses for locally-added providers.
 
 ### Legibility on dark backgrounds
 
@@ -316,10 +317,8 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 
 **`provider.json`**
 
-- `name`: non-empty string. `logo_char` is derived from it; `logo_color` is
-  hand-picked and must be `#RRGGBB`
-- `tag`: `official | third | aggregate | local | free`. `tag_label` is derived
-  from it — do not look for it in the source
+- `name`: non-empty string
+- `tag`: `official | third | aggregate | local | free`
 - `rating`: number `0..5`
 - `billing`: `plan | payg | unl` — one entry per billing mode
 - `endpoints`: non-empty array of `{protocol, endpoint}`; `protocol` is
@@ -385,11 +384,12 @@ unchanged version means the app keeps its existing table.
 - `dist/catalog.json` is assembled from all `entries/*/provider.json` +
   `models.json`, sorted by id for deterministic output (the Models page sorts
   rows itself). Field order is canonical, not per-file.
-- The published entry still carries `price_line`, `users`, `blurb` (all `""`)
-  and `added` (`false`). They are **placeholders**, not source fields: the app's
-  catalog type declares them as required, and it parses the whole payload before
-  caching it, so dropping them would fail the app's Hub sync outright. They go
-  away once the app makes them optional.
+- **Each published entry has ten fields** — `id`, `name`, `tag`, `rating`,
+  `billing`, `currency`, `endpoints`, `logo`, `desc`, `price_ref`. Nothing the
+  app can work out for itself is sent: no avatar glyph or colour, no category
+  label, no primary endpoint beside the list it is the first entry of, no
+  "added" flag. `crates/core/src/vm.rs::normalize_catalog_entry` fills those on
+  the way in, the same way it has always derived `added`.
 - `dist/models.json` merges the priced models of every `entries/*/models.json`
   with the rows left in `global.json`, sorted by model id. A model resold by
   several providers is written once.
@@ -425,8 +425,8 @@ unchanged version means the app keeps its existing table.
   snapshot remains the offline fallback.
 - Logos: each catalog entry's `logo` field is a relative path resolved
   against `hub_url` (e.g. `https://hub.kiwano.cc/logos/<id>.png`); the
-  images are fetched from R2 at runtime, with `logo_char` / `logo_color` as
-  the offline fallback.
+  images are fetched from R2 at runtime, falling back to a letter avatar
+  built from `name` and the app's own avatar palette.
 - Currency: a catalog entry's `currency` is what the app labels that
   provider's spending limit with, read-only — the limit is compared against
   cost as recorded, with no conversion. Only the dashboard converts, rolling

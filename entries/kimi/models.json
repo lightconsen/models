@@ -1,25 +1,31 @@
 [
   {
-    "id": "kimi-k2-0905-preview",
-    "serves": {
-      "openai": "kimi-k2-0905-preview"
-    }
-  },
-  {
-    "id": "moonshot-v1-128k",
-    "serves": {
-      "openai": "moonshot-v1-128k"
-    }
+    "id": "kimi-k3",
+    "name": "Kimi K3",
+    "in": "20.00",
+    "out": "100.00",
+    "cache_read": "2.00",
+    "flagship": true
   },
   {
     "id": "kimi-k2.7-code",
     "name": "Kimi K2.7 Code",
-    "in": "0.95",
-    "out": "4.00",
-    "cache_read": "0.19",
-    "serves": {
-      "anthropic": "kimi-k2.7-code"
-    },
-    "flagship": true
+    "in": "6.50",
+    "out": "27.00",
+    "cache_read": "1.30"
+  },
+  {
+    "id": "kimi-k2.7-code-highspeed",
+    "name": "Kimi K2.7 Code High-speed",
+    "in": "13.00",
+    "out": "54.00",
+    "cache_read": "2.60"
+  },
+  {
+    "id": "kimi-k2.6",
+    "name": "Kimi K2.6",
+    "in": "6.50",
+    "out": "27.00",
+    "cache_read": "1.10"
   }
 ]

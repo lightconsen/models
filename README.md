@@ -34,9 +34,10 @@ scripts/
                        provider.json + models.json (already run)
   test-validation.mjs  failure-path tests for the validation rules
   fetch-deepseek-pricing.mjs
-                       authoring aid: read DeepSeek's published price table and
-                       print what it would change. Never runs in the build — it
-                       only saves the author a transcription, and prints a diff
+  fetch-kimi-pricing.mjs
+                       authoring aids: read a vendor's published price table and
+                       print what it would change. Never run in the build — they
+                       only save the author a transcription, and print a diff
                        rather than writing unless given --write
 .github/workflows/
   validate.yml         PR gate: validation + dry-run build
@@ -137,10 +138,10 @@ Three things about `models.json` that are easy to get wrong:
   71 providers with priced models, the one with the **highest output price**
   (ties by input price, then id) — which lands on the model a vendor is known for
   in most cases. Worth a human look wherever it is the *only* priced model and
-  that model is a small or coding variant (`google-ai-studio` → `gemini-3.6-flash`,
-  `kimi` → `kimi-k2.7-code`): pricing a bigger sibling would represent the
-  provider better. The rule is a starting point rather than a verdict — `deepseek`
-  shows its flash model, chosen by hand over the pricier pro the rule picked.
+  that model is a small or coding variant (`google-ai-studio` → `gemini-3.6-flash`):
+  pricing a bigger sibling would represent the provider better. The rule is a
+  starting point rather than a verdict — `deepseek` shows its flash model, chosen
+  by hand over the pricier pro the rule picked.
 
 Changing a flagship does not move the price table (`version` in `global.json`
 gates that, and nothing about it changed), so it needs no version bump — the
@@ -455,13 +456,25 @@ Then bump `version` in `global.json` and, if the record introduced a new
 currency, add it to `exchange_rates`. The version is the app's seed gate: an
 unchanged version means the app keeps its existing table.
 
-For DeepSeek, `scripts/fetch-deepseek-pricing.mjs` reads the vendor's published
-table and prints the difference, so a repricing is a review of a diff rather than
-a transcription. It is an authoring aid and nothing more: no cron runs it, and a
-number it prints is only as fresh as the last time somebody ran it. Their docs
-serve the table as plain HTML, so a fetch is enough — but the response carries a
-stray NUL byte, which is worth knowing because `grep` then treats the file as
-binary and matches nothing at all.
+Two vendors publish a table a script can read, so `scripts/fetch-deepseek-pricing.mjs`
+and `scripts/fetch-kimi-pricing.mjs` read theirs and print the difference — a
+repricing becomes a review of a diff rather than a transcription. Both are
+authoring aids and nothing more: no cron runs them, and a number they print is
+only as fresh as the last time somebody ran it.
+
+DeepSeek's docs prerender the table as plain HTML, so a fetch is enough — but the
+response carries a stray NUL byte, which is worth knowing because `grep` then
+treats the file as binary and matches nothing at all. Kimi's docs go further and
+serve every page as markdown (`/docs/llms.txt` is the index), with the price
+table as a literal array inside a `<DocTable>` element; their script also reads
+the model list, which is how two models we carried turned out to be retired.
+
+Most vendors offer neither: their pricing is behind a JavaScript app or an
+undocumented RPC (Kimi's membership page is the latter — the numbers never exist
+in any file the browser loads), and those are not worth a scraper each.
+
+`kimi-k2.5` is still priced here by `nvidia` alone, for a model Kimi retired on
+2026-08-31. A reseller may well still serve it; the row is nvidia's, not Kimi's.
 
 ## Layout notes
 

@@ -13,9 +13,6 @@
   {
     "id": "kimi-k2.6",
     "name": "Kimi K2.6",
-    "in": "0.95",
-    "out": "4.00",
-    "cache_read": "0.16",
     "serves": {
       "openai": "kimi-k2.6"
     }

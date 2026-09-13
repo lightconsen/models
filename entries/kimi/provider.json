@@ -4,8 +4,8 @@
   "website": "https://moonshot.cn/",
   "tag": "official",
   "rating": 4.6,
-  "billing": "plan",
-  "currency": "USD",
+  "billing": "payg",
+  "currency": "CNY",
   "endpoints": [
     {
       "protocol": "openai",
@@ -16,5 +16,5 @@
       "endpoint": "https://api.moonshot.cn/anthropic"
     }
   ],
-  "desc": "¥49 /mo plan · 8.1k users"
+  "desc": "8.1k users"
 }

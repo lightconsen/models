@@ -139,7 +139,12 @@ Three things about `models.json` that are easy to get wrong:
   in most cases. Worth a human look wherever it is the *only* priced model and
   that model is a small or coding variant (`google-ai-studio` → `gemini-3.6-flash`,
   `kimi` → `kimi-k2.7-code`): pricing a bigger sibling would represent the
-  provider better.
+  provider better. The rule is a starting point rather than a verdict — `deepseek`
+  shows its flash model, chosen by hand over the pricier pro the rule picked.
+
+Changing a flagship does not move the price table (`version` in `global.json`
+gates that, and nothing about it changed), so it needs no version bump — the
+catalog's own sha carries the change to clients.
 
 ## Logo
 

@@ -16,7 +16,8 @@
         { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "09:00", "end": "12:00" },
         { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "14:00", "end": "18:00" }
       ]
-    }
+    },
+    "flagship": true
   },
   {
     "id": "deepseek-v4-pro",
@@ -35,7 +36,6 @@
         { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "09:00", "end": "12:00" },
         { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "14:00", "end": "18:00" }
       ]
-    },
-    "flagship": true
+    }
   }
 ]

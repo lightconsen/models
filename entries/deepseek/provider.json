@@ -5,7 +5,7 @@
   "tag": "official",
   "rating": 4.8,
   "billing": "payg",
-  "currency": "USD",
+  "currency": "CNY",
   "endpoints": [
     {
       "protocol": "openai",
@@ -16,5 +16,5 @@
       "endpoint": "https://api.deepseek.com/anthropic"
     }
   ],
-  "desc": "off-peak ¥4.5 / ¥13.5 · 12.4k users"
+  "desc": "12.4k users"
 }

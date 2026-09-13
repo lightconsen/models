@@ -221,6 +221,41 @@ record per model:
 unpriced — the app lists it and shows no cost rather than a wrong one. `[]` is
 valid and means the provider serves no models yet.
 
+### Time-of-day pricing
+
+Some vendors charge less outside their business hours, and the listed rates are
+the peak ones:
+
+```jsonc
+{
+  "id": "deepseek-v4-pro", "name": "DeepSeek V4 Pro",
+  "in": "9.0", "out": "27.0", "cache_read": "0.30",   // peak — the listed rates
+  "off_peak": { "in": "4.5", "out": "13.5", "cache_read": "0.15" },
+  "peak_hours": {
+    "tz_offset": 480,          // minutes east of UTC — the VENDOR's billing clock
+    "windows": [
+      { "days": ["mon","tue","wed","thu","fri"], "start": "09:00", "end": "12:00" },
+      { "days": ["mon","tue","wed","thu","fri"], "start": "14:00", "end": "18:00" }
+    ]
+  }
+}
+```
+
+Read it as: the row's own rates apply **during** `peak_hours`, `off_peak` outside
+them. The two fields only appear together — a discount with no window is just a
+different price — and only on a priced row.
+
+- **`tz_offset` is required, and it is the provider's clock, not the reader's.**
+  These windows are business hours somewhere; judging "is it peak now" against
+  the user's own timezone would silently pick the wrong rate.
+- **A window does not wrap midnight.** 22:00–02:00 is two windows.
+- **`off_peak` carries its own rates rather than a discount factor**, so a vendor
+  who discounts input but not output is expressible. The factor happens to be
+  exactly a half for DeepSeek — that is a fact about DeepSeek, not a rule.
+- Until a client reads `peak_hours`, it charges the listed (peak) rate — the
+  higher of the two, so an un-updated client overstates a night's cost rather
+  than understating it.
+
 Rows carry **no currency**: the provider's `currency` applies, and `generate.mjs`
 stamps it into every published row of `dist/models.json` (so the app-side table
 keeps its per-row currency). Listing one fails validation — two places to
@@ -359,6 +394,9 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
   presence is the price flag
 - `cache_read` / `cache_creation`: optional non-negative decimals, `0` when
   absent
+- `off_peak` / `peak_hours`: optional, and only together — the discounted rates
+  and the hours the row's own rates apply. See
+  [Time-of-day pricing](#time-of-day-pricing)
 - `serves`: optional `{protocol: upstream string}`; every protocol must exist in
   `endpoints`, the object must not be empty, and **omitting it means every
   endpoint serves the model under its own `id`**
@@ -412,7 +450,9 @@ unchanged version means the app keeps its existing table.
   those on the way in, the same way it has always derived `added`.
 - `dist/models.json` holds the priced models of every `entries/*/models.json`,
   one row per model id, sorted. A model resold by several providers is written
-  once — and only if every copy agrees.
+  once — and only if every copy agrees. A row carries its currency, and its
+  `off_peak` / `peak_hours` when the provider has them, so the schedule travels
+  with the prices it modifies.
 
 ## CI
 

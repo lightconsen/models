@@ -1,26 +1,40 @@
 [
   {
-    "id": "deepseek-chat",
-    "name": "DeepSeek Chat (V3)",
-    "in": "0.44",
-    "out": "1.32",
-    "cache_read": "0.014"
-  },
-  {
-    "id": "deepseek-reasoner",
-    "name": "DeepSeek Reasoner (R1)",
-    "in": "0.44",
-    "out": "1.32",
-    "cache_read": "0.014"
+    "id": "deepseek-flash",
+    "name": "DeepSeek V4.1 Flash",
+    "in": "2",
+    "out": "8",
+    "cache_read": "0.04",
+    "off_peak": {
+      "in": "1",
+      "out": "4",
+      "cache_read": "0.02"
+    },
+    "peak_hours": {
+      "tz_offset": 480,
+      "windows": [
+        { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "09:00", "end": "12:00" },
+        { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "14:00", "end": "18:00" }
+      ]
+    }
   },
   {
     "id": "deepseek-v4-pro",
     "name": "DeepSeek V4 Pro",
-    "in": "1.32",
-    "out": "3.96",
-    "cache_read": "0.044",
-    "serves": {
-      "anthropic": "deepseek-v4-pro"
+    "in": "9.0",
+    "out": "27.0",
+    "cache_read": "0.30",
+    "off_peak": {
+      "in": "4.5",
+      "out": "13.5",
+      "cache_read": "0.15"
+    },
+    "peak_hours": {
+      "tz_offset": 480,
+      "windows": [
+        { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "09:00", "end": "12:00" },
+        { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "14:00", "end": "18:00" }
+      ]
     },
     "flagship": true
   }

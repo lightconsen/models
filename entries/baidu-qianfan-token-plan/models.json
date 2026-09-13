@@ -1,10 +1,7 @@
 [
   {
     "id": "deepseek-v4-pro",
-    "name": "DeepSeek V4 Pro",
-    "in": "1.32",
-    "out": "3.96",
-    "cache_read": "0.044"
+    "name": "DeepSeek V4 Pro"
   },
   {
     "id": "deepseek-v4-flash",

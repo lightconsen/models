@@ -93,6 +93,42 @@ const CASES = [
     expect: /must not carry a currency/,
   },
   {
+    rule: "extra — a time-of-day discount needs the hours it applies to",
+    provider: provider(`${prefix}-offpeak-alone`),
+    models: [{ id: "m1", in: "2", out: "8", name: "M1", off_peak: { in: "1", out: "4" } }],
+    expect: /off_peak and peak_hours come together/,
+  },
+  {
+    rule: "extra — peak_hours needs the provider's billing clock",
+    provider: provider(`${prefix}-no-tz`),
+    models: [
+      {
+        id: "m1",
+        in: "2",
+        out: "8",
+        name: "M1",
+        off_peak: { in: "1", out: "4" },
+        peak_hours: { windows: [{ days: ["mon"], start: "09:00", end: "12:00" }] },
+      },
+    ],
+    expect: /peak_hours\.tz_offset must be an integer/,
+  },
+  {
+    rule: "extra — a peak window does not wrap midnight",
+    provider: provider(`${prefix}-wrapping-window`),
+    models: [
+      {
+        id: "m1",
+        in: "2",
+        out: "8",
+        name: "M1",
+        off_peak: { in: "1", out: "4" },
+        peak_hours: { tz_offset: 480, windows: [{ days: ["mon"], start: "22:00", end: "02:00" }] },
+      },
+    ],
+    expect: /must end after it starts/,
+  },
+  {
     rule: "extra — website must be an http(s) URL",
     provider: provider(`${prefix}-bad-website`, { website: "example.com" }),
     models: [],

@@ -85,7 +85,13 @@ const PROVIDER_KEYS = new Set([
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
   "id", "name", "in", "out", "cache_read", "cache_creation", "serves", "flagship",
+  "off_peak", "peak_hours",
 ]);
+/** The rate fields a model row may carry, and the ones an `off_peak` block may.
+    (Distinct from `PRICE_FIELDS`, which names the *published* row's columns.) */
+const RATE_FIELDS = ["in", "out", "cache_read", "cache_creation"];
+const DAYS = new Set(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
+const HHMM = /^([01]\d|2[0-3]):([0-5]\d)$/;
 const CURRENCY_RE = /^[A-Z]{3}$/;
 const DEFAULT_CURRENCY = "USD";
 
@@ -123,7 +129,13 @@ function checkPriceRow(m, where, rates) {
     earlier version used a literal NUL here, which made the whole script read as
     binary to grep and git. */
 const PRICE_FIELDS = ["model_id", "display_name", "input", "output", "cache_read", "cache_creation"];
-const priceKey = (m) => JSON.stringify([...PRICE_FIELDS, "currency"].map((f) => String(m?.[f] ?? "")));
+/** What two copies of one model have to agree on. The schedule counts: two
+    providers reselling the same model at the same rates but on different billing
+    clocks are not the same price. Values go through JSON.stringify rather than
+    String() so the nested `off_peak` / `peak_hours` compare by content — String
+    would collapse either to "[object Object]" and call them equal. */
+const AGREEMENT_FIELDS = [...PRICE_FIELDS, "currency", "off_peak", "peak_hours"];
+const priceKey = (m) => JSON.stringify(AGREEMENT_FIELDS.map((f) => m?.[f] ?? null));
 
 /** The published catalog entry, in a canonical key order. Canonical on purpose:
     the order used to follow each source file's own key order, which produced
@@ -295,6 +307,57 @@ for (const dir of entryDirs) {
     for (const f of ["in", "out", "cache_read", "cache_creation"]) {
       if (m[f] !== undefined && !isDecimal(m[f])) fail(`${mw}: ${f} "${m[f]}" is not a non-negative decimal`);
     }
+    // Time-of-day pricing, as a second set of rates plus the hours the *listed*
+    // ones apply. `off_peak` alone would be unreachable — a discount with no
+    // window is just a different price — so the two only appear together, and
+    // only on a priced row.
+    if (m.off_peak !== undefined || m.peak_hours !== undefined) {
+      if (!(hasIn && hasOut)) fail(`${mw}: off_peak/peak_hours need the row's own price first`);
+      if (m.off_peak === undefined || m.peak_hours === undefined) {
+        fail(`${mw}: off_peak and peak_hours come together — a discount with no window is unreachable`);
+      }
+    }
+    if (m.off_peak !== undefined) {
+      const okShape = m.off_peak !== null && typeof m.off_peak === "object" && !Array.isArray(m.off_peak);
+      if (!okShape) fail(`${mw}: off_peak must be an object of price fields`);
+      else {
+        if (m.off_peak.in === undefined || m.off_peak.out === undefined) {
+          fail(`${mw}: off_peak needs in and out, like the row itself`);
+        }
+        for (const [k, v] of Object.entries(m.off_peak)) {
+          if (!RATE_FIELDS.includes(k)) fail(`${mw}: off_peak has unknown field "${k}"`);
+          else if (!isDecimal(v)) fail(`${mw}: off_peak.${k} "${v}" is not a non-negative decimal`);
+        }
+        if (m.off_peak.currency !== undefined) fail(`${mw}: off_peak must not carry a currency — the provider's applies`);
+      }
+    }
+    if (m.peak_hours !== undefined) {
+      const ph = m.peak_hours;
+      const okShape = ph !== null && typeof ph === "object" && !Array.isArray(ph);
+      if (!okShape) fail(`${mw}: peak_hours must be an object`);
+      else {
+        // Required: the window is the provider's billing clock, not the reader's.
+        // Judging "is it peak now" against the user's timezone would pick the
+        // wrong rate for anyone outside it.
+        if (!Number.isInteger(ph.tz_offset) || ph.tz_offset < -720 || ph.tz_offset > 840) {
+          fail(`${mw}: peak_hours.tz_offset must be an integer of minutes east of UTC (-720..840)`);
+        }
+        if (!Array.isArray(ph.windows) || ph.windows.length === 0) {
+          fail(`${mw}: peak_hours.windows must be a non-empty array`);
+        } else {
+          for (const w of ph.windows) {
+            if (!Array.isArray(w?.days) || w.days.length === 0) fail(`${mw}: peak_hours window needs a non-empty days array`);
+            else for (const d of w.days) if (!DAYS.has(d)) fail(`${mw}: peak_hours day "${d}" not one of ${[...DAYS].join("|")}`);
+            if (!HHMM.test(w?.start ?? "")) fail(`${mw}: peak_hours start "${w?.start}" must be HH:MM (24h)`);
+            if (!HHMM.test(w?.end ?? "")) fail(`${mw}: peak_hours end "${w?.end}" must be HH:MM (24h)`);
+            if (HHMM.test(w?.start ?? "") && HHMM.test(w?.end ?? "") && w.start >= w.end) {
+              fail(`${mw}: peak_hours window ${w.start}-${w.end} must end after it starts (a window does not wrap midnight)`);
+            }
+          }
+        }
+        for (const k of Object.keys(ph)) if (!["tz_offset", "windows"].includes(k)) fail(`${mw}: peak_hours has unknown key "${k}"`);
+      }
+    }
     if (hasIn && hasOut) {
       // dist/models.json rows carry display_name and the app's ModelPriceEntry
       // requires it, so a priced model without a name would break the price
@@ -377,18 +440,20 @@ for (const dir of entryDirs) {
   );
 
   for (const m of priced) {
-    entryPriceRows.push({
-      entry: dir,
-      row: {
-        model_id: m.id,
-        display_name: m.name,
-        input: m.in,
-        output: m.out,
-        cache_read: m.cache_read ?? "0",
-        cache_creation: m.cache_creation ?? "0",
-      },
-      currency: e.currency,
-    });
+    // The listed rates are the peak ones, and that is what a client that does
+    // not read `peak_hours` yet will charge — the higher of the two, so an
+    // un-updated client overstates a night's cost rather than understating it.
+    const row = {
+      model_id: m.id,
+      display_name: m.name,
+      input: m.in,
+      output: m.out,
+      cache_read: m.cache_read ?? "0",
+      cache_creation: m.cache_creation ?? "0",
+    };
+    if (m.off_peak !== undefined) row.off_peak = m.off_peak;
+    if (m.peak_hours !== undefined) row.peak_hours = m.peak_hours;
+    entryPriceRows.push({ entry: dir, row, currency: e.currency });
   }
 }
 console.log(`  ✓ ${catalog.length} provider directories validated`);

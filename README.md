@@ -1,8 +1,11 @@
 # models — Kiwano Hub data
 
-Source of truth for the Kiwano app's two remote data files. Hand-edit here,
-CI validates + builds + publishes to Cloudflare R2; the app fetches at runtime
-(fully offline-fallbackable to its bundled snapshots).
+Source of truth for the Kiwano app's two remote data files — the provider
+catalog and the price table. Hand-edit here, CI validates + builds + publishes to
+Cloudflare R2 (with a manifest and a news feed beside them), and the app fetches
+them at runtime and treats them as authoritative: it ships no compiled copy of
+the catalog, so a machine that has never synced shows no providers rather than a
+stale list.
 
 ## Layout
 
@@ -138,10 +141,9 @@ entry exposes a relative `logo` field:
 ```
 
 The app builds the full URL from its `hub_url` setting
-(`https://hub.kiwano.cc/logos/example.png`). When the image can't load — or the
-app has never synced and is showing its bundled snapshot — it falls back to a
-letter avatar: the first letter of `name`, on a colour the app picks from the
-same palette it uses for locally-added providers.
+(`https://hub.kiwano.cc/logos/example.png`). When the image can't load it falls
+back to a letter avatar: the first letter of `name`, on a colour the app picks
+from the same palette it uses for locally-added providers.
 
 ### Legibility on dark backgrounds
 
@@ -214,7 +216,7 @@ stamps it into every published row of `dist/models.json` (so the app-side table
 keeps its per-row currency). Listing one fails validation — two places to
 disagree is exactly what this layout removes.
 
-### Where a price lives, and why copies must agree today
+### Where a price lives, and the one thing the app cannot express yet
 
 A price belongs to the provider entry that serves the model, and nowhere else.
 There is no vendor price table: a model the catalog does not carry is a model the
@@ -226,11 +228,11 @@ Aggregators resell the same vendor models, so one `id` appears in several
 markup, an off-peak rate. Those prices do *not* have to agree, and the validator's
 objection to disagreement is a **temporary limitation, not a rule**.
 
-The limitation: the app's price table is keyed by model alone (`PricingTable` has
-no provider dimension), so it can hold exactly one price per model. Publishing two
-would leave the winner up to whichever row the seeder wrote last. So until the app
-looks a price up by `(provider, model)` — see `handoff.local.md` — a disagreement
-fails the build, with a message saying exactly that.
+The limitation: the app's price table is keyed by model alone, so it holds exactly
+one price per model, and publishing two would leave the winner up to whichever row
+the seeder wrote last. Until the app looks a price up by `(provider, model)` — which
+needs the published rows to name the provider — a disagreement fails the build,
+with a message saying exactly that.
 
 ### What gets published
 
@@ -349,9 +351,10 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
   endpoint serves the model under its own `id`**
 - `flagship`: optional boolean, at most one per provider, and that model must be
   priced
-- no `currency` on a record — the provider's applies. No drift between files for
-  a shared `id`, currency included, so the same model priced in USD by one
-  provider and CNY by another is a conflict
+- no `currency` on a record — the provider's applies. A model resold by several
+  providers may be priced differently by each (that is legitimate), but until the
+  app can key a price by provider, a shared `id` whose copies disagree fails the
+  build — including when they disagree only in currency
 
 **`global.json`**
 
@@ -392,8 +395,8 @@ unchanged version means the app keeps its existing table.
   `billing`, `currency`, `endpoints`, `logo`, `desc`, `price_ref`. Nothing the
   app can work out for itself is sent: no avatar glyph or colour, no category
   label, no primary endpoint beside the list it is the first entry of, no
-  "added" flag. `crates/core/src/vm.rs::normalize_catalog_entry` fills those on
-  the way in, the same way it has always derived `added`.
+  "added" flag. `../crates/core/src/vm.rs::normalize_catalog_entry` fills those
+  on the way in, the same way it has always derived `added`.
 - `dist/models.json` holds the priced models of every `entries/*/models.json`,
   one row per model id, sorted. A model resold by several providers is written
   once — and only if every copy agrees.
@@ -421,12 +424,15 @@ unchanged version means the app keeps its existing table.
 - Catalog: the app's `hub_url` setting points at the public URL
   (`.../catalog.json`); payload shape is Hub protocol v0:
   `{"total": N, "entries": [...]}`. Sync is conditional — the manifest's
-  `catalog.sha256` skips the download when it matches the cached copy — and
-  the bundled copy is the offline fallback.
+  `catalog.sha256` skips the download when it matches the cached copy — and it
+  is the app's only source: an install that has never synced shows an empty
+  shelf with a "fetch it from the Hub" prompt, not a bundled list.
 - Pricing: the app fetches models.json from the Hub alongside the catalog,
   gated by the manifest's `models.version` + `models.sha256`, and seeds the
-  rows into its local store (`model_pricing.source = 'hub'`); the bundled
-  snapshot remains the offline fallback.
+  rows into its local store (`model_pricing.source = 'hub'`). Note what that
+  means for edits: **the file is the whole table, not a patch** — a model the
+  catalog stops pricing simply disappears from it, and a client that keeps a
+  local copy has to drop what is no longer there rather than merge into it.
 - Logos: each catalog entry's `logo` field is a relative path resolved
   against `hub_url` (e.g. `https://hub.kiwano.cc/logos/<id>.png`); the
   images are fetched from R2 at runtime, falling back to a letter avatar

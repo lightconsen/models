@@ -1,6 +1,7 @@
 {
   "id": "tencent-token-plan-intl",
   "name": "Tencent Token Plan (Intl)",
+  "website": "https://www.tencentcloud.com/",
   "tag": "official",
   "rating": 4,
   "billing": "plan",

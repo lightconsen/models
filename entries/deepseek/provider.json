@@ -1,6 +1,7 @@
 {
   "id": "deepseek",
   "name": "DeepSeek",
+  "website": "https://deepseek.com/",
   "tag": "official",
   "rating": 4.8,
   "billing": "payg",

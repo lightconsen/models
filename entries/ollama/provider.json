@@ -1,6 +1,7 @@
 {
   "id": "ollama",
   "name": "Ollama",
+  "website": "https://ollama.com/",
   "tag": "local",
   "rating": 4.9,
   "billing": "unl",

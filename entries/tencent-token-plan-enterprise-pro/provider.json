@@ -1,6 +1,7 @@
 {
   "id": "tencent-token-plan-enterprise-pro",
   "name": "Tencent Token Plan Enterprise Pro",
+  "website": "https://cloud.tencent.com/",
   "tag": "official",
   "rating": 4,
   "billing": "plan",

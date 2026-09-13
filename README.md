@@ -59,6 +59,15 @@ it exactly.
 5. Merge to `main` — `publish` uploads `catalog.json` / `models.json` /
    `news.json` / `manifest.json` and `logos/` to the R2 bucket root.
 
+`website` is the vendor's **own** site and nothing else: the address a reader can
+follow to see who they are dealing with. A referral link, an invite code or a
+signup page with tracking parameters belongs in a **separate** optional field —
+putting one here would mean the catalog's idea of "the vendor's site" depends on
+who is reading it, and it would have to be swapped the day the deal changes.
+Where a provider's API lives on a cloud platform rather than its own domain
+(`dashscope.aliyuncs.com`, `ark.*.volces.com`, `generativelanguage.googleapis.com`),
+name the vendor's site, not the platform's.
+
 ### Template
 
 ```jsonc
@@ -66,6 +75,7 @@ it exactly.
 {
   "id": "example",              // must equal the directory name
   "name": "Example AI",
+  "website": "https://example.com",  // the vendor's own site; http(s), reachable
   "tag": "third",               // official | third | aggregate | local | free
   "rating": 4,                  // number 0..5
   "billing": "payg",            // plan | payg | unl
@@ -324,6 +334,9 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 **`provider.json`**
 
 - `name`: non-empty string
+- `website`: the vendor's own site, required, and validated as an `http(s)` URL.
+  It is the plain address — **not** a referral or signup link: that is a
+  different, optional field (see the note under [Adding a provider](#adding-a-provider))
 - `tag`: `official | third | aggregate | local | free`
 - `rating`: number `0..5`
 - `billing`: `plan | payg | unl` — one entry per billing mode
@@ -391,12 +404,12 @@ unchanged version means the app keeps its existing table.
 - `dist/catalog.json` is assembled from all `entries/*/provider.json` +
   `models.json`, sorted by id for deterministic output (the Models page sorts
   rows itself). Field order is canonical, not per-file.
-- **Each published entry has ten fields** — `id`, `name`, `tag`, `rating`,
-  `billing`, `currency`, `endpoints`, `logo`, `desc`, `price_ref`. Nothing the
-  app can work out for itself is sent: no avatar glyph or colour, no category
-  label, no primary endpoint beside the list it is the first entry of, no
-  "added" flag. `../crates/core/src/vm.rs::normalize_catalog_entry` fills those
-  on the way in, the same way it has always derived `added`.
+- **Each published entry has eleven fields** — `id`, `name`, `website`, `tag`,
+  `rating`, `billing`, `currency`, `endpoints`, `logo`, `desc`, `price_ref`.
+  Nothing the app can work out for itself is sent: no avatar glyph or colour, no
+  category label, no primary endpoint beside the list it is the first entry of,
+  no "added" flag. `../crates/core/src/vm.rs::normalize_catalog_entry` fills
+  those on the way in, the same way it has always derived `added`.
 - `dist/models.json` holds the priced models of every `entries/*/models.json`,
   one row per model id, sorted. A model resold by several providers is written
   once — and only if every copy agrees.

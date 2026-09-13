@@ -1,6 +1,7 @@
 {
   "id": "groq",
   "name": "Groq",
+  "website": "https://groq.com/",
   "tag": "official",
   "rating": 4.7,
   "billing": "payg",

@@ -1,6 +1,7 @@
 {
   "id": "xiaomi-mimo-token-plan-china",
   "name": "Xiaomi MiMo Token Plan (China)",
+  "website": "https://mimo.xiaomi.com/",
   "tag": "official",
   "rating": 4,
   "billing": "plan",

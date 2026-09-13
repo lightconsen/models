@@ -1,6 +1,7 @@
 {
   "id": "nvidia",
   "name": "Nvidia",
+  "website": "https://nvidia.com/",
   "tag": "aggregate",
   "rating": 4,
   "billing": "payg",

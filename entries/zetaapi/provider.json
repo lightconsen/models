@@ -1,6 +1,7 @@
 {
   "id": "zetaapi",
   "name": "ZetaAPI",
+  "website": "https://zetaapi.ai/",
   "tag": "aggregate",
   "rating": 4,
   "billing": "payg",

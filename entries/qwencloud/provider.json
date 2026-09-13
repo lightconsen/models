@@ -1,6 +1,7 @@
 {
   "id": "qwencloud",
   "name": "QwenCloud",
+  "website": "https://www.alibabacloud.com/en/product/modelstudio",
   "tag": "official",
   "rating": 4,
   "billing": "payg",

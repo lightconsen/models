@@ -1,6 +1,7 @@
 {
   "id": "modelscope",
   "name": "ModelScope",
+  "website": "https://modelscope.cn/",
   "tag": "free",
   "rating": 4,
   "billing": "unl",

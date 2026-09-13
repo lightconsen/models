@@ -1,6 +1,7 @@
 {
   "id": "runapi",
   "name": "RunAPI",
+  "website": "https://runapi.host/",
   "tag": "aggregate",
   "rating": 4,
   "billing": "payg",

@@ -1,6 +1,7 @@
 {
   "id": "qwencloud-token-plan",
   "name": "QwenCloud Token Plan",
+  "website": "https://www.alibabacloud.com/en/product/modelstudio",
   "tag": "official",
   "rating": 4,
   "billing": "plan",

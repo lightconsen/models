@@ -1,6 +1,7 @@
 {
   "id": "openrouter",
   "name": "OpenRouter",
+  "website": "https://openrouter.ai/",
   "tag": "aggregate",
   "rating": 4.3,
   "billing": "payg",

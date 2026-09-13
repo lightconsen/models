@@ -80,7 +80,7 @@ const LOGO_EXTS = ["png", "svg", "jpg", "jpeg", "webp"];
 /** provider.json keys we read. Anything else is warned about — that is how a
     leftover `price_line` or `icon` from the previous schema gets caught. */
 const PROVIDER_KEYS = new Set([
-  "id", "name", "tag", "rating", "billing", "currency", "endpoints", "desc",
+  "id", "name", "website", "tag", "rating", "billing", "currency", "endpoints", "desc",
 ]);
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
@@ -140,6 +140,10 @@ function catalogEntry(e, derived) {
   return {
     id: e.id,
     name: e.name,
+    // The vendor's own site — public information, and the one link every entry
+    // has. A referral or signup link, if one is ever added, is a different
+    // field: this one must stay the plain address a reader can trust.
+    website: e.website,
     tag: e.tag,
     rating: e.rating,
     billing: e.billing,
@@ -190,6 +194,20 @@ for (const dir of entryDirs) {
 
   // ── provider.json ──
   if (typeof e.name !== "string" || e.name.trim() === "") fail(`${where}: missing/empty name`);
+  // The vendor's own site. Required: it is the one link every provider has, and
+  // the only one that is public information rather than the user's own.
+  if (typeof e.website !== "string" || e.website.trim() === "") {
+    fail(`${where}: missing/empty website`);
+  } else {
+    let ok = true;
+    try {
+      const u = new URL(e.website);
+      ok = u.protocol === "https:" || u.protocol === "http:";
+    } catch {
+      ok = false;
+    }
+    if (!ok) fail(`${where}: website "${e.website}" must be an http(s) URL`);
+  }
   if (!TAGS.has(e.tag)) fail(`${where}: tag "${e.tag}" not one of ${[...TAGS].join("|")}`);
   if (typeof e.rating !== "number" || e.rating < 0 || e.rating > 5) fail(`${where}: rating must be a number in 0..5`);
   if (!BILLINGS.has(e.billing)) fail(`${where}: billing "${e.billing}" not one of ${[...BILLINGS].join("|")}`);

@@ -1,6 +1,7 @@
 {
   "id": "opencode-go",
   "name": "OpenCode Go",
+  "website": "https://opencode.ai/",
   "tag": "third",
   "rating": 4,
   "billing": "plan",

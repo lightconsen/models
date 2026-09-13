@@ -21,7 +21,9 @@ const prefix = "zz-validation-test";
 const provider = (id, over = {}) => ({
   id,
   name: `Test ${id}`,
-  logo_color: "#123456",
+  // Shape only — the validator checks that a website parses as http(s), not that
+  // it answers, so a reserved TLD keeps these tests off the network.
+  website: "https://example.invalid",
   tag: "third",
   rating: 4,
   billing: "payg",
@@ -89,6 +91,18 @@ const CASES = [
     provider: provider(`${prefix}-row-currency`),
     models: [{ id: "m1", in: "1", out: "1", name: "M1", currency: "USD" }],
     expect: /must not carry a currency/,
+  },
+  {
+    rule: "extra — website must be an http(s) URL",
+    provider: provider(`${prefix}-bad-website`, { website: "example.com" }),
+    models: [],
+    expect: /website "example\.com" must be an http\(s\) URL/,
+  },
+  {
+    rule: "extra — website is required",
+    provider: provider(`${prefix}-no-website`, { website: undefined }),
+    models: [],
+    expect: /missing\/empty website/,
   },
   {
     rule: "extra — a leftover price.json means the directory was never migrated",

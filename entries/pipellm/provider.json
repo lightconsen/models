@@ -1,6 +1,7 @@
 {
   "id": "pipellm",
   "name": "PIPELLM",
+  "website": "https://pipellm.ai/",
   "tag": "aggregate",
   "rating": 4,
   "billing": "payg",

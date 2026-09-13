@@ -1,6 +1,7 @@
 {
   "id": "xiaomi-mimo",
   "name": "Xiaomi MiMo",
+  "website": "https://mimo.xiaomi.com/",
   "tag": "official",
   "rating": 4,
   "billing": "payg",

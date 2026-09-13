@@ -1,6 +1,7 @@
 {
   "id": "anthropic",
   "name": "Anthropic",
+  "website": "https://anthropic.com/",
   "tag": "official",
   "rating": 4.9,
   "billing": "payg",

@@ -1,6 +1,7 @@
 {
   "id": "subrouter",
   "name": "SubRouter",
+  "website": "https://subrouter.ai/",
   "tag": "aggregate",
   "rating": 4,
   "billing": "payg",

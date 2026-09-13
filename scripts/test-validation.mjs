@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Failure-path tests for the structural rules (spec.local.md §10.1).
+ * Tests for the structural rules (spec.local.md §10.1).
  *
  * Each case plants one deliberately broken entry under entries/, runs
  * `generate.mjs --check`, and asserts it fails with a message about that rule —
@@ -8,10 +8,15 @@
  * these rules exist to catch real authoring mistakes rather than to decorate the
  * build log.
  *
+ * One case is not a failure. Two providers pricing one model differently used to
+ * be a build error and is now published with a warning, so that case asserts
+ * success plus the warning. It is here because it is the rule that changed, and
+ * a warning nobody asserts is a warning that quietly disappears.
+ *
  * Run: node scripts/test-validation.mjs
  */
 import { writeFileSync, mkdirSync, rmSync, existsSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -153,45 +158,81 @@ const CASES = [
     models: null,
     expect: /models\.json: missing/,
   },
+  {
+    rule: "changed — two providers may price one model differently (published, warned)",
+    provider: provider(`${prefix}-divergent-a`),
+    models: [{ id: "shared-model", name: "Shared", in: "1", out: "2" }],
+    extra: {
+      provider: provider(`${prefix}-divergent-b`),
+      models: [{ id: "shared-model", name: "Shared", in: "3", out: "4" }],
+    },
+    expectCode: 0,
+    // The summary line, then the detail naming the model — both on stderr.
+    expectWarn: /priced differently by different providers[\s\S]*shared-model/,
+  },
 ];
 
-const created = [];
+/// Entries planted by the case in flight, removed before the next one starts.
+/// Cases are isolated rather than accumulated: a case that expects the build to
+/// *succeed* cannot do so while the previous case's broken entry is still on
+/// disk, and a case's output reads better when it is the only thing planted.
+let created = [];
+/// Every entry this run planted, for the summary — `created` is emptied as it
+/// is cleaned up.
+let planted = 0;
 const fail = (msg) => {
   console.error(`  ✗ ${msg}`);
   process.exitCode = 1;
 };
+const cleanUp = () => {
+  for (const dir of created) if (existsSync(dir)) rmSync(dir, { recursive: true, force: true });
+  created = [];
+};
 
 try {
   for (const c of CASES) {
-    const dir = path.join(repo, "entries", c.provider.id);
-    mkdirSync(dir, { recursive: true });
-    created.push(dir);
-    writeFileSync(path.join(dir, "provider.json"), JSON.stringify(c.provider, null, 2) + "\n");
-    writeFileSync(path.join(dir, "logo.svg"), '<svg xmlns="http://www.w3.org/2000/svg"/>\n');
-    if (c.models !== null) writeFileSync(path.join(dir, "models.json"), JSON.stringify(c.models, null, 2) + "\n");
-    if (c.priceFile !== undefined) writeFileSync(path.join(dir, "price.json"), JSON.stringify(c.priceFile, null, 2) + "\n");
-
-    let out = "";
-    let code = 0;
+    // Most cases are one planted entry; a divergence needs two, since the rule
+    // is about what two entries say together.
+    const entries = [{ provider: c.provider, models: c.models, priceFile: c.priceFile }];
+    if (c.extra) entries.push(c.extra);
     try {
-      out = execFileSync(process.execPath, [path.join(repo, "scripts", "generate.mjs"), "--check"], {
+      for (const p of entries) {
+        const dir = path.join(repo, "entries", p.provider.id);
+        mkdirSync(dir, { recursive: true });
+        created.push(dir);
+        planted += 1;
+        writeFileSync(path.join(dir, "provider.json"), JSON.stringify(p.provider, null, 2) + "\n");
+        writeFileSync(path.join(dir, "logo.svg"), '<svg xmlns="http://www.w3.org/2000/svg"/>\n');
+        if (p.models !== null) writeFileSync(path.join(dir, "models.json"), JSON.stringify(p.models, null, 2) + "\n");
+        if (p.priceFile !== undefined) writeFileSync(path.join(dir, "price.json"), JSON.stringify(p.priceFile, null, 2) + "\n");
+      }
+
+      // spawnSync rather than execFileSync: a case that is expected to succeed
+      // still has to be read for its warning, and a warning goes to stderr,
+      // which execFileSync drops on the happy path.
+      const res = spawnSync(process.execPath, [path.join(repo, "scripts", "generate.mjs"), "--check"], {
         cwd: repo,
         encoding: "utf8",
-        stdio: ["ignore", "pipe", "pipe"],
       });
-    } catch (err) {
-      code = err.status ?? 1;
-      out = `${err.stdout ?? ""}${err.stderr ?? ""}`;
+      const code = res.status ?? 1;
+      const out = `${res.stdout ?? ""}${res.stderr ?? ""}`;
+
+      const wantCode = c.expectCode ?? 1;
+      const matched = c.expect === undefined || c.expect.test(out);
+      const warned = c.expectWarn === undefined || c.expectWarn.test(out);
+      if (code !== wantCode) fail(`${c.rule}: expected exit ${wantCode}, got ${code}\n${out.trim()}`);
+      else if (!matched) fail(`${c.rule}: failed as expected but the message did not match ${c.expect}\n${out.trim()}`);
+      else if (!warned) fail(`${c.rule}: succeeded but the warning did not match ${c.expectWarn}\n${out.trim()}`);
+      else console.log(`  ✓ ${c.rule}`);
+    } finally {
+      cleanUp();
     }
-    const matched = c.expect.test(out);
-    if (code !== 1) fail(`${c.rule}: expected exit 1, got ${code}`);
-    else if (!matched) fail(`${c.rule}: failed as expected but the message did not match ${c.expect}\n${out.trim()}`);
-    else console.log(`  ✓ ${c.rule}`);
   }
 } finally {
-  for (const dir of created) if (existsSync(dir)) rmSync(dir, { recursive: true, force: true });
-  console.log(`\ncleaned up ${created.length} test entr(ies)`);
+  // Safety net for a case that threw before its own cleanup ran.
+  cleanUp();
+  console.log(`\ncleaned up ${planted} test entr(ies)`);
 }
 
-if (process.exitCode) console.error("\nFAIL — at least one rule is not enforced as documented");
-else console.log("PASS — every rule rejects its bad input with exit code 1");
+if (process.exitCode) console.error("\nFAIL — at least one rule does not behave as documented");
+else console.log("PASS — every rule rejects its bad input, and the changed one warns");

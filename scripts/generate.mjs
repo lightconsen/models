@@ -495,33 +495,61 @@ for (const e of catalog) {
 }
 
 // A model resold by several providers is listed by each of them, and each may
-// price it differently — subsidy, markup, off-peak. That is legitimate data; the
-// prices do NOT have to agree.
+// price it differently — subsidy, markup, off-peak. That is legitimate data, and
+// it is now published as such: every row names the provider whose entry it came
+// from, and the app looks a price up by (provider, model), falling back to the
+// model when a provider has no row of its own.
 //
-// What cannot happen *yet* is publishing it: the app's price table is keyed by
-// model alone, so it can hold exactly one price per model, and two rows for one
-// model would be resolved by whichever the seeder wrote last. Until the app
-// looks a price up by (provider, model) — see handoff.local.md — a disagreement
-// is a build error rather than a silently arbitrary price.
+// Two providers that agree still produce two rows, one each. That is the point
+// rather than duplication: the price a provider is billed at should be its own
+// row, not a neighbour's that happens to match today and could stop matching
+// tomorrow without anyone touching that entry.
 const merged = new Map();
-const mergeIn = (row, src) => {
-  const key = typeof row?.model_id === "string" ? row.model_id.toLowerCase() : "?";
-  const prev = merged.get(key);
-  if (!prev) merged.set(key, { row, src, fields: priceKey(row) });
-  else if (prev.fields !== priceKey(row)) {
-    fail(
-      `price row "${row?.model_id}" differs between ${prev.src} and ${src} — per-provider pricing needs ` +
-        `the app to look prices up by (provider, model) first (handoff.local.md §2)`,
-    );
-  }
-};
 for (const { entry, row, currency } of entryPriceRows) {
-  mergeIn({ ...row, currency }, `entries/${entry}/models.json`);
+  // `JSON.stringify` joins the key rather than a separator character — see
+  // PRICE_FIELDS above for why this file carries no invisible byte.
+  const key = JSON.stringify([entry.toLowerCase(), String(row?.model_id ?? "?").toLowerCase()]);
+  merged.set(key, {
+    row: { provider_id: entry, ...row, currency },
+    src: `entries/${entry}/models.json`,
+    fields: priceKey(row),
+  });
 }
+
+// Two providers pricing one model differently is representable now, but not yet
+// harmless: an app build whose `model_pricing` is still keyed by model alone
+// folds the two rows into one and keeps whichever the seeder wrote last. That
+// build cannot be reached from here, so say it out loud rather than letting a
+// publish ship a coin flip to the installs that have not updated.
+const byModel = new Map();
+const divergence = [];
+for (const { row, src, fields } of merged.values()) {
+  const model = String(row.model_id ?? "?").toLowerCase();
+  const prev = byModel.get(model);
+  if (!prev) byModel.set(model, { src, fields, providers: [row.provider_id] });
+  else if (prev.fields !== fields) {
+    divergence.push(`${row.model_id}: ${prev.providers.join(", ")} vs ${row.provider_id} (${src})`);
+  } else {
+    prev.providers.push(row.provider_id);
+  }
+}
+
 const priceRows = [...merged.values()]
   .map((v) => v.row)
-  .sort((a, b) => a.model_id.localeCompare(b.model_id));
-console.log(`  ✓ ${priceRows.length} price rows (v${doc.version}) from ${entryPriceRows.length} row(s) across entries/`);
+  .sort(
+    (a, b) => a.model_id.localeCompare(b.model_id) || a.provider_id.localeCompare(b.provider_id),
+  );
+console.log(
+  `  ✓ ${priceRows.length} price rows (v${doc.version}) from ${entryPriceRows.length} row(s) across ${new Set(priceRows.map((r) => r.provider_id)).size} provider(s)`,
+);
+if (divergence.length) {
+  console.warn(
+    `  ! ${divergence.length} model(s) priced differently by different providers — ` +
+      `apps that key prices by model alone will pick one arbitrarily:`,
+  );
+  for (const d of divergence.slice(0, 10)) console.warn(`      ${d}`);
+  if (divergence.length > 10) console.warn(`      …and ${divergence.length - 10} more`);
+}
 
 // ── news/<id>.json ──
 

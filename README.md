@@ -403,9 +403,15 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 - `flagship`: optional boolean, at most one per provider, and that model must be
   priced
 - no `currency` on a record — the provider's applies. A model resold by several
-  providers may be priced differently by each (that is legitimate), but until the
-  app can key a price by provider, a shared `id` whose copies disagree fails the
-  build — including when they disagree only in currency
+  providers is priced by each of them independently, and they may disagree: a
+  subsidy, a margin, a different billing clock. Every row in `dist/models.json`
+  carries the `provider_id` it came from, and the app looks a price up by
+  (provider, model). Copies that agree still produce one row each, deliberately —
+  the price a provider is billed at should be its own row, not a neighbour's that
+  happens to match today. A disagreement is published and **reported as a
+  warning**: app builds whose price table is still keyed by model alone fold the
+  rows into one and keep whichever was seeded last, so it is a thing to know
+  before publishing rather than a thing to hide
 
 **`global.json`**
 
@@ -430,8 +436,10 @@ leftover field from an older schema gets caught before it silently does nothing.
 ## Updating pricing
 
 Edit the model record in the entry of the provider that serves it —
-`entries/<id>/models.json`. If the model is resold elsewhere, update every copy
-or the validator fails on drift.
+`entries/<id>/models.json`. If the model is resold elsewhere, each copy is its
+own price: change the ones whose price actually changed, and leave a reseller
+that has not moved its own rate alone. The build reports any model priced
+differently by different providers, which is now published rather than rejected.
 
 Then bump `version` in `global.json` and, if the record introduced a new
 currency, add it to `exchange_rates`. The version is the app's seed gate: an
@@ -497,6 +505,9 @@ unchanged version means the app keeps its existing table.
   images are fetched from R2 at runtime, falling back to a letter avatar
   built from `name` and the app's own avatar palette.
 - Currency: a catalog entry's `currency` is what the app labels that
-  provider's spending limit with, read-only — the limit is compared against
-  cost as recorded, with no conversion. Only the dashboard converts, rolling
-  many providers into the user's display currency for comparison.
+  provider's spending limit with, read-only. Cost is recorded in the currency
+  the price row was written in, which is the provider's own — but a model the
+  provider does not price itself is billed from the general row, which may be
+  denominated in another, so the app converts each currency into the limit's
+  before adding them, using these `exchange_rates`. The dashboard converts too,
+  rolling many providers into the user's display currency for comparison.

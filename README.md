@@ -448,6 +448,12 @@ unchanged version means the app keeps its existing table.
   category label, no primary endpoint beside the list it is the first entry of,
   no "added" flag. `../crates/core/src/vm.rs::normalize_catalog_entry` fills
   those on the way in, the same way it has always derived `added`.
+- **`price_ref` carries the flagship's schedule too.** When that model is priced
+  by time of day, its `off_peak` and `peak_hours` are projected alongside the
+  rates, so the Models page can say "these are the peak figures" — it reads the
+  catalog and nothing else, and a tiered price it cannot see reads as a flat
+  one. The fields are the ones `Time-of-day pricing` describes, copied verbatim
+  and only when published; `models.json` stays the place a client bills from.
 - `dist/models.json` holds the priced models of every `entries/*/models.json`,
   one row per model id, sorted. A model resold by several providers is written
   once — and only if every copy agrees. A row carries its currency, and its

@@ -425,6 +425,13 @@ for (const dir of entryDirs) {
           input: flagship.in,
           output: flagship.out,
           currency: e.currency,
+          // The schedule travels with the price it modifies. The app shows this
+          // model's rates on the Models page without reading models.json, and a
+          // tiered price it cannot see reads as a flat one — the peak rate shown
+          // as if it were the price. Spread only when published: the two are
+          // valid together or not at all.
+          ...(flagship.off_peak === undefined ? {} : { off_peak: flagship.off_peak }),
+          ...(flagship.peak_hours === undefined ? {} : { peak_hours: flagship.peak_hours }),
         };
 
   catalog.push(

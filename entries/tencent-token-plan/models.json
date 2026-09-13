@@ -23,6 +23,7 @@
     "cache_creation": "0.375",
     "serves": {
       "openai": "minimax-m2.7"
-    }
+    },
+    "flagship": true
   }
 ]

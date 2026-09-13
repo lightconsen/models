@@ -40,7 +40,7 @@ const EXPECTED = {
   tag_label: "derived from tag (3 entries carried a contradicting label)",
   // new
   desc: "new — one line of prose",
-  price_ref: "new — projected from `flagship` (none flagged yet)",
+  price_ref: "new — projected from `flagship` (71 of 82 entries flagged)",
   // value changes with a specific cause
   models: "same-protocol duplicates dropped (8) + deepseek's label-as-id fixed",
   endpoints:

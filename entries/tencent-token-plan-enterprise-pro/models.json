@@ -33,7 +33,8 @@
     "cache_read": "0.26",
     "serves": {
       "openai": "glm-5.1"
-    }
+    },
+    "flagship": true
   },
   {
     "id": "auto",

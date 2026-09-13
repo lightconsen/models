@@ -29,7 +29,8 @@
     "cache_read": "0.175",
     "serves": {
       "openai": "openai/gpt-5.2"
-    }
+    },
+    "flagship": true
   },
   {
     "id": "gemini-3.6-flash",

@@ -8,6 +8,7 @@
     "serves": {
       "openai": "ZhipuAI/GLM-5.2",
       "anthropic": "ZhipuAI/GLM-5.2"
-    }
+    },
+    "flagship": true
   }
 ]

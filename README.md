@@ -114,7 +114,14 @@ Three things about `models.json` that are easy to get wrong:
 - **`cache_creation` is optional and means `0` when absent** — most providers
   charge nothing for cache writes. Write it only when it is non-zero.
 - **`flagship: true`** marks the one model whose price represents this provider
-  on the Models list (at most one per provider, and it must be priced).
+  on the Models list (at most one per provider, and it must be priced). It is a
+  curation decision, not a derived value: the first pass flagged, for each of the
+  71 providers with priced models, the one with the **highest output price**
+  (ties by input price, then id) — which lands on the model a vendor is known for
+  in most cases. Worth a human look wherever it is the *only* priced model and
+  that model is a small or coding variant (`google-ai-studio` → `gemini-3.6-flash`,
+  `kimi` → `kimi-k2.7-code`): pricing a bigger sibling would represent the
+  provider better.
 
 ## Logo
 

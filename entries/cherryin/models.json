@@ -20,7 +20,8 @@
     "cache_creation": "6.25",
     "serves": {
       "openai": "anthropic/claude-opus-5"
-    }
+    },
+    "flagship": true
   },
   {
     "id": "gemini-3.6-flash",

@@ -19,7 +19,8 @@
     "cache_creation": "6.25",
     "serves": {
       "openai": "claude-opus-5"
-    }
+    },
+    "flagship": true
   },
   {
     "id": "claude-haiku-4-5-20251001",

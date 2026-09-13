@@ -10,6 +10,7 @@
     "id": "qwen3-max",
     "name": "Qwen3 Max",
     "in": "0.78",
-    "out": "3.90"
+    "out": "3.90",
+    "flagship": true
   }
 ]

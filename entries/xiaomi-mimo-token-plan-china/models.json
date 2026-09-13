@@ -4,7 +4,8 @@
     "name": "MiMo V2.5 Pro",
     "in": "0.435",
     "out": "0.87",
-    "cache_read": "0.0036"
+    "cache_read": "0.0036",
+    "flagship": true
   },
   {
     "id": "mimo-v2.5",

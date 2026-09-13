@@ -4,7 +4,8 @@
     "name": "Gemini 3.6 Flash",
     "in": "0.75",
     "out": "3.75",
-    "cache_read": "0.075"
+    "cache_read": "0.075",
+    "flagship": true
   },
   {
     "id": "gemini-3.6-pro"

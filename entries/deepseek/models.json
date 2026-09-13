@@ -15,6 +15,7 @@
     "cache_read": "0.044",
     "serves": {
       "anthropic": "deepseek-v4-pro"
-    }
+    },
+    "flagship": true
   }
 ]

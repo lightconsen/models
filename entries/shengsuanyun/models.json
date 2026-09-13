@@ -31,7 +31,8 @@
     "cache_creation": "6.25",
     "serves": {
       "openai": "openai/gpt-5.6-sol"
-    }
+    },
+    "flagship": true
   },
   {
     "id": "gemini-3.6-flash",

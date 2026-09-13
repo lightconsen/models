@@ -21,7 +21,8 @@
     "cache_read": "0.25",
     "serves": {
       "openai": "qwen3.7-max"
-    }
+    },
+    "flagship": true
   },
   {
     "id": "qwen3.7-plus",

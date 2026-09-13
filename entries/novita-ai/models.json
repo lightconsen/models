@@ -8,6 +8,7 @@
     "serves": {
       "openai": "zai-org/glm-5.1",
       "anthropic": "zai-org/glm-5.1"
-    }
+    },
+    "flagship": true
   }
 ]

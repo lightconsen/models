@@ -19,6 +19,7 @@
     "cache_read": "0.19",
     "serves": {
       "anthropic": "kimi-k2.7-code"
-    }
+    },
+    "flagship": true
   }
 ]

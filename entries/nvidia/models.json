@@ -7,6 +7,7 @@
     "cache_read": "0.10",
     "serves": {
       "openai": "moonshotai/kimi-k2.5"
-    }
+    },
+    "flagship": true
   }
 ]

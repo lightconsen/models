@@ -13,7 +13,8 @@
     "in": "5",
     "out": "25",
     "cache_read": "0.50",
-    "cache_creation": "6.25"
+    "cache_creation": "6.25",
+    "flagship": true
   },
   {
     "id": "claude-haiku-4-5"

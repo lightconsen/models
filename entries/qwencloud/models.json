@@ -4,7 +4,8 @@
     "name": "Qwen3.7 Max",
     "in": "2.50",
     "out": "7.50",
-    "cache_read": "0.25"
+    "cache_read": "0.25",
+    "flagship": true
   },
   {
     "id": "qwen3.7-plus",

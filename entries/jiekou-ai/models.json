@@ -5,6 +5,7 @@
     "in": "10",
     "out": "50",
     "cache_read": "1.00",
-    "cache_creation": "12.50"
+    "cache_creation": "12.50",
+    "flagship": true
   }
 ]

@@ -4,6 +4,7 @@
     "name": "GLM-5.1",
     "in": "1.4",
     "out": "4.4",
-    "cache_read": "0.26"
+    "cache_read": "0.26",
+    "flagship": true
   }
 ]

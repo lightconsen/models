@@ -13,6 +13,7 @@
     "cache_read": "0.17",
     "serves": {
       "openai": "doubao-seed-2.1-pro"
-    }
+    },
+    "flagship": true
   }
 ]

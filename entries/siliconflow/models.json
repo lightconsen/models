@@ -8,6 +8,7 @@
     "serves": {
       "openai": "Pro/MiniMaxAI/MiniMax-M2.5",
       "anthropic": "Pro/MiniMaxAI/MiniMax-M2.5"
-    }
+    },
+    "flagship": true
   }
 ]

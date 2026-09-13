@@ -34,7 +34,8 @@
     "cache_read": "0.26",
     "serves": {
       "openai": "glm-5.2"
-    }
+    },
+    "flagship": true
   },
   {
     "id": "qianfan-code-latest",

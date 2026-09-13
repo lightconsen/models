@@ -375,7 +375,7 @@ for (const dir of entryDirs) {
 }
 console.log(`  ✓ ${catalog.length} provider directories validated`);
 
-// ── prices: global.json + the providers' own models.json ──
+// ── prices: exchange rates + the providers' own models.json ──
 
 console.log("global.json");
 const doc = read("global.json");
@@ -391,14 +391,12 @@ if (typeof rates !== "object" || rates === null) {
     if (typeof r !== "number" || r <= 0) fail(`rate ${c} must be a positive number`);
   }
 }
-const docRows = Array.isArray(doc.models) ? doc.models : [];
-const docIds = new Set();
-for (const m of docRows) {
-  const key = typeof m?.model_id === "string" ? m.model_id.toLowerCase() : "?";
-  if (docIds.has(key)) fail(`global.json: duplicate model_id "${m?.model_id}"`);
-  docIds.add(key);
+// There is no vendor price table here any more. Every price belongs to the
+// provider entry that serves the model, so a model has exactly one price and
+// there is nothing to merge. A leftover `models` key means a half-migrated file.
+if (doc.models !== undefined) {
+  fail("global.json: drop `models` — a price belongs to the provider entry that serves the model");
 }
-docRows.forEach((m, i) => checkPriceRow(m, `global.json row ${i + 1}`, rates));
 entryPriceRows.forEach(({ entry, row, currency }) => checkPriceRow({ ...row, currency }, `entries/${entry}/models.json`, rates));
 // A provider's currency must be convertible: the app compares its spending
 // limit against converted amounts.
@@ -406,28 +404,34 @@ for (const e of catalog) {
   if (!(e.currency in rates)) fail(`entries/${e.id}: currency "${e.currency}" has no exchange rate`);
 }
 
-// Merge both sources into the flat table the app publishes. A model_id may be
-// listed by several entries (aggregators share vendor models), so repeats are
-// allowed — but the copies must be identical, or the published price would
-// depend on which entry happened to be merged last.
+// A model resold by several providers is listed by each of them, and each may
+// price it differently — subsidy, markup, off-peak. That is legitimate data; the
+// prices do NOT have to agree.
+//
+// What cannot happen *yet* is publishing it: the app's price table is keyed by
+// model alone, so it can hold exactly one price per model, and two rows for one
+// model would be resolved by whichever the seeder wrote last. Until the app
+// looks a price up by (provider, model) — see handoff.local.md — a disagreement
+// is a build error rather than a silently arbitrary price.
 const merged = new Map();
 const mergeIn = (row, src) => {
   const key = typeof row?.model_id === "string" ? row.model_id.toLowerCase() : "?";
   const prev = merged.get(key);
   if (!prev) merged.set(key, { row, src, fields: priceKey(row) });
-  else if (prev.fields !== priceKey(row)) fail(`price row "${row?.model_id}" differs between ${prev.src} and ${src}`);
+  else if (prev.fields !== priceKey(row)) {
+    fail(
+      `price row "${row?.model_id}" differs between ${prev.src} and ${src} — per-provider pricing needs ` +
+        `the app to look prices up by (provider, model) first (handoff.local.md §2)`,
+    );
+  }
 };
 for (const { entry, row, currency } of entryPriceRows) {
   mergeIn({ ...row, currency }, `entries/${entry}/models.json`);
 }
-for (const row of docRows) mergeIn(row, "global.json");
 const priceRows = [...merged.values()]
   .map((v) => v.row)
   .sort((a, b) => a.model_id.localeCompare(b.model_id));
-console.log(
-  `  ✓ ${priceRows.length} price rows (v${doc.version}): ` +
-    `${entryPriceRows.length} from entries/ + ${docRows.length} global`,
-);
+console.log(`  ✓ ${priceRows.length} price rows (v${doc.version}) from ${entryPriceRows.length} row(s) across entries/`);
 
 // ── news/<id>.json ──
 

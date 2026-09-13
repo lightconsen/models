@@ -19,9 +19,9 @@ entries/
                        provider's applies
   <id>/logo.<ext>      provider logo (required; png|svg|jpg|jpeg|webp),
                        published to R2 under logos/<id>.<ext>
-global.json            exchange rates + the vendor pricing no entry owns
-                       (version-gated). These rows keep their own `currency`,
-                       being shared across providers
+global.json            exchange rates + the seeding version. Nothing else: a
+                       price lives in the entry of the provider that serves it,
+                       so a model has exactly one price
 news/<id>.json         model news — one file per notice, each naming a
                        (provider, model) pair; the file name is the id.
                        Published whole as dist/news.json
@@ -29,7 +29,6 @@ scripts/
   generate.mjs         validate + build dist/ artifacts (zero dependencies)
   migrate-v2.mjs       one-shot: the old provider.json + price.json layout ->
                        provider.json + models.json (already run)
-  verify-migration.mjs acceptance gate: dist/ against a pre-migration snapshot
   test-validation.mjs  failure-path tests for the validation rules
 .github/workflows/
   validate.yml         PR gate: validation + dry-run build
@@ -213,26 +212,31 @@ valid and means the provider serves no models yet.
 Rows carry **no currency**: the provider's `currency` applies, and `generate.mjs`
 stamps it into every published row of `dist/models.json` (so the app-side table
 keeps its per-row currency). Listing one fails validation — two places to
-disagree is exactly what this layout removes. `global.json` rows are the
-exception: they are shared across providers, so each keeps its own `currency`.
+disagree is exactly what this layout removes.
 
-### One model, several providers
+### Where a price lives, and why copies must agree today
 
-Aggregators resell the same vendor models, so an `id` may legitimately appear in
-several `models.json` files. The copies must be **identical**: the validator
-fails on drift, because the published table keeps one row per `id` and which copy
-won would otherwise depend on merge order.
+A price belongs to the provider entry that serves the model, and nowhere else.
+There is no vendor price table: a model the catalog does not carry is a model the
+app cannot price, and it records the request with no cost rather than a guessed
+one.
 
-Vendor pricing that no entry owns (the OpenAI/Anthropic/Google list prices for
-models no directory declares) stays in `global.json`.
+Aggregators resell the same vendor models, so one `id` appears in several
+`models.json` files — and **each is free to price it differently**: a subsidy, a
+markup, an off-peak rate. Those prices do *not* have to agree, and the validator's
+objection to disagreement is a **temporary limitation, not a rule**.
+
+The limitation: the app's price table is keyed by model alone (`PricingTable` has
+no provider dimension), so it can hold exactly one price per model. Publishing two
+would leave the winner up to whichever row the seeder wrote last. So until the app
+looks a price up by `(provider, model)` — see `handoff.local.md` — a disagreement
+fails the build, with a message saying exactly that.
 
 ### What gets published
 
-`generate.mjs` merges the priced rows of every `models.json` with the rows still
-in `global.json` into `dist/models.json` — the same flat global `model_id ->
-price` table as before. The app's `PricingTable` has no provider dimension (it
-looks prices up by model id alone), so this split is a source-layout change and
-nothing more.
+`generate.mjs` writes the priced rows of every `models.json` into
+`dist/models.json`, one row per `id`, sorted by id — the flat global `model_id ->
+price` table the app seeds from.
 
 ## Model news (`news/`)
 
@@ -352,10 +356,10 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 **`global.json`**
 
 - `exchange_rates`: units per 1 USD, `USD` pinned to `1`
-- rows: same shape as a published price row, but each **must** carry its own
-  `currency`
 - `version`: positive integer, **must increase** when pricing rows change (the
   app seeds version-gated and ignores older versions)
+- nothing else: a price belongs to the provider entry that serves the model, so
+  a `models` key here fails validation
 
 **`news/<id>.json`**
 
@@ -371,9 +375,9 @@ leftover field from an older schema gets caught before it silently does nothing.
 
 ## Updating pricing
 
-Edit the model record where it lives — `entries/<id>/models.json` for a
-provider's models, `global.json` for vendor pricing no entry owns. If the model
-is resold elsewhere, update every copy or the validator fails on drift.
+Edit the model record in the entry of the provider that serves it —
+`entries/<id>/models.json`. If the model is resold elsewhere, update every copy
+or the validator fails on drift.
 
 Then bump `version` in `global.json` and, if the record introduced a new
 currency, add it to `exchange_rates`. The version is the app's seed gate: an
@@ -390,9 +394,9 @@ unchanged version means the app keeps its existing table.
   label, no primary endpoint beside the list it is the first entry of, no
   "added" flag. `crates/core/src/vm.rs::normalize_catalog_entry` fills those on
   the way in, the same way it has always derived `added`.
-- `dist/models.json` merges the priced models of every `entries/*/models.json`
-  with the rows left in `global.json`, sorted by model id. A model resold by
-  several providers is written once.
+- `dist/models.json` holds the priced models of every `entries/*/models.json`,
+  one row per model id, sorted. A model resold by several providers is written
+  once — and only if every copy agrees.
 
 ## CI
 

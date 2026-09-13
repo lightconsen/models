@@ -1,11 +1,17 @@
 [
   {
     "id": "deepseek-chat",
-    "name": "DeepSeek Chat (V3)"
+    "name": "DeepSeek Chat (V3)",
+    "in": "0.44",
+    "out": "1.32",
+    "cache_read": "0.014"
   },
   {
     "id": "deepseek-reasoner",
-    "name": "DeepSeek Reasoner (R1)"
+    "name": "DeepSeek Reasoner (R1)",
+    "in": "0.44",
+    "out": "1.32",
+    "cache_read": "0.014"
   },
   {
     "id": "deepseek-v4-pro",

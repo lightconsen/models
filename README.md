@@ -33,6 +33,11 @@ scripts/
   migrate-v2.mjs       one-shot: the old provider.json + price.json layout ->
                        provider.json + models.json (already run)
   test-validation.mjs  failure-path tests for the validation rules
+  fetch-deepseek-pricing.mjs
+                       authoring aid: read DeepSeek's published price table and
+                       print what it would change. Never runs in the build — it
+                       only saves the author a transcription, and prints a diff
+                       rather than writing unless given --write
 .github/workflows/
   validate.yml         PR gate: validation + dry-run build
   publish.yml          main push: build + upload to R2
@@ -444,6 +449,14 @@ differently by different providers, which is now published rather than rejected.
 Then bump `version` in `global.json` and, if the record introduced a new
 currency, add it to `exchange_rates`. The version is the app's seed gate: an
 unchanged version means the app keeps its existing table.
+
+For DeepSeek, `scripts/fetch-deepseek-pricing.mjs` reads the vendor's published
+table and prints the difference, so a repricing is a review of a diff rather than
+a transcription. It is an authoring aid and nothing more: no cron runs it, and a
+number it prints is only as fresh as the last time somebody ran it. Their docs
+serve the table as plain HTML, so a fetch is enough — but the response carries a
+stray NUL byte, which is worth knowing because `grep` then treats the file as
+binary and matches nothing at all.
 
 ## Layout notes
 

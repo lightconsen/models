@@ -1,0 +1,13 @@
+[
+  {
+    "id": "minimax-m3",
+    "name": "MiniMax M3",
+    "in": "0.30",
+    "out": "1.20",
+    "cache_read": "0.06",
+    "serves": {
+      "openai": "MiniMaxAI/MiniMax-M3",
+      "anthropic": "MiniMaxAI/MiniMax-M3"
+    }
+  }
+]

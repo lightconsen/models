@@ -1,33 +1,20 @@
 {
   "id": "qwencloud-token-plan",
   "name": "QwenCloud Token Plan",
-  "logo_char": "Q",
   "logo_color": "#D97757",
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4,
-  "endpoint": "https://token-plan.ap-southeast-1.maas.aliyuncs.com/apps/anthropic",
-  "price_line": "Official pricing",
-  "currency": "USD",
   "billing": "plan",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "qwen3.8-max",
-    "qwen3.8-flash",
-    "qwen3.7-max",
-    "qwen3.7-plus"
-  ],
-  "protocol": "openai",
-  "icon": "qwen",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://token-plan.ap-southeast-1.maas.aliyuncs.com/apps/anthropic"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://token-plan.ap-southeast-1.maas.aliyuncs.com/apps/anthropic",
-      "models": [
-        "qwen3.8-max"
-      ]
+      "endpoint": "https://token-plan.ap-southeast-1.maas.aliyuncs.com/apps/anthropic"
     }
-  ]
+  ],
+  "desc": "Official pricing"
 }

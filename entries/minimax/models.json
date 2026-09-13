@@ -1,0 +1,14 @@
+[
+  {
+    "id": "minimax-m2.7",
+    "name": "MiniMax M2.7",
+    "in": "0.30",
+    "out": "1.20",
+    "cache_read": "0.06",
+    "cache_creation": "0.375",
+    "serves": {
+      "openai": "MiniMax-M2.7",
+      "anthropic": "MiniMax-M2.7"
+    }
+  }
+]

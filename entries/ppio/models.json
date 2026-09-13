@@ -1,0 +1,23 @@
+[
+  {
+    "id": "deepseek-v4-flash-0731",
+    "name": "DeepSeek V4 Flash",
+    "in": "0.44",
+    "out": "1.32",
+    "cache_read": "0.014",
+    "serves": {
+      "openai": "deepseek/deepseek-v4-flash-0731",
+      "anthropic": "deepseek/deepseek-v4-flash-0731"
+    }
+  },
+  {
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek V4 Flash",
+    "in": "0.30",
+    "out": "1.20",
+    "cache_read": "0.006",
+    "serves": {
+      "openai": "deepseek-v4-flash"
+    }
+  }
+]

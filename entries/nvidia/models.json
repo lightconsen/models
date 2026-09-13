@@ -1,0 +1,12 @@
+[
+  {
+    "id": "kimi-k2.5",
+    "name": "Kimi K2.5",
+    "in": "0.60",
+    "out": "3.00",
+    "cache_read": "0.10",
+    "serves": {
+      "openai": "moonshotai/kimi-k2.5"
+    }
+  }
+]

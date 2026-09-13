@@ -1,31 +1,20 @@
 {
   "id": "kimi-for-coding",
   "name": "Kimi For Coding",
-  "logo_char": "K",
   "logo_color": "#EA580C",
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4,
-  "endpoint": "https://api.kimi.com/coding/v1",
-  "price_line": "from $19 /mo",
-  "currency": "USD",
   "billing": "plan",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "kimi-for-coding",
-    "kimi-k2.7-code"
-  ],
-  "protocol": "openai",
-  "icon": "kimi",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://api.kimi.com/coding/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://api.kimi.com/coding",
-      "models": [
-        "kimi-for-coding"
-      ]
+      "endpoint": "https://api.kimi.com/coding"
     }
-  ]
+  ],
+  "desc": "from $19 /mo"
 }

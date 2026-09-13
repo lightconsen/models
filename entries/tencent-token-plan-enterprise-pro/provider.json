@@ -1,33 +1,20 @@
 {
   "id": "tencent-token-plan-enterprise-pro",
   "name": "Tencent Token Plan Enterprise Pro",
-  "logo_char": "T",
   "logo_color": "#0891B2",
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4,
-  "endpoint": "https://tokenhub.tencentmaas.com/plan/v3",
-  "price_line": "Official pricing",
-  "currency": "USD",
   "billing": "plan",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "glm-5.3",
-    "glm-5.2",
-    "glm-5",
-    "glm-5.1"
-  ],
-  "protocol": "openai",
-  "icon": "tencent",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://tokenhub.tencentmaas.com/plan/v3"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://tokenhub.tencentmaas.com/plan/anthropic",
-      "models": [
-        "auto"
-      ]
+      "endpoint": "https://tokenhub.tencentmaas.com/plan/anthropic"
     }
-  ]
+  ],
+  "desc": "Official pricing"
 }

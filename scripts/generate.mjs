@@ -2,40 +2,54 @@
 /**
  * Validate + build the Kiwano Hub data files.
  *
- * Source of truth (hand-edited, git-reviewed):
- *   entries/<id>/provider.json – one directory per model provider; adding a
- *                                provider = creating one new directory. Its
- *                                `currency` is the one the provider bills in
+ * Source of truth (hand-edited, git-reviewed) — two files per provider, split by
+ * how often they change:
+ *   entries/<id>/provider.json – the stable half: identity, protocols, billing.
+ *                                Changes when a vendor's endpoint/protocol/billing
+ *                                changes, never when a model is repriced.
+ *                                Its `currency` is the one the provider bills in
  *                                (default USD when omitted) — the currency its
  *                                spending limit is denominated in, so the app
  *                                never has to guess it from model names.
- *   entries/<id>/price.json    – that provider's model prices ([] when none
- *                                of its declared models is priced). Rows carry
- *                                no currency: the provider's applies.
- *   global.json                – exchange rates + the vendor pricing left
- *                                once every provider's own rows are split out.
- *                                These rows keep their own `currency`, since
- *                                they are shared across providers.
- *   news/<id>.json             – model news: one file per notice, each naming
- *                                a (provider, model) pair. The file name is
- *                                the id. Published whole as dist/news.json;
- *                                the app decides what is still fresh enough
- *                                to show
+ *                                `logo_color` is a hand-picked brand colour (see
+ *                                the note next to PALETTE in the app's vm.rs);
+ *                                `logo_char` is NOT stored — it is derived from
+ *                                `name` at build time.
+ *   entries/<id>/models.json   – the volatile half: one entry per model this
+ *                                provider serves, prices inline. Repricing, new
+ *                                models and retirements touch only this file.
+ *                                Rows carry no currency: the provider's applies.
+ *   global.json                – exchange rates + the vendor pricing left once
+ *                                every provider's own rows are split out. These
+ *                                rows keep their own `currency`, since they are
+ *                                shared across providers.
+ *   news/<id>.json             – model news: one file per notice, each naming a
+ *                                (provider, model) pair. The file name is the id.
+ *                                Published whole as dist/news.json; the app
+ *                                decides what is still fresh enough to show.
+ *
+ * Model identity: `models[].id` is the CANONICAL pricing key — it is what
+ * dist/models.json is keyed by and what makes one model comparable across
+ * providers. The string a provider's API actually accepts lives in `serves`
+ * (protocol -> upstream string), which may differ from `id` (e.g. OpenRouter
+ * wants `openai/gpt-5.2` where the canonical key is `gpt-5.2`). Measured: 36
+ * such pairs across 14 providers. `endpoints[0]` is the primary protocol.
  *
  * Published shapes (written to dist/, uploaded to R2 by CI):
  *   dist/catalog.json   {"total": N, "entries": [...]}  – Hub protocol v0,
- *                                                         entries sorted by id
+ *                         entries sorted by id. Field order is canonical (a
+ *                         one-time reordering; entries used to follow each
+ *                         source file's key order).
  *   dist/models.json    {...source, models: [all rows], generated_at: today}
  *                         – the flat global table the app's PricingTable reads;
  *                         every row carries a currency (the provider's for
- *                         entries/, its own for global.json), so the app-side
- *                         schema is unchanged
+ *                         entries/, its own for global.json).
  *   dist/news.json      {"news": [...]}  – every news/<id>.json, each with its
  *                         id folded in from the file name; by priority, then
  *                         newest. Deliberately carries no timestamp and drops
  *                         nothing by age, so its sha256 only moves when the
- *                         news does
- *   dist/manifest.json  counts/versions + sha256 of both artifacts
+ *                         news does.
+ *   dist/manifest.json  counts/versions + sha256 of all three
  *   dist/logos/<id>.png|svg|jpg|webp  – provider logo copied from
  *                         entries/<id>/logo.<ext> (catalog entries reference
  *                         them via the relative `logo` field)
@@ -57,33 +71,61 @@ const fail = (msg) => {
   console.error(`  ✗ ${msg}`);
   failed++;
 };
+const warn = (msg) => console.warn(`  ⚠ ${msg}`);
 
 const BILLINGS = new Set(["plan", "payg", "unl"]);
 const PROTOCOLS = new Set(["anthropic", "openai", "gemini"]);
 const TAGS = new Set(["official", "third", "aggregate", "local", "free"]);
 const LOGO_EXTS = ["png", "svg", "jpg", "jpeg", "webp"];
-const REQUIRED_STRINGS = [
-  "id", "name", "logo_char", "logo_color", "tag", "tag_label",
-  "endpoint", "price_line", "users",
-];
-// One price row — the same shape in entries/<id>/price.json and global.json
-const PRICE_STRINGS = [
-  "model_id", "display_name", "input", "output", "cache_read", "cache_creation",
-];
-const PRICE_NUMBERS = ["input", "output", "cache_read", "cache_creation"];
-/** A currency the price table can convert: any ISO-4217 code the rates know. */
+/** `tag` -> the label the app used to receive verbatim. Deriving it keeps the
+    two from drifting: three entries carried a label that contradicted their own
+    tag (`groq`/`qwen` said "Free"/"Free tier" while tagged official, and
+    `modelscope` said "Aggregator" while tagged free) — those meanings belong in
+    `desc`, not in a label that is supposed to mirror `tag`. */
+const TAG_LABELS = {
+  official: "Official",
+  third: "Third-party",
+  aggregate: "Aggregator",
+  free: "Free",
+  local: "Local",
+};
+/** provider.json keys we read. Anything else is warned about — that is how a
+    leftover `price_line` or `icon` from the previous schema gets caught. */
+const PROVIDER_KEYS = new Set([
+  "id", "name", "logo_color", "tag", "rating", "billing", "currency", "endpoints", "desc",
+]);
+/** models.json keys we read. */
+const MODEL_KEYS = new Set([
+  "id", "name", "in", "out", "cache_read", "cache_creation", "serves", "flagship",
+]);
+/**
+ * The app's `CatalogEntryVm` still declares these four as REQUIRED (no
+ * `#[serde(default)]`), and `crates/core/src/sync.rs` parses the whole catalog
+ * through that type before caching it — so dropping them from the artifact
+ * fails the entire Hub sync, it does not merely blank a few cells. Publish
+ * neutral placeholders until the app makes them optional; `added` is ignored
+ * and recomputed by the app at read time anyway.
+ */
+const DEPRECATED_PLACEHOLDERS = { price_line: "", users: "", blurb: "", added: false };
 const CURRENCY_RE = /^[A-Z]{3}$/;
 const DEFAULT_CURRENCY = "USD";
 
-/** Validate one price row. `rates` is null before global.json is read,
-    since a row's currency can only be checked against the exchange rates. */
+/** A non-negative decimal in a string, the shape every price field uses. */
+function isDecimal(v) {
+  return typeof v === "string" && v.trim() !== "" && !Number.isNaN(Number(v)) && Number(v) >= 0;
+}
+
+/** Validate one row of global.json. `rates` is null before global.json is read,
+    since a row's currency can only be checked against the exchange rates.
+    Provider rows no longer go through here: they are built from models.json,
+    which is validated separately, and inherit the provider's currency. */
 function checkPriceRow(m, where, rates) {
   const id = m?.model_id ?? "?";
-  for (const f of [...PRICE_STRINGS, "currency"]) {
+  for (const f of ["model_id", "display_name", "input", "output", "cache_read", "cache_creation", "currency"]) {
     if (typeof m?.[f] !== "string" || m[f].trim() === "") fail(`${where}: price row "${id}" missing/empty ${f}`);
   }
-  for (const f of PRICE_NUMBERS) {
-    if (m?.[f] !== undefined && (Number.isNaN(Number(m[f])) || Number(m[f]) < 0)) {
+  for (const f of ["input", "output", "cache_read", "cache_creation"]) {
+    if (m?.[f] !== undefined && !isDecimal(m[f])) {
       fail(`${where}: price row "${id}" ${f} "${m[f]}" is not a non-negative decimal`);
     }
   }
@@ -95,13 +137,47 @@ function checkPriceRow(m, where, rates) {
 /** Identity of a price row for duplicate detection: the priced fields only,
     so a shared model may repeat across entries but never drift between them.
     The currency counts: the same model priced in USD by one entry and CNY by
-    another is a conflict, not a duplicate. NUL is the field separator because
-    it cannot occur in a model id — written as an escape, never as a literal
-    byte, so this file stays text and its diffs stay reviewable in a PR. */
-const priceKey = (m) =>
-  [...PRICE_STRINGS, "currency"].map((f) => String(m?.[f] ?? "")).join("\u0000");
+    another is a conflict, not a duplicate.
 
-// ── entries/<id>/provider.json ──
+    JSON.stringify does the joining rather than a separator character: it escapes
+    whatever a model id could contain, so this file carries no invisible byte. An
+    earlier version used a literal NUL here, which made the whole script read as
+    binary to grep and git. */
+const PRICE_FIELDS = ["model_id", "display_name", "input", "output", "cache_read", "cache_creation"];
+const priceKey = (m) => JSON.stringify([...PRICE_FIELDS, "currency"].map((f) => String(m?.[f] ?? "")));
+
+/** The published catalog entry, in a canonical key order. Canonical on purpose:
+    the order used to follow each source file's own key order, which produced
+    seven different orderings across 82 entries. The deprecated placeholders
+    keep their old positions so the diff stays legible. */
+function catalogEntry(e, derived) {
+  return {
+    id: e.id,
+    name: e.name,
+    logo_char: e.name.charAt(0).toUpperCase(),
+    logo_color: e.logo_color,
+    tag: e.tag,
+    tag_label: TAG_LABELS[e.tag],
+    rating: e.rating,
+    endpoint: e.endpoints[0].endpoint,
+    price_line: DEPRECATED_PLACEHOLDERS.price_line,
+    currency: e.currency,
+    billing: e.billing,
+    users: DEPRECATED_PLACEHOLDERS.users,
+    blurb: DEPRECATED_PLACEHOLDERS.blurb,
+    added: DEPRECATED_PLACEHOLDERS.added,
+    models: derived.primaryModels,
+    protocol: e.endpoints[0].protocol,
+    // Omitted when there are no extra endpoints, matching the old artifact —
+    // the app's `endpoints` is an Option on both sides, so absent is fine.
+    ...(derived.extraEndpoints.length === 0 ? {} : { endpoints: derived.extraEndpoints }),
+    logo: `logos/${e.id}.${derived.logoExt}`,
+    ...(e.desc === undefined ? {} : { desc: e.desc }),
+    ...(derived.priceRef === undefined ? {} : { price_ref: derived.priceRef }),
+  };
+}
+
+// ── entries/<id>/{provider.json, models.json} ──
 
 console.log("entries/");
 const entryDirs = readdirSync(path.join(repo, "entries"), { withFileTypes: true })
@@ -113,9 +189,14 @@ const ids = new Set();
 const logoFiles = [];
 /** Entries that leaned on the USD default, reported at the end. */
 const defaultedCurrency = [];
-// { entry, row } for every entries/<id>/price.json row; merged back into the
-// published dist/models.json once the exchange rates are known.
+// { entry, row } for every priced model; merged into dist/models.json once the
+// exchange rates are known.
 const entryPriceRows = [];
+// provider id -> the set of model names it serves, for the news check below.
+// Built from canonical ids AND the upstream strings, so a notice may name
+// either form.
+const served = new Map();
+
 for (const dir of entryDirs) {
   const file = path.join("entries", dir, "provider.json");
   let e;
@@ -127,21 +208,18 @@ for (const dir of entryDirs) {
   }
   const where = `${dir}: entry ${e.id ?? "?"}`;
   if (e.id !== dir) fail(`${where}: id must match the directory name`);
-  for (const f of REQUIRED_STRINGS) {
-    if (typeof e[f] !== "string" || e[f].trim() === "") fail(`${where}: missing/empty ${f}`);
-  }
   if (ids.has(e.id)) fail(`${where}: duplicate id`);
   ids.add(e.id);
-  if (!BILLINGS.has(e.billing)) fail(`${where}: billing "${e.billing}" not one of ${[...BILLINGS].join("|")}`);
+
+  // ── provider.json ──
+  if (typeof e.name !== "string" || e.name.trim() === "") fail(`${where}: missing/empty name`);
+  if (typeof e.logo_color !== "string" || !/^#[0-9A-Fa-f]{6}$/.test(e.logo_color)) {
+    fail(`${where}: logo_color must be a #RRGGBB colour (it is hand-picked, not derived)`);
+  }
   if (!TAGS.has(e.tag)) fail(`${where}: tag "${e.tag}" not one of ${[...TAGS].join("|")}`);
   if (typeof e.rating !== "number" || e.rating < 0 || e.rating > 5) fail(`${where}: rating must be a number in 0..5`);
-  if (!Array.isArray(e.models)) fail(`${where}: models must be an array (may be empty when live-fetched)`);
-  if (typeof e.blurb !== "string") fail(`${where}: blurb must be a string (may be empty)`);
-  if (typeof e.added !== "boolean") fail(`${where}: added must be boolean`);
-  const proto = e.protocol ?? "openai";
-  if (!PROTOCOLS.has(proto)) fail(`${where}: protocol "${proto}" not one of ${[...PROTOCOLS].join("|")}`);
-  if (e.logo_border !== undefined && e.logo_border !== null && typeof e.logo_border !== "boolean") fail(`${where}: logo_border must be boolean`);
-  // The provider bills in one currency; its price rows and the spending limit
+  if (!BILLINGS.has(e.billing)) fail(`${where}: billing "${e.billing}" not one of ${[...BILLINGS].join("|")}`);
+  // The provider bills in one currency; its model rows and the spending limit
   // the app offers are both denominated in it. Missing → USD (the table's base
   // currency), so an unfilled entry cannot make the app guess per model name.
   if (e.currency === undefined || e.currency === null) {
@@ -150,26 +228,24 @@ for (const dir of entryDirs) {
   } else if (typeof e.currency !== "string" || !CURRENCY_RE.test(e.currency)) {
     fail(`${where}: currency "${e.currency}" must be an ISO-4217 code like USD`);
   }
-  if (e.icon !== undefined && e.icon !== null && typeof e.icon !== "string") fail(`${where}: icon must be a string`);
-  if (e.price_note !== undefined && e.price_note !== null && typeof e.price_note !== "string") fail(`${where}: price_note must be a string`);
-  if (e.free_offer !== undefined && e.free_offer !== null && typeof e.free_offer !== "string") fail(`${where}: free_offer must be a string`);
-  if (e.endpoints !== undefined) {
-    if (!Array.isArray(e.endpoints)) {
-      fail(`${where}: endpoints must be an array`);
-    } else {
-      // One endpoint per protocol: the primary protocol counts as taken, and
-      // the provider's PK app-side is (provider_id, protocol) — a repeat here
-      // would be silently dropped when the entry is added, losing the endpoint.
-      const seen = new Set([proto]);
-      for (const x of e.endpoints) {
-        if (!PROTOCOLS.has(x.protocol)) fail(`${where}: extra endpoint protocol "${x.protocol}" invalid`);
-        else if (seen.has(x.protocol)) fail(`${where}: duplicate protocol "${x.protocol}" (already the primary protocol or an earlier endpoint)`);
-        seen.add(x.protocol);
-        if (typeof x.endpoint !== "string" || x.endpoint.trim() === "") fail(`${where}: extra endpoint empty`);
-        if (x.models !== undefined && !Array.isArray(x.models)) fail(`${where}: endpoint models must be an array`);
-      }
+  if (e.desc !== undefined && typeof e.desc !== "string") fail(`${where}: desc must be a string`);
+  if (!Array.isArray(e.endpoints) || e.endpoints.length === 0) {
+    fail(`${where}: endpoints must be a non-empty array — the first one is the primary protocol`);
+  } else {
+    // One endpoint per protocol: the provider's PK app-side is
+    // (provider_id, protocol) — a repeat here would be silently dropped when
+    // the entry is added, losing the endpoint.
+    const seen = new Set();
+    for (const x of e.endpoints) {
+      if (!PROTOCOLS.has(x?.protocol)) fail(`${where}: endpoint protocol "${x?.protocol}" not one of ${[...PROTOCOLS].join("|")}`);
+      else if (seen.has(x.protocol)) fail(`${where}: duplicate protocol "${x.protocol}"`);
+      seen.add(x.protocol);
+      if (typeof x?.endpoint !== "string" || x.endpoint.trim() === "") fail(`${where}: endpoint for "${x?.protocol}" is empty`);
     }
   }
+  for (const k of Object.keys(e)) if (!PROVIDER_KEYS.has(k)) warn(`${where}: unknown key "${k}" — ignored (known: ${[...PROVIDER_KEYS].join(", ")})`);
+
+  // ── logo file ──
   let logoExt = null;
   for (const ext of LOGO_EXTS) {
     const f = path.join(repo, "entries", dir, `logo.${ext}`);
@@ -181,40 +257,152 @@ for (const dir of entryDirs) {
   if (!logoExt) {
     fail(`${where}: missing logo file (logo.png|svg|jpg|jpeg|webp)`);
   } else {
-    e.logo = `logos/${e.id}.${logoExt}`;
     logoFiles.push({ id: e.id, ext: logoExt });
   }
-  const pricePath = path.join("entries", dir, "price.json");
-  let prices;
+
+  // ── models.json ──
+  // A leftover price.json means the directory was never migrated: fail loudly
+  // rather than publish a provider with no models.
+  if (existsSync(path.join(repo, "entries", dir, "price.json"))) {
+    fail(`entries/${dir}/price.json: this file was replaced by models.json — delete it`);
+  }
+  const modelsPath = path.join("entries", dir, "models.json");
+  let models;
   try {
-    prices = JSON.parse(readFileSync(path.join(repo, pricePath), "utf8"));
+    models = JSON.parse(readFileSync(path.join(repo, modelsPath), "utf8"));
   } catch (err) {
     fail(
       err.code === "ENOENT"
-        ? `${pricePath}: missing (use [] when none of this provider's models is priced)`
-        : `${pricePath}: invalid JSON (${err.message})`,
+        ? `${modelsPath}: missing (use [] when this provider serves no models yet)`
+        : `${modelsPath}: invalid JSON (${err.message})`,
     );
-    prices = [];
+    models = [];
   }
-  if (!Array.isArray(prices)) {
-    fail(`${pricePath}: must be an array of model price rows`);
-    prices = [];
+  if (!Array.isArray(models)) {
+    fail(`${modelsPath}: must be an array of models`);
+    models = [];
   }
-  const seenModels = new Set();
-  for (const m of prices) {
-    const key = typeof m?.model_id === "string" ? m.model_id.toLowerCase() : "?";
-    if (seenModels.has(key)) fail(`${pricePath}: duplicate model_id "${m?.model_id}"`);
-    seenModels.add(key);
-    if (m?.currency !== undefined) {
-      fail(`${pricePath}: row "${m?.model_id}" must not carry a currency — the provider's applies`);
+  const protocols = new Set((e.endpoints ?? []).map((x) => x?.protocol));
+  const seenModelIds = new Set();
+  const priced = [];
+  let flagshipCount = 0;
+  for (const m of models) {
+    const mid = typeof m?.id === "string" ? m.id : "?";
+    const mw = `${modelsPath}: model "${mid}"`;
+    if (typeof m?.id !== "string" || m.id.trim() === "") {
+      fail(`${mw}: id is required`);
+      continue;
     }
-    entryPriceRows.push({ entry: dir, row: m, currency: e.currency });
+    const key = m.id.toLowerCase();
+    if (seenModelIds.has(key)) fail(`${mw}: duplicate id`);
+    seenModelIds.add(key);
+    if (m.name !== undefined && typeof m.name !== "string") fail(`${mw}: name must be a string`);
+    const hasIn = m.in !== undefined;
+    const hasOut = m.out !== undefined;
+    if (hasIn !== hasOut) fail(`${mw}: in and out come together — a model is either priced or not`);
+    for (const f of ["in", "out", "cache_read", "cache_creation"]) {
+      if (m[f] !== undefined && !isDecimal(m[f])) fail(`${mw}: ${f} "${m[f]}" is not a non-negative decimal`);
+    }
+    if (hasIn && hasOut) {
+      // dist/models.json rows carry display_name and the app's ModelPriceEntry
+      // requires it, so a priced model without a name would break the price
+      // table for every client.
+      if (typeof m.name !== "string" || m.name.trim() === "") {
+        fail(`${mw}: a priced model needs a name — it becomes display_name in dist/models.json`);
+      }
+      priced.push(m);
+    }
+    if (m.serves !== undefined) {
+      const okShape = m.serves !== null && typeof m.serves === "object" && !Array.isArray(m.serves);
+      if (!okShape) fail(`${mw}: serves must be an object of protocol -> upstream string`);
+      else {
+        const entries = Object.entries(m.serves);
+        if (entries.length === 0) fail(`${mw}: serves must not be empty — omit it to mean every endpoint`);
+        for (const [proto, upstream] of entries) {
+          if (!protocols.has(proto)) fail(`${mw}: serves names protocol "${proto}", which this provider has no endpoint for`);
+          if (typeof upstream !== "string" || upstream.trim() === "") fail(`${mw}: serves["${proto}"] must be a non-empty string`);
+        }
+      }
+    }
+    if (m.flagship !== undefined && typeof m.flagship !== "boolean") {
+      fail(`${mw}: flagship must be boolean`);
+    }
+    if (m.currency !== undefined) fail(`${mw}: must not carry a currency — the provider's applies`);
+    for (const k of Object.keys(m)) if (!MODEL_KEYS.has(k)) warn(`${mw}: unknown key "${k}" — ignored (known: ${[...MODEL_KEYS].join(", ")})`);
   }
-  catalog.push(e);
+  // Flagged models are validated after the loop so the message does not depend
+  // on iteration order. A provider with no priced model simply carries no
+  // flagship — there would be no numbers to project into `price_ref`.
+  const flagged = models.filter((m) => m?.flagship === true);
+  if (flagged.length > 1) {
+    fail(`${where}: ${flagged.length} models are flagged flagship — at most one per provider`);
+  }
+  for (const m of flagged) {
+    if (m.in === undefined || m.out === undefined) {
+      fail(`${where}: flagship "${m.id}" must be a priced model — it is what the list shows for this provider`);
+    }
+  }
+
+  // ── derived: serves -> per-protocol upstream strings ──
+  const byProtocol = new Map(); // protocol -> [upstream string]
+  for (const x of e.endpoints ?? []) byProtocol.set(x.protocol, []);
+  const allServed = new Set();
+  for (const m of models) {
+    if (typeof m?.id !== "string" || m.id.trim() === "") continue;
+    const targets = m.serves === undefined ? [...protocols] : Object.keys(m.serves);
+    for (const proto of targets) {
+      const upstream = m.serves === undefined ? m.id : m.serves[proto];
+      byProtocol.get(proto)?.push(upstream);
+      allServed.add(String(upstream).toLowerCase());
+    }
+    allServed.add(m.id.toLowerCase());
+  }
+  served.set(e.id, allServed);
+
+  // ── derived: price_ref from the flagship ──
+  const flagship = models.find((m) => m?.flagship === true) ?? null;
+  const priceRef =
+    flagship === null
+      ? undefined
+      : {
+          model_id: flagship.id,
+          display_name: flagship.name,
+          input: flagship.in,
+          output: flagship.out,
+          currency: e.currency,
+        };
+
+  catalog.push(
+    catalogEntry(e, {
+      primaryModels: byProtocol.get(e.endpoints?.[0]?.protocol) ?? [],
+      extraEndpoints: (e.endpoints ?? []).slice(1).map((x) => ({
+        protocol: x.protocol,
+        endpoint: x.endpoint,
+        models: byProtocol.get(x.protocol) ?? [],
+      })),
+      priceRef,
+      logoExt: logoExt ?? "svg",
+    }),
+  );
+
+  for (const m of priced) {
+    entryPriceRows.push({
+      entry: dir,
+      row: {
+        model_id: m.id,
+        display_name: m.name,
+        input: m.in,
+        output: m.out,
+        cache_read: m.cache_read ?? "0",
+        cache_creation: m.cache_creation ?? "0",
+      },
+      currency: e.currency,
+    });
+  }
 }
 console.log(`  ✓ ${catalog.length} provider directories validated`);
 
-// ── prices: global.json + entries/<id>/price.json ──
+// ── prices: global.json + the providers' own models.json ──
 
 console.log("global.json");
 const doc = read("global.json");
@@ -238,20 +426,11 @@ for (const m of docRows) {
   docIds.add(key);
 }
 docRows.forEach((m, i) => checkPriceRow(m, `global.json row ${i + 1}`, rates));
-entryPriceRows.forEach(({ entry, row, currency }) =>
-  checkPriceRow({ ...row, currency }, `entries/${entry}/price.json`, rates));
+entryPriceRows.forEach(({ entry, row, currency }) => checkPriceRow({ ...row, currency }, `entries/${entry}/models.json`, rates));
 // A provider's currency must be convertible: the app compares its spending
-// limit against costs in that currency, so an unknown code would make the
-// limit unmeasurable rather than merely unpriced.
+// limit against converted amounts.
 for (const e of catalog) {
-  if (!(e.currency in rates)) {
-    fail(`entries/${e.id}/provider.json: currency "${e.currency}" has no exchange rate`);
-  }
-}
-if (defaultedCurrency.length > 0) {
-  console.log(
-    `  ⚠ ${defaultedCurrency.length} entries declare no currency; defaulted to ${DEFAULT_CURRENCY}: ${defaultedCurrency.join(", ")}`,
-  );
+  if (!(e.currency in rates)) fail(`entries/${e.id}: currency "${e.currency}" has no exchange rate`);
 }
 
 // Merge both sources into the flat table the app publishes. A model_id may be
@@ -266,7 +445,7 @@ const mergeIn = (row, src) => {
   else if (prev.fields !== priceKey(row)) fail(`price row "${row?.model_id}" differs between ${prev.src} and ${src}`);
 };
 for (const { entry, row, currency } of entryPriceRows) {
-  mergeIn({ ...row, currency }, `entries/${entry}/price.json`);
+  mergeIn({ ...row, currency }, `entries/${entry}/models.json`);
 }
 for (const row of docRows) mergeIn(row, "global.json");
 const priceRows = [...merged.values()]
@@ -283,7 +462,7 @@ console.log("news/");
 const KINDS = new Set(["new_model", "free", "discount", "announce"]);
 // `id` is deliberately absent from the file: the file name is the id, and it is
 // what the app stores "dismissed" under. Repeating it inside would be a second
-// place to disagree — the same reason price rows carry no currency.
+// place to disagree — the same reason model rows carry no currency.
 const NEWS_KEYS = new Set([
   "kind", "provider_id", "model_id", "released",
   "title", "body", "badge", "priority", "expires_at", "url",
@@ -294,22 +473,6 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const isDate = (s) =>
   typeof s === "string" && DATE_RE.test(s) && !Number.isNaN(Date.parse(`${s}T00:00:00Z`));
 const DAY_MS = 86_400_000;
-
-// What each provider actually serves — the models it declares (provider.json
-// `models` plus every extra endpoint's) and every model_id it prices. Matched
-// case-insensitively because the two are written independently: minimax
-// declares `MiniMax-M2.7` while its price row carries `minimax-m2.7`, and
-// ModelScope declares `GLM-5.2` against a `glm-5.2` price row.
-const served = new Map();
-for (const e of catalog) {
-  served.set(e.id, new Set((e.models ?? []).map((m) => String(m).toLowerCase())));
-  for (const x of e.endpoints ?? []) {
-    for (const m of x.models ?? []) served.get(e.id).add(String(m).toLowerCase());
-  }
-}
-for (const { entry, row } of entryPriceRows) {
-  served.get(entry)?.add(String(row?.model_id ?? "").toLowerCase());
-}
 
 /** The news directory: one <id>.json per item, so two people adding news touch
     different files and never conflict on a shared array. Sorted by file name so
@@ -354,7 +517,7 @@ for (const f of newsFiles) {
   if (typeof n?.model_id !== "string" || n.model_id.trim() === "") {
     fail(`${where}: model_id is required`);
   } else if (served.has(n.provider_id) && !served.get(n.provider_id).has(n.model_id.toLowerCase())) {
-    fail(`${where}: entries/${n.provider_id} does not serve "${n.model_id}" — declare it in provider.json or price it in price.json first`);
+    fail(`${where}: entries/${n.provider_id} does not serve "${n.model_id}" — declare it in models.json first (its canonical id, or an upstream string in "serves")`);
   }
   if (!isDate(n?.released)) fail(`${where}: released must be a real YYYY-MM-DD date`);
   else if (Date.parse(`${n.released}T00:00:00Z`) > newsNow + 30 * DAY_MS) {
@@ -459,3 +622,6 @@ for (const f of ["catalog.json", "models.json", "news.json", "manifest.json"]) {
   console.log(`  ${f}`);
 }
 console.log(`  logos/ (${logoFiles.length} files)`);
+if (defaultedCurrency.length > 0) {
+  console.log(`\n  ${defaultedCurrency.length} entr(ies) defaulted to ${DEFAULT_CURRENCY}: ${defaultedCurrency.join(", ")}`);
+}

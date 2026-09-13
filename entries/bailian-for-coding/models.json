@@ -1,0 +1,15 @@
+[
+  {
+    "id": "qwen3-coder-plus",
+    "name": "Qwen3 Coder Plus",
+    "in": "0.65",
+    "out": "3.25",
+    "cache_read": "0.13"
+  },
+  {
+    "id": "qwen3-max",
+    "name": "Qwen3 Max",
+    "in": "0.78",
+    "out": "3.90"
+  }
+]

@@ -1,33 +1,20 @@
 {
   "id": "tencent-token-plan-intl",
   "name": "Tencent Token Plan (Intl)",
-  "logo_char": "T",
   "logo_color": "#2563EB",
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4,
-  "endpoint": "https://tokenhub-intl.tencentcloudmaas.com/plan/v3",
-  "price_line": "from $17.5 /mo",
-  "currency": "USD",
   "billing": "plan",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "glm-5.2",
-    "kimi-k2.6",
-    "deepseek-v4-pro-202606",
-    "deepseek-v4-flash-202605"
-  ],
-  "protocol": "openai",
-  "icon": "tencent",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://tokenhub-intl.tencentcloudmaas.com/plan/v3"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://tokenhub-intl.tencentcloudmaas.com/plan/anthropic",
-      "models": [
-        "auto"
-      ]
+      "endpoint": "https://tokenhub-intl.tencentcloudmaas.com/plan/anthropic"
     }
-  ]
+  ],
+  "desc": "from $17.5 /mo"
 }

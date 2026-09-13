@@ -1,32 +1,20 @@
 {
   "id": "qwencloud-for-coding",
   "name": "QwenCloud For Coding",
-  "logo_char": "Q",
   "logo_color": "#65A30D",
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4,
-  "endpoint": "https://coding-intl.dashscope.aliyuncs.com/apps/anthropic",
-  "price_line": "$50 /mo plan",
-  "currency": "USD",
   "billing": "plan",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "qwen3.7-plus",
-    "qwen3.6-plus",
-    "qwen3-coder-plus"
-  ],
-  "protocol": "openai",
-  "icon": "qwen",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://coding-intl.dashscope.aliyuncs.com/apps/anthropic"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://coding-intl.dashscope.aliyuncs.com/apps/anthropic",
-      "models": [
-        "qwen3.7-plus"
-      ]
+      "endpoint": "https://coding-intl.dashscope.aliyuncs.com/apps/anthropic"
     }
-  ]
+  ],
+  "desc": "$50 /mo plan"
 }

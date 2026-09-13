@@ -1,37 +1,23 @@
 {
   "id": "packycode",
   "name": "PackyCode",
-  "logo_char": "P",
   "logo_color": "#0F9D58",
   "tag": "third",
-  "tag_label": "Third-party",
   "rating": 4,
-  "endpoint": "https://www.packyapi.ai/v1",
-  "price_line": "Pay-as-you-go",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "claude-sonnet-5",
-    "claude-opus-5",
-    "claude-haiku-4-5-20251001"
-  ],
-  "protocol": "openai",
-  "icon": "packycode",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://www.packyapi.ai/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://www.packyapi.ai",
-      "models": []
+      "endpoint": "https://www.packyapi.ai"
     },
     {
       "protocol": "gemini",
-      "endpoint": "https://www.packyapi.ai",
-      "models": [
-        "gemini-3.6-flash"
-      ]
+      "endpoint": "https://www.packyapi.ai"
     }
   ]
 }

@@ -1,38 +1,23 @@
 {
   "id": "e-flowcode",
   "name": "E-FlowCode",
-  "logo_char": "E",
   "logo_color": "#2563EB",
   "tag": "third",
-  "tag_label": "Third-party",
   "rating": 4,
-  "endpoint": "https://e-flowcode.cc/v1",
-  "price_line": "Pay-as-you-go",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "gpt-5.6-sol",
-    "gpt-5.2-codex",
-    "gpt-5.3-codex",
-    "gpt-5.2"
-  ],
-  "protocol": "openai",
-  "icon": "eflowcode",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://e-flowcode.cc/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://e-flowcode.cc",
-      "models": []
+      "endpoint": "https://e-flowcode.cc"
     },
     {
       "protocol": "gemini",
-      "endpoint": "https://e-flowcode.cc",
-      "models": [
-        "gemini-3.6-flash"
-      ]
+      "endpoint": "https://e-flowcode.cc"
     }
   ]
 }

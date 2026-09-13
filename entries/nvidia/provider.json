@@ -1,22 +1,16 @@
 {
   "id": "nvidia",
   "name": "Nvidia",
-  "logo_char": "N",
   "logo_color": "#76B900",
   "tag": "aggregate",
-  "tag_label": "Aggregator",
   "rating": 4,
-  "endpoint": "https://integrate.api.nvidia.com/v1",
-  "price_line": "Upstream price",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "moonshotai/kimi-k2.5",
-    "kimi-k2.5"
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://integrate.api.nvidia.com/v1"
+    }
   ],
-  "protocol": "openai",
-  "icon": "nvidia"
+  "desc": "Upstream price"
 }

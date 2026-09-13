@@ -1,31 +1,20 @@
 {
   "id": "xiaomi-mimo",
   "name": "Xiaomi MiMo",
-  "logo_char": "X",
   "logo_color": "#FF6900",
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4,
-  "endpoint": "https://api.xiaomimimo.com/v1",
-  "price_line": "Official pricing",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "mimo-v2.5-pro",
-    "mimo-v2.5"
-  ],
-  "protocol": "openai",
-  "icon": "xiaomimimo",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://api.xiaomimimo.com/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://api.xiaomimimo.com/anthropic",
-      "models": [
-        "mimo-v2.5-pro"
-      ]
+      "endpoint": "https://api.xiaomimimo.com/anthropic"
     }
-  ]
+  ],
+  "desc": "Official pricing"
 }

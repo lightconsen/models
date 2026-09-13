@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gemini-3.6-flash",
+    "name": "Gemini 3.6 Flash",
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075"
+  },
+  {
+    "id": "gemini-3.6-pro"
+  }
+]

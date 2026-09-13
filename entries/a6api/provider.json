@@ -1,35 +1,24 @@
 {
   "id": "a6api",
   "name": "A6API",
-  "logo_char": "A",
   "logo_color": "#8B5CF6",
   "tag": "aggregate",
-  "tag_label": "Aggregator",
   "rating": 4,
-  "endpoint": "https://api.a6api.com/v1",
-  "price_line": "Upstream price",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "gpt-5.6-sol"
-  ],
-  "protocol": "openai",
-  "icon": "a6api",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://api.a6api.com/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://api.a6api.com",
-      "models": []
+      "endpoint": "https://api.a6api.com"
     },
     {
       "protocol": "gemini",
-      "endpoint": "https://api.a6api.com",
-      "models": [
-        "gemini-3.6-flash"
-      ]
+      "endpoint": "https://api.a6api.com"
     }
-  ]
+  ],
+  "desc": "Upstream price"
 }

@@ -8,16 +8,17 @@ CI validates + builds + publishes to Cloudflare R2; the app fetches at runtime
 
 ```
 entries/
-  <id>/provider.json   one directory per model provider; adding a provider
-                       = creating one new directory (id must match the
-                       directory name). Its `currency` is the one the
-                       provider bills in (default USD when omitted)
+  <id>/provider.json   the stable half: one directory per model provider;
+                       adding a provider = creating one new directory (id must
+                       match the directory name). Identity, protocols, billing.
+                       Its `currency` is the one the provider bills in
+                       (default USD when omitted)
+  <id>/models.json     the volatile half: every model this provider serves,
+                       prices inline. Repricing, new models and retirements
+                       touch only this file. Rows carry no currency: the
+                       provider's applies
   <id>/logo.<ext>      provider logo (required; png|svg|jpg|jpeg|webp),
                        published to R2 under logos/<id>.<ext>
-  <id>/price.json      this provider's model prices (required; [] when none
-                       of its declared models is priced), merged into the
-                       published dist/models.json. Rows carry no currency:
-                       the provider's applies
 global.json            exchange rates + the vendor pricing no entry owns
                        (version-gated). These rows keep their own `currency`,
                        being shared across providers
@@ -26,67 +27,94 @@ news/<id>.json         model news — one file per notice, each naming a
                        Published whole as dist/news.json
 scripts/
   generate.mjs         validate + build dist/ artifacts (zero dependencies)
+  migrate-v2.mjs       one-shot: the old provider.json + price.json layout ->
+                       provider.json + models.json (already run)
+  verify-migration.mjs acceptance gate: dist/ against a pre-migration snapshot
+  test-validation.mjs  failure-path tests for the validation rules
 .github/workflows/
   validate.yml         PR gate: validation + dry-run build
   publish.yml          main push: build + upload to R2
 ```
 
+The split is by how often each half changes: a vendor's endpoint, protocols and
+billing are near-static, while prices move constantly. Keeping them apart means a
+repricing PR touches no identity data, and vice versa.
+
 ## Adding a provider
 
-A provider is **one directory + one `provider.json` + one logo file**. The
-directory name is the `id`, and the `id` field inside must equal it exactly.
+A provider is **one directory + one `provider.json` + one `models.json` + one
+logo file**. The directory name is the `id`, and the `id` field inside must equal
+it exactly.
 
-1. Create `entries/<id>/provider.json` from the template below.
+1. Create `entries/<id>/provider.json` from the first template below.
 2. Add a logo file `entries/<id>/logo.<ext>` (`png` | `svg` | `jpg` | `jpeg` |
    `webp`). It is **required** and published to R2 as `logos/<id>.<ext>` —
    see [Logo](#logo).
-3. Add `entries/<id>/price.json` pricing the models you declared — `[]` when
-   none of them is priced yet. It is **required** — see [Pricing](#pricing).
+3. Add `entries/<id>/models.json` listing every model this provider serves,
+   prices inline — `[]` when it serves none yet. It is **required** —
+   see [Models and pricing](#models-and-pricing).
 4. Open a PR — `validate` checks the schema + builds a dry run.
 5. Merge to `main` — `publish` uploads `catalog.json` / `models.json` /
-   `manifest.json` and `logos/` to the R2 bucket root.
+   `news.json` / `manifest.json` and `logos/` to the R2 bucket root.
 
 ### Template
 
 ```jsonc
+// entries/<id>/provider.json — stable: identity, protocols, billing
 {
-  // ── required ─────────────────────────────────────────────────────────
   "id": "example",              // must equal the directory name
   "name": "Example AI",
-  "logo_char": "E",             // 1-char fallback letter avatar
-  "logo_color": "#3B82F6",      // fallback avatar background (hex)
+  "logo_color": "#3B82F6",      // fallback avatar background (hex). Hand-picked
+                                // on purpose — brand colours are the point, so
+                                // it is NOT derived. `logo_char` is derived
+                                // from `name` at build time and not stored
   "tag": "third",               // official | third | aggregate | local | free
-  "tag_label": "Third-party",   // human-readable tag
   "rating": 4,                  // number 0..5
-  "endpoint": "https://api.example.com/v1",
-  "price_line": "Pay-as-you-go",
-  "currency": "USD",            // what this provider bills in; default USD.
-                                // Prices in price.json, and the spending limit
-                                // the app offers, are both denominated in it
   "billing": "payg",            // plan | payg | unl
-  "users": "One line describing the audience",
-  "blurb": "",                  // may be empty
-  "added": false,               // "recently added" flag for the UI
-  "models": [                   // may be empty when models are live-fetched
-    "example-1",
-    "example-2"
+  "currency": "USD",            // what this provider bills in; default USD.
+                                // Its model rows, and the spending limit the app
+                                // offers, are both denominated in it
+  "endpoints": [                // required, at least one. The FIRST is the
+                                // primary protocol; each protocol may appear once
+    { "protocol": "openai",    "endpoint": "https://api.example.com/v1" },
+    { "protocol": "anthropic", "endpoint": "https://api.example.com" }
   ],
 
   // ── optional ─────────────────────────────────────────────────────────
-  "protocol": "openai",         // anthropic | openai | gemini (default openai)
-  "icon": "example",            // legacy app-side icon-registry key (see Logo)
-  "logo_border": true,          // add a border to the fallback avatar
-  "price_note": "+5.5%",        // e.g. markup over upstream
-  "free_offer": "Free tier: ...",
-  "endpoints": [                // extra protocol endpoints for the same provider
-    {
-      "protocol": "anthropic",
-      "endpoint": "https://api.example.com",
-      "models": ["example-1"]
-    }
-  ]
+  "desc": "Upstream price · 12.4k users"   // one line of prose, shown on the
+                                           // provider's row and detail card
 }
 ```
+
+```jsonc
+// entries/<id>/models.json — volatile: one record per model, prices inline
+[
+  // Priced: `in` + `out` together mean "this model is priced".
+  { "id": "example-1", "name": "Example One",
+    "in": "3", "out": "15", "cache_read": "0.30" },
+
+  // Unpriced: no `in`/`out`. It still shows in the app's model list.
+  { "id": "claude-opus-5", "name": "Claude Opus 5",
+    "serves": { "anthropic": "anthropic/claude-opus-5" } },
+
+  // Served by every endpoint, under its own id — `serves` is omitted.
+  { "id": "example-2", "name": "Example Two", "in": "1", "out": "5",
+    "flagship": true }
+]
+```
+
+Three things about `models.json` that are easy to get wrong:
+
+- **`id` is the canonical pricing key**, not necessarily the string the API
+  accepts. `dist/models.json` is keyed by it, so the same model resold by several
+  providers must use the same id — that is what makes price drift detectable.
+- **`serves` carries the upstream string**, per protocol, when it differs from
+  `id` (OpenRouter wants `openai/gpt-5.2` where the canonical key is `gpt-5.2`).
+  Omit it entirely to mean "every endpoint serves this, under its own id".
+- **`cache_creation` is optional and means `0` when absent** — most providers
+  charge nothing for cache writes. Write it only when it is non-zero.
+- **`flagship: true`** marks the one model whose price represents this provider
+  on the Models list (at most one per provider, and it must be priced).
 
 ## Logo
 
@@ -103,8 +131,10 @@ entry exposes a relative `logo` field:
 ```
 
 The app builds the full URL from its `hub_url` setting
-(`https://hub.kiwano.cc/logos/example.png`). `logo_char` + `logo_color`
-remain required fields and are the app's fallback when the image can't load.
+(`https://hub.kiwano.cc/logos/example.png`). When the image can't load — or the
+app has never synced and is showing its bundled snapshot — it falls back to a
+letter avatar: `logo_char` (derived from `name` at build time) on `logo_color`
+(authored, so brand colours survive).
 
 ### Legibility on dark backgrounds
 
@@ -140,58 +170,61 @@ static analysis of `fill` attributes misjudges both of those cases (it counts a
 background rect as artwork, and misses colours that come from `<style>` blocks
 or gradients).
 
-### Relationship to `icon`
+### Formerly `icon`
 
-`provider.json` also has an optional `icon` field — a legacy key into the
-app's bundled icon registry (`../src/components/icons/`). It predates the
-R2-hosted `logo` and is kept for backward compatibility. New providers should
-add a `logo` file; `icon` is optional and app-side only.
+`provider.json` used to carry an optional `icon` — a legacy key into the app's
+bundled icon registry (`../app/src/components/icons/`). It was a second icon
+system running alongside the logo files and has been **removed**: the logo file
+covers it. The registry's dark-theme variants are the one thing it carried that
+a logo file does not — those belong inside the logo artwork, the same way the
+white tiles were added for black marks.
 
-## Pricing
+## Models and pricing
 
-`entries/<id>/price.json` prices the models this provider serves — one row per
-model:
+`entries/<id>/models.json` is both the model list and the price list — one
+record per model:
 
 ```jsonc
 [
   {
-    "model_id": "claude-opus-5",
-    "display_name": "Claude Opus 5",
-    "input": "5",            // provider currency per million tokens, TEXT decimal
-    "output": "25",
-    "cache_read": "0.50",
-    "cache_creation": "6.25"
+    "id": "claude-opus-5",     // canonical key; also what dist/models.json is keyed by
+    "name": "Claude Opus 5",   // optional; required when priced (it becomes display_name)
+    "in": "5",                 // provider currency per million tokens, TEXT decimal
+    "out": "25",
+    "cache_read": "0.50",      // optional, 0 when absent
+    "cache_creation": "6.25",  // optional, 0 when absent (most providers charge nothing)
+    "flagship": true           // optional: the model whose price represents this provider
   }
 ]
 ```
 
+**Presence of `in`/`out` is the price flag.** A model without them is declared but
+unpriced — the app lists it and shows no cost rather than a wrong one. `[]` is
+valid and means the provider serves no models yet.
+
 Rows carry **no currency**: the provider's `currency` applies, and `generate.mjs`
 stamps it into every published row of `dist/models.json` (so the app-side table
-keeps its per-row currency). Listing one here fails validation — two places to
+keeps its per-row currency). Listing one fails validation — two places to
 disagree is exactly what this layout removes. `global.json` rows are the
 exception: they are shared across providers, so each keeps its own `currency`.
 
-`[]` is valid and means "none of this provider's models is priced" — the app
-then shows no cost rather than a wrong one. A model listed in `provider.json`
-`models` that has no row here is simply unpriced.
+### One model, several providers
 
-### One row, several providers
-
-Aggregators resell the same vendor models, so a `model_id` may legitimately
-appear in several `price.json` files. The copies must be **identical**: the
-validator fails on drift, because the published table keeps one row per
-`model_id` and which copy won would otherwise depend on merge order.
+Aggregators resell the same vendor models, so an `id` may legitimately appear in
+several `models.json` files. The copies must be **identical**: the validator
+fails on drift, because the published table keeps one row per `id` and which copy
+won would otherwise depend on merge order.
 
 Vendor pricing that no entry owns (the OpenAI/Anthropic/Google list prices for
 models no directory declares) stays in `global.json`.
 
 ### What gets published
 
-`generate.mjs` merges every `price.json` with the rows still in
-`global.json` into `dist/models.json` — the same flat global
-`model_id -> price` table as before. The app's `PricingTable` has no provider
-dimension (it looks prices up by model id alone), so this split is a
-source-layout change and nothing more.
+`generate.mjs` merges the priced rows of every `models.json` with the rows still
+in `global.json` into `dist/models.json` — the same flat global `model_id ->
+price` table as before. The app's `PricingTable` has no provider dimension (it
+looks prices up by model id alone), so this split is a source-layout change and
+nothing more.
 
 ## Model news (`news/`)
 
@@ -234,16 +267,14 @@ there is deliberately no age filter.
 
 ### What "that provider serves it" means
 
-`generate.mjs` fails unless `model_id` is one the entry actually declares or
-prices, matched **case-insensitively** against the union of `provider.json`
-`models`, every `endpoints[].models`, and every `price.json` `model_id`. The
-case-insensitivity is not decoration: the two names are written independently,
-so minimax declares `MiniMax-M2.7` against a `minimax-m2.7` price row and
-ModelScope declares `GLM-5.2` against `glm-5.2`.
+`generate.mjs` fails unless `model_id` is one the entry actually serves, matched
+**case-insensitively** against the union of every model's `id` and every upstream
+string in its `serves`. Either spelling works, because you may think of the model
+by either name.
 
 This check is what stops "OpenAI 的 claude-opus-5" from ever publishing. To
-announce a model the entry does not carry yet, add it to `provider.json` or
-`price.json` in the same PR.
+announce a model the entry does not carry yet, add it to `models.json` in the
+same PR.
 
 ### Ordering
 
@@ -276,51 +307,85 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 
 ## Data domains (enforced by generate.mjs)
 
-- `billing`: `plan | payg | unl` — one entry per billing mode
-- `protocol`: `anthropic | openai | gemini` (default `openai`)
-- `tag`: `official | third | aggregate | local | free`
+**`provider.json`**
+
+- `name`: non-empty string. `logo_char` is derived from it; `logo_color` is
+  hand-picked and must be `#RRGGBB`
+- `tag`: `official | third | aggregate | local | free`. `tag_label` is derived
+  from it — do not look for it in the source
 - `rating`: number `0..5`
-- `models`: array of `model_id` strings (may be empty when live-fetched)
-- `currency` (`provider.json`): an `exchange_rates` key; **omitted means USD**.
-  It is what the provider's prices and its spending limit are denominated in,
-  so an unknown code fails validation rather than leaving the limit
-  unmeasurable
+- `billing`: `plan | payg | unl` — one entry per billing mode
+- `endpoints`: non-empty array of `{protocol, endpoint}`; `protocol` is
+  `anthropic | openai | gemini` and may not repeat. **The first is the primary
+  protocol** — it supplies the app's `endpoint` / `protocol` / `models`
+- `currency`: an `exchange_rates` key; **omitted means USD**. It is what the
+  provider's prices and its spending limit are denominated in, so an unknown
+  code fails validation rather than leaving the limit unmeasurable
+- `desc`: optional; one line of prose
 - `logo`: derived, not authored — `entries/<id>/logo.<ext>` must exist and is
   published as `logos/<id>.<ext>`
-- `price.json`: array of price rows (may be `[]`), each needing the six
-  priced fields; prices are non-negative decimals and rows must **not** carry a
-  `currency` (the provider's applies). No repeated `model_id` within a file,
-  and no drift between files for a shared `model_id` — currency included, so
-  the same model priced in USD by one provider and CNY by another is a
-  conflict
-- `global.json` rows: same shape, but each **must** carry its own `currency`
+
+**`models.json`**
+
+- array of model records (may be `[]`). `id` is required and unique within the
+  file; `name` is required whenever the model is priced (it becomes
+  `display_name` in `dist/models.json`, which the app requires)
+- `in` / `out`: non-negative decimals, and they come **together** — their
+  presence is the price flag
+- `cache_read` / `cache_creation`: optional non-negative decimals, `0` when
+  absent
+- `serves`: optional `{protocol: upstream string}`; every protocol must exist in
+  `endpoints`, the object must not be empty, and **omitting it means every
+  endpoint serves the model under its own `id`**
+- `flagship`: optional boolean, at most one per provider, and that model must be
+  priced
+- no `currency` on a record — the provider's applies. No drift between files for
+  a shared `id`, currency included, so the same model priced in USD by one
+  provider and CNY by another is a conflict
+
+**`global.json`**
+
 - `exchange_rates`: units per 1 USD, `USD` pinned to `1`
-- `news/<id>.json`: one notice per file, the file name being the id (lowercase
-  `[a-z0-9.-]`, 3–64 chars). Each requires a `kind`, a `provider_id` that
-  exists in `entries/`, a `model_id` that provider actually serves, a real
-  `released` date, and `title`/`body` within length; `expires_at` must be after
-  `released` and `url` must be http(s). An `id` field inside the file is
-  rejected, and unknown keys are reported as warnings
-- `version` (`global.json`): positive integer, **must increase** when pricing
-  rows change (the app seeds version-gated and ignores older versions)
+- rows: same shape as a published price row, but each **must** carry its own
+  `currency`
+- `version`: positive integer, **must increase** when pricing rows change (the
+  app seeds version-gated and ignores older versions)
+
+**`news/<id>.json`**
+
+- one notice per file, the file name being the id (lowercase `[a-z0-9.-]`,
+  3–64 chars). Each requires a `kind`, a `provider_id` that exists in
+  `entries/`, a `model_id` that provider actually serves, a real `released`
+  date, and `title`/`body` within length; `expires_at` must be after `released`
+  and `url` must be http(s). An `id` field inside the file is rejected, and
+  unknown keys are reported as warnings
+
+Unknown keys anywhere are reported as warnings by the build — that is how a
+leftover field from an older schema gets caught before it silently does nothing.
 
 ## Updating pricing
 
-Edit the price row where it lives — `entries/<id>/price.json` for a provider's
-models, `global.json` for vendor pricing no entry owns. If the model is
-resold elsewhere, update every copy or the validator fails on drift.
+Edit the model record where it lives — `entries/<id>/models.json` for a
+provider's models, `global.json` for vendor pricing no entry owns. If the model
+is resold elsewhere, update every copy or the validator fails on drift.
 
-Then bump `version` in `global.json` and, if the row introduced a new
+Then bump `version` in `global.json` and, if the record introduced a new
 currency, add it to `exchange_rates`. The version is the app's seed gate: an
 unchanged version means the app keeps its existing table.
 
 ## Layout notes
 
-- `dist/catalog.json` is assembled from all `entries/*/provider.json`,
-  sorted by id for deterministic output (the Models page sorts rows itself).
-- `dist/models.json` merges all `entries/*/price.json` with the rows left in
-  `global.json`, sorted by model id. A model resold by several providers
-  is written once.
+- `dist/catalog.json` is assembled from all `entries/*/provider.json` +
+  `models.json`, sorted by id for deterministic output (the Models page sorts
+  rows itself). Field order is canonical, not per-file.
+- The published entry still carries `price_line`, `users`, `blurb` (all `""`)
+  and `added` (`false`). They are **placeholders**, not source fields: the app's
+  catalog type declares them as required, and it parses the whole payload before
+  caching it, so dropping them would fail the app's Hub sync outright. They go
+  away once the app makes them optional.
+- `dist/models.json` merges the priced models of every `entries/*/models.json`
+  with the rows left in `global.json`, sorted by model id. A model resold by
+  several providers is written once.
 
 ## CI
 

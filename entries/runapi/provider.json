@@ -1,31 +1,20 @@
 {
   "id": "runapi",
   "name": "RunAPI",
-  "logo_char": "R",
   "logo_color": "#8B5CF6",
   "tag": "aggregate",
-  "tag_label": "Aggregator",
   "rating": 4,
-  "endpoint": "https://runapi.host",
-  "price_line": "Upstream price",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "claude-sonnet-5",
-    "claude-opus-5",
-    "claude-haiku-4-5",
-    "claude-haiku-4.5"
-  ],
-  "protocol": "openai",
-  "icon": "runapi",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://runapi.host"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://runapi.host",
-      "models": []
+      "endpoint": "https://runapi.host"
     }
-  ]
+  ],
+  "desc": "Upstream price"
 }

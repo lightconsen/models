@@ -1,32 +1,20 @@
 {
   "id": "kimi",
   "name": "Kimi",
-  "logo_char": "K",
   "logo_color": "#111111",
-  "logo_border": true,
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4.6,
-  "endpoint": "https://api.moonshot.cn",
-  "price_line": "¥49 /mo plan",
-  "currency": "USD",
   "billing": "plan",
-  "users": "8.1k users",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "kimi-k2-0905-preview",
-    "moonshot-v1-128k"
-  ],
-  "protocol": "openai",
-  "icon": "kimi",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://api.moonshot.cn"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://api.moonshot.cn/anthropic",
-      "models": [
-        "kimi-k2.7-code"
-      ]
+      "endpoint": "https://api.moonshot.cn/anthropic"
     }
-  ]
+  ],
+  "desc": "¥49 /mo plan · 8.1k users"
 }

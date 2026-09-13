@@ -1,28 +1,20 @@
 {
   "id": "teamorouter",
   "name": "TeamoRouter",
-  "logo_char": "T",
   "logo_color": "#7C3AED",
   "tag": "aggregate",
-  "tag_label": "Aggregator",
   "rating": 4,
-  "endpoint": "https://api.teamorouter.cn/v1",
-  "price_line": "Upstream price",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "gpt-5.6-sol"
-  ],
-  "protocol": "openai",
-  "icon": "teamorouter",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://api.teamorouter.cn/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://api.teamorouter.cn",
-      "models": []
+      "endpoint": "https://api.teamorouter.cn"
     }
-  ]
+  ],
+  "desc": "Upstream price"
 }

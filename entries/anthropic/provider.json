@@ -1,23 +1,16 @@
 {
   "id": "anthropic",
   "name": "Anthropic",
-  "logo_char": "A",
   "logo_color": "#D97757",
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4.9,
-  "endpoint": "https://api.anthropic.com",
-  "price_line": "Official pricing",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "claude-sonnet-5",
-    "claude-opus-5",
-    "claude-haiku-4-5"
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.anthropic.com"
+    }
   ],
-  "protocol": "anthropic",
-  "icon": "anthropic"
+  "desc": "Official pricing"
 }

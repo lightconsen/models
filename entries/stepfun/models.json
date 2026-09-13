@@ -1,0 +1,19 @@
+[
+  {
+    "id": "step-3.5-flash-2603",
+    "name": "Step 3.5 Flash 2603",
+    "in": "0.10",
+    "out": "0.30",
+    "cache_read": "0.02"
+  },
+  {
+    "id": "step-3.5-flash",
+    "name": "Step 3.5 Flash",
+    "in": "0.10",
+    "out": "0.30",
+    "cache_read": "0.02",
+    "serves": {
+      "openai": "step-3.5-flash"
+    }
+  }
+]

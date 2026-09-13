@@ -1,0 +1,28 @@
+[
+  {
+    "id": "tc-code-latest"
+  },
+  {
+    "id": "deepseek-v4-flash-202605",
+    "serves": {
+      "openai": "deepseek-v4-flash-202605"
+    }
+  },
+  {
+    "id": "deepseek-v4-pro-202606",
+    "serves": {
+      "openai": "deepseek-v4-pro-202606"
+    }
+  },
+  {
+    "id": "minimax-m2.7",
+    "name": "MiniMax M2.7",
+    "in": "0.30",
+    "out": "1.20",
+    "cache_read": "0.06",
+    "cache_creation": "0.375",
+    "serves": {
+      "openai": "minimax-m2.7"
+    }
+  }
+]

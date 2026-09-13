@@ -1,21 +1,16 @@
 {
   "id": "groq",
   "name": "Groq",
-  "logo_char": "G",
   "logo_color": "#F55036",
   "tag": "official",
-  "tag_label": "Free",
   "rating": 4.7,
-  "endpoint": "https://api.groq.com/openai/v1",
-  "price_line": "Free tier · then per-token",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Llama · ultra-fast inference",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "llama-3.3-70b-versatile"
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.groq.com/openai/v1"
+    }
   ],
-  "protocol": "openai",
-  "icon": "groq"
+  "desc": "Free tier · then per-token · Llama · ultra-fast inference"
 }

@@ -1,40 +1,24 @@
 {
   "id": "shengsuanyun",
   "name": "Shengsuanyun",
-  "logo_char": "S",
   "logo_color": "#EA580C",
   "tag": "aggregate",
-  "tag_label": "Aggregator",
   "rating": 4,
-  "endpoint": "https://router.shengsuanyun.com/api/v1",
-  "price_line": "Upstream price",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "anthropic/claude-opus-5",
-    "anthropic/claude-sonnet-5",
-    "openai/gpt-5.6-sol",
-    "claude-opus-5"
-  ],
-  "protocol": "openai",
-  "icon": "shengsuanyun",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://router.shengsuanyun.com/api/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://router.shengsuanyun.com/api",
-      "models": [
-        "anthropic/claude-sonnet-5"
-      ]
+      "endpoint": "https://router.shengsuanyun.com/api"
     },
     {
       "protocol": "gemini",
-      "endpoint": "https://router.shengsuanyun.com/api",
-      "models": [
-        "google/gemini-3.6-flash"
-      ]
+      "endpoint": "https://router.shengsuanyun.com/api"
     }
-  ]
+  ],
+  "desc": "Upstream price"
 }

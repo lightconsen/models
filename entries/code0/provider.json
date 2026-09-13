@@ -1,35 +1,24 @@
 {
   "id": "code0",
   "name": "Code0",
-  "logo_char": "C",
   "logo_color": "#2563EB",
   "tag": "aggregate",
-  "tag_label": "Aggregator",
   "rating": 4,
-  "endpoint": "https://code0.ai/v1",
-  "price_line": "Upstream price",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "gpt-5.6-sol"
-  ],
-  "protocol": "openai",
-  "icon": "code0",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://code0.ai/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://code0.ai",
-      "models": []
+      "endpoint": "https://code0.ai"
     },
     {
       "protocol": "gemini",
-      "endpoint": "https://code0.ai",
-      "models": [
-        "gemini-3.6-flash"
-      ]
+      "endpoint": "https://code0.ai"
     }
-  ]
+  ],
+  "desc": "Upstream price"
 }

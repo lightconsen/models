@@ -1,38 +1,23 @@
 {
   "id": "apikey-fun",
   "name": "APIKEY.FUN",
-  "logo_char": "A",
   "logo_color": "#6467F2",
   "tag": "third",
-  "tag_label": "Third-party",
   "rating": 4,
-  "endpoint": "https://api.apikey.fun/v1",
-  "price_line": "Pay-as-you-go",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "gpt-5.6-sol",
-    "claude-opus-5",
-    "claude-sonnet-5",
-    "claude-haiku-4-5"
-  ],
-  "protocol": "openai",
-  "icon": "apikeyfun",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://api.apikey.fun/v1"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://api.apikey.fun",
-      "models": []
+      "endpoint": "https://api.apikey.fun"
     },
     {
       "protocol": "gemini",
-      "endpoint": "https://api.apikey.fun",
-      "models": [
-        "gemini-3.6-flash"
-      ]
+      "endpoint": "https://api.apikey.fun"
     }
   ]
 }

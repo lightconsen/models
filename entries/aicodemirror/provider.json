@@ -1,37 +1,23 @@
 {
   "id": "aicodemirror",
   "name": "AICodeMirror",
-  "logo_char": "A",
   "logo_color": "#0891B2",
   "tag": "third",
-  "tag_label": "Third-party",
   "rating": 4,
-  "endpoint": "https://api.aicodemirror.ai/api/claudecode",
-  "price_line": "Pay-as-you-go",
-  "currency": "USD",
   "billing": "payg",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "claude-sonnet-5",
-    "claude-opus-5",
-    "claude-haiku-4-5-20251001"
-  ],
-  "protocol": "openai",
-  "icon": "aicodemirror",
+  "currency": "USD",
   "endpoints": [
     {
+      "protocol": "openai",
+      "endpoint": "https://api.aicodemirror.ai/api/claudecode"
+    },
+    {
       "protocol": "anthropic",
-      "endpoint": "https://api.aicodemirror.ai/api/claudecode",
-      "models": []
+      "endpoint": "https://api.aicodemirror.ai/api/claudecode"
     },
     {
       "protocol": "gemini",
-      "endpoint": "https://api.aicodemirror.ai/api/gemini",
-      "models": [
-        "gemini-3.6-flash"
-      ]
+      "endpoint": "https://api.aicodemirror.ai/api/gemini"
     }
   ]
 }

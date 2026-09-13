@@ -1,23 +1,16 @@
 {
   "id": "bailian-for-coding",
   "name": "Bailian For Coding",
-  "logo_char": "B",
   "logo_color": "#0EA5E9",
   "tag": "official",
-  "tag_label": "Official",
   "rating": 4,
-  "endpoint": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
-  "price_line": "from ¥200 /mo",
-  "currency": "USD",
   "billing": "plan",
-  "users": "Listed on cc-switch",
-  "blurb": "",
-  "added": false,
-  "models": [
-    "qwen3-coder-plus",
-    "qwen3-max"
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://coding.dashscope.aliyuncs.com/apps/anthropic"
+    }
   ],
-  "protocol": "anthropic",
-  "icon": "bailian",
-  "endpoints": []
+  "desc": "from ¥200 /mo"
 }

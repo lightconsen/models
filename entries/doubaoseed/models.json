@@ -1,0 +1,18 @@
+[
+  {
+    "id": "ark-code-latest"
+  },
+  {
+    "id": "doubao-seed-2-1-pro-260628"
+  },
+  {
+    "id": "doubao-seed-2-1-pro",
+    "name": "Doubao Seed 2.1 Pro",
+    "in": "0.84",
+    "out": "4.2",
+    "cache_read": "0.17",
+    "serves": {
+      "openai": "doubao-seed-2.1-pro"
+    }
+  }
+]

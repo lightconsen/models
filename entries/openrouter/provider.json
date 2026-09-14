@@ -20,5 +20,5 @@
       "endpoint": "https://openrouter.ai/api"
     }
   ],
-  "desc": "Upstream price · +5.5% · 500+ models, one key"
+  "desc": "OpenRouter's own marketplace API over many upstream providers"
 }

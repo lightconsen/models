@@ -23,7 +23,7 @@
 | [ ] | `aigocode` | third | 4/4 | <https://aigocode.app/> |  |
 | [ ] | `aihubmix` | aggregate | 3/3 | <https://aihubmix.com/> |  |
 | [ ] | `amux` | aggregate | 1/1 | <https://amux.ai/> |  |
-| [ ] | `anthropic` | official | 2/3 | <https://anthropic.com/> |  |
+| [x] | `anthropic` | official | 4/4 | <https://anthropic.com/> | checked 2026-09-14 — the four models and their prices from the vendor's own pricing page; `billing` is `both` (the API and Pro/Max share a host) |
 | [ ] | `apikey-fun` | third | 4/5 | <https://apikey.fun/> |  |
 | [ ] | `apinebula` | third | 2/2 | <https://apinebula.ai/> |  |
 | [ ] | `atlascloud` | aggregate | 1/1 | <https://atlascloud.ai/> |  |

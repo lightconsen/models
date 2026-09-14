@@ -34,7 +34,7 @@
     "out": "3.75",
     "cache_read": "0.075",
     "serves": {
-      "gemini": "gemini-3.6-flash"
+      "gemini": "google/gemini-3.6-flash"
     }
   }
 ]

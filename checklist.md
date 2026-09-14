@@ -1,6 +1,6 @@
 # Provider review checklist
 
-56 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
+55 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
 
 - every live model is listed, and no retired one is — where the vendor's own page
   enumerates its lineup, which is most of them. An aggregator routing hundreds
@@ -59,7 +59,6 @@ Four vendors can be read by script rather than by eye, and when one applies, run
 | [ ] | `nous-research` | official | 0/2 | <https://nousresearch.com/> |  |
 | [ ] | `novita-ai` | aggregate | 1/1 | <https://novita.ai/> |  |
 | [ ] | `nvidia` | aggregate | 1/1 | <https://nvidia.com/> |  |
-| [ ] | `ollama` | local | 0/2 | <https://ollama.com/> |  |
 | [x] | `openrouter` | aggregate | 20/20 | <https://openrouter.ai/> | checked 2026-09-14 — model list from the vendor's own usage ranking, prices and upstream ids from its models API (see the two fetch scripts) |
 | [ ] | `pipellm` | aggregate | 4/4 | <https://pipellm.ai/> |  |
 | [ ] | `ppio` | aggregate | 2/2 | <https://ppio.com/> |  |

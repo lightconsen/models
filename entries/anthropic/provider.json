@@ -12,5 +12,5 @@
       "endpoint": "https://api.anthropic.com"
     }
   ],
-  "desc": "Official pricing"
+  "desc": "Anthropic's own Claude API"
 }

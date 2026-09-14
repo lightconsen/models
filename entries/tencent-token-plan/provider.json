@@ -5,7 +5,7 @@
   "tag": "official",
   "rating": 4,
   "billing": "plan",
-  "currency": "USD",
+  "currency": "CNY",
   "endpoints": [
     {
       "protocol": "openai",
@@ -16,5 +16,5 @@
       "endpoint": "https://api.lkeap.cloud.tencent.com/plan/anthropic"
     }
   ],
-  "desc": "from ¥39 /mo"
+  "desc": "Tencent Cloud's prepaid token plan on LKEAP"
 }

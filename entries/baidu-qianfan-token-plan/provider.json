@@ -5,7 +5,7 @@
   "tag": "official",
   "rating": 4,
   "billing": "plan",
-  "currency": "USD",
+  "currency": "CNY",
   "endpoints": [
     {
       "protocol": "openai",
@@ -16,5 +16,5 @@
       "endpoint": "https://qianfan.baidubce.com/anthropic/tokenplan/personal"
     }
   ],
-  "desc": "Official pricing"
+  "desc": "Baidu Cloud's prepaid token plan on Qianfan"
 }

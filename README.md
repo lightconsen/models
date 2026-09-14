@@ -40,6 +40,11 @@ scripts/
                        print what it would change. Never run in the build — they
                        only save the author a transcription, and print a diff
                        rather than writing unless given --write
+  fetch-openrouter-rankings.mjs
+                       the same, but it picks *which* rows OpenRouter's entry
+                       carries: its own published token-usage ranking. The one
+                       script that needs a key (the rankings dataset is
+                       authenticated); it reads OPENROUTER_API_KEY, or --key-file
 .github/workflows/
   validate.yml         PR gate: validation + dry-run build
   publish.yml          main push: build + upload to R2
@@ -554,6 +559,20 @@ Note also which models it returns: filtering on `modality === "text->text"` look
 like the obvious reading and is wrong — it drops every model that accepts an
 image, which is 272 of the 430, including the ones a reader actually picks. The
 script filters on output modality instead.
+
+`fetch-openrouter-rankings.mjs` is a different kind of aid: the two above diff
+prices for the rows an entry already carries, and this one chooses which rows
+those should be, from OpenRouter's own token-usage ranking
+(`/api/v1/datasets/rankings-daily`). It is the only script here that needs a key.
+Two traps in that data are worth knowing before reading its output as fact. It
+spells model ids as pinned snapshots (`deepseek/deepseek-v4-flash-20260731`) where
+the models list gives the canonical id, so it strips the date — and two ranked
+snapshots can resolve to one model, which is why it sums their tokens and ranks
+the models rather than the snapshots. And a ranked model need not exist in the
+models list at all (`stealth/ox-alpha` does not), so it reports those and writes
+the rest rather than dropping them quietly. The dataset is CC BY 4.0: anything
+republished from it must carry "Source: OpenRouter (openrouter.ai/rankings), as of
+{as_of}" — which is why the entry's rows are not the only thing to read there.
 
 Most vendors offer neither: their pricing is behind a JavaScript app or an
 undocumented RPC (Kimi's membership page is the latter — the numbers never exist

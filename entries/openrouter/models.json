@@ -1,40 +1,222 @@
 [
   {
-    "id": "anthropic/claude-sonnet-4.6",
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek: DeepSeek V4 Flash 0423",
+    "in": "0.088606",
+    "out": "0.177212",
+    "cache_read": "0.0177212",
     "serves": {
-      "openai": "anthropic/claude-sonnet-4.6"
-    }
-  },
-  {
-    "id": "gpt-5.2",
-    "name": "GPT-5.2",
-    "in": "1.75",
-    "out": "14",
-    "cache_read": "0.175",
-    "serves": {
-      "openai": "openai/gpt-5.2"
+      "openai": "deepseek/deepseek-v4-flash",
+      "anthropic": "deepseek/deepseek-v4-flash",
+      "gemini": "deepseek/deepseek-v4-flash"
     },
     "flagship": true
   },
   {
-    "id": "claude-sonnet-5",
-    "name": "Claude Sonnet 5",
-    "in": "2",
-    "out": "10",
-    "cache_read": "0.20",
-    "cache_creation": "2.50",
+    "id": "gpt-5.6-luna",
+    "name": "OpenAI: GPT-5.6 Luna",
+    "in": "0.2",
+    "out": "1.2",
+    "cache_read": "0.02",
+    "cache_creation": "0.25",
     "serves": {
-      "anthropic": "anthropic/claude-sonnet-5"
+      "openai": "openai/gpt-5.6-luna",
+      "anthropic": "openai/gpt-5.6-luna",
+      "gemini": "openai/gpt-5.6-luna"
     }
   },
   {
-    "id": "gemini-3.6-flash",
-    "name": "Gemini 3.6 Flash",
+    "id": "hy4-preview",
+    "name": "Tencent: Hy4 preview",
+    "in": "0.834",
+    "out": "2.501",
+    "cache_read": "0.042",
+    "serves": {
+      "openai": "tencent/hy4-preview",
+      "anthropic": "tencent/hy4-preview",
+      "gemini": "tencent/hy4-preview"
+    }
+  },
+  {
+    "id": "glm-5.3-flash",
+    "name": "Z.ai: GLM 5.3 Flash",
+    "in": "0.15",
+    "out": "0.5",
+    "cache_read": "0.03",
+    "serves": {
+      "openai": "z-ai/glm-5.3-flash",
+      "anthropic": "z-ai/glm-5.3-flash",
+      "gemini": "z-ai/glm-5.3-flash"
+    }
+  },
+  {
+    "id": "mimo-v2.5",
+    "name": "Xiaomi: MiMo-V2.5",
+    "in": "0.14",
+    "out": "0.28",
+    "cache_read": "0.0028",
+    "serves": {
+      "openai": "xiaomi/mimo-v2.5",
+      "anthropic": "xiaomi/mimo-v2.5",
+      "gemini": "xiaomi/mimo-v2.5"
+    }
+  },
+  {
+    "id": "hy3",
+    "name": "Tencent: Hy3",
+    "in": "0.132",
+    "out": "0.528",
+    "cache_read": "0.033",
+    "serves": {
+      "openai": "tencent/hy3",
+      "anthropic": "tencent/hy3",
+      "gemini": "tencent/hy3"
+    }
+  },
+  {
+    "id": "nemotron-3-ultra-550b-a55b:free",
+    "name": "NVIDIA: Nemotron 3 Ultra (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "anthropic": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "gemini": "nvidia/nemotron-3-ultra-550b-a55b:free"
+    }
+  },
+  {
+    "id": "glm-5.2",
+    "name": "Z.ai: GLM 5.2",
+    "in": "0.6832",
+    "out": "2.1472",
+    "cache_read": "0.12688",
+    "serves": {
+      "openai": "z-ai/glm-5.2",
+      "anthropic": "z-ai/glm-5.2",
+      "gemini": "z-ai/glm-5.2"
+    }
+  },
+  {
+    "id": "deepseek-v4-pro",
+    "name": "DeepSeek: DeepSeek V4 Pro 0423",
+    "in": "1.6",
+    "out": "3.2",
+    "cache_read": "0.135",
+    "serves": {
+      "openai": "deepseek/deepseek-v4-pro",
+      "anthropic": "deepseek/deepseek-v4-pro",
+      "gemini": "deepseek/deepseek-v4-pro"
+    }
+  },
+  {
+    "id": "gemini-3.7-flash",
+    "name": "Google: Gemini 3.7 Flash",
     "in": "0.75",
     "out": "3.75",
     "cache_read": "0.075",
+    "cache_creation": "0.0416666666666667",
     "serves": {
-      "gemini": "google/gemini-3.6-flash"
+      "openai": "google/gemini-3.7-flash",
+      "anthropic": "google/gemini-3.7-flash",
+      "gemini": "google/gemini-3.7-flash"
+    }
+  },
+  {
+    "id": "glm-5.3",
+    "name": "Z.ai: GLM 5.3",
+    "in": "1.4",
+    "out": "4.4",
+    "cache_read": "0.26",
+    "serves": {
+      "openai": "z-ai/glm-5.3",
+      "anthropic": "z-ai/glm-5.3",
+      "gemini": "z-ai/glm-5.3"
+    }
+  },
+  {
+    "id": "gpt-5.6-sol",
+    "name": "OpenAI: GPT-5.6 Sol",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "cache_creation": "2.5",
+    "serves": {
+      "openai": "openai/gpt-5.6-sol",
+      "anthropic": "openai/gpt-5.6-sol",
+      "gemini": "openai/gpt-5.6-sol"
+    }
+  },
+  {
+    "id": "kimi-k3",
+    "name": "MoonshotAI: Kimi K3",
+    "in": "2.648138063",
+    "out": "13.28272425",
+    "cache_read": "0.30264435",
+    "serves": {
+      "openai": "moonshotai/kimi-k3",
+      "anthropic": "moonshotai/kimi-k3",
+      "gemini": "moonshotai/kimi-k3"
+    }
+  },
+  {
+    "id": "minimax-m3",
+    "name": "MiniMax: MiniMax M3",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.06",
+    "serves": {
+      "openai": "minimax/minimax-m3",
+      "anthropic": "minimax/minimax-m3",
+      "gemini": "minimax/minimax-m3"
+    }
+  },
+  {
+    "id": "claude-opus-5",
+    "name": "Claude Opus 5",
+    "in": "5",
+    "out": "25",
+    "cache_read": "0.5",
+    "cache_creation": "6.25",
+    "serves": {
+      "openai": "anthropic/claude-opus-5",
+      "anthropic": "anthropic/claude-opus-5",
+      "gemini": "anthropic/claude-opus-5"
+    }
+  },
+  {
+    "id": "laguna-s-2.1:free",
+    "name": "Poolside: Laguna S 2.1 (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "poolside/laguna-s-2.1:free",
+      "anthropic": "poolside/laguna-s-2.1:free",
+      "gemini": "poolside/laguna-s-2.1:free"
+    }
+  },
+  {
+    "id": "claude-sonnet-5",
+    "name": "Anthropic: Claude Sonnet 5",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "cache_creation": "2.5",
+    "serves": {
+      "openai": "anthropic/claude-sonnet-5",
+      "anthropic": "anthropic/claude-sonnet-5",
+      "gemini": "anthropic/claude-sonnet-5"
+    }
+  },
+  {
+    "id": "deepseek-v4.1-flash",
+    "name": "DeepSeek: DeepSeek V4.1 Flash",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.006",
+    "serves": {
+      "openai": "deepseek/deepseek-v4.1-flash",
+      "anthropic": "deepseek/deepseek-v4.1-flash",
+      "gemini": "deepseek/deepseek-v4.1-flash"
     }
   }
 ]

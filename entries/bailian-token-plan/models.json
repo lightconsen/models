@@ -1,0 +1,18 @@
+[
+  {
+    "id": "qwen3.8-max",
+    "name": "Qwen3.8 Max"
+  },
+  {
+    "id": "qwen3.8-flash",
+    "name": "Qwen3.8 Flash"
+  },
+  {
+    "id": "deepseek-v4.1-flash",
+    "name": "DeepSeek V4.1 Flash"
+  },
+  {
+    "id": "glm-5.2",
+    "name": "GLM 5.2"
+  }
+]

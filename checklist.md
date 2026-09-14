@@ -29,7 +29,7 @@
 | [ ] | `atlascloud` | aggregate | 1/1 | <https://atlascloud.ai/> |  |
 | [ ] | `baidu-qianfan-token-plan` | official | 3/5 | <https://cloud.baidu.com/product-s/qianfan_home> |  |
 | [ ] | `bailian` | official | 0/0 | <https://www.aliyun.com/product/bailian> |  |
-| [ ] | `bailian-for-coding` | official | 2/2 | <https://www.aliyun.com/product/bailian> |  |
+| [ ] | `bailian-token-plan` | official | 0/4 | <https://www.aliyun.com/product/bailian> |  |
 | [ ] | `bailing` | official | 0/1 | <https://www.tbox.cn/> |  |
 | [ ] | `byteplus` | official | 0/1 | <https://www.byteplus.com/en> |  |
 | [ ] | `ccsub` | aggregate | 1/1 | <https://ccsub.net/> |  |

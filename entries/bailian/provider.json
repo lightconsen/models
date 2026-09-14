@@ -5,7 +5,7 @@
   "tag": "official",
   "rating": 4,
   "billing": "payg",
-  "currency": "USD",
+  "currency": "CNY",
   "endpoints": [
     {
       "protocol": "anthropic",

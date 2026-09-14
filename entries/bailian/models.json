@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "qwen3.8-max",
+    "name": "Qwen3.8 Max",
+    "in": "12",
+    "out": "36",
+    "cache_read": "1.5",
+    "flagship": true
+  },
+  {
+    "id": "qwen3.8-flash",
+    "name": "Qwen3.8 Flash",
+    "in": "0.8",
+    "out": "2.7",
+    "cache_read": "0.1"
+  }
+]

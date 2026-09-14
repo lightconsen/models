@@ -97,7 +97,7 @@ Four vendors can be read by script rather than by eye, and when one applies, run
 | [ ] | `xiaomi-mimo-token-plan-china` | official | 2/2 | <https://mimo.xiaomi.com/> |  |
 | [ ] | `xycai` | aggregate | 2/2 | <https://xycai.us/> |  |
 | [ ] | `zetaapi` | aggregate | 1/1 | <https://zetaapi.ai/> |  |
-| [ ] | `zhipu-glm` | official | 2/2 | <https://bigmodel.cn/> |  |
-| [ ] | `zhipu-glm-intl` | official | 2/2 | <https://z.ai/> |  |
+| [x] | `zhipu-glm` | official | 2/2 | <https://bigmodel.cn/> | checked 2026-09-14 — GLM-5.3 and -Flash with their rates from the vendor's page (CNY); `billing` is `both`, and the `zhipu` quota template reads the domestic host |
+| [x] | `zhipu-glm-intl` | official | 2/2 | <https://z.ai/> | checked 2026-09-14 — the same two models as Z.AI lists them (USD); `billing` is `both`; the same `zhipu` template, which routes to api.z.ai off the entry's own host |
 
 Priced counts are `priced/total` models. The list is a snapshot of `entries/` — a new provider needs a new line, and a removed one loses its own.

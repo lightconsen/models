@@ -62,7 +62,7 @@
 | [ ] | `nvidia` | aggregate | 1/1 | <https://nvidia.com/> |  |
 | [ ] | `ollama` | local | 0/2 | <https://ollama.com/> |  |
 | [ ] | `opencode-go` | third | 2/4 | <https://opencode.ai/> |  |
-| [ ] | `openrouter` | aggregate | 3/4 | <https://openrouter.ai/> |  |
+| [x] | `openrouter` | aggregate | 20/20 | <https://openrouter.ai/> | checked 2026-09-14 — model list from the vendor's own usage ranking, prices and upstream ids from its models API (see the two fetch scripts) |
 | [ ] | `packycode` | third | 4/4 | <https://packyapi.ai/> |  |
 | [ ] | `patewayai` | third | 0/0 | <https://pateway.ai/> |  |
 | [ ] | `pipellm` | aggregate | 4/4 | <https://pipellm.ai/> |  |

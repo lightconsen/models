@@ -1,10 +1,10 @@
 {
   "id": "zhipu-glm-intl",
-  "name": "Zhipu GLM (Intl)",
+  "name": "Z.AI",
   "website": "https://z.ai/",
   "tag": "official",
   "rating": 4,
-  "billing": "plan",
+  "billing": "both",
   "currency": "USD",
   "endpoints": [
     {

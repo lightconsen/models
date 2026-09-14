@@ -1,6 +1,6 @@
 # Provider review checklist
 
-78 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
+77 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
 
 - every live model is listed, and no retired one is — where the vendor's own page
   enumerates its lineup, which is most of them. An aggregator routing hundreds
@@ -94,9 +94,8 @@ Four vendors can be read by script rather than by eye, and when one applies, run
 | [ ] | `sudocode-chat` | third | 1/1 | <https://sudocode.chat/> |  |
 | [ ] | `sudocode-us` | third | 2/2 | <https://sudocode.us/> |  |
 | [ ] | `teamorouter` | aggregate | 1/1 | <https://teamorouter.cn/> |  |
-| [ ] | `tencent-token-plan` | official | 1/4 | <https://www.tencent.com/> |  |
+| [ ] | `tencent-token-plan` | official | 0/14 | <https://www.tencent.com/> |  |
 | [ ] | `tencent-token-plan-enterprise-pro` | official | 3/5 | <https://cloud.tencent.com/> |  |
-| [ ] | `tencent-token-plan-intl` | official | 1/5 | <https://www.tencentcloud.com/> |  |
 | [ ] | `therouter` | aggregate | 4/4 | <https://therouter.ai/> |  |
 | [ ] | `together-ai` | aggregate | 2/3 | <https://together.xyz/> |  |
 | [ ] | `xai` | official | 1/1 | <https://x.ai/> |  |

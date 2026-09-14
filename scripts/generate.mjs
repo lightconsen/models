@@ -59,7 +59,7 @@
  *   node scripts/generate.mjs --check     validate only, no writes (PR gate)
  */
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync, copyFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync, copyFileSync, rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -578,13 +578,16 @@ const priceRows = [...merged.values()]
 console.log(
   `  ✓ ${priceRows.length} price rows (v${doc.version}) from ${entryPriceRows.length} row(s) across ${new Set(priceRows.map((r) => r.provider_id)).size} provider(s)`,
 );
+// Sorted by model id before it is cut, so which rows make the first ten depends
+// on their names rather than on the order the directories happened to be read in.
 if (divergence.length) {
+  const listed = [...divergence].sort();
   console.warn(
-    `  ! ${divergence.length} model(s) priced differently by different providers — ` +
+    `  ! ${listed.length} model(s) priced differently by different providers — ` +
       `apps that key prices by model alone will pick one arbitrarily:`,
   );
-  for (const d of divergence.slice(0, 10)) console.warn(`      ${d}`);
-  if (divergence.length > 10) console.warn(`      …and ${divergence.length - 10} more`);
+  for (const d of listed.slice(0, 10)) console.warn(`      ${d}`);
+  if (listed.length > 10) console.warn(`      …and ${listed.length - 10} more`);
 }
 
 // ── news/<id>.json ──
@@ -742,7 +745,13 @@ write("manifest.json", {
   news: { count: news.length, sha256: newsSha },
 });
 
+// Rebuilt, not merged: a provider whose logo changed extension would otherwise
+// leave the old file in dist/, and publish.yml uploads the directory as it finds
+// it — so the bucket keeps an asset nothing references, and a client that cached
+// that URL keeps a stale image that still resolves. Same reason the price table is
+// the whole table rather than a patch.
 const logosDist = path.join(dist, "logos");
+rmSync(logosDist, { recursive: true, force: true });
 mkdirSync(logosDist, { recursive: true });
 for (const { id, ext } of logoFiles) {
   copyFileSync(path.join(repo, "entries", id, `logo.${ext}`), path.join(logosDist, `${id}.${ext}`));

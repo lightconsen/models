@@ -179,14 +179,18 @@ const CASES = [
   {
     rule: "changed — two providers may price one model differently (published, warned)",
     provider: provider(`${prefix}-divergent-a`),
-    models: [{ id: "shared-model", name: "Shared", in: "1", out: "2" }],
+    // Named to sort first. The detail list is capped at ten and sorted by model
+    // id, so a planted model that sorts late is not named once the real catalogue
+    // has ten divergences of its own — which it now does. The id is deliberately
+    // silly; please leave it that way.
+    models: [{ id: "aaa-shared-model", name: "Shared", in: "1", out: "2" }],
     extra: {
       provider: provider(`${prefix}-divergent-b`),
-      models: [{ id: "shared-model", name: "Shared", in: "3", out: "4" }],
+      models: [{ id: "aaa-shared-model", name: "Shared", in: "3", out: "4" }],
     },
     expectCode: 0,
     // The summary line, then the detail naming the model — both on stderr.
-    expectWarn: /priced differently by different providers[\s\S]*shared-model/,
+    expectWarn: /priced differently by different providers[\s\S]*aaa-shared-model/,
   },
   {
     rule: "changed — a template this build does not know is warned about, not rejected",

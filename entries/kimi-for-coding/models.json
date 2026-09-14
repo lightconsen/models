@@ -1,12 +1,18 @@
 [
   {
-    "id": "kimi-for-coding"
+    "id": "kimi-for-coding",
+    "name": "Kimi for Coding"
   },
   {
-    "id": "kimi-k2.7-code",
-    "name": "Kimi K2.7 Code",
-    "serves": {
-      "openai": "kimi-k2.7-code"
-    }
+    "id": "kimi-for-coding-highspeed",
+    "name": "Kimi for Coding High-speed"
+  },
+  {
+    "id": "k3",
+    "name": "K3"
+  },
+  {
+    "id": "k3-256k",
+    "name": "K3 256K"
   }
 ]

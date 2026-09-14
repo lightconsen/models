@@ -7,10 +7,17 @@
   does not, so the entry carries the ones it is known for and the notes say which
   rule picked them (`openrouter` uses the vendor's own usage ranking)
 - `in` / `out` / `cache_read` match the vendor's own table, in the currency the vendor bills in
-- any time-of-day pricing is recorded, not left in prose. Plan pricing cannot be,
-  and no entry should be held for it: a subscription's monthly figure has no field,
-  so the twelve entries that carry one carry it in `desc`. This bullet stays as the
-  marker of that gap; do not go looking for the field
+- any time-of-day pricing is recorded, not left in prose. Two kinds cannot be, and
+  no entry should be held for either. A subscription's monthly figure has no field,
+  so the ten entries that carry one carry it in `desc`. And a rate that varies by
+  context length has no field either — Alibaba prices most of its models in tiers
+  by input length, and those entries could only record the ones that are not
+  tiered, which is a selection, not a transcription. This bullet stays as the
+  marker of both gaps; do not go looking for the fields
+- `billing` says what the vendor sells **at that address**. Where one host answers
+  to both an API key and a subscription credential it is `both` — the Anthropic API
+  and Pro/Max, Zhipu's `api` and its coding plan — and two entries are right only
+  when the addresses differ, the way `kimi` and `kimi-for-coding` do
 - a plan-billed entry says whether its usage can be read with the API key alone,
   and `plan_query` names the right template when it can
 - `desc` introduces the vendor and nothing that expires — no model names, no

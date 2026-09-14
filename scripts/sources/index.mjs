@@ -16,6 +16,7 @@ import deepseek from "./deepseek.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
 import openrouter from "./openrouter.mjs";
+import qianwen from "./qianwen.mjs";
 import volcesark from "./volcesark.mjs";
 import xai from "./xai.mjs";
 import xiaomiMimo from "./xiaomi-mimo.mjs";
@@ -27,6 +28,7 @@ export default [
   kimi,
   minimax,
   openrouter,
+  qianwen,
   volcesark,
   xai,
   xiaomiMimo,
@@ -36,6 +38,5 @@ export default [
   //   kimi-for-coding          a membership: one price for the service, no per-token rate
   //   tencent-token-plan       a prepaid plan; the model list is published, the rates are not
   //   baidu-qianfan-token-plan a prepaid plan, same shape
-  //   qianwenai                prices are readable, but the cache rate is not — see the note below
   //   qianwenai-token-plan     a plan; its model list needs an API key (fetch-aliyun-models.mjs)
 ];

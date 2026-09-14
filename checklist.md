@@ -40,8 +40,8 @@ Five vendors can be read by script rather than by eye, and when one applies, run
 | [ ] | `groq` | official | 0/1 | <https://groq.com/> |  |
 | [x] | `kimi` | official | 4/4 | <https://moonshot.cn/> | checked 2026-09-14 — prices, currency, model list (see the fetch script) |
 | [x] | `kimi-for-coding` | official | 0/4 | <https://kimi.com/> | checked 2026-09-14 — model list, CNY, no per-token price (a membership carries none); `plan_query` = `kimi` |
-| [ ] | `minimax` | official | 2/2 | <https://minimaxi.com/> |  |
-| [ ] | `minimax-intl` | official | 2/2 | <https://minimax.io/> |  |
+| [ ] | `minimax` | official | 2/2 | <https://minimaxi.com/> | the vendor lists eight language models and prices two; only the priced ones are listed, and `billing` is `both` because one address takes a pay-as-you-go key and a Token Plan key |
+| [ ] | `minimax-intl` | official | 2/2 | <https://minimax.io/> | the overseas table, which the domestic one confirms at the rate in `global.json`; same eight-listed-two-priced shape, and `billing` is `both` |
 | [x] | `openrouter` | aggregate | 20/20 | <https://openrouter.ai/> | checked 2026-09-14 — model list from the vendor's own usage ranking, prices and upstream ids from its models API (see the two fetch scripts) |
 | [x] | `qianwenai` | official | 2/2 | <https://www.qianwenai.com/> | checked 2026-09-14 — the two models and their rates from the vendor's page; both routes answer without a key |
 | [x] | `qianwenai-token-plan` | official | 0/9 | <https://www.qianwenai.com/> | checked 2026-09-14 — the nine models read off the plan's own `/compatible-mode/v1/models` (see the script); the anthropic route answers 401 without a key |

@@ -1,6 +1,6 @@
 # Provider review checklist
 
-79 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
+78 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
 
 - every live model is listed, and no retired one is
 - `in` / `out` / `cache_read` match the vendor's own table, in the currency the vendor bills in
@@ -68,7 +68,6 @@
 | [ ] | `qianwenai` | official | 2/2 | <https://www.qianwenai.com/> |  |
 | [ ] | `qianwenai-token-plan` | official | 0/9 | <https://www.qianwenai.com/> |  |
 | [ ] | `qiniu` | aggregate | 2/2 | <https://qnaigc.com/> |  |
-| [ ] | `qwen` | official | 0/2 | <https://qwen.ai/> |  |
 | [ ] | `relaxycode` | third | 0/0 | <https://www.relaxycode.com/> |  |
 | [ ] | `rightcode` | third | 4/4 | <https://rightapi.ai/> |  |
 | [ ] | `runapi` | aggregate | 2/4 | <https://runapi.host/> |  |

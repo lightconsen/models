@@ -1,28 +1,21 @@
 /**
  * Volcengine Ark: the pay-as-you-go price list and the two plan pages.
  *
- * These pages were written off once as a logged-in session — the rendered docs
- * hosts are JavaScript shells, and the reviewer who tried them found
- * `ark.volcengine.com` returning 44 KB of which eighteen characters were text,
- * with the content arriving from an authenticated POST. That is not the whole
- * story: `www.volcengine.com/api/doc/getDocDetail?DocumentID=<id>` serves the
- * same content publicly, no key, and the id is the number in the page's URL.
- * The parameter is `DocumentID`, capitalised exactly — the other spellings are
- * rejected rather than redirected, which reads as a 404 for a page that exists.
+ * These were written off once as a logged-in session — the rendered docs hosts
+ * are JavaScript shells, and `ark.volcengine.com` returns 44 KB of which eighteen
+ * characters are text. But `www.volcengine.com/api/doc/getDocDetail?`
+ * `DocumentID=<id>` serves the same documents publicly, no key, and the id is the
+ * number in the page's URL. `DocumentID` is capitalised exactly; other spellings
+ * are rejected rather than redirected, which reads as a 404 for a page that
+ * exists.
  *
- * What comes back is a Quill-like delta, and that is why this adapter is longer
- * than its neighbours. The delta does not contain a table. It contains a column
- * block (`zoneType: "C"`), one row block per row (`"R"`), and one block per
- * *cell*, and neither the rows nor the columns say which cell belongs where.
- * The pairing lives in the cell block's key, which runs `x<rowCellId>…x<colCellId>…`
- * — the row and column blocks carry the ids, and the text block is the key that
- * starts with one and contains the other. So a table is reassembled from an
- * index of keys rather than read off a block, and the walk is column-block by
- * row-block because the column block is what fixes the column order. A row that
- * does not belong to a column block resolves to no key at all, which is how the
- * several tables on one page stay apart.
- *
- * `Result.Content` is a JSON *string*, so every doc is parsed twice.
+ * **Read `Result.MDContent`, not `Result.Content`.** Both are in the response and
+ * they are the same document. `Content` is a Quill-style delta with no tables in
+ * it — a column block, a row block, and a block per cell, with the pairing hidden
+ * in each cell block's key — so rebuilding a table means walking block ids and
+ * matching key prefixes on `x<rowId>…x<colId>…`. It is the obvious thing to reach
+ * for, it works, and `MDContent` is the same page already rendered as markdown.
+ * This reads `|` rows like every other source here.
  *
  * Two published facts the entries have nowhere to put, dropped rather than
  * squeezed: a model priced in three bands by input length keeps only the band on
@@ -51,9 +44,10 @@ const urlOf = (id) => `${API}${id}`;
  * is not a price fact — so the list is here, and the pages keep every other
  * say: a model listed here that leaves the page leaves the entry.
  *
- * The Coding Plan needs no such list: its 支持的模型 table names exactly the
- * eleven rows the entry holds, so it is read whole and a model the plan adds
- * joins the entry by itself.
+ * That makes these two entries `intersect` in every way but the declaration: the
+ * page cannot decide membership for them. The Coding Plan needs no such list —
+ * its 支持的模型 table names exactly the eleven rows the entry holds, so it is
+ * read whole and a model the plan adds joins by itself.
  */
 const CARRIED = {
   "volcesark-payg": [
@@ -84,96 +78,106 @@ const CARRIED = {
   ],
 };
 
-/** The delta, out of the JSON string the API wraps it in. */
-const delta = async (id) => {
-  const url = urlOf(id);
-  const body = await getJson(url);
-  const content = body?.Result?.Content;
-  if (typeof content !== "string") drift(`${url}: no Result.Content`);
-  let parsed;
-  try {
-    parsed = JSON.parse(content);
-  } catch (err) {
-    drift(`${url}: Result.Content is not the JSON string this adapter reads (${err.message})`);
-  }
-  if (!parsed?.data) drift(`${url}: the delta carries no data blocks`);
-  return Object.entries(parsed.data);
-};
+/** A cell's text: markup dropped and the markdown's backslash escapes removed (a
+    model is written `doubao\-seed\-evolving` so the hyphens cannot be read as a
+    list). The line breaks are kept, because a cell is not one thing: a header
+    puts its unit on a second line ("输入(非音频)" then "元/百万token") and a model
+    cell puts its badges there ("glm-5.3 (glm-latest)" then a 注意 callout). Reading
+    only the first line is what tells the label from the annotation. */
+const cell = (s) =>
+  String(s)
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\\/g, "")
+    .split("\n")
+    .map((l) => l.replace(/\s+/g, " ").trim())
+    .filter(Boolean)
+    .join("\n");
 
-/** One cell's text: the block whose key pairs this row with this column, or
-    null when no key does — which is how a row of another table reads. */
-const cell = (blocks, rowId, colId) => {
-  for (const [key, block] of blocks) {
-    if (!key.startsWith("x" + rowId) || !key.includes("x" + colId)) continue;
-    return block.ops.filter((o) => typeof o.insert === "string").map((o) => o.insert).join("").trim();
-  }
-  return null;
-};
+const line1 = (text) => String(text ?? "").split("\n")[0].trim();
 
-/** Every table on the page, as grids of text. */
-const grids = (blocks) => {
-  const columns = blocks.filter(([, b]) => b.zoneType === "C");
-  const rows = blocks.filter(([, b]) => b.zoneType === "R");
+/** A header cell's label, without the unit on the line below it. */
+const label = (c) => line1(cell(c));
+
+/** Every markdown table in the document, in order, as grids of cell text. A row
+    of `---` is the alignment rule under a header rather than a row of data. */
+const tablesOf = (md) => {
   const out = [];
-  for (const [, column] of columns) {
-    const colIds = column.ops.filter((o) => typeof o.insert === "object").map((o) => o.insert.id);
-    for (const [, row] of rows) {
-      const rowIds = row.ops.filter((o) => typeof o.insert === "object").map((o) => o.insert.id);
-      if (rowIds.length === 0 || cell(blocks, rowIds[0], colIds[0]) === null) continue;
-      const grid = rowIds.map((r) => colIds.map((c) => cell(blocks, r, c)));
-      if (grid.some((line) => line.some((x) => x))) out.push(grid);
+  let grid = null;
+  for (const raw of md.split("\n")) {
+    const line = raw.trim();
+    if (!line.startsWith("|")) {
+      grid = null; // a blank line ends the table
+      continue;
     }
+    const cells = line.replace(/^\|/, "").replace(/\|$/, "").split("|").map(cell);
+    if (cells.every((c) => c === "" || /^-+$/.test(c))) continue;
+    if (!grid) out.push((grid = []));
+    grid.push(cells);
   }
   return out;
 };
 
-/** The delta opens every line it wrote with "*", inside a cell as much as out. */
-const lines = (text) => String(text ?? "").split("\n").map((l) => l.replace(/^\*+/, "").trim()).filter(Boolean);
-const line1 = (text) => lines(text)[0] ?? "";
-
-/** A header label, with the two widths of parenthesis read as one. */
-const norm = (text) => line1(text).replace(/[（）]/g, (c) => (c === "（" ? "(" : ")")).replace(/\s+/g, "");
-/** Where a column sits, or drift: a renamed column would otherwise read as a
-    table of empty cells and quietly unpriced every row. */
-const columnOf = (doc, head, name) => {
-  const at = head.findIndex((c) => norm(c) === name);
-  if (at < 0) drift(`doc ${doc}: the table has no "${name}" column — the page has changed shape`);
-  return at;
-};
-
-const tableHaving = (blocks, doc, head, why) => {
-  const grid = grids(blocks).find((g) => head(g[0]));
-  if (!grid) drift(`doc ${doc}: ${why} — the page has changed shape`);
+/** The one table on the page matching a header shape, or drift. Returning the
+    wrong table is the failure this prevents: most of them are two columns of
+    prose, and a loose match would price nothing and look like no change. */
+const tableOf = (md, doc, wanted, columns) => {
+  const grid = tablesOf(md).find((g) => wanted(g[0].map(label)));
+  if (!grid) drift(`doc ${doc}: no table with columns ${columns.join("/")} — the page has changed shape`);
   return grid;
 };
 
+/** Where a named column sits, or drift: a renamed column would otherwise read as
+    a grid of empty cells and quietly unpriced every row. */
+const columnsOf = (grid, doc, names) => {
+  const head = grid[0].map(label);
+  const at = {};
+  for (const [field, name] of Object.entries(names)) {
+    const i = head.indexOf(name);
+    if (i < 0) drift(`doc ${doc}: the table has no "${name}" column — the page has changed shape`);
+    at[field] = i;
+  }
+  return at;
+};
+
+const markdown = async (id) => {
+  const url = urlOf(id);
+  const body = await getJson(url);
+  const md = body?.Result?.MDContent;
+  if (typeof md !== "string" || md === "") drift(`${url}: no Result.MDContent — the response shape has changed`);
+  return md;
+};
+
 /** The metered price list: 在线推理（常规）, the one table that bills cache storage. */
-const paygRows = (blocks) => {
-  const grid = tableHaving(blocks, DOC.payg, (h) => norm(h[0]) === "模型名称" && h.some((c) => norm(c).startsWith("缓存存储")), "there is no 在线推理（常规）table");
-  const at = {
-    model: columnOf(DOC.payg, grid[0], "模型名称"),
-    in: columnOf(DOC.payg, grid[0], "输入(非音频)"),
-    out: columnOf(DOC.payg, grid[0], "输出"),
-    cache: columnOf(DOC.payg, grid[0], "缓存命中(非音频)"),
-  };
-  const price = (text) => {
-    const v = line1(text);
-    return v === "" || v === "-" ? undefined : decimal(v);
-  };
+const paygRows = (md) => {
+  const grid = tableOf(md, DOC.payg, (h) => h.includes("模型名称") && h.some((c) => c.startsWith("缓存存储")), [
+    "模型名称",
+    "缓存存储",
+  ]);
+  const at = columnsOf(grid, DOC.payg, {
+    model: "模型名称",
+    in: "输入(非音频)",
+    out: "输出",
+    cache: "缓存命中(非音频)",
+  });
 
   const rows = new Map();
   for (const line of grid.slice(1)) {
-    const written = line[at.model] ?? "";
     // A blank name is the vendor's merged cell: a further band of the model
-    // above, whose rate is in `long_context`'s single threshold or nowhere.
-    if (lines(written).length === 0 || /调整前价格/.test(written)) continue;
-    const id = line1(written).replace(/正式版$/, "").toLowerCase();
+    // above, whose rate is in `long_context`'s single threshold or nowhere. The
+    // 调整前价格 marker sits on a later line of the cell, so it is looked for in
+    // the whole thing — reading only the first line would miss it and price the
+    // superseded row twice.
+    const raw = line[at.model];
+    const written = line1(raw);
+    if (!written || /调整前价格/.test(raw)) continue;
+    const id = written.replace(/正式版$/, "").toLowerCase();
     if (!CARRIED["volcesark-payg"].includes(id)) continue;
     if (rows.has(id)) drift(`doc ${DOC.payg}: ${id} is priced twice in the 常规 table`);
     const row = { id };
-    for (const [field, column] of [["in", at.in], ["out", at.out], ["cache_read", at.cache]]) {
-      const v = price(line[column]);
-      if (v !== undefined) row[field] = v;
+    for (const [field, i] of [["in", at.in], ["out", at.out], ["cache_read", at.cache]]) {
+      const v = line[i];
+      if (v && v !== "-") row[field] = decimal(v);
     }
     rows.set(id, row);
   }
@@ -181,8 +185,8 @@ const paygRows = (blocks) => {
 };
 
 /** The Coding Plan: the models it names, ids and names, no rates. */
-const codingRows = (blocks) => {
-  const grid = tableHaving(blocks, DOC.coding, (h) => norm(h[0]) === "模型" && norm(h[1]) === "说明", "there is no 支持的模型 table");
+const codingRows = (md) => {
+  const grid = tableOf(md, DOC.coding, (h) => h[0] === "模型" && h[1] === "说明", ["模型", "说明"]);
   return grid
     .slice(1)
     .map((line) => line1(line[0]))
@@ -192,11 +196,11 @@ const codingRows = (blocks) => {
 };
 
 /** The Agent Plan: its text models, ids and names, no rates. */
-const agentRows = (blocks) => {
-  const grid = tableHaving(blocks, DOC.agent, (h) => norm(h[0]) === "分类" && norm(h[1]) === "领域", "there is no 支持模型及 Harness table");
+const agentRows = (md) => {
+  const grid = tableOf(md, DOC.agent, (h) => h[0] === "分类" && h[1] === "领域", ["分类", "领域", "模型名称"]);
   return grid
     .slice(1)
-    .filter((line) => norm(line[1]).startsWith("文本生成"))
+    .filter((line) => line1(line[1]).startsWith("文本生成"))
     .map((line) => line1(line[2]).replace(/\s*\(.*\)$/, ""))
     .filter((id) => CARRIED["volcesark-agent-plan"].includes(id))
     .map((id) => ({ id, name: id }));
@@ -207,7 +211,7 @@ export default {
   source: Object.values(DOC).map(urlOf).join(", "),
   membership: MEMBERSHIP.FOLLOW,
   async read() {
-    const [payg, coding, agent] = await Promise.all([DOC.payg, DOC.coding, DOC.agent].map(delta));
+    const [payg, coding, agent] = await Promise.all([DOC.payg, DOC.coding, DOC.agent].map(markdown));
     return {
       rows: {
         "volcesark-payg": paygRows(payg),

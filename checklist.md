@@ -1,6 +1,6 @@
 # Provider review checklist
 
-19 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
+18 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
 
 - every live model is listed, and no retired one is — where the vendor's own page
   enumerates its lineup, which is most of them. An aggregator routing hundreds
@@ -37,7 +37,6 @@ Five vendors can be read by script rather than by eye, and when one applies, run
 | [x] | `deepseek` | official | 2/2 | <https://deepseek.com/> | checked 2026-09-14 — prices, peak/off-peak, CNY, endpoints (see the fetch script) |
 | [ ] | `doubaoseed` | official | 1/3 | <https://www.volcengine.com/> |  |
 | [ ] | `google-ai-studio` | official | 1/2 | <https://aistudio.google.com/> |  |
-| [ ] | `groq` | official | 0/1 | <https://groq.com/> |  |
 | [x] | `kimi` | official | 4/4 | <https://moonshot.cn/> | checked 2026-09-14 — prices, currency, model list (see the fetch script) |
 | [x] | `kimi-for-coding` | official | 0/4 | <https://kimi.com/> | checked 2026-09-14 — model list, CNY, no per-token price (a membership carries none); `plan_query` = `kimi` |
 | [x] | `minimax` | official | 3/3 | <https://minimaxi.com/> | checked 2026-09-14 — the three current models against the vendor's own Pay-as-you-go table, CNY, cache write included, and M3's 512k band read in both directions (≤512k 2.10/8.40/0.42, above it 4.20/16.80/0.84, which `long_context` carries); both routes answer 401 without a key. Two gaps: the same page still prices five older models this entry does not list (M2.5, M2.1, M2 and their highspeed variants), and `service_tier: priority` bills 1.5x standard with no field to record it. `billing` is `both`: one address takes a pay-as-you-go key and a Token Plan key |

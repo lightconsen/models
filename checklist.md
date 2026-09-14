@@ -28,8 +28,6 @@
 | [ ] | `apinebula` | third | 2/2 | <https://apinebula.ai/> |  |
 | [ ] | `atlascloud` | aggregate | 1/1 | <https://atlascloud.ai/> |  |
 | [ ] | `baidu-qianfan-token-plan` | official | 3/5 | <https://cloud.baidu.com/product-s/qianfan_home> |  |
-| [ ] | `bailian` | official | 0/0 | <https://www.aliyun.com/product/bailian> |  |
-| [ ] | `bailian-token-plan` | official | 0/4 | <https://www.aliyun.com/product/bailian> |  |
 | [ ] | `bailing` | official | 0/1 | <https://www.tbox.cn/> |  |
 | [ ] | `byteplus` | official | 0/1 | <https://www.byteplus.com/en> |  |
 | [ ] | `ccsub` | aggregate | 1/1 | <https://ccsub.net/> |  |
@@ -67,6 +65,8 @@
 | [ ] | `patewayai` | third | 0/0 | <https://pateway.ai/> |  |
 | [ ] | `pipellm` | aggregate | 4/4 | <https://pipellm.ai/> |  |
 | [ ] | `ppio` | aggregate | 2/2 | <https://ppio.com/> |  |
+| [ ] | `qianwenai` | official | 2/2 | <https://www.aliyun.com/product/bailian> |  |
+| [ ] | `qianwenai-token-plan` | official | 0/9 | <https://www.aliyun.com/product/bailian> |  |
 | [ ] | `qiniu` | aggregate | 2/2 | <https://qnaigc.com/> |  |
 | [ ] | `qwen` | official | 0/2 | <https://qwen.ai/> |  |
 | [ ] | `relaxycode` | third | 0/0 | <https://www.relaxycode.com/> |  |

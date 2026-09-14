@@ -1,6 +1,6 @@
 # Provider review checklist
 
-82 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
+79 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
 
 - every live model is listed, and no retired one is
 - `in` / `out` / `cache_read` match the vendor's own table, in the currency the vendor bills in
@@ -69,9 +69,6 @@
 | [ ] | `ppio` | aggregate | 2/2 | <https://ppio.com/> |  |
 | [ ] | `qiniu` | aggregate | 2/2 | <https://qnaigc.com/> |  |
 | [ ] | `qwen` | official | 0/2 | <https://qwen.ai/> |  |
-| [ ] | `qwencloud` | official | 3/3 | <https://www.alibabacloud.com/en/product/modelstudio> |  |
-| [ ] | `qwencloud-for-coding` | official | 3/3 | <https://www.alibabacloud.com/en/product/modelstudio> |  |
-| [ ] | `qwencloud-token-plan` | official | 3/4 | <https://www.alibabacloud.com/en/product/modelstudio> |  |
 | [ ] | `relaxycode` | third | 0/0 | <https://www.relaxycode.com/> |  |
 | [ ] | `rightcode` | third | 4/4 | <https://rightapi.ai/> |  |
 | [ ] | `runapi` | aggregate | 2/4 | <https://runapi.host/> |  |
@@ -98,4 +95,4 @@
 | [ ] | `zhipu-glm` | official | 1/1 | <https://bigmodel.cn/> |  |
 | [ ] | `zhipu-glm-intl` | official | 1/1 | <https://z.ai/> |  |
 
-Priced counts are `priced/total` models. One provider is ticked; the list is a snapshot of `entries/` — a new provider needs a new line.
+Priced counts are `priced/total` models. The list is a snapshot of `entries/` — a new provider needs a new line, and a removed one loses its own.

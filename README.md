@@ -564,15 +564,30 @@ script filters on output modality instead.
 prices for the rows an entry already carries, and this one chooses which rows
 those should be, from OpenRouter's own token-usage ranking
 (`/api/v1/datasets/rankings-daily`). It is the only script here that needs a key.
-Two traps in that data are worth knowing before reading its output as fact. It
-spells model ids as pinned snapshots (`deepseek/deepseek-v4-flash-20260731`) where
-the models list gives the canonical id, so it strips the date — and two ranked
-snapshots can resolve to one model, which is why it sums their tokens and ranks
-the models rather than the snapshots. And a ranked model need not exist in the
-models list at all (`stealth/ox-alpha` does not), so it reports those and writes
-the rest rather than dropping them quietly. The dataset is CC BY 4.0: anything
-republished from it must carry "Source: OpenRouter (openrouter.ai/rankings), as of
-{as_of}" — which is why the entry's rows are not the only thing to read there.
+Three things about that data are worth knowing before reading its output as fact.
+
+**It is one week, not a running total.** `openrouter.ai/rankings` shows the latest
+week, and its numbers are how to check the script: the bucket starting 2026-09-07
+gives GPT-5.6 Luna 18.18T tokens, which is the 18.2T the page prints. Summing
+several weeks instead puts a model that has since gone quiet near the top of a
+list it is not on — `stealth/ox-alpha` had 27T across the window and zero in its
+last two weeks.
+
+**Its ids are snapshots, and the models list dates them differently** — the
+ranking writes `deepseek/deepseek-v4-flash-20260731` where the models list writes
+`deepseek/deepseek-v4-flash-0731`, the same snapshot with the year dropped. That
+translation is what keeps two ranked snapshots of one model apart, which matters:
+the page ranks `-20260731` (11.6T) and `-20260423` (4.36T) as separate entries,
+and so does the entry. Dropping the whole date instead collapses them into a row
+that is neither.
+
+**A ranked model may have no record at all** in the models list, and then there is
+no name and no price to write. The script lists those and writes the rest rather
+than dropping them quietly.
+
+The dataset is CC BY 4.0: anything republished from it must carry "Source:
+OpenRouter (openrouter.ai/rankings), as of {as_of}" — which is why the entry's
+rows are not the only thing to read there.
 
 Most vendors offer neither: their pricing is behind a JavaScript app or an
 undocumented RPC (Kimi's membership page is the latter — the numbers never exist

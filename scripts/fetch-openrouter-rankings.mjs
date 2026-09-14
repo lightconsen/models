@@ -12,21 +12,25 @@
  * has it at `.env.OPENROUTER_API_KEY` (a Claude Code settings file does). The
  * key is never printed and never written — it is not this repo's data.
  *
- * Three things about the data that are easy to get wrong:
+ * The window is the *latest week*, not a sum over several. openrouter.ai/rankings
+ * shows one week, and its numbers are a reader's way of checking this script: the
+ * weekly bucket starting 2026-09-07 gives GPT-5.6 Luna 18.18T tokens, which is the
+ * 18.2T the page prints. Summing four weeks instead puts a model that has since
+ * gone quiet (`stealth/ox-alpha`, 27T then, zero for the last two weeks) high on a
+ * list it does not belong on at all.
  *
- * The two datasets spell model ids differently. The ranking reports pinned
- * snapshots — `deepseek/deepseek-v4-flash-20260731` — while the models list
- * reports the canonical id, `deepseek/deepseek-v4-flash`. Stripping the trailing
- * `-YYYYMMDD` resolves 18 of the top 20; a row that will not resolve is reported,
- * never dropped quietly.
+ * The two datasets spell model ids differently, and the difference is load-bearing:
+ * the ranking reports `deepseek/deepseek-v4-flash-20260731` where the models list
+ * says `deepseek/deepseek-v4-flash-0731` — the same snapshot with the year dropped
+ * from the date. That translation is what keeps two ranked snapshots of one model
+ * apart, which they must be: the page ranks `-20260731` (11.6T) and `-20260423`
+ * (4.36T) as separate entries, and so does this. Stripping the whole date instead
+ * would collapse them into one row; a ranked model with no models record at all
+ * (`stealth/ox-alpha`) is reported, never dropped quietly.
  *
- * A ranked model need not be in the models list at all. `stealth/ox-alpha` and
- * `minimax/minimax-m3:free` are not, and without a models record there is no name
- * and no price to write, so they are listed and left out.
- *
- * A ranking sums tokens, and token counts come from each upstream's own
- * tokenizer, so a token in one row is not comparable to a token in another. The
- * order is still theirs, which is the whole point of using it.
+ * Token counts come from each upstream's own tokenizer, so a token in one row is
+ * not comparable to a token in another. The order is still theirs, which is the
+ * point of using it.
  *
  * Attribution is a condition of the data (CC BY 4.0): anything republished from
  * it must carry "Source: OpenRouter (openrouter.ai/rankings), as of {as_of}".
@@ -34,7 +38,6 @@
  * Usage:
  *   node scripts/fetch-openrouter-rankings.mjs --key-file ~/.claude/settings.open.json
  *   node scripts/fetch-openrouter-rankings.mjs ... --top 10
- *   node scripts/fetch-openrouter-rankings.mjs ... --window 60
  *   node scripts/fetch-openrouter-rankings.mjs ... --write
  */
 import { readFileSync, writeFileSync } from "node:fs";
@@ -49,7 +52,6 @@ const argOf = (name, fallback) => {
   return i >= 0 ? process.argv[i + 1] : fallback;
 };
 const TOP = Number(argOf("--top", "20"));
-const WINDOW_DAYS = Number(argOf("--window", "30"));
 const KEY_FILE = argOf("--key-file", null);
 
 const stop = (msg) => {
@@ -100,38 +102,53 @@ const perMillion = (s) => {
 };
 
 // ── the ranking ──
+// Three weeks back is enough for the API to return whole weekly buckets; only the
+// newest one is used, and asking for more than one means a partial leading bucket
+// can never be mistaken for a quiet week.
 const end = new Date();
-const start = new Date(end.getTime() - WINDOW_DAYS * 86_400_000);
+const start = new Date(end.getTime() - 21 * 86_400_000);
 const iso = (d) => d.toISOString().slice(0, 10);
 const RANK_URL = `https://openrouter.ai/api/v1/datasets/rankings-daily?period=week&start_date=${iso(start)}&end_date=${iso(end)}`;
 const ranking = await get(RANK_URL);
 if (!Array.isArray(ranking?.data) || ranking.data.length === 0) stop("no rows in the ranking response");
 
+const latest = ranking.data.reduce((max, r) => (r.date > max ? r.date : max), "");
 const totals = new Map();
 for (const r of ranking.data) {
-  if (r?.model_permaslug === "other") continue;
+  if (r?.model_permaslug === "other" || r?.date !== latest) continue;
   totals.set(r.model_permaslug, (totals.get(r.model_permaslug) ?? 0) + Number(r.total_tokens));
 }
+const weekOf = new Date(`${latest}T00:00:00Z`);
+const weekEnd = new Date(weekOf.getTime() + 6 * 86_400_000);
+console.log(`week of ${latest} .. ${iso(weekEnd)}  (the latest the API has; the same week openrouter.ai/rankings shows)`);
+console.log(`as of ${ranking.meta.as_of}\n`);
 
 // ── the models list, and the join between the two id spellings ──
 const models = await get("https://openrouter.ai/api/v1/models");
 const byId = new Map((Array.isArray(models) ? models : models.data).map((m) => [m.id, m]));
 
-/** A ranked permaslug is a pinned snapshot; the models list carries the
-    canonical id. Strip the date, and fall back to the `-latest` alias — the
-    ranking names `deepseek/deepseek-v4-flash-20260731`, whose only unversioned
-    form here is `~deepseek/deepseek-v4-flash-latest`. */
+/** A ranked permaslug is a pinned snapshot; the models list carries the same
+    snapshot with the year dropped from its date — `-20260731` there is `-0731`
+    here. That is tried first, and it matters: it is what keeps the two ranked
+    `deepseek-v4-flash` snapshots distinct. Only if the snapshot has no record is
+    the date dropped entirely, then the `-latest` alias tried. */
 const resolve = (permaslug) => {
   if (byId.has(permaslug)) return permaslug;
   const [base, variant] = permaslug.split(":");
-  const bare = base.replace(/-\d{8}$/, "");
   const withVariant = (s) => (variant ? `${s}:${variant}` : s);
-  if (byId.has(withVariant(bare))) return withVariant(bare);
-  const slash = bare.indexOf("/");
+  const dated = /^(.*)-(\d{4})(\d{2})(\d{2})$/.exec(base);
+  if (dated) {
+    const short = withVariant(`${dated[1]}-${dated[3]}${dated[4]}`);
+    if (byId.has(short)) return short;
+  }
+  const undated = base.replace(/-\d{8}$/, "");
+  const bare = withVariant(undated);
+  if (byId.has(bare)) return bare;
+  const slash = undated.indexOf("/");
   if (slash > 0) {
-    const alias = withVariant(`${bare.slice(0, slash)}/~${bare.slice(slash + 1)}-latest`);
+    const alias = withVariant(`${undated.slice(0, slash)}/~${undated.slice(slash + 1)}-latest`);
     if (byId.has(alias)) return alias;
-    const tilde = withVariant(`~${bare}`);
+    const tilde = withVariant(`~${undated}`);
     if (byId.has(tilde)) return tilde;
   }
   return null;
@@ -144,13 +161,9 @@ const prov = JSON.parse(readFileSync(provPath, "utf8"));
 const current = JSON.parse(readFileSync(modelsPath, "utf8"));
 const protocols = prov.endpoints.map((e) => e.protocol);
 
-console.log(`ranked over ${ranking.meta.start_date} .. ${ranking.meta.end_date}` +
-  `  (week grain)\nas of ${ranking.meta.as_of}\n`);
-
-// Group before ranking, not after: the ranking lists pinned snapshots, and two
-// of them can be one model here — `deepseek-v4-flash-20260731` and its
-// `-20260423` sibling both resolve to `deepseek/deepseek-v4-flash`. "The top 20
-// models" means models, so the tokens are summed and the cut is made on the sum.
+// One row per resolved id. With the date shortened rather than dropped this is
+// 1:1 — the group exists so that a future pair which *does* collapse is summed
+// and reported instead of writing two rows with one id, which the entry rejects.
 const groups = new Map();
 for (const [permaslug, tokens] of totals) {
   const id = resolve(permaslug);

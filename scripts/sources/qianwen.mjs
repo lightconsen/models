@@ -20,14 +20,21 @@
  * entry carries two, so the entry decides which rows exist and this only
  * re-prices them.
  *
- * **Cache rates are deliberately not read.** Every row says 上下文缓存 享有折扣 —
- * "the cache enjoys a discount" — and the number lives on a separate page
- * (`/zh/model-studio/context-cache`) that states the general rule as 10% of the
- * input rate for a hit and 125% for a write, both hedged with 通常. This entry
- * records 1.5 against an input of 12, which is 12.5%, not 10%. Either the entry
- * is wrong or there is a per-model discount not on either page, and guessing
- * would settle a question that is still open — so `cache_read` is left untouched
- * and the disagreement is reported instead.
+ * **Cache rates are deliberately not read, and cannot be.** Every row says
+ * 上下文缓存 享有折扣 — "the cache enjoys a discount" — without a number, and the
+ * page that has the numbers (`/zh/model-studio/context-cache`) names these two
+ * models in its list of exceptions:
+ *
+ *   qwen3.8-max、qwen3.8-flash、qwen3.8-2.4t-a95b: cached_token 单价不是
+ *   input_token 单价的 20%，具体价格请参见百炼控制台
+ *
+ * The English page says the same. So the published percentages do not reach these
+ * models at all — 20% is the rule for Bailian-hosted models *except* them, and 10%
+ * is the explicit-cache hit rate and the rule for deepseek-v4.1-flash. The entry
+ * records 1.5 against an input of 12, which is 12.5%, and is neither. That is not
+ * evidence the entry is wrong: the vendor declines to publish the figure and
+ * points at the console, where 12.5% may well be what it says. Left untouched,
+ * because a number that only the console has is not one to invent a rule for.
  *
  * Headings straddle a `<span class="help-letter-space">` between their Chinese and
  * Latin halves ("千问" + span + "Flash"), so the text has to be assembled from the
@@ -161,8 +168,8 @@ export default {
     const notes = [];
     if (missing.length) notes.push(`not priced in 华北2: ${missing.join(", ")}`);
     notes.push(
-      "cache rates are not read: the page says 上下文缓存 享有折扣 without a number, and the entry's " +
-        "rates disagree with the 10% the context-cache page states — needs a decision, not a scrape",
+      "cache rates are not read: these models are excepted from every published percentage " +
+        "(20% implicit, 10% explicit-hit) and the vendor points at the console instead",
     );
 
     return { rows: { qianwenai: [...rows.values()] }, notes: { qianwenai: notes } };

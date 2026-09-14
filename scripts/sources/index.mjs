@@ -16,6 +16,7 @@ import deepseek from "./deepseek.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
 import openrouter from "./openrouter.mjs";
+import volcesark from "./volcesark.mjs";
 import xai from "./xai.mjs";
 import xiaomiMimo from "./xiaomi-mimo.mjs";
 import zhipu from "./zhipu.mjs";
@@ -26,6 +27,7 @@ export default [
   kimi,
   minimax,
   openrouter,
+  volcesark,
   xai,
   xiaomiMimo,
   zhipu,

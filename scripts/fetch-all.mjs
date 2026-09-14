@@ -24,7 +24,8 @@
  *   node scripts/fetch-all.mjs --entry xai     just one
  *   node scripts/fetch-all.mjs --write         apply
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { readdirSync, writeFileSync } from "node:fs";
+import path from "node:path";
 import { Drift, MEMBERSHIP, argOf, has, readEntry, repo } from "./lib/fetch.mjs";
 import adapters from "./sources/index.mjs";
 
@@ -164,8 +165,13 @@ if (failed) console.log(`${failed} entr(ies) skipped — see the ✗ above`);
 
 // Only meaningful on a full run: narrowing to one entry would otherwise report
 // every entry it did not look at as having no source.
+// Every entry the adapters do not reach, said out loud: an entry with no source
+// is a fact about the entry, and silence about it reads as coverage.
 if (!ONLY) {
-  const untouched = adapters.flatMap((a) => a.ids).filter((id) => !results.some((r) => r.id === id));
+  const covered = new Set(adapters.flatMap((a) => a.ids));
+  const untouched = readdirSync(path.join(repo, "entries"))
+    .filter((id) => !covered.has(id))
+    .sort();
   if (untouched.length) console.log(`no source, still hand-maintained: ${untouched.join(", ")}`);
 }
 

@@ -50,7 +50,7 @@ Five vendors can be read by script rather than by eye, and when one applies, run
 | [ ] | `tencent-token-plan` | official | 0/15 | <https://www.tencent.com/> |  |
 | [ ] | `xai` | official | 1/1 | <https://x.ai/> |  |
 | [ ] | `xiaomi-mimo` | official | 2/2 | <https://mimo.mi.com/> |  |
-| [ ] | `xiaomi-mimo-token-plan-china` | official | 2/2 | <https://mimo.mi.com/> |  |
+| [ ] | `xiaomi-mimo-token-plan` | official | 2/2 | <https://mimo.mi.com/> |  |
 | [x] | `zhipu-glm` | official | 2/2 | <https://bigmodel.cn/> | checked 2026-09-14 — GLM-5.3 and -Flash with their rates from the vendor's page (CNY); `billing` is `both`, and the `zhipu` quota template reads the domestic host |
 | [x] | `zhipu-glm-intl` | official | 2/2 | <https://z.ai/> | checked 2026-09-14 — the same two models as Z.AI lists them (USD); `billing` is `both`; the same `zhipu` template, which routes to api.z.ai off the entry's own host |
 

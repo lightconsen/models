@@ -715,12 +715,19 @@ still fail here — start the process with `NODE_USE_ENV_PROXY=1` if you need th
 proxy. And an entry's own docs can be read where its login page cannot: the
 Volcengine Ark docs answer `www.volcengine.com/api/doc/getDocDetail?DocumentID=…`
 with the whole document as JSON to anyone, while the console they are embedded in
-refuses every path unauthenticated. Their tables arrive as a nested Quill format —
-rows and columns in separate blocks, cell text under keys that encode both ids —
-which is why that adapter is the longest one here.
+refuses every path unauthenticated — including paths that do not exist, which is
+why probing that host proves nothing about whether a page is public.
 
-Kimi's membership remains the one thing that cannot be read: the numbers never
-exist in any file the browser loads.
+A doc response often carries its own content more than once, and the first copy is
+not always the readable one. Ark returns the page as a Quill-style delta *and* as
+markdown; Alibaba returns it as HTML escaped inside a `window.__ICE_PAGE_PROPS__`
+JSON string. Both are readable, and the second is far less work.
+
+Four entries have no adapter, and the runner names them on every run: the Kimi
+membership and the Qianwen token plan, which publish no per-token rate at all, and
+the Tencent and Baidu plans, whose model lists have no keyless endpoint. That is a
+fact about those products rather than a gap in the tooling, and saying it out loud
+is the point — silence about an entry reads as coverage.
 
 ## Layout notes
 

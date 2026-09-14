@@ -12,5 +12,5 @@
       "endpoint": "https://generativelanguage.googleapis.com"
     }
   ],
-  "desc": "Official pricing"
+  "desc": "Google's own Gemini API"
 }

@@ -33,7 +33,7 @@ Four vendors can be read by script rather than by eye, and when one applies, run
 | [ ] | `apikey-fun` | third | 4/5 | <https://apikey.fun/> |  |
 | [ ] | `apinebula` | third | 2/2 | <https://apinebula.ai/> |  |
 | [ ] | `atlascloud` | aggregate | 1/1 | <https://atlascloud.ai/> |  |
-| [ ] | `baidu-qianfan-token-plan` | official | 3/8 | <https://cloud.baidu.com/product-s/qianfan_home> |  |
+| [ ] | `baidu-qianfan-token-plan` | official | 0/8 | <https://cloud.baidu.com/product-s/qianfan_home> |  |
 | [ ] | `bailing` | official | 0/1 | <https://www.tbox.cn/> |  |
 | [ ] | `byteplus` | official | 0/1 | <https://www.byteplus.com/en> |  |
 | [ ] | `ccsub` | aggregate | 1/1 | <https://ccsub.net/> |  |

@@ -9,17 +9,11 @@
   },
   {
     "id": "deepseek-v4-flash",
-    "name": "DeepSeek V4 Flash",
-    "in": "0.30",
-    "out": "1.20",
-    "cache_read": "0.006"
+    "name": "DeepSeek V4 Flash"
   },
   {
     "id": "deepseek-v4-flash-0731",
-    "name": "DeepSeek V4 Flash 0731",
-    "in": "0.44",
-    "out": "1.32",
-    "cache_read": "0.014"
+    "name": "DeepSeek V4 Flash 0731"
   },
   {
     "id": "glm-5.3",
@@ -31,11 +25,7 @@
   },
   {
     "id": "glm-5.2",
-    "name": "GLM-5.2",
-    "in": "1.4",
-    "out": "4.4",
-    "cache_read": "0.26",
-    "flagship": true
+    "name": "GLM-5.2"
   },
   {
     "id": "glm-5.1",

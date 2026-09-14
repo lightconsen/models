@@ -65,8 +65,8 @@
 | [ ] | `patewayai` | third | 0/0 | <https://pateway.ai/> |  |
 | [ ] | `pipellm` | aggregate | 4/4 | <https://pipellm.ai/> |  |
 | [ ] | `ppio` | aggregate | 2/2 | <https://ppio.com/> |  |
-| [ ] | `qianwenai` | official | 2/2 | <https://www.aliyun.com/product/bailian> |  |
-| [ ] | `qianwenai-token-plan` | official | 0/9 | <https://www.aliyun.com/product/bailian> |  |
+| [ ] | `qianwenai` | official | 2/2 | <https://www.qianwenai.com/> |  |
+| [ ] | `qianwenai-token-plan` | official | 0/9 | <https://www.qianwenai.com/> |  |
 | [ ] | `qiniu` | aggregate | 2/2 | <https://qnaigc.com/> |  |
 | [ ] | `qwen` | official | 0/2 | <https://qwen.ai/> |  |
 | [ ] | `relaxycode` | third | 0/0 | <https://www.relaxycode.com/> |  |

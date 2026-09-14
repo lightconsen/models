@@ -1,7 +1,7 @@
 {
   "id": "xiaomi-mimo-token-plan-china",
   "name": "Xiaomi MiMo Token Plan (China)",
-  "website": "https://mimo.xiaomi.com/",
+  "website": "https://mimo.mi.com/",
   "tag": "official",
   "rating": 4,
   "billing": "plan",
@@ -16,5 +16,5 @@
       "endpoint": "https://token-plan-cn.xiaomimimo.com/anthropic"
     }
   ],
-  "desc": "from ¥39 /mo"
+  "desc": "Xiaomi's prepaid token plan on MiMo"
 }

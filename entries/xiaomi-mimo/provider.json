@@ -1,7 +1,7 @@
 {
   "id": "xiaomi-mimo",
   "name": "Xiaomi MiMo",
-  "website": "https://mimo.xiaomi.com/",
+  "website": "https://mimo.mi.com/",
   "tag": "official",
   "rating": 4,
   "billing": "payg",
@@ -16,5 +16,5 @@
       "endpoint": "https://api.xiaomimimo.com/anthropic"
     }
   ],
-  "desc": "Official pricing"
+  "desc": "Xiaomi's own MiMo API"
 }

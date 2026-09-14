@@ -4,8 +4,8 @@
   "website": "https://bigmodel.cn/",
   "tag": "official",
   "rating": 4,
-  "billing": "plan",
-  "currency": "USD",
+  "billing": "both",
+  "currency": "CNY",
   "endpoints": [
     {
       "protocol": "openai",

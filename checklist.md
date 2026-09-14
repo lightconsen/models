@@ -97,7 +97,7 @@ Four vendors can be read by script rather than by eye, and when one applies, run
 | [ ] | `xiaomi-mimo-token-plan-china` | official | 2/2 | <https://mimo.xiaomi.com/> |  |
 | [ ] | `xycai` | aggregate | 2/2 | <https://xycai.us/> |  |
 | [ ] | `zetaapi` | aggregate | 1/1 | <https://zetaapi.ai/> |  |
-| [ ] | `zhipu-glm` | official | 1/1 | <https://bigmodel.cn/> |  |
+| [ ] | `zhipu-glm` | official | 2/2 | <https://bigmodel.cn/> |  |
 | [ ] | `zhipu-glm-intl` | official | 1/1 | <https://z.ai/> |  |
 
 Priced counts are `priced/total` models. The list is a snapshot of `entries/` — a new provider needs a new line, and a removed one loses its own.

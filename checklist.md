@@ -2,16 +2,22 @@
 
 78 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
 
-- every live model is listed, and no retired one is
+- every live model is listed, and no retired one is — where the vendor's own page
+  enumerates its lineup, which is most of them. An aggregator routing hundreds
+  does not, so the entry carries the ones it is known for and the notes say which
+  rule picked them (`openrouter` uses the vendor's own usage ranking)
 - `in` / `out` / `cache_read` match the vendor's own table, in the currency the vendor bills in
-- any time-of-day or plan pricing is recorded, not left in prose
+- any time-of-day pricing is recorded, not left in prose. Plan pricing cannot be,
+  and no entry should be held for it: a subscription's monthly figure has no field,
+  so the twelve entries that carry one carry it in `desc`. This bullet stays as the
+  marker of that gap; do not go looking for the field
 - a plan-billed entry says whether its usage can be read with the API key alone,
   and `plan_query` names the right template when it can
 - `desc` introduces the vendor and nothing that expires — no model names, no
   capabilities, no user counts (see the README's "What `desc` is for")
 - the endpoints still answer, and `website` is the vendor's own site
 
-`scripts/fetch-deepseek-pricing.mjs` and `scripts/fetch-kimi-pricing.mjs` do the price half for those two vendors; the rest is reading their docs page and the entry side by side.
+Four vendors can be read by script rather than by eye, and when one applies, run it before reading anything: `fetch-deepseek-pricing.mjs` and `fetch-kimi-pricing.mjs` for prices, `fetch-openrouter-pricing.mjs` for prices and `fetch-openrouter-rankings.mjs` for which models OpenRouter carries at all, `fetch-aliyun-models.mjs` for the Alibaba entries' model lists. The rest is reading their docs page and the entry side by side. It is worth knowing which of these need a key: the OpenRouter ranking and the Alibaba lists do, and neither script will write without one.
 
 | | provider | tag | priced | website | notes |
 |---|---|---|---|---|---|

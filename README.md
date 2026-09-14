@@ -50,6 +50,11 @@ scripts/
                        than a price (`/compatible-mode/v1/models` on the entry's
                        own host). Needs a key too, and takes it from
                        ALIYUN_API_KEY or --key-file
+  fetch-mimo-pricing.mjs
+                       reads MiMo's pricing markdown. The docs index every page
+                       as a `.md` under `/llms.txt`, so this parses markdown
+                       rather than a rendered page — and it has to choose between
+                       the yuan table and the dollar one
 .github/workflows/
   validate.yml         PR gate: validation + dry-run build
   publish.yml          main push: build + upload to R2
@@ -568,9 +573,10 @@ Then bump `version` in `global.json` and, if the record introduced a new
 currency, add it to `exchange_rates`. The version is the app's seed gate: an
 unchanged version means the app keeps its existing table.
 
-Three vendors publish a table a script can read, so `scripts/fetch-deepseek-pricing.mjs`,
-`scripts/fetch-kimi-pricing.mjs` and `scripts/fetch-openrouter-pricing.mjs` read theirs
-and print the difference — a repricing becomes a review of a diff rather than a
+Several vendors publish a table a script can read, so `scripts/fetch-deepseek-pricing.mjs`,
+`scripts/fetch-kimi-pricing.mjs`, `scripts/fetch-mimo-pricing.mjs` and
+`scripts/fetch-openrouter-pricing.mjs` read theirs and print the difference — a
+repricing becomes a review of a diff rather than a
 transcription. All are authoring aids and nothing more: no cron runs them, and a
 number they print is only as fresh as the last time somebody ran it.
 

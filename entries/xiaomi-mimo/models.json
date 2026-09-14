@@ -11,7 +11,7 @@
     "id": "mimo-v2.5",
     "name": "MiMo V2.5",
     "in": "0.14",
-    "out": "0.29",
+    "out": "0.28",
     "cache_read": "0.0028",
     "serves": {
       "openai": "mimo-v2.5"

@@ -24,7 +24,7 @@
   capabilities, no user counts (see the README's "What `desc` is for")
 - the endpoints still answer, and `website` is the vendor's own site
 
-Four vendors can be read by script rather than by eye, and when one applies, run it before reading anything: `fetch-deepseek-pricing.mjs` and `fetch-kimi-pricing.mjs` for prices, `fetch-openrouter-pricing.mjs` for prices and `fetch-openrouter-rankings.mjs` for which models OpenRouter carries at all, `fetch-aliyun-models.mjs` for the Alibaba entries' model lists. The rest is reading their docs page and the entry side by side. It is worth knowing which of these need a key: the OpenRouter ranking and the Alibaba lists do, and neither script will write without one.
+Five vendors can be read by script rather than by eye, and when one applies, run it before reading anything: `fetch-deepseek-pricing.mjs`, `fetch-kimi-pricing.mjs` and `fetch-mimo-pricing.mjs` for prices, `fetch-openrouter-pricing.mjs` for prices and `fetch-openrouter-rankings.mjs` for which models OpenRouter carries at all, `fetch-aliyun-models.mjs` for the Alibaba entries' model lists. The rest is reading their docs page and the entry side by side. It is worth knowing which of these need a key: the OpenRouter ranking and the Alibaba lists do, and neither script will write without one.
 
 | | provider | tag | priced | website | notes |
 |---|---|---|---|---|---|

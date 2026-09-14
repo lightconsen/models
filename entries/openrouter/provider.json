@@ -14,10 +14,6 @@
     {
       "protocol": "anthropic",
       "endpoint": "https://openrouter.ai/api"
-    },
-    {
-      "protocol": "gemini",
-      "endpoint": "https://openrouter.ai/api"
     }
   ],
   "desc": "OpenRouter's own marketplace API over many upstream providers"

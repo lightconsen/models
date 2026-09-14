@@ -81,7 +81,12 @@ const warn = (msg) => console.warn(`  ⚠ ${msg}`);
     Claude Pro/Max is used against `api.anthropic.com`, the same base URL as the
     API, so there is one address and two ways to be billed for it. */
 const BILLINGS = new Set(["plan", "payg", "unl", "both"]);
-const PROTOCOLS = new Set(["anthropic", "openai", "gemini"]);
+/** The protocols an endpoint may speak. `gemini` was removed on 2026-09-14:
+    `google-ai-studio` was the only entry mainly served over it, and the App's
+    Gemini CLI agent — wired through `GOOGLE_GEMINI_BASE_URL` — was its only
+    consumer. Both sides drop it together; bringing it back is a decision for
+    both, not one. */
+const PROTOCOLS = new Set(["anthropic", "openai"]);
 const TAGS = new Set(["official", "third", "aggregate", "local", "free"]);
 const LOGO_EXTS = ["png", "svg", "jpg", "jpeg", "webp"];
 /** The plan-quota templates the app can execute. This list is for *warnings*

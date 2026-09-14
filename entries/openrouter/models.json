@@ -8,8 +8,7 @@
     "cache_creation": "0.25",
     "serves": {
       "openai": "openai/gpt-5.6-luna",
-      "anthropic": "openai/gpt-5.6-luna",
-      "gemini": "openai/gpt-5.6-luna"
+      "anthropic": "openai/gpt-5.6-luna"
     },
     "flagship": true
   },
@@ -21,8 +20,7 @@
     "cache_read": "0.042",
     "serves": {
       "openai": "tencent/hy4-preview",
-      "anthropic": "tencent/hy4-preview",
-      "gemini": "tencent/hy4-preview"
+      "anthropic": "tencent/hy4-preview"
     }
   },
   {
@@ -33,8 +31,7 @@
     "cache_read": "0.03",
     "serves": {
       "openai": "z-ai/glm-5.3-flash",
-      "anthropic": "z-ai/glm-5.3-flash",
-      "gemini": "z-ai/glm-5.3-flash"
+      "anthropic": "z-ai/glm-5.3-flash"
     }
   },
   {
@@ -45,8 +42,7 @@
     "cache_read": "0.012",
     "serves": {
       "openai": "deepseek/deepseek-v4-flash-0731",
-      "anthropic": "deepseek/deepseek-v4-flash-0731",
-      "gemini": "deepseek/deepseek-v4-flash-0731"
+      "anthropic": "deepseek/deepseek-v4-flash-0731"
     }
   },
   {
@@ -57,8 +53,7 @@
     "cache_read": "0.0028",
     "serves": {
       "openai": "xiaomi/mimo-v2.5",
-      "anthropic": "xiaomi/mimo-v2.5",
-      "gemini": "xiaomi/mimo-v2.5"
+      "anthropic": "xiaomi/mimo-v2.5"
     }
   },
   {
@@ -69,8 +64,7 @@
     "cache_read": "0.006",
     "serves": {
       "openai": "deepseek/deepseek-v4.1-flash",
-      "anthropic": "deepseek/deepseek-v4.1-flash",
-      "gemini": "deepseek/deepseek-v4.1-flash"
+      "anthropic": "deepseek/deepseek-v4.1-flash"
     }
   },
   {
@@ -81,8 +75,7 @@
     "cache_read": "0.0177212",
     "serves": {
       "openai": "deepseek/deepseek-v4-flash",
-      "anthropic": "deepseek/deepseek-v4-flash",
-      "gemini": "deepseek/deepseek-v4-flash"
+      "anthropic": "deepseek/deepseek-v4-flash"
     }
   },
   {
@@ -93,8 +86,7 @@
     "cache_read": "0.033",
     "serves": {
       "openai": "tencent/hy3",
-      "anthropic": "tencent/hy3",
-      "gemini": "tencent/hy3"
+      "anthropic": "tencent/hy3"
     }
   },
   {
@@ -104,8 +96,7 @@
     "out": "0",
     "serves": {
       "openai": "nvidia/nemotron-3-ultra-550b-a55b:free",
-      "anthropic": "nvidia/nemotron-3-ultra-550b-a55b:free",
-      "gemini": "nvidia/nemotron-3-ultra-550b-a55b:free"
+      "anthropic": "nvidia/nemotron-3-ultra-550b-a55b:free"
     }
   },
   {
@@ -117,8 +108,7 @@
     "cache_creation": "0.0416666666666667",
     "serves": {
       "openai": "google/gemini-3.8-flash",
-      "anthropic": "google/gemini-3.8-flash",
-      "gemini": "google/gemini-3.8-flash"
+      "anthropic": "google/gemini-3.8-flash"
     }
   },
   {
@@ -129,8 +119,7 @@
     "cache_read": "0.26",
     "serves": {
       "openai": "z-ai/glm-5.3",
-      "anthropic": "z-ai/glm-5.3",
-      "gemini": "z-ai/glm-5.3"
+      "anthropic": "z-ai/glm-5.3"
     }
   },
   {
@@ -141,8 +130,7 @@
     "cache_read": "0.002",
     "serves": {
       "openai": "meta/muse-spark-1.3-contributor",
-      "anthropic": "meta/muse-spark-1.3-contributor",
-      "gemini": "meta/muse-spark-1.3-contributor"
+      "anthropic": "meta/muse-spark-1.3-contributor"
     }
   },
   {
@@ -153,8 +141,7 @@
     "cache_read": "0.12688",
     "serves": {
       "openai": "z-ai/glm-5.2",
-      "anthropic": "z-ai/glm-5.2",
-      "gemini": "z-ai/glm-5.2"
+      "anthropic": "z-ai/glm-5.2"
     }
   },
   {
@@ -165,8 +152,7 @@
     "cache_read": "0.018",
     "serves": {
       "openai": "upstage/solar-pro4",
-      "anthropic": "upstage/solar-pro4",
-      "gemini": "upstage/solar-pro4"
+      "anthropic": "upstage/solar-pro4"
     }
   },
   {
@@ -178,8 +164,7 @@
     "cache_creation": "2.5",
     "serves": {
       "openai": "openai/gpt-5.6-sol",
-      "anthropic": "openai/gpt-5.6-sol",
-      "gemini": "openai/gpt-5.6-sol"
+      "anthropic": "openai/gpt-5.6-sol"
     }
   },
   {
@@ -190,8 +175,7 @@
     "cache_read": "0.30264435",
     "serves": {
       "openai": "moonshotai/kimi-k3",
-      "anthropic": "moonshotai/kimi-k3",
-      "gemini": "moonshotai/kimi-k3"
+      "anthropic": "moonshotai/kimi-k3"
     }
   },
   {
@@ -202,8 +186,7 @@
     "cache_read": "0.06",
     "serves": {
       "openai": "minimax/minimax-m3",
-      "anthropic": "minimax/minimax-m3",
-      "gemini": "minimax/minimax-m3"
+      "anthropic": "minimax/minimax-m3"
     }
   },
   {
@@ -215,8 +198,7 @@
     "cache_creation": "2.5",
     "serves": {
       "openai": "anthropic/claude-sonnet-5",
-      "anthropic": "anthropic/claude-sonnet-5",
-      "gemini": "anthropic/claude-sonnet-5"
+      "anthropic": "anthropic/claude-sonnet-5"
     }
   },
   {
@@ -227,8 +209,7 @@
     "cache_read": "0.135",
     "serves": {
       "openai": "deepseek/deepseek-v4-pro",
-      "anthropic": "deepseek/deepseek-v4-pro",
-      "gemini": "deepseek/deepseek-v4-pro"
+      "anthropic": "deepseek/deepseek-v4-pro"
     }
   },
   {
@@ -240,8 +221,7 @@
     "cache_creation": "6.25",
     "serves": {
       "openai": "anthropic/claude-opus-5",
-      "anthropic": "anthropic/claude-opus-5",
-      "gemini": "anthropic/claude-opus-5"
+      "anthropic": "anthropic/claude-opus-5"
     }
   }
 ]

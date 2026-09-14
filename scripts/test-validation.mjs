@@ -62,6 +62,14 @@ const CASES = [
     expect: /duplicate protocol "openai"/,
   },
   {
+    rule: "extra — gemini is no longer a protocol an endpoint may speak",
+    provider: provider(`${prefix}-gemini-protocol`, {
+      endpoints: [{ protocol: "gemini", endpoint: "https://example.invalid" }],
+    }),
+    models: [],
+    expect: /endpoint protocol "gemini" not one of anthropic\|openai/,
+  },
+  {
     rule: "4 — at most one flagship per provider",
     provider: provider(`${prefix}-two-flagship`),
     models: [

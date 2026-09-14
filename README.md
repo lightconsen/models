@@ -159,11 +159,10 @@ Three things about `models.json` that are easy to get wrong:
   curation decision, not a derived value: the first pass flagged, for each of the
   71 providers with priced models, the one with the **highest output price**
   (ties by input price, then id) — which lands on the model a vendor is known for
-  in most cases. Worth a human look wherever it is the *only* priced model and
-  that model is a small or coding variant (`google-ai-studio` → `gemini-3.6-flash`):
-  pricing a bigger sibling would represent the provider better. The rule is a
-  starting point rather than a verdict — `deepseek` shows its flash model, chosen
-  by hand over the pricier pro the rule picked.
+  in most cases. Worth a human look wherever a model that is a small or coding
+  variant ends up representing a vendor: pricing a bigger sibling would say more
+  about it. The rule is a starting point rather than a verdict — `deepseek` shows
+  its flash model, chosen by hand over the pricier pro the rule picked.
 
 Changing a flagship does not move the price table (`version` in `global.json`
 gates that, and nothing about it changed), so it needs no version bump — the
@@ -527,7 +526,7 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 - `billing`: `plan | payg | unl | both` — one entry per billing mode, with `both`
   for an address that serves two of them at once (see below)
 - `endpoints`: non-empty array of `{protocol, endpoint}`; `protocol` is
-  `anthropic | openai | gemini` and may not repeat. **The first is the primary
+  `anthropic | openai` and may not repeat. **The first is the primary
   protocol** — it supplies the app's `endpoint` / `protocol` / `models`
 - `currency`: an `exchange_rates` key; **omitted means USD**. It is what the
   provider's prices and its spending limit are denominated in, so an unknown

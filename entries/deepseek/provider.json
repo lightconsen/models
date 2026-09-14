@@ -16,5 +16,5 @@
       "endpoint": "https://api.deepseek.com/anthropic"
     }
   ],
-  "desc": "12.4k users"
+  "desc": "DeepSeek's own API, serving its open-weight models"
 }

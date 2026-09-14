@@ -95,8 +95,9 @@ name the vendor's site, not the platform's.
   ],
 
   // ── optional ─────────────────────────────────────────────────────────
-  "desc": "Upstream price · 12.4k users"   // one line of prose, shown on the
-                                           // provider's row and detail card
+  "desc": "Example AI's own API, serving its open-weight models"
+                                // one sentence saying who this is. Shown on the
+                                // provider's row and detail card
 }
 ```
 
@@ -146,6 +147,24 @@ Three things about `models.json` that are easy to get wrong:
 Changing a flagship does not move the price table (`version` in `global.json`
 gates that, and nothing about it changed), so it needs no version bump — the
 catalog's own sha carries the change to clients.
+
+### What `desc` is for
+
+`desc` says **who the vendor is**. It is not a place for capabilities, model
+names, or numbers: the entry already carries the model list, the flagship, the
+prices and the currency as data, so repeating any of them there gives one fact two
+sources — and prose is the copy that goes stale, because it needs an edit every
+time a model ships or a price moves. A line like "K3 flagship · 1M context" is
+wrong the day K4 lands, while the `flagship` field already said it correctly.
+
+Write something that survives their next release and reads as theirs and nobody
+else's. Compare:
+
+| | |
+|---|---|
+| ✗ | `OpenAI/Anthropic-compatible API · 1M context` — true of half the aggregators here, and the context window is a spec that changes |
+| ✓ | `DeepSeek's own API, serving its open-weight models` — you know which vendor it is, and it does not need editing when they ship |
+| ✓ | `Moonshot AI's Kimi assistant and API platform` |
 
 ## Logo
 
@@ -392,7 +411,8 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 - `currency`: an `exchange_rates` key; **omitted means USD**. It is what the
   provider's prices and its spending limit are denominated in, so an unknown
   code fails validation rather than leaving the limit unmeasurable
-- `desc`: optional; one line of prose
+- `desc`: optional; one sentence introducing the vendor — see below for what
+  belongs in it
 - `logo`: derived, not authored — `entries/<id>/logo.<ext>` must exist and is
   published as `logos/<id>.<ext>`
 

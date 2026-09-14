@@ -45,6 +45,11 @@ scripts/
                        carries: its own published token-usage ranking. The one
                        script that needs a key (the rankings dataset is
                        authenticated); it reads OPENROUTER_API_KEY, or --key-file
+  fetch-aliyun-models.mjs
+                       reads an Alibaba Cloud platform's own model list rather
+                       than a price (`/compatible-mode/v1/models` on the entry's
+                       own host). Needs a key too, and takes it from
+                       ALIYUN_API_KEY or --key-file
 .github/workflows/
   validate.yml         PR gate: validation + dry-run build
   publish.yml          main push: build + upload to R2
@@ -619,6 +624,16 @@ than dropping them quietly.
 The dataset is CC BY 4.0: anything republished from it must carry "Source:
 OpenRouter (openrouter.ai/rankings), as of {as_of}" — which is why the entry's
 rows are not the only thing to read there.
+
+The Alibaba Cloud entries needed a different question answered — not what a price
+is, but which models are served at all. Their hosts answer
+`/compatible-mode/v1/models` with the ids they will accept, so
+`fetch-aliyun-models.mjs` reads that and diffs it against an entry. It decides
+*which* entry from the key file's own base URL, because a key only answers for its
+own plan. The payload carries bare ids and no modality, so anything whose name
+looks like an image or an audio model is set aside and listed rather than dropped
+quietly. And it refuses to write an entry whose rows carry prices: the list has
+none, so replacing the file wholesale would delete them.
 
 Most vendors offer neither: their pricing is behind a JavaScript app or an
 undocumented RPC (Kimi's membership page is the latter — the numbers never exist

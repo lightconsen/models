@@ -377,6 +377,35 @@ different price — and only on a priced row.
   higher of the two, so an un-updated client overstates a night's cost rather
   than understating it.
 
+### Length-dependent pricing
+
+Some vendors charge more once a request's input passes a size. MiniMax prices M3
+in two bands, one exactly twice the other, and Alibaba prices most of its models
+this way:
+
+```jsonc
+{
+  "id": "minimax-m3", "name": "MiniMax M3",
+  "in": "2.10", "out": "8.40", "cache_read": "0.42",        // ≤ 512k — the listed band
+  "long_context": {
+    "over": 512000,                                          // input tokens, above which…
+    "in": "4.20", "out": "16.80", "cache_read": "0.84"        // …these rates apply
+  }
+}
+```
+
+Read it as: the row's own rates apply up to `over` input tokens, the block's above
+it. `over` is required and so are `in` and `out`; the block appears only on a
+priced row, and `long_context` is the one place a rate is not the whole row.
+
+**The listed band is the cheaper one, and that is the opposite of the time-of-day
+rule above — deliberately.** There, the vendor publishes a single rate and it is
+the peak one, so erring upward was free. Here the vendor publishes both bands with
+the cheap one first, so following the listing keeps the headline price right, and
+the cost is that a client which does not read the field bills a long request at the
+lower band — understating rather than overstating. That trade was made knowingly:
+the alternative puts a rate on the Models list that almost nobody pays.
+
 Rows carry **no currency**: the provider's `currency` applies, and `generate.mjs`
 stamps it into every published row of `dist/models.json` (so the app-side table
 keeps its per-row currency). Listing one fails validation — two places to
@@ -525,6 +554,9 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 - `off_peak` / `peak_hours`: optional, and only together — the discounted rates
   and the hours the row's own rates apply. See
   [Time-of-day pricing](#time-of-day-pricing)
+- `long_context`: optional `{over, in, out}` — the rates that apply above `over`
+  input tokens, on a row whose own rates are the band below it. See
+  [Length-dependent pricing](#length-dependent-pricing)
 - `serves`: optional `{protocol: upstream string}`; every protocol must exist in
   `endpoints`, the object must not be empty, and **omitting it means every
   endpoint serves the model under its own `id`**
@@ -667,13 +699,14 @@ in any file the browser loads), and those are not worth a scraper each.
   by time of day, its `off_peak` and `peak_hours` are projected alongside the
   rates, so the Models page can say "these are the peak figures" — it reads the
   catalog and nothing else, and a tiered price it cannot see reads as a flat
-  one. The fields are the ones `Time-of-day pricing` describes, copied verbatim
+  one. `long_context` travels the same way. The fields are the ones
+  `Time-of-day pricing` and `Length-dependent pricing` describe, copied verbatim
   and only when published; `models.json` stays the place a client bills from.
 - `dist/models.json` holds the priced models of every `entries/*/models.json`,
   one row per model id, sorted. A model resold by several providers is written
   once — and only if every copy agrees. A row carries its currency, and its
-  `off_peak` / `peak_hours` when the provider has them, so the schedule travels
-  with the prices it modifies.
+  `off_peak` / `peak_hours` / `long_context` when the provider has them, so the
+  schedule and the band travel with the prices they modify.
 
 ## CI
 

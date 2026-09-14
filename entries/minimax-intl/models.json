@@ -33,6 +33,12 @@
     "serves": {
       "openai": "MiniMax-M3",
       "anthropic": "MiniMax-M3"
+    },
+    "long_context": {
+      "over": 512000,
+      "in": "0.60",
+      "out": "2.40",
+      "cache_read": "0.12"
     }
   }
 ]

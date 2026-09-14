@@ -102,7 +102,7 @@ const PROVIDER_KEYS = new Set([
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
   "id", "name", "in", "out", "cache_read", "cache_creation", "serves", "flagship",
-  "off_peak", "peak_hours",
+  "off_peak", "peak_hours", "long_context",
 ]);
 /** The rate fields a model row may carry, and the ones an `off_peak` block may.
     (Distinct from `PRICE_FIELDS`, which names the *published* row's columns.) */
@@ -151,7 +151,7 @@ const PRICE_FIELDS = ["model_id", "display_name", "input", "output", "cache_read
     clocks are not the same price. Values go through JSON.stringify rather than
     String() so the nested `off_peak` / `peak_hours` compare by content — String
     would collapse either to "[object Object]" and call them equal. */
-const AGREEMENT_FIELDS = [...PRICE_FIELDS, "currency", "off_peak", "peak_hours"];
+const AGREEMENT_FIELDS = [...PRICE_FIELDS, "currency", "off_peak", "peak_hours", "long_context"];
 const priceKey = (m) => JSON.stringify(AGREEMENT_FIELDS.map((f) => m?.[f] ?? null));
 
 /** The published catalog entry, in a canonical key order. Canonical on purpose:
@@ -401,6 +401,31 @@ for (const dir of entryDirs) {
         for (const k of Object.keys(ph)) if (!["tz_offset", "windows"].includes(k)) fail(`${mw}: peak_hours has unknown key "${k}"`);
       }
     }
+    // Length pricing, the same shape as the time-of-day one and for the same
+    // reason: a vendor charges more once a request's input passes some size, the
+    // row carries the cheaper band because that is the one the vendor lists first,
+    // and this block carries the other plus the size it starts at. A reader that
+    // does not know about it bills every request at the lower band, which is the
+    // cost we chose to err on — see the README.
+    if (m.long_context !== undefined) {
+      const lc = m.long_context;
+      const okShape = lc !== null && typeof lc === "object" && !Array.isArray(lc);
+      if (!okShape) fail(`${mw}: long_context must be an object of price fields`);
+      else {
+        if (!(hasIn && hasOut)) fail(`${mw}: long_context needs the row's own price first`);
+        if (!Number.isInteger(lc.over) || lc.over <= 0) {
+          fail(`${mw}: long_context.over must be a positive whole number of input tokens`);
+        }
+        if (lc.in === undefined || lc.out === undefined) {
+          fail(`${mw}: long_context needs in and out, like the row itself`);
+        }
+        for (const [k, v] of Object.entries(lc)) {
+          if (k === "over") continue;
+          if (!RATE_FIELDS.includes(k)) fail(`${mw}: long_context has unknown field "${k}"`);
+          else if (!isDecimal(v)) fail(`${mw}: long_context.${k} "${v}" is not a non-negative decimal`);
+        }
+      }
+    }
     if (hasIn && hasOut) {
       // dist/models.json rows carry display_name and the app's ModelPriceEntry
       // requires it, so a priced model without a name would break the price
@@ -475,6 +500,9 @@ for (const dir of entryDirs) {
           // valid together or not at all.
           ...(flagship.off_peak === undefined ? {} : { off_peak: flagship.off_peak }),
           ...(flagship.peak_hours === undefined ? {} : { peak_hours: flagship.peak_hours }),
+          // Likewise for the length band: a flagship priced above some input size
+          // would otherwise read as a flat rate on the Models page.
+          ...(flagship.long_context === undefined ? {} : { long_context: flagship.long_context }),
         };
 
   catalog.push(
@@ -503,6 +531,10 @@ for (const dir of entryDirs) {
     };
     if (m.off_peak !== undefined) row.off_peak = m.off_peak;
     if (m.peak_hours !== undefined) row.peak_hours = m.peak_hours;
+    // The length band travels the same way, and a client that does not read it
+    // charges the lower band — the opposite direction from the peak default above,
+    // because here the listed band is the cheaper one.
+    if (m.long_context !== undefined) row.long_context = m.long_context;
     entryPriceRows.push({ entry: dir, row, currency: e.currency });
   }
 }

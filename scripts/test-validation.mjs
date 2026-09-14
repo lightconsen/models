@@ -183,6 +183,36 @@ const CASES = [
     expect: /plan_query has unknown key "api_key"/,
   },
   {
+    rule: "extra — long_context must be an object of price fields",
+    provider: provider(`${prefix}-lc-shape`),
+    models: [{ id: "m1", name: "M1", in: "1", out: "2", long_context: "4.20" }],
+    expect: /long_context must be an object of price fields/,
+  },
+  {
+    rule: "extra — long_context.over must be a positive whole number of tokens",
+    provider: provider(`${prefix}-lc-over`),
+    models: [{ id: "m1", name: "M1", in: "1", out: "2", long_context: { over: "512k", in: "2", out: "4" } }],
+    expect: /long_context\.over must be a positive whole number/,
+  },
+  {
+    rule: "extra — long_context needs in and out, like the row itself",
+    provider: provider(`${prefix}-lc-rates`),
+    models: [{ id: "m1", name: "M1", in: "1", out: "2", long_context: { over: 512000, in: "2" } }],
+    expect: /long_context needs in and out/,
+  },
+  {
+    rule: "extra — long_context needs the row's own price first",
+    provider: provider(`${prefix}-lc-unpriced`),
+    models: [{ id: "m1", long_context: { over: 512000, in: "2", out: "4" } }],
+    expect: /long_context needs the row's own price first/,
+  },
+  {
+    rule: "extra — long_context carries rates and the threshold, nothing else",
+    provider: provider(`${prefix}-lc-extra`),
+    models: [{ id: "m1", name: "M1", in: "1", out: "2", long_context: { over: 512000, in: "2", out: "4", note: "x" } }],
+    expect: /long_context has unknown field "note"/,
+  },
+  {
     rule: "changed — two providers may price one model differently (published, warned)",
     provider: provider(`${prefix}-divergent-a`),
     // Named to sort first. The detail list is capped at ten and sorted by model

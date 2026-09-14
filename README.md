@@ -677,9 +677,50 @@ looks like an image or an audio model is set aside and listed rather than droppe
 quietly. And it refuses to write an entry whose rows carry prices: the list has
 none, so replacing the file wholesale would delete them.
 
-Most vendors offer neither: their pricing is behind a JavaScript app or an
-undocumented RPC (Kimi's membership page is the latter — the numbers never exist
-in any file the browser loads), and those are not worth a scraper each.
+### All of them at once
+
+`fetch-all.mjs` runs every source above, plus the ones that only ever had a page
+to read, and prints the whole catalogue's differences in one pass:
+
+```
+node scripts/fetch-all.mjs                show the diff for every entry
+node scripts/fetch-all.mjs --entry xai    just one
+node scripts/fetch-all.mjs --write        apply
+```
+
+The per-vendor scripts still exist and are still the best place to read about any
+one vendor. What the runner adds is the thing none of them could do alone: keep
+going when one vendor's docs restructure, and report what it could not read
+rather than leaving a stale number looking fresh.
+
+Each source lives in `scripts/sources/` as an adapter, and the list in
+`index.mjs` is now the machine-readable answer to a question that used to have
+five different answers: where did this number come from. An entry with no adapter
+is not an oversight — it is a plan that publishes no per-token rate, or a console
+behind a login — and the runner names those on every run.
+
+Two rules the merge follows, both of which cost something to learn. The source
+wins on what it can know: the prices, and for a *follow* source the list of models
+itself. The entry wins on judgement the source cannot express — `flagship` and
+`serves` are carried across untouched, because a scraper that re-derives them
+would rewrite a human's decision as a guess. The other rule is that membership is
+a separate question from price. A *follow* source is a complete statement of what
+a vendor sells; an *intersect* source only prices what something else already
+chose. OpenRouter is the second kind, and treating it as the first would replace
+twenty curated rows with four hundred.
+
+Two things worth knowing before the first run. Node's `fetch` ignores
+`https_proxy`, which `curl` honours, so a source that works from the shell can
+still fail here — start the process with `NODE_USE_ENV_PROXY=1` if you need the
+proxy. And an entry's own docs can be read where its login page cannot: the
+Volcengine Ark docs answer `www.volcengine.com/api/doc/getDocDetail?DocumentID=…`
+with the whole document as JSON to anyone, while the console they are embedded in
+refuses every path unauthenticated. Their tables arrive as a nested Quill format —
+rows and columns in separate blocks, cell text under keys that encode both ids —
+which is why that adapter is the longest one here.
+
+Kimi's membership remains the one thing that cannot be read: the numbers never
+exist in any file the browser loads.
 
 ## Layout notes
 

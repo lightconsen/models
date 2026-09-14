@@ -4,7 +4,7 @@
   "website": "https://minimax.io/",
   "tag": "official",
   "rating": 4,
-  "billing": "payg",
+  "billing": "both",
   "currency": "USD",
   "endpoints": [
     {
@@ -16,5 +16,5 @@
       "endpoint": "https://api.minimax.io/anthropic"
     }
   ],
-  "desc": "Official pricing"
+  "desc": "MiniMax's own model API"
 }

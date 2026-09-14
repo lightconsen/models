@@ -2,14 +2,26 @@
   {
     "id": "minimax-m2.7",
     "name": "MiniMax M2.7",
-    "in": "0.30",
-    "out": "1.20",
-    "cache_read": "0.06",
-    "cache_creation": "0.375",
+    "in": "2.1",
+    "out": "8.4",
+    "cache_read": "0.42",
+    "cache_creation": "2.625",
     "serves": {
       "openai": "MiniMax-M2.7",
       "anthropic": "MiniMax-M2.7"
     },
     "flagship": true
+  },
+  {
+    "id": "minimax-m2.7-highspeed",
+    "name": "MiniMax M2.7 Highspeed",
+    "in": "4.2",
+    "out": "16.8",
+    "cache_read": "0.42",
+    "cache_creation": "2.625",
+    "serves": {
+      "openai": "MiniMax-M2.7-highspeed",
+      "anthropic": "MiniMax-M2.7-highspeed"
+    }
   }
 ]

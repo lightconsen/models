@@ -4,8 +4,8 @@
   "website": "https://minimaxi.com/",
   "tag": "official",
   "rating": 4,
-  "billing": "payg",
-  "currency": "USD",
+  "billing": "both",
+  "currency": "CNY",
   "endpoints": [
     {
       "protocol": "openai",
@@ -16,5 +16,5 @@
       "endpoint": "https://api.minimaxi.com/anthropic"
     }
   ],
-  "desc": "Official pricing"
+  "desc": "MiniMax's own model API"
 }

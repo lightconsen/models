@@ -5,6 +5,8 @@
 - every live model is listed, and no retired one is
 - `in` / `out` / `cache_read` match the vendor's own table, in the currency the vendor bills in
 - any time-of-day or plan pricing is recorded, not left in prose
+- a plan-billed entry says whether its usage can be read with the API key alone,
+  and `plan_query` names the right template when it can
 - `desc` introduces the vendor and nothing that expires — no model names, no
   capabilities, no user counts (see the README's "What `desc` is for")
 - the endpoints still answer, and `website` is the vendor's own site

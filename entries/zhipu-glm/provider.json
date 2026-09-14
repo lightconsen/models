@@ -16,5 +16,6 @@
       "endpoint": "https://open.bigmodel.cn/api/anthropic"
     }
   ],
-  "desc": "from ¥118 /mo"
+  "desc": "from ¥118 /mo",
+  "plan_query": { "template": "zhipu" }
 }

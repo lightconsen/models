@@ -159,6 +159,24 @@ const CASES = [
     expect: /models\.json: missing/,
   },
   {
+    rule: "extra — plan_query must be an object",
+    provider: provider(`${prefix}-plan-query-shape`, { plan_query: "kimi" }),
+    models: [],
+    expect: /plan_query must be an object/,
+  },
+  {
+    rule: "extra — plan_query.template must be a non-empty string",
+    provider: provider(`${prefix}-plan-query-empty`, { plan_query: { template: "" } }),
+    models: [],
+    expect: /plan_query\.template must be a non-empty string/,
+  },
+  {
+    rule: "extra — plan_query carries the template id and nothing else",
+    provider: provider(`${prefix}-plan-query-extra`, { plan_query: { template: "kimi", api_key: "sk-x" } }),
+    models: [],
+    expect: /plan_query has unknown key "api_key"/,
+  },
+  {
     rule: "changed — two providers may price one model differently (published, warned)",
     provider: provider(`${prefix}-divergent-a`),
     models: [{ id: "shared-model", name: "Shared", in: "1", out: "2" }],
@@ -169,6 +187,13 @@ const CASES = [
     expectCode: 0,
     // The summary line, then the detail naming the model — both on stderr.
     expectWarn: /priced differently by different providers[\s\S]*shared-model/,
+  },
+  {
+    rule: "changed — a template this build does not know is warned about, not rejected",
+    provider: provider(`${prefix}-plan-query-unknown`, { plan_query: { template: "nosuchvendor" } }),
+    models: [],
+    expectCode: 0,
+    expectWarn: /plan_query template "nosuchvendor" is not one the app knows/,
   },
 ];
 

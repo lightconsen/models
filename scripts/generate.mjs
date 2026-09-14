@@ -77,10 +77,20 @@ const BILLINGS = new Set(["plan", "payg", "unl"]);
 const PROTOCOLS = new Set(["anthropic", "openai", "gemini"]);
 const TAGS = new Set(["official", "third", "aggregate", "local", "free"]);
 const LOGO_EXTS = ["png", "svg", "jpg", "jpeg", "webp"];
+/** The plan-quota templates the app can execute. This list is for *warnings*
+    only: an id outside it is not rejected, because the app answers one it does
+    not know with a readable failure rather than a crash, and the list can only
+    grow — the data repo should not be the thing blocking a template the app has
+    not shipped yet. `grok` is deliberately absent: the app carries a stub for it
+    and no implementation, so naming it should be flagged. */
+const PLAN_QUERY_TEMPLATES = new Set([
+  "kimi", "zhipu", "zhipu_team", "minimax", "zenmux", "opencode_go", "volcengine",
+]);
 /** provider.json keys we read. Anything else is warned about — that is how a
     leftover `price_line` or `icon` from the previous schema gets caught. */
 const PROVIDER_KEYS = new Set([
   "id", "name", "website", "tag", "rating", "billing", "currency", "endpoints", "desc",
+  "plan_query",
 ]);
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
@@ -166,6 +176,12 @@ function catalogEntry(e, derived) {
     endpoints: derived.endpoints,
     logo: `logos/${e.id}.${derived.logoExt}`,
     ...(e.desc === undefined ? {} : { desc: e.desc }),
+    // The template id only — never `fields`. The extra credentials a template
+    // can need (an org id, an account access key) are the user's own, and a
+    // published slot for them would invite them into a public repo. Written out
+    // key by key rather than spread, so a source file carrying more than the id
+    // cannot leak it.
+    ...(e.plan_query === undefined ? {} : { plan_query: { template: e.plan_query.template } }),
     ...(derived.priceRef === undefined ? {} : { price_ref: derived.priceRef }),
   };
 }
@@ -233,6 +249,26 @@ for (const dir of entryDirs) {
     fail(`${where}: currency "${e.currency}" must be an ISO-4217 code like USD`);
   }
   if (e.desc !== undefined && typeof e.desc !== "string") fail(`${where}: desc must be a string`);
+  // Which quota endpoint, if any, can be read with nothing but this provider's
+  // own API key. Absent means "none" — and that is most of them: it is a fact
+  // about the vendor's API, not about how it bills, so `billing: plan` cannot
+  // stand in for it. The app uses this to decide whether the per-plan quota
+  // limits it offers can ever be computed for this provider.
+  if (e.plan_query !== undefined) {
+    const pq = e.plan_query;
+    const okShape = pq !== null && typeof pq === "object" && !Array.isArray(pq);
+    if (!okShape) fail(`${where}: plan_query must be an object like {"template":"kimi"}`);
+    else {
+      for (const k of Object.keys(pq)) {
+        if (k !== "template") fail(`${where}: plan_query has unknown key "${k}" — only the template id belongs here`);
+      }
+      if (typeof pq.template !== "string" || pq.template.trim() === "") {
+        fail(`${where}: plan_query.template must be a non-empty string`);
+      } else if (!PLAN_QUERY_TEMPLATES.has(pq.template)) {
+        warn(`${where}: plan_query template "${pq.template}" is not one the app knows (${[...PLAN_QUERY_TEMPLATES].join(", ")}) — it will report it as unknown`);
+      }
+    }
+  }
   if (!Array.isArray(e.endpoints) || e.endpoints.length === 0) {
     fail(`${where}: endpoints must be a non-empty array — the first one is the primary protocol`);
   } else {

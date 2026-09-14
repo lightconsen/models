@@ -98,13 +98,18 @@ name the vendor's site, not the platform's.
   "desc": "Example AI's own API, serving its open-weight models"
                                 // one sentence saying who this is. Shown on the
                                 // provider's row and detail card
+  "plan_query": { "template": "kimi" }
+                                // only when the plan's usage can be read with
+                                // nothing but this provider's own API key. The
+                                // value is a template id — never credentials.
+                                // See "Plan quota" below
 }
 ```
 
-Eight fields, and that is deliberate: anything the app can work out for itself is
-not stored here. The letter-avatar glyph comes from `name`, the avatar colour and
-the category label from the app's own palette and translations, and the primary
-endpoint from the first entry of `endpoints`.
+Eight required fields, and that is deliberate: anything the app can work out for
+itself is not stored here. The letter-avatar glyph comes from `name`, the avatar
+colour and the category label from the app's own palette and translations, and the
+primary endpoint from the first entry of `endpoints`.
 
 ```jsonc
 // entries/<id>/models.json — volatile: one record per model, prices inline
@@ -165,6 +170,46 @@ else's. Compare:
 | ✗ | `OpenAI/Anthropic-compatible API · 1M context` — true of half the aggregators here, and the context window is a spec that changes |
 | ✓ | `DeepSeek's own API, serving its open-weight models` — you know which vendor it is, and it does not need editing when they ship |
 | ✓ | `Moonshot AI's Kimi assistant and API platform` |
+
+### Plan quota (`plan_query`)
+
+A subscription's usage is not part of a vendor's API surface in any standard way:
+some expose a quota endpoint answerable with nothing but the API key the entry
+already carries, and most expose nothing at all. Which of the two a vendor is
+**cannot be derived** — `billing: plan` says how a provider charges, not what its
+API can answer. In this catalog 18 entries bill as a plan and 4 can be queried.
+
+So it is curated, one entry at a time:
+
+```jsonc
+"plan_query": { "template": "kimi" }
+```
+
+The value names a **template** — a capability, not a provider: "the Kimi coding
+plan usage API", "the Zhipu monitor API". Two entries can share one
+(`zhipu-glm` and `zhipu-glm-intl` do, and the host is worked out from the entry's
+own `endpoints`), and an entry may move vendor without the id moving. It is
+deliberately **not** the entry's own `id`: keying the app's lookup on that would
+put a list of catalog entries inside the app binary, and every newly queryable
+provider would need an app release rather than a data change.
+
+**Only the template id.** A few templates need extra credentials the user
+supplies — an org id, an account access key. Those are the user's own and never
+belong in a public repo, so the published projection writes the single `template`
+key out rather than spreading the object: nothing else can ride along.
+
+What it buys: the app offers per-plan quota limits — a percentage ceiling on the
+vendor's rolling 5-hour and weekly windows, enforced by routing around a provider
+that is over its own — **only** for entries that carry this field. Where it is
+absent those inputs are hidden rather than shown and left inert, since a limit
+the app cannot measure against is a number the user types for nothing.
+
+Two authoring rules:
+
+- **`fields` is not a key here.** Extra credentials have no place in this repo.
+- **An id the app does not know is warned about, not rejected.** The app reports
+  an unrecognised template as a readable error rather than crashing, and the list
+  can only grow — blocking one is not this repo's job.
 
 ## Logo
 
@@ -413,6 +458,11 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
   code fails validation rather than leaving the limit unmeasurable
 - `desc`: optional; one sentence introducing the vendor — see below for what
   belongs in it
+- `plan_query`: optional `{template}` — the id of the template the app runs to
+  read this plan's usage, and nothing else. An unknown key inside it fails; a
+  template id the app does not know is **warned about, not rejected**, because
+  the app answers one it does not recognise with a readable failure and the list
+  can only grow. See [Plan quota](#plan-quota-plan_query)
 - `logo`: derived, not authored — `entries/<id>/logo.<ext>` must exist and is
   published as `logos/<id>.<ext>`
 
@@ -501,12 +551,19 @@ in any file the browser loads), and those are not worth a scraper each.
 - `dist/catalog.json` is assembled from all `entries/*/provider.json` +
   `models.json`, sorted by id for deterministic output (the Models page sorts
   rows itself). Field order is canonical, not per-file.
-- **Each published entry has eleven fields** — `id`, `name`, `website`, `tag`,
-  `rating`, `billing`, `currency`, `endpoints`, `logo`, `desc`, `price_ref`.
-  Nothing the app can work out for itself is sent: no avatar glyph or colour, no
-  category label, no primary endpoint beside the list it is the first entry of,
-  no "added" flag. `../crates/core/src/vm.rs::normalize_catalog_entry` fills
-  those on the way in, the same way it has always derived `added`.
+- **Each published entry has twelve fields** — `id`, `name`, `website`, `tag`,
+  `rating`, `billing`, `currency`, `endpoints`, `logo`, `desc`, `plan_query`,
+  `price_ref`. Three of them are conditional: `desc`, `plan_query` and `price_ref`
+  appear only when the source carries them. Nothing the app can work out for
+  itself is sent: no avatar glyph or colour, no category label, no primary
+  endpoint beside the list it is the first entry of, no "added" flag.
+  `../crates/core/src/vm.rs::normalize_catalog_entry` fills those on the way in,
+  the same way it has always derived `added`.
+- **`plan_query` must be declared on the app side to survive.** The app
+  re-serializes the parsed catalog before caching it, so a field the Rust
+  `CatalogEntryVm` does not name is dropped on the first sync and the frontend
+  never sees it. Declaring it there is part of shipping this field, not an
+  optional follow-up.
 - **`price_ref` carries the flagship's schedule too.** When that model is priced
   by time of day, its `off_peak` and `peak_hours` are projected alongside the
   rates, so the Models page can say "these are the peak figures" — it reads the

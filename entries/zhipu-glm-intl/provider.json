@@ -16,5 +16,6 @@
       "endpoint": "https://api.z.ai/api/anthropic"
     }
   ],
-  "desc": "from $18 /mo"
+  "desc": "from $18 /mo",
+  "plan_query": { "template": "zhipu" }
 }

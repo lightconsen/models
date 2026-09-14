@@ -16,5 +16,6 @@
       "endpoint": "https://opencode.ai/zen/go"
     }
   ],
-  "desc": "$10 /mo plan"
+  "desc": "$10 /mo plan",
+  "plan_query": { "template": "opencode_go" }
 }

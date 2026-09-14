@@ -7,14 +7,13 @@
   does not, so the entry carries the ones it is known for and the notes say which
   rule picked them (`openrouter` uses the vendor's own usage ranking)
 - `in` / `out` / `cache_read` match the vendor's own table, in the currency the vendor bills in
-- any time-of-day pricing is recorded, not left in prose. Two kinds cannot be, and
-  no entry should be held for either. A subscription's monthly figure has no field,
-  so the ten entries that carry one carry it in `desc`. And a rate that varies by
-  context length has no field either — Alibaba prices most of its models in tiers
-  by input length, and those entries could only record the ones that are not
-  tiered, which is a selection, not a transcription — and MiniMax prices M3 in two
-  bands by input length the same way. This bullet stays as the marker of the gaps;
-  do not go looking for the fields
+- any time-of-day *or length-dependent* pricing is recorded, not left in prose.
+  `long_context` carries the rates that apply above an input size, and both
+  MiniMax entries use it for M3 — a vendor that prices in bands is transcribed
+  now, not selected. What still has no field is a subscription's monthly figure,
+  so the entries that carry one carry it in `desc`, and any per-request multiplier
+  (MiniMax's `service_tier: priority` is 1.5x standard). Those stay as the marker
+  of the gaps
 - `billing` says what the vendor sells **at that address**. Where one host answers
   to both an API key and a subscription credential it is `both` — the Anthropic API
   and Pro/Max, Zhipu's `api` and its coding plan — and two entries are right only
@@ -41,13 +40,11 @@ Five vendors can be read by script rather than by eye, and when one applies, run
 | [ ] | `groq` | official | 0/1 | <https://groq.com/> |  |
 | [x] | `kimi` | official | 4/4 | <https://moonshot.cn/> | checked 2026-09-14 — prices, currency, model list (see the fetch script) |
 | [x] | `kimi-for-coding` | official | 0/4 | <https://kimi.com/> | checked 2026-09-14 — model list, CNY, no per-token price (a membership carries none); `plan_query` = `kimi` |
-| [ ] | `minimax` | official | 3/3 | <https://minimaxi.com/> | the vendor prices three language models — M2.7, M2.7-highspeed and M3 — and lists eight; M3 carries its ≤512k band, the cheaper of the two by input length; the >512k band is twice it and has no field. `billing` is `both`: one address takes a pay-as-you-go key and a Token Plan key |
-| [ ] | `minimax-intl` | official | 3/3 | <https://minimax.io/> | the overseas table, which the domestic one confirms at the rate in `global.json`; same eight-listed-two-priced shape, and `billing` is `both` |
+| [x] | `minimax` | official | 3/3 | <https://minimaxi.com/> | checked 2026-09-14 — the three current models against the vendor's own Pay-as-you-go table, CNY, cache write included, and M3's 512k band read in both directions (≤512k 2.10/8.40/0.42, above it 4.20/16.80/0.84, which `long_context` carries); both routes answer 401 without a key. Two gaps: the same page still prices five older models this entry does not list (M2.5, M2.1, M2 and their highspeed variants), and `service_tier: priority` bills 1.5x standard with no field to record it. `billing` is `both`: one address takes a pay-as-you-go key and a Token Plan key |
+| [x] | `minimax-intl` | official | 3/3 | <https://minimax.io/> | checked 2026-09-14 — the overseas table as the vendor publishes it in USD, the same three models and the same 512k band (0.60/2.40/0.12 above it); both routes answer 401. Its figures are the vendor's own round numbers rather than a conversion of the domestic ones — the two tables are published side by side, and `global.json`'s rate is for display only. Same two gaps as the domestic entry |
 | [x] | `openrouter` | aggregate | 20/20 | <https://openrouter.ai/> | checked 2026-09-14 — model list from the vendor's own usage ranking, prices and upstream ids from its models API (see the two fetch scripts) |
 | [x] | `qianwenai` | official | 2/2 | <https://www.qianwenai.com/> | checked 2026-09-14 — the two models and their rates from the vendor's page; both routes answer without a key |
 | [x] | `qianwenai-token-plan` | official | 0/9 | <https://www.qianwenai.com/> | checked 2026-09-14 — the nine models read off the plan's own `/compatible-mode/v1/models` (see the script); the anthropic route answers 401 without a key |
-| [ ] | `stepfun` | official | 2/2 | <https://stepfun.com/> |  |
-| [ ] | `stepfun-intl` | official | 2/2 | <https://stepfun.ai/> |  |
 | [x] | `tencent-token-plan` | official | 0/15 | <https://www.tencent.com/> | checked 2026-09-14 — the fifteen models of both plans, which share one address and one API key; both routes answer 401 without a key |
 | [ ] | `xai` | official | 1/1 | <https://x.ai/> |  |
 | [x] | `xiaomi-mimo` | official | 2/2 | <https://mimo.mi.com/> | checked 2026-09-14 — the domestic rates from the vendor's own table (see the fetch script); one host serves both markets and bills by the account's region, so the yuan table is a choice |

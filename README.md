@@ -163,6 +163,11 @@ Three things about `models.json` that are easy to get wrong:
   variant ends up representing a vendor: pricing a bigger sibling would say more
   about it. The rule is a starting point rather than a verdict — `deepseek` shows
   its flash model, chosen by hand over the pricier pro the rule picked.
+  **Its tie-break has a direction worth knowing**: when a vendor prices generations
+  alike, equal output and equal input fall through to the id, and the older model's
+  id usually sorts first. Three vendors hit it on 2026-09-14 — `grok-4.5` over
+  `grok-4.6`, `gemini-3.6-flash` over `-3.7` and `-3.8`, `doubao-seed-2.1-pro` over
+  `doubao-seed-evolving` — and each was set by hand to the newer model.
 
 Changing a flagship does not move the price table (`version` in `global.json`
 gates that, and nothing about it changed), so it needs no version bump — the

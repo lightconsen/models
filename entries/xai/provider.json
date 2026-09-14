@@ -12,5 +12,5 @@
       "endpoint": "https://api.x.ai/v1"
     }
   ],
-  "desc": "Official pricing"
+  "desc": "xAI's own Grok API"
 }

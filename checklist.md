@@ -46,7 +46,7 @@ Five vendors can be read by script rather than by eye, and when one applies, run
 | [x] | `qianwenai` | official | 2/2 | <https://www.qianwenai.com/> | checked 2026-09-14 — the two models and their rates from the vendor's page; both routes answer without a key |
 | [x] | `qianwenai-token-plan` | official | 0/9 | <https://www.qianwenai.com/> | checked 2026-09-14 — the nine models read off the plan's own `/compatible-mode/v1/models` (see the script); the anthropic route answers 401 without a key |
 | [x] | `tencent-token-plan` | official | 0/15 | <https://www.tencent.com/> | checked 2026-09-14 — the fifteen models of both plans, which share one address and one API key; both routes answer 401 without a key |
-| [ ] | `xai` | official | 0/0 | <https://x.ai/> |  |
+| [ ] | `xai` | official | 7/7 | <https://x.ai/> |  |
 | [x] | `xiaomi-mimo` | official | 2/2 | <https://mimo.mi.com/> | checked 2026-09-14 — the domestic rates from the vendor's own table (see the fetch script); one host serves both markets and bills by the account's region, so the yuan table is a choice |
 | [x] | `xiaomi-mimo-token-plan` | official | 0/2 | <https://mimo.mi.com/> | checked 2026-09-14 — the two models it serves, unpriced: it deducts by quota conversion, and the metered entry carries the rates |
 | [x] | `zhipu-glm` | official | 2/2 | <https://bigmodel.cn/> | checked 2026-09-14 — GLM-5.3 and -Flash with their rates from the vendor's page (CNY); `billing` is `both`, and the `zhipu` quota template reads the domestic host |

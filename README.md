@@ -35,6 +35,7 @@ scripts/
   test-validation.mjs  failure-path tests for the validation rules
   fetch-deepseek-pricing.mjs
   fetch-kimi-pricing.mjs
+  fetch-openrouter-pricing.mjs
                        authoring aids: read a vendor's published price table and
                        print what it would change. Never run in the build — they
                        only save the author a transcription, and print a diff
@@ -526,11 +527,11 @@ Then bump `version` in `global.json` and, if the record introduced a new
 currency, add it to `exchange_rates`. The version is the app's seed gate: an
 unchanged version means the app keeps its existing table.
 
-Two vendors publish a table a script can read, so `scripts/fetch-deepseek-pricing.mjs`
-and `scripts/fetch-kimi-pricing.mjs` read theirs and print the difference — a
-repricing becomes a review of a diff rather than a transcription. Both are
-authoring aids and nothing more: no cron runs them, and a number they print is
-only as fresh as the last time somebody ran it.
+Three vendors publish a table a script can read, so `scripts/fetch-deepseek-pricing.mjs`,
+`scripts/fetch-kimi-pricing.mjs` and `scripts/fetch-openrouter-pricing.mjs` read theirs
+and print the difference — a repricing becomes a review of a diff rather than a
+transcription. All are authoring aids and nothing more: no cron runs them, and a
+number they print is only as fresh as the last time somebody ran it.
 
 DeepSeek's docs prerender the table as plain HTML, so a fetch is enough — but the
 response carries a stray NUL byte, which is worth knowing because `grep` then
@@ -538,6 +539,21 @@ treats the file as binary and matches nothing at all. Kimi's docs go further and
 serve every page as markdown (`/docs/llms.txt` is the index), with the price
 table as a literal array inside a `<DocTable>` element; their script also reads
 the model list, which is how two models we carried turned out to be retired.
+
+OpenRouter is the easiest of the three and by far the largest: a plain JSON API
+(`/api/v1/models`, no key) covering 430 text-out models, each with a name and
+per-token USD prices. Two things about it are worth knowing before trusting a
+diff. Prices are per token, so the script moves the decimal point six places
+*in the string* — `0.00000003 * 1_000_000` is not `0.03` in binary floating
+point, and a short fraction gains zeros rather than losing them (`0.00001` is
+`10` per million, not `1`). And a few models are priced `-1`: the vendor's way of
+saying the price varies with whichever model it routes to. Those become rows with
+no price, which is exactly what "declared, unpriced" already means here.
+
+Note also which models it returns: filtering on `modality === "text->text"` looks
+like the obvious reading and is wrong — it drops every model that accepts an
+image, which is 272 of the 430, including the ones a reader actually picks. The
+script filters on output modality instead.
 
 Most vendors offer neither: their pricing is behind a JavaScript app or an
 undocumented RPC (Kimi's membership page is the latter — the numbers never exist

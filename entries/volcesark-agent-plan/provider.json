@@ -1,0 +1,20 @@
+{
+  "id": "volcesark-agent-plan",
+  "name": "VolcesArk Agent Plan",
+  "website": "https://www.volcengine.com/",
+  "tag": "official",
+  "rating": 4,
+  "billing": "plan",
+  "currency": "CNY",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://ark.cn-beijing.volces.com/api/plan/v3"
+    },
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://ark.cn-beijing.volces.com/api/plan"
+    }
+  ],
+  "desc": "Volcengine's Ark agent plan"
+}

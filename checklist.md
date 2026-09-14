@@ -50,8 +50,8 @@
 | [ ] | `google-ai-studio` | official | 1/2 | <https://aistudio.google.com/> |  |
 | [ ] | `groq` | official | 0/1 | <https://groq.com/> |  |
 | [ ] | `jiekou-ai` | aggregate | 1/1 | <https://jiekou.ai/> |  |
-| [ ] | `kimi` | official | 4/4 | <https://moonshot.cn/> | prices + currency + model list checked 2026-09-14 via the fetch script; website/tag/rating not reviewed |
-| [ ] | `kimi-for-coding` | official | 0/2 | <https://kimi.com/> |  |
+| [x] | `kimi` | official | 4/4 | <https://moonshot.cn/> | checked 2026-09-14 — prices, currency, model list (see the fetch script) |
+| [x] | `kimi-for-coding` | official | 0/4 | <https://kimi.com/> | checked 2026-09-14 — model list, USD, no per-token price (a membership carries none); `plan_query` = `kimi` |
 | [ ] | `longcat` | official | 0/1 | <https://longcat.chat/> |  |
 | [ ] | `micu` | third | 3/3 | <https://micuapi.ai/> |  |
 | [ ] | `minimax` | official | 1/1 | <https://minimaxi.com/> |  |

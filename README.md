@@ -639,9 +639,6 @@ Most vendors offer neither: their pricing is behind a JavaScript app or an
 undocumented RPC (Kimi's membership page is the latter — the numbers never exist
 in any file the browser loads), and those are not worth a scraper each.
 
-`kimi-k2.5` is still priced here by `nvidia` alone, for a model Kimi retired on
-2026-08-31. A reseller may well still serve it; the row is nvidia's, not Kimi's.
-
 ## Layout notes
 
 - `dist/catalog.json` is assembled from all `entries/*/provider.json` +

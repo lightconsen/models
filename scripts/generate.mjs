@@ -73,7 +73,14 @@ const fail = (msg) => {
 };
 const warn = (msg) => console.warn(`  ⚠ ${msg}`);
 
-const BILLINGS = new Set(["plan", "payg", "unl"]);
+/** `both` is for an address that serves two billing arrangements at once — the
+    same host accepts a pay-as-you-go key or a subscription credential, so the
+    choice belongs to the reader, not the entry. It is deliberately not a way to
+    describe a vendor who sells both at *different* addresses: those are two
+    entries, the way `kimi` and `kimi-for-coding` are. Anthropic is the case:
+    Claude Pro/Max is used against `api.anthropic.com`, the same base URL as the
+    API, so there is one address and two ways to be billed for it. */
+const BILLINGS = new Set(["plan", "payg", "unl", "both"]);
 const PROTOCOLS = new Set(["anthropic", "openai", "gemini"]);
 const TAGS = new Set(["official", "third", "aggregate", "local", "free"]);
 const LOGO_EXTS = ["png", "svg", "jpg", "jpeg", "webp"];

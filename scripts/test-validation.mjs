@@ -159,6 +159,12 @@ const CASES = [
     expect: /models\.json: missing/,
   },
   {
+    rule: "extra — an unknown billing tag is rejected, and the message names them all",
+    provider: provider(`${prefix}-bad-billing`, { billing: "per-token" }),
+    models: [],
+    expect: /billing "per-token" not one of plan\|payg\|unl\|both/,
+  },
+  {
     rule: "extra — plan_query must be an object",
     provider: provider(`${prefix}-plan-query-shape`, { plan_query: "kimi" }),
     models: [],
@@ -191,6 +197,12 @@ const CASES = [
     expectCode: 0,
     // The summary line, then the detail naming the model — both on stderr.
     expectWarn: /priced differently by different providers[\s\S]*aaa-shared-model/,
+  },
+  {
+    rule: "extra — `both` is a billing mode (one address, two arrangements)",
+    provider: provider(`${prefix}-billing-both`, { billing: "both" }),
+    models: [],
+    expectCode: 0,
   },
   {
     rule: "changed — a template this build does not know is warned about, not rejected",

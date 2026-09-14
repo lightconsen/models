@@ -4,7 +4,7 @@
   "website": "https://anthropic.com/",
   "tag": "official",
   "rating": 4.9,
-  "billing": "payg",
+  "billing": "both",
   "currency": "USD",
   "endpoints": [
     {

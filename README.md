@@ -90,7 +90,7 @@ name the vendor's site, not the platform's.
   "website": "https://example.com",  // the vendor's own site; http(s), reachable
   "tag": "third",               // official | third | aggregate | local | free
   "rating": 4,                  // number 0..5
-  "billing": "payg",            // plan | payg | unl
+  "billing": "payg",            // plan | payg | unl | both — see below
   "currency": "USD",            // what this provider bills in; default USD.
                                 // Its model rows, and the spending limit the app
                                 // offers, are both denominated in it
@@ -176,6 +176,36 @@ else's. Compare:
 | ✗ | `OpenAI/Anthropic-compatible API · 1M context` — true of half the aggregators here, and the context window is a spec that changes |
 | ✓ | `DeepSeek's own API, serving its open-weight models` — you know which vendor it is, and it does not need editing when they ship |
 | ✓ | `Moonshot AI's Kimi assistant and API platform` |
+
+### One address, two ways to be billed (`both`)
+
+A vendor that sells both an API and a subscription usually sells them at
+*different addresses*, and that is two entries: `kimi` is `api.moonshot.cn` and
+`kimi-for-coding` is `api.kimi.com/coding`, so the billing mode is a property of
+the address and there is nothing to reconcile.
+
+`both` is for the case where there is only one address. Claude Pro and Max are
+used against `api.anthropic.com` — the same base URL as the API — so the entry
+describes one endpoint that accepts either a pay-as-you-go key or a subscription
+credential, and which one applies is the reader's business, not the entry's.
+
+It is not just a naming preference. A second entry on the same host would break
+pricing for providers that are already installed: `catalog_id_for`
+(`../crates/core/src/vm.rs`) links a local provider to a catalog entry by
+endpoint and returns nothing when more than one entry matches, and an unlinked
+provider is costed at *another* entry's rate. Two entries sharing a host is
+therefore not a neutral choice — it makes every hand-added or pre-link Anthropic
+provider ambiguous.
+
+What `both` does **not** do is carry the subscription's price. The entry still
+prices its models per token, because that is what the metered half charges, and
+the monthly figure has no field yet.
+
+An app that predates this value cannot write it: `billing_to_db` refuses a tag it
+does not know rather than guessing, so an older build shows the raw tag on the
+shelf and fails when the provider is added from it. The app has to resolve `both`
+into one of the two modes with the user before saving, which is the right place
+for that question anyway.
 
 ### Plan quota (`plan_query`)
 
@@ -455,7 +485,8 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
   different, optional field (see the note under [Adding a provider](#adding-a-provider))
 - `tag`: `official | third | aggregate | local | free`
 - `rating`: number `0..5`
-- `billing`: `plan | payg | unl` — one entry per billing mode
+- `billing`: `plan | payg | unl | both` — one entry per billing mode, with `both`
+  for an address that serves two of them at once (see below)
 - `endpoints`: non-empty array of `{protocol, endpoint}`; `protocol` is
   `anthropic | openai | gemini` and may not repeat. **The first is the primary
   protocol** — it supplies the app's `endpoint` / `protocol` / `models`

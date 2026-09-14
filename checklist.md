@@ -1,6 +1,6 @@
 # Provider review checklist
 
-21 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
+19 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
 
 - every live model is listed, and no retired one is — where the vendor's own page
   enumerates its lineup, which is most of them. An aggregator routing hundreds

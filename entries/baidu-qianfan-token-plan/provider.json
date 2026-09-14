@@ -13,7 +13,7 @@
     },
     {
       "protocol": "anthropic",
-      "endpoint": "https://qianfan.baidubce.com/anthropic/coding"
+      "endpoint": "https://qianfan.baidubce.com/anthropic/tokenplan/personal"
     }
   ],
   "desc": "Official pricing"

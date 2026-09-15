@@ -12,7 +12,6 @@
  * rather than leaving the gap to be rediscovered.
  */
 import anthropic from "./anthropic.mjs";
-import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
@@ -25,7 +24,6 @@ import zhipu from "./zhipu.mjs";
 
 export default [
   anthropic,
-  deepinfra,
   deepseek,
   kimi,
   minimax,

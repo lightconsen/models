@@ -1,6 +1,6 @@
 # Provider review checklist
 
-19 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
+20 providers. Tick one when its data has been checked against what the vendor itself publishes — the prices, and the things a price depends on:
 
 - every live model is listed, and no retired one is — where the vendor's own page
   enumerates its lineup, which is most of them. An aggregator routing hundreds
@@ -35,15 +35,14 @@
   look for 401 — the route exists and wants a key — or 422, which means it read
   the body, or 404, which is the one that means the route is gone
 
-Fifteen of the nineteen entries can be read by script rather than by eye. **Run `node scripts/fetch-all.mjs` before reading anything** — it reads every source, prints what each would change, and decides whether a person is needed. `--write` applies, `--write --commit` applies and commits one entry per commit. The per-vendor `fetch-*.mjs` scripts still work and are the better place to read about any single vendor; `fetch-openrouter-rankings.mjs` is still the only one that decides *which* models OpenRouter carries, and with `fetch-aliyun-models.mjs` for the Alibaba model lists it is the only one needing a key.
+Fifteen of the twenty entries can be read by script rather than by eye. **Run `node scripts/fetch-all.mjs` before reading anything** — it reads every source, prints what each would change, and decides whether a person is needed. `--write` applies, `--write --commit` applies and commits one entry per commit. The per-vendor `fetch-*.mjs` scripts still work and are the better place to read about any single vendor; `fetch-openrouter-rankings.mjs` is still the only one that decides *which* models OpenRouter carries, and with `fetch-aliyun-models.mjs` for the Alibaba model lists it is the only one needing a key.
 
-The four the runner cannot read are `kimi-for-coding`, `qianwenai-token-plan`, `tencent-token-plan` and `baidu-qianfan-token-plan` — plans and a membership that publish no per-token rate. Those stay read by eye, and the runner names them every run rather than letting their absence read as coverage.
+The five the runner cannot read are `kimi-for-coding`, `qianwenai-token-plan`, `tencent-token-plan` and `baidu-qianfan-token-plan` — plans and a membership that publish no per-token rate — and `openai`, whose vendor page is geographically blocked from here (see its row). Those stay read by eye, and the runner names them every run rather than letting their absence read as coverage.
 
 | | provider | tag | priced | website | notes |
 |---|---|---|---|---|---|
 | [x] | `anthropic` | official | 4/4 | <https://anthropic.com/> | checked 2026-09-14 — the four models and their prices from the vendor's own pricing page; `billing` is `both` (the API and Pro/Max share a host) |
 | [x] | `baidu-qianfan-token-plan` | official | 0/8 | <https://cloud.baidu.com/product-s/qianfan_home> | checked 2026-09-14 — the eight models and both routes as the vendor publishes them; the openai route answers 401 without a key and the anthropic one 422 |
-| [x] | `deepinfra` | third | 6/6 | <https://deepinfra.com/> | checked 2026-09-15 — six current text models, each read from `api.deepinfra.com/models/list` and confirmed by the adapter reporting no change (see `scripts/sources/deepinfra.mjs`). Its prices are a fraction of a cent per token — a factor of 10,000 from ours — and the conversion was checked against the API's own `full` prose field, which spells the same number out |
 | [x] | `deepseek` | official | 2/2 | <https://deepseek.com/> | checked 2026-09-14 — prices, peak/off-peak, CNY, endpoints (see the fetch script) |
 | [x] | `volcesark` | official | 0/11 | <https://www.volcengine.com/> | checked 2026-09-14 — the eleven models the plan page names, and the two base URLs it requires are the two the entry carries. Both routes answer 401 without a key. The plan price (Lite 40 元/月, Pro 200 元/月) is published and has no field |
 | [x] | `volcesark-agent-plan` | official | 0/11 | <https://www.volcengine.com/> | checked 2026-09-14 — eleven text models from the plan's own table, and the `/api/plan` base URL is confirmed by the Agent Plan's configuration doc, which also says its API key is separate from the Coding Plan's — which is why these are three entries rather than one with `billing: both`. Both routes answer 401. The tier matrix (which model each of Small/Medium/Large/Max gets) and the ladder itself (40/200/500/1000 元/月) have no field |

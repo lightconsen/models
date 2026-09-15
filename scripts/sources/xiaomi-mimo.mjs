@@ -23,6 +23,7 @@ export default {
   ids: ["xiaomi-mimo", "xiaomi-mimo-token-plan"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
+  owns: ["in", "out", "cache_read"],
 
   async read() {
     const md = await getText(URL);

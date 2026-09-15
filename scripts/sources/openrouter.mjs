@@ -1,35 +1,41 @@
 /**
- * OpenRouter's prices, from a plain JSON API. No key, no HTML, no browser.
+ * OpenRouter's prices, read from the upstream endpoints rather than the model.
  *
- * The one source that must NOT decide membership, which is why it is the one
- * `intersect` adapter here. `GET /api/v1/models` returns every model OpenRouter
- * routes — around four hundred text-out rows — and this entry deliberately carries
- * twenty. Which twenty is a separate question, answered by usage ranking in
- * `fetch-openrouter-rankings.mjs`; letting the price list answer it too would
- * replace a curated list with the whole catalogue. So this re-prices what is
- * already there and reports the rest.
+ * The obvious source is the one field `GET /api/v1/models` gives each model, and
+ * it is the one to avoid. OpenRouter routes a model to many upstreams and **each
+ * upstream has its own price**; the model-level `pricing` object is an aggregate
+ * over them, and which value it takes moves as endpoints come and go.
+ * `deepseek/deepseek-v4.1-flash` has 18 endpoints spanning 0.15 to 0.375 per
+ * million, and the aggregate read 0.15 (Relace, the cheapest) at one point in a
+ * single session and 0.30 (what DeepSeek itself and nine others charge) at
+ * another. Two values committed from it — 0.07476 and 0.0825 — were not any
+ * endpoint's price at all, across 17 and 6 upstreams respectively. An aggregator
+ * that reports a number no upstream charges is not a source.
  *
- * Text-out models only: the rows that also emit images or audio are a different
- * price shape, and this catalogue holds per-token text rates alone. Input modality
- * is deliberately not a filter — most models take images, files, audio or video
- * and still answer in text, and they are exactly the models a reader picks.
- * (Filtering on `modality === "text->text"` looks right and is not: it drops every
- * one of those, including all four rows the entry carries.)
+ * So this reads `GET /api/v1/models/<id>/endpoints` and takes the **modal**
+ * price: the one the most upstreams charge. It is a real price, it is what a
+ * reader is most likely to pay, and — the point — it is a function of the
+ * endpoint set rather than of which one a router felt like reporting, so two
+ * runs against the same day's data agree. Ties break toward the model owner's
+ * own endpoint and then toward the cheaper, both of which are at least stable
+ * properties of the data rather than of the request.
  *
- * A price can be a negative sentinel, which OpenRouter uses for its own routing
- * meta-models — they charge whatever the model they pick charges, so there is no
- * number to carry. Those rows are left unpriced rather than guessed at.
+ * This is the only adapter that reads prices the vendor did not publish as a
+ * price list. It is also why `membership` is `intersect`: the API returns some
+ * four hundred text-out models and this entry deliberately carries twenty, chosen
+ * by usage ranking in `fetch-openrouter-rankings.mjs`. A price list is in no
+ * position to decide what the catalogue holds.
+ *
+ * Text-out models only, and input modality is deliberately not a filter — most
+ * models take images, files, audio or video and still answer in text, and they
+ * are exactly the models a reader picks. (Filtering on `modality === "text->text"`
+ * looks right and is not: it drops every one of those, including all four rows
+ * the entry carries.)
  */
 import { getJson, drift, perMillion, MEMBERSHIP, readEntry } from "../lib/fetch.mjs";
 
-const URL = "https://openrouter.ai/api/v1/models";
-
-/** The upstream strings a row claims: its own `id`, plus every `serves` value.
-    Both, because `serves` may name only some protocols and the rest fall back to
-    the id. This is the join the whole adapter lives on — the entry's ids are
-    canonical ("deepseek-v4-pro"), the API's are the vendor's own
-    ("deepseek/deepseek-v4-pro"), and nothing but `serves` connects them. */
-const upstreams = (r) => [r.id, ...Object.values(r.serves ?? {})];
+const MODELS = "https://openrouter.ai/api/v1/models";
+const ENDPOINTS = (id) => `https://openrouter.ai/api/v1/models/${id}/endpoints`;
 
 /** A chat model: text out, and nothing else out. */
 const outputsText = (m) => {
@@ -40,13 +46,49 @@ const outputsText = (m) => {
 /** A real price, rather than the negative sentinel for a variable one. */
 const fixed = (v) => v !== undefined && !String(v).startsWith("-");
 
+/** "z-ai" and "Z.ai" are the same party; compare them that way. */
+const alike = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, "");
+
+/**
+ * The price the most upstreams charge, as a per-million triple.
+ *
+ * Grouped on all three rates at once rather than on input alone: they move
+ * together per endpoint, and grouping on one would pick an input rate whose
+ * output rate came from a different upstream.
+ */
+export function modalPrice(endpoints, owner) {
+  const groups = new Map();
+  for (const e of endpoints) {
+    const p = e?.pricing ?? {};
+    if (!fixed(p.prompt) || !fixed(p.completion)) continue;
+    const rates = {
+      in: perMillion(p.prompt),
+      out: perMillion(p.completion),
+      ...(fixed(p.input_cache_read) ? { cache_read: perMillion(p.input_cache_read) } : {}),
+    };
+    const key = `${rates.in}/${rates.out}/${rates.cache_read ?? "-"}`;
+    const g = groups.get(key) ?? { rates, count: 0, owned: false };
+    g.count++;
+    g.owned ||= alike(e?.provider_name) === alike(owner);
+    groups.set(key, g);
+  }
+  const best = [...groups.values()].sort(
+    (a, b) =>
+      b.count - a.count ||
+      Number(b.owned) - Number(a.owned) ||
+      Number(a.rates.in) - Number(b.rates.in),
+  )[0];
+  return best?.rates;
+}
+
 export default {
   ids: ["openrouter"],
-  source: URL,
+  source: `${MODELS} + /{id}/endpoints`,
   membership: MEMBERSHIP.INTERSECT,
+  owns: ["in", "out", "cache_read", "cache_creation"],
 
   async read() {
-    const body = await getJson(URL);
+    const body = await getJson(MODELS);
     const all = Array.isArray(body) ? body : body?.data;
     if (!Array.isArray(all) || all.length === 0) drift("no model array in the response");
 
@@ -55,36 +97,52 @@ export default {
 
     // Only rows the entry already carries are priced, and they are re-keyed onto
     // the entry's own id so the runner can join them. An API model with no
-    // upstream in the entry is not a gap to fill — it is the 400-odd models the
+    // upstream in the entry is not a gap to fill — it is one of the 400-odd the
     // ranking did not select.
     const current = readEntry("openrouter").models;
-    const rowFor = (apiId) => current.find((r) => upstreams(r).includes(apiId));
+    const upstreams = (r) => [r.id, ...Object.values(r.serves ?? {})];
 
     const rows = [];
-    const unmatched = [];
+    const failed = [];
+    const spread = [];
     for (const m of text) {
-      const now = rowFor(String(m.id));
-      if (!now) {
-        unmatched.push(String(m.id));
+      const now = current.find((r) => upstreams(r).includes(String(m.id)));
+      if (!now) continue;
+      let rates;
+      try {
+        const detail = await getJson(ENDPOINTS(String(m.id)));
+        const endpoints = (detail?.data ?? detail)?.endpoints ?? [];
+        if (endpoints.length === 0) {
+          failed.push(`${m.id} (no endpoints)`);
+          continue;
+        }
+        rates = modalPrice(endpoints, String(m.id).split("/")[0]);
+        const distinct = new Set(
+          endpoints
+            .map((e) => e?.pricing?.prompt)
+            .filter(fixed)
+            .map((v) => perMillion(v)),
+        );
+        if (distinct.size > 1) spread.push(`${m.id} (${endpoints.length} endpoints, ${distinct.size} prices)`);
+      } catch (err) {
+        // One model's endpoint list failing must not cost the entry its prices
+        // for the other nineteen — but it is said out loud, not swallowed.
+        failed.push(`${m.id} (${err.message})`);
         continue;
       }
-      const p = m?.pricing ?? {};
-      const row = { id: now.id };
-      const priced = [p.prompt, p.completion].filter(fixed).length;
-      if (priced === 1) drift(`"${m.id}" prices only one of prompt/completion — a shape this reader does not know`);
-      if (priced === 2) {
-        row.in = perMillion(p.prompt);
-        row.out = perMillion(p.completion);
-        if (fixed(p.input_cache_read)) row.cache_read = perMillion(p.input_cache_read);
-        if (fixed(p.input_cache_write)) row.cache_creation = perMillion(p.input_cache_write);
+      if (!rates) {
+        failed.push(`${m.id} (no fixed price)`);
+        continue;
       }
-      rows.push(row);
+      rows.push({ id: now.id, ...rates });
     }
-    if (rows.length === 0) drift("none of the entry's models are in the API — the join is broken");
+    if (rows.length === 0) drift("no carried model resolved to an endpoint price — the join is broken");
 
     const missing = current.filter((r) => !rows.some((x) => x.id === r.id));
-    const notes = [`${text.length} text-out models in the API, ${rows.length} of them in the entry`];
-    if (missing.length) notes.push(`not found in the API: ${missing.map((r) => r.id).join(", ")}`);
+    const notes = [`${rows.length} of the entry's ${current.length} models priced from their upstreams`];
+    if (spread.length) notes.push(`priced differently per upstream: ${spread.join(", ")}`);
+    if (missing.length) notes.push(`not resolved: ${missing.map((r) => r.id).join(", ")}`);
+    if (failed.length) notes.push(`could not be read this run: ${failed.join(", ")}`);
 
     return { rows: { openrouter: rows }, notes: { openrouter: notes } };
   },

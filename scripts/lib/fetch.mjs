@@ -102,6 +102,30 @@ export const perMillion = (s) => {
 };
 
 /**
+ * Value equality that does not care how an object was written down.
+ *
+ * `JSON.stringify(a) === JSON.stringify(b)` is what you reach for and it is
+ * wrong here: key order is part of the string, so the same `long_context` coming
+ * from an adapter as `{over,in,out,cache_read}` and sitting in the entry as
+ * `{over,in,out}` compares unequal, and an unchanged row becomes a change to
+ * write. That silently breaks the one property the whole run rests on — that a
+ * second pass with no new information writes nothing.
+ *
+ * Deliberately *not* used for prices, where "0.20" and "0.2" are the same number
+ * spelled two ways and the runner coerces before comparing.
+ */
+export const sameValue = (a, b) => {
+  if (a === b) return true;
+  if (a === undefined || b === undefined) return false;
+  if (typeof a !== "object" || typeof b !== "object" || a === null || b === null) return false;
+  if (Array.isArray(a) !== Array.isArray(b)) return false;
+  if (Array.isArray(a)) return a.length === b.length && a.every((v, i) => sameValue(v, b[i]));
+  const keys = Object.keys(a);
+  if (keys.length !== Object.keys(b).length) return false;
+  return keys.every((k) => Object.hasOwn(b, k) && sameValue(a[k], b[k]));
+};
+
+/**
  * The two ways a source can decide which models an entry holds.
  *
  * `follow` — the source is the list. A model it drops leaves the entry, a model

@@ -31,6 +31,7 @@ export default {
   ids: ["anthropic"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
+  owns: ["in", "out", "cache_read", "cache_creation"],
 
   async read() {
     const html = await getText(URL, { headers: { accept: "text/html" } });

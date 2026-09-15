@@ -158,6 +158,7 @@ export default {
   ids: ["minimax", "minimax-intl"],
   source: `${CN}, ${INTL}`,
   membership: MEMBERSHIP.FOLLOW,
+  owns: ["in", "out", "cache_read", "cache_creation", "long_context"],
   async read() {
     const [cn, intl] = await Promise.all([getText(CN), getText(INTL)]);
     return { rows: { minimax: parse(cn, "minimaxi.com"), "minimax-intl": parse(intl, "minimax.io") } };

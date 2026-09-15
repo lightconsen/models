@@ -52,6 +52,7 @@ export default {
   ids: ["xai"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
+  owns: ["in", "out", "cache_read", "long_context"],
 
   async read() {
     const [head, body] = table(section(await getText(URL), "Text API Pricing"));

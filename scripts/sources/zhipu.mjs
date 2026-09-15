@@ -100,6 +100,7 @@ export default {
   ids: ["zhipu-glm", "zhipu-glm-intl"],
   source: `${CN} + ${INTL}`,
   membership: MEMBERSHIP.INTERSECT,
+  owns: ["in", "out", "cache_read"],
 
   async read() {
     const [cn, intl] = await Promise.all([getText(CN), getText(INTL)]);

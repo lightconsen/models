@@ -40,6 +40,7 @@ export default {
   ids: ["deepseek"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
+  owns: ["in", "out", "cache_read", "cache_creation", "off_peak", "peak_hours"],
 
   async read() {
     // The response carries a stray NUL byte, which is enough to make `file` call

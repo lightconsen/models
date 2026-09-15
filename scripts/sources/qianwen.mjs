@@ -124,6 +124,10 @@ export default {
   ids: ["qianwenai"],
   source: URL,
   membership: MEMBERSHIP.INTERSECT,
+  // Only the two rates the page publishes. `cache_read` is absent on purpose —
+  // these models are excepted from every percentage Alibaba states — and saying
+  // so here is what stops a later edit from quietly adding it back.
+  owns: ["in", "out"],
 
   async read() {
     const html = await article();

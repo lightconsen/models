@@ -210,6 +210,7 @@ export default {
   ids: ["volcesark-payg", "volcesark", "volcesark-agent-plan"],
   source: Object.values(DOC).map(urlOf).join(", "),
   membership: MEMBERSHIP.FOLLOW,
+  owns: ["in", "out", "cache_read"],
   async read() {
     const [payg, coding, agent] = await Promise.all([DOC.payg, DOC.coding, DOC.agent].map(markdown));
     return {

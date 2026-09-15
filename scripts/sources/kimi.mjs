@@ -30,6 +30,7 @@ export default {
   ids: ["kimi"],
   source: PRICING_MD,
   membership: MEMBERSHIP.FOLLOW,
+  owns: ["in", "out", "cache_read"],
 
   async read() {
     const md = await getText(PRICING_MD);

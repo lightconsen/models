@@ -87,9 +87,26 @@ it exactly.
 3. Add `entries/<id>/models.json` listing every model this provider serves,
    prices inline — `[]` when it serves none yet. It is **required** —
    see [Models and pricing](#models-and-pricing).
-4. Open a PR — `validate` checks the schema + builds a dry run.
-5. Merge to `main` — `publish` uploads `catalog.json` / `models.json` /
+4. Add a row to `checklist.md` — `| [ ] | \`<id>\` | <tag> | <priced>/<total> |
+   <website> | checked <date> — where the numbers came from |`. It stays
+   unchecked until somebody has read the vendor's own page against the entry.
+5. **Decide whether it can be kept current by machine**, which is a separate
+   question from whether it is correct. If the vendor publishes a price list a
+   script can read, add `scripts/sources/<vendor>.mjs` and register it in
+   `index.mjs` — see [Adding a source](#adding-a-source). If they do not, the
+   entry is hand-maintained and the runner will say so on every run, which is
+   the correct outcome rather than a gap.
+6. Run `node scripts/fetch-all.mjs` — with an adapter it reports what the entry
+   would change, and prints `no change` once the entry agrees with its source.
+   That is the same check the whole pipeline rests on, and it is the fastest way
+   to find a typo in a transcription.
+7. Open a PR — `validate` checks the schema + builds a dry run.
+8. Merge to `main` — `publish` uploads `catalog.json` / `models.json` /
    `news.json` / `manifest.json` and `logos/` to the R2 bucket root.
+
+If the new entry prices anything, bump `version` in `global.json` in the same
+change. It gates the published table, so an entry that arrives without it is an
+entry the app never sees.
 
 `website` is the vendor's **own** site and nothing else: the address a reader can
 follow to see who they are dealing with. A referral link, an invite code or a
@@ -766,6 +783,51 @@ data loss.
 Version bumps are part of applying a change rather than a follow-up to remember:
 the published table is version-gated, so a price that moved without one is a price
 the app never sees.
+
+### Adding a source
+
+An adapter is how an entry stops being hand-maintained. Add one when the vendor
+publishes a price list a script can read; **not** when they publish a number only
+a console shows, which is a fact about the product and not something to work
+around.
+
+```js
+// scripts/sources/<vendor>.mjs
+import { getText, drift, MEMBERSHIP } from "../lib/fetch.mjs";
+
+export default {
+  ids: ["<entry-id>"],                 // one source may feed several entries
+  source: "<the URL this reads>",      // printed on every run, and in commits
+  membership: MEMBERSHIP.FOLLOW,       // see below
+  owns: ["in", "out", "cache_read"],   // the fields this source is authoritative for
+  async read() {
+    const md = await getText("https://…");
+    // throw `drift(...)` when the page is not the shape you know — never return
+    // a partial or empty row set, which would read as "no change".
+    return { rows: { "<entry-id>": [ /* { id, name?, in, out, … } */ ] } };
+  },
+};
+```
+
+Then register it in `scripts/sources/index.mjs` and run
+`node scripts/fetch-all.mjs --entry <entry-id>`.
+
+**`membership` is the decision to get right.** `follow` means the source is a
+complete statement of what the vendor sells, so a model it adds joins the entry
+and one it drops leaves — right for a vendor pricing its own catalogue.
+`intersect` means the source only re-prices what something else already chose —
+right for an aggregator, whose catalogue is other people's models, and for entries
+that are a deliberate selection from a longer list. Getting this wrong is what the
+churn limit exists to catch.
+
+**Row ids are the entry's, not the vendor's.** An adapter translates: `MiniMax-M3`
+becomes `minimax-m3`. When the vendor's string must still reach the API, the
+entry's `serves` map carries it, and the adapter joins on that.
+
+**The acceptance test is that a correct adapter has nothing to say.** Run it
+against the committed entry: if the transcription was right, it reports no change.
+A diff there means the parser is wrong, not that a price moved — which is the
+opposite of what a diff usually means and takes getting used to.
 
 Each source lives in `scripts/sources/` as an adapter, and the list in
 `index.mjs` is now the machine-readable answer to a question that used to have

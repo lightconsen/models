@@ -2,9 +2,9 @@
   {
     "id": "gpt-5.6-luna",
     "name": "OpenAI: GPT-5.6 Luna",
-    "in": "0.2",
-    "out": "1.2",
-    "cache_read": "0.02",
+    "in": "0.22",
+    "out": "1.32",
+    "cache_read": "0.022",
     "cache_creation": "0.25",
     "serves": {
       "openai": "openai/gpt-5.6-luna",
@@ -37,9 +37,9 @@
   {
     "id": "deepseek-v4-flash-0731",
     "name": "DeepSeek: DeepSeek V4 Flash 0731",
-    "in": "0.06",
-    "out": "0.12",
-    "cache_read": "0.012",
+    "in": "0.13",
+    "out": "0.26",
+    "cache_read": "0.028",
     "serves": {
       "openai": "deepseek/deepseek-v4-flash-0731",
       "anthropic": "deepseek/deepseek-v4-flash-0731"
@@ -70,9 +70,9 @@
   {
     "id": "deepseek-v4-flash",
     "name": "DeepSeek: DeepSeek V4 Flash 0423",
-    "in": "0.088606",
-    "out": "0.177212",
-    "cache_read": "0.0177212",
+    "in": "0.14",
+    "out": "0.28",
+    "cache_read": "0.028",
     "serves": {
       "openai": "deepseek/deepseek-v4-flash",
       "anthropic": "deepseek/deepseek-v4-flash"
@@ -81,9 +81,9 @@
   {
     "id": "hy3",
     "name": "Tencent: Hy3",
-    "in": "0.132",
-    "out": "0.528",
-    "cache_read": "0.033",
+    "in": "0.14",
+    "out": "0.58",
+    "cache_read": "0.035",
     "serves": {
       "openai": "tencent/hy3",
       "anthropic": "tencent/hy3"
@@ -102,9 +102,9 @@
   {
     "id": "gemini-3.8-flash",
     "name": "Google: Gemini 3.8 Flash",
-    "in": "0.75",
-    "out": "3.75",
-    "cache_read": "0.075",
+    "in": "0.375",
+    "out": "1.875",
+    "cache_read": "0.0375",
     "cache_creation": "0.0416666666666667",
     "serves": {
       "openai": "google/gemini-3.8-flash",
@@ -136,9 +136,9 @@
   {
     "id": "glm-5.2",
     "name": "Z.ai: GLM 5.2",
-    "in": "0.6832",
-    "out": "2.1472",
-    "cache_read": "0.12688",
+    "in": "1.4",
+    "out": "4.4",
+    "cache_read": "0.26",
     "serves": {
       "openai": "z-ai/glm-5.2",
       "anthropic": "z-ai/glm-5.2"
@@ -158,9 +158,9 @@
   {
     "id": "gpt-5.6-sol",
     "name": "OpenAI: GPT-5.6 Sol",
-    "in": "2",
-    "out": "10",
-    "cache_read": "0.2",
+    "in": "5.5",
+    "out": "33",
+    "cache_read": "0.55",
     "cache_creation": "2.5",
     "serves": {
       "openai": "openai/gpt-5.6-sol",
@@ -170,9 +170,9 @@
   {
     "id": "kimi-k3",
     "name": "MoonshotAI: Kimi K3",
-    "in": "2.648138063",
-    "out": "13.28272425",
-    "cache_read": "0.30264435",
+    "in": "3",
+    "out": "15",
+    "cache_read": "0.3",
     "serves": {
       "openai": "moonshotai/kimi-k3",
       "anthropic": "moonshotai/kimi-k3"
@@ -204,9 +204,9 @@
   {
     "id": "deepseek-v4-pro",
     "name": "DeepSeek: DeepSeek V4 Pro 0423",
-    "in": "1.6",
-    "out": "3.2",
-    "cache_read": "0.135",
+    "in": "1.74",
+    "out": "3.48",
+    "cache_read": "0.145",
     "serves": {
       "openai": "deepseek/deepseek-v4-pro",
       "anthropic": "deepseek/deepseek-v4-pro"

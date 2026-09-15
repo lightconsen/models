@@ -284,16 +284,24 @@ if (movedPrices) {
 
 // ── commit ──
 if (COMMIT && changed.length > 0) {
-  const dirty = spawnSync("git", ["status", "--porcelain"], { cwd: repo, encoding: "utf8" }).stdout
-    .trim()
-    .split("\n")
-    .filter(Boolean);
+  // Not `.trim()` on the whole blob: git's first line begins ` M path`, and
+  // trimming eats that leading space, which shifts the status prefix and slices
+  // the path one character short — so the guard reports our own file as foreign
+  // and refuses to commit. Split first, then drop empties.
+  const dirty = spawnSync("git", ["status", "--porcelain"], { cwd: repo, encoding: "utf8" })
+    .stdout.split("\n")
+    .filter((l) => l !== "");
+  /** `XY path`, or `XY old -> new` for a rename. */
+  const pathOf = (line) => {
+    const rest = line.slice(3);
+    return rest.includes(" -> ") ? rest.slice(rest.indexOf(" -> ") + 4) : rest;
+  };
   const versionFile = "global.json";
   const ours = new Set([
     ...changed.map((r) => `entries/${r.id}/models.json`),
     ...(bumped ? [versionFile] : []),
   ]);
-  const foreign = dirty.filter((line) => !ours.has(line.slice(3)));
+  const foreign = dirty.filter((line) => !ours.has(pathOf(line)));
   if (foreign.length) {
     console.log("\n! the tree has other changes staged or modified — not committing:");
     for (const line of foreign) console.log(`    ${line}`);

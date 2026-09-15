@@ -33,6 +33,16 @@ scripts/
   migrate-v2.mjs       one-shot: the old provider.json + price.json layout ->
                        provider.json + models.json (already run)
   test-validation.mjs  failure-path tests for the validation rules
+  test-policy.mjs      the same for the trust policy's edges
+  lib/fetch.mjs        the plumbing the adapters share: fetch with a timeout,
+                       drift, price parsing, value equality
+  lib/policy.mjs       what a machine may change unattended, and what has to
+                       wait for a person
+  sources/index.mjs    every price source this repo can read, one adapter each —
+                       the machine-readable answer to "where did this number
+                       come from"
+  fetch-all.mjs        read every source, judge the changes, write, prove the
+                       write settled, and (with --commit) commit per entry
   fetch-deepseek-pricing.mjs
   fetch-kimi-pricing.mjs
   fetch-openrouter-pricing.mjs
@@ -683,15 +693,79 @@ none, so replacing the file wholesale would delete them.
 to read, and prints the whole catalogue's differences in one pass:
 
 ```
-node scripts/fetch-all.mjs                show the diff for every entry
-node scripts/fetch-all.mjs --entry xai    just one
-node scripts/fetch-all.mjs --write        apply
+node scripts/fetch-all.mjs                     show the diff for every entry
+node scripts/fetch-all.mjs --entry xai         just one
+node scripts/fetch-all.mjs --write             apply
+node scripts/fetch-all.mjs --write --commit    apply and commit, one per entry
+node scripts/fetch-all.mjs --force-write       apply even if the policy says no
 ```
+
+That last pair is the whole thing unattended: read, judge, write, prove, commit.
+Nothing is pushed, and `--commit` refuses to run on a tree with changes it did not
+make, so it cannot sweep up someone else's work.
 
 The per-vendor scripts still exist and are still the best place to read about any
 one vendor. What the runner adds is the thing none of them could do alone: keep
 going when one vendor's docs restructure, and report what it could not read
 rather than leaving a stale number looking fresh.
+
+### What has to hold before a machine may write here
+
+Four things, and being able to read a page is only the first.
+
+**The source is readable.** Fifteen of nineteen entries. The other four — the Kimi
+membership, the Qianwen token plan, the Tencent and Baidu plans — publish no
+per-token rate, and saying so out loud is the point: silence about an entry reads
+as coverage.
+
+**The source is *reliable*, which is not the same thing.** OpenRouter taught this
+one. `GET /api/v1/models` gives each model a single `pricing` object, but OpenRouter
+routes a model to many upstreams with a price each — 18 of them for
+`deepseek/deepseek-v4.1-flash`, spanning 0.15 to 0.375 — and the aggregate it
+reports moves. Two values read from it in one session were not *any* endpoint's
+price across 17 and 6 upstreams. That adapter now reads `/models/{id}/endpoints`
+and takes the **modal** price: real, and a function of the endpoint set rather than
+of which upstream a router felt like reporting. Ties break toward the model
+owner's own endpoint, then the cheaper. Every other source here publishes a price
+list, so this is the only one that needed the distinction.
+
+**Judgement is separated from fact.** Every adapter declares `owns` — the price
+fields it is the authority for — and the runner refuses a row carrying anything
+else. `flagship`, `serves`, `name` and all of `provider.json` belong to the entry.
+`qianwen` owning only `in`/`out` is the case worth knowing: its cache rates are
+excepted from every percentage Alibaba publishes, and the contract is what stops a
+later edit from quietly adding them back.
+
+**A run that finds nothing new writes nothing.** This is checked, not assumed.
+After writing, every entry is merged a second time against what the source said and
+must come out clean — because a source reporting a value it will not report again
+passes every other check while failing this one, which is exactly what OpenRouter
+did. Nested shapes compare through `sameValue`, which ignores key order; comparing
+them with `JSON.stringify` would call an unchanged `long_context` a change and
+break the same property.
+
+### What a machine may decide, and what it may not
+
+`lib/policy.mjs` states the rule the two original guards were special cases of: **a
+price is a fact, and a model arriving or leaving is a decision.**
+
+Price changes never stop a run. A vendor re-pricing something is the source
+speaking about the one thing it is the authority on, and there is no reason to make
+anyone read it. Membership is different — it changes what the catalogue claims a
+vendor sells, it is where a source silently changing shape shows up, and both times
+something went wrong in a single session it was here:
+
+- an `intersect` adapter that had not been taught to intersect offered to add 410 rows;
+- an aggregator about to be trusted with prices reported values no upstream charged.
+
+So a run may create at most 10 models, delete at most 10, and churn at most 15 in
+total; past that it refuses to write and says which models and why, unless
+`--force-write`. `test-policy.mjs` asserts the edges, where an off-by-one is silent
+data loss.
+
+Version bumps are part of applying a change rather than a follow-up to remember:
+the published table is version-gated, so a price that moved without one is a price
+the app never sees.
 
 Each source lives in `scripts/sources/` as an adapter, and the list in
 `index.mjs` is now the machine-readable answer to a question that used to have

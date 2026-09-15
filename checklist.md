@@ -35,7 +35,9 @@
   look for 401 — the route exists and wants a key — or 422, which means it read
   the body, or 404, which is the one that means the route is gone
 
-Five vendors can be read by script rather than by eye, and when one applies, run it before reading anything: `fetch-deepseek-pricing.mjs`, `fetch-kimi-pricing.mjs` and `fetch-mimo-pricing.mjs` for prices, `fetch-openrouter-pricing.mjs` for prices and `fetch-openrouter-rankings.mjs` for which models OpenRouter carries at all, `fetch-aliyun-models.mjs` for the Alibaba entries' model lists. The rest is reading their docs page and the entry side by side. It is worth knowing which of these need a key: the OpenRouter ranking and the Alibaba lists do, and neither script will write without one.
+Fifteen of the nineteen entries can be read by script rather than by eye. **Run `node scripts/fetch-all.mjs` before reading anything** — it reads every source, prints what each would change, and decides whether a person is needed. `--write` applies, `--write --commit` applies and commits one entry per commit. The per-vendor `fetch-*.mjs` scripts still work and are the better place to read about any single vendor; `fetch-openrouter-rankings.mjs` is still the only one that decides *which* models OpenRouter carries, and with `fetch-aliyun-models.mjs` for the Alibaba model lists it is the only one needing a key.
+
+The four the runner cannot read are `kimi-for-coding`, `qianwenai-token-plan`, `tencent-token-plan` and `baidu-qianfan-token-plan` — plans and a membership that publish no per-token rate. Those stay read by eye, and the runner names them every run rather than letting their absence read as coverage.
 
 | | provider | tag | priced | website | notes |
 |---|---|---|---|---|---|

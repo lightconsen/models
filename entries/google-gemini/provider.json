@@ -10,6 +10,10 @@
     {
       "protocol": "openai",
       "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai"
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://generativelanguage.googleapis.com"
     }
   ],
   "desc": "Google's Gemini API, serving the Gemini family"

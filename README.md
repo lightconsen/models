@@ -558,7 +558,7 @@ client re-download an unchanged feed. The manifest keeps the timestamp.
 - `billing`: `plan | payg | unl | both` — one entry per billing mode, with `both`
   for an address that serves two of them at once (see below)
 - `endpoints`: non-empty array of `{protocol, endpoint}`; `protocol` is
-  `anthropic | openai` and may not repeat. **The first is the primary
+  `anthropic | openai | gemini` and may not repeat. **The first is the primary
   protocol** — it supplies the app's `endpoint` / `protocol` / `models`
 - `currency`: an `exchange_rates` key; **omitted means USD**. It is what the
   provider's prices and its spending limit are denominated in, so an unknown

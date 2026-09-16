@@ -845,10 +845,16 @@ a vendor sells; an *intersect* source only prices what something else already
 chose. OpenRouter is the second kind, and treating it as the first would replace
 twenty curated rows with four hundred.
 
-Two things worth knowing before the first run. Node's `fetch` ignores
-`https_proxy`, which `curl` honours, so a source that works from the shell can
-still fail here — start the process with `NODE_USE_ENV_PROXY=1` if you need the
-proxy. And an entry's own docs can be read where its login page cannot: the
+Two things worth knowing before the first run. **Node's `fetch` ignores
+`https_proxy`**, which `curl` honours, so a source that works from the shell can
+fail here — and turning the proxy on for everything is worse than leaving it off,
+because most sources work direct and routing them through one breaks them.
+Measured from this machine, exactly one source needs a proxy and the rest need
+excluding from it. Which is which is a property of the network you are on rather
+than of this repo, so run `node scripts/probe-sources.mjs` and use what it says
+instead of trusting any list written down here.
+
+And an entry's own docs can be read where its login page cannot: the
 Volcengine Ark docs answer `www.volcengine.com/api/doc/getDocDetail?DocumentID=…`
 with the whole document as JSON to anyone, while the console they are embedded in
 refuses every path unauthenticated — including paths that do not exist, which is

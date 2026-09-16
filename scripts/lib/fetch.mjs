@@ -42,11 +42,24 @@ export const has = (name) => process.argv.includes(name);
  * Fetch, or drift. Node's fetch has no timeout of its own and the vendor docs
  * hosts do go quiet, so every request is bounded.
  *
- * Note for whoever runs this on a machine behind one: Node's fetch ignores
- * `http_proxy`/`https_proxy` unless the process is started with
- * `NODE_USE_ENV_PROXY=1`. `curl` honours them by default, so a source that works
- * from the shell can still fail here — that difference is worth knowing before
+ * **On the proxy, which is fiddlier than it looks.** Node's fetch ignores
+ * `http_proxy`/`https_proxy` unless the process starts with
+ * `NODE_USE_ENV_PROXY=1` — `curl` honours them by default, so a source that works
+ * from the shell can still fail here, and that difference is worth knowing before
  * concluding a vendor has started blocking us.
+ *
+ * But turning the proxy on for everything is worse than leaving it off: measured
+ * from this machine, exactly one source needs it, `docs.x.ai`, and routing the
+ * rest through it breaks sources that work fine direct. So the setting that
+ * actually works is the proxy plus an exclusion list:
+ *
+ *   NODE_USE_ENV_PROXY=1 https_proxy=http://127.0.0.1:1087 \
+ *   NO_PROXY=openrouter.ai,anthropic.com,minimaxi.com,deepseek.com,bigmodel.cn,\
+ * volcengine.com,aliyun.com,kimi.com,mimo.mi.com,z.ai node scripts/fetch-all.mjs
+ *
+ * Which hosts need which is a property of the network you are on, so keep
+ * `scripts/probe-sources.mjs` around for re-measuring rather than trusting this
+ * list anywhere else.
  */
 export const get = async (url, { headers = {}, timeout = TIMEOUT } = {}) => {
   const ctrl = new AbortController();

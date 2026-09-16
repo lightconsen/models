@@ -50,11 +50,27 @@ const fixed = (v) => v !== undefined && !String(v).startsWith("-");
 const alike = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, "");
 
 /**
- * The price the most upstreams charge, as a per-million triple.
+ * The price the most upstreams charge, as a per-million triple — or nothing,
+ * when the upstreams do not agree on one.
  *
  * Grouped on all three rates at once rather than on input alone: they move
  * together per endpoint, and grouping on one would pick an input rate whose
  * output rate came from a different upstream.
+ *
+ * **A tie returns undefined, deliberately.** Three of the twenty models here
+ * have no modal price at all — `deepseek-v4-flash-0731` spreads 29 upstreams
+ * across 25 prices with the top two holding two each, and `mimo-v2.5` has six
+ * upstreams at six different prices, so its "mode" is a coin toss. For those,
+ * every rule is arbitrary, and the previous tie-break proved it: it preferred the
+ * cheaper of the tied pair, and the entry's `deepseek-v4-flash-0731` moved from
+ * 0.13 to 0.0741 the moment the upstream set churned enough to produce a tie —
+ * with no vendor change behind it, which is the exact instability this adapter
+ * was written to remove. Refusing to answer is the only stable option, and it
+ * matches what the rest of this repo does when a source cannot speak: keep the
+ * last human-checked number and say why.
+ *
+ * The owner's own endpoint breaks a tie only when it is a real signal — a tie in
+ * count *and* an owner present is a price the lab itself sets.
  */
 export function modalPrice(endpoints, owner) {
   const groups = new Map();
@@ -72,13 +88,11 @@ export function modalPrice(endpoints, owner) {
     g.owned ||= alike(e?.provider_name) === alike(owner);
     groups.set(key, g);
   }
-  const best = [...groups.values()].sort(
-    (a, b) =>
-      b.count - a.count ||
-      Number(b.owned) - Number(a.owned) ||
-      Number(a.rates.in) - Number(b.rates.in),
-  )[0];
-  return best?.rates;
+  const ranked = [...groups.values()].sort((a, b) => b.count - a.count || Number(b.owned) - Number(a.owned));
+  const [best, next] = ranked;
+  if (!best) return undefined;
+  if (next && next.count === best.count && next.owned === best.owned) return undefined;
+  return best.rates;
 }
 
 export default {
@@ -109,9 +123,10 @@ export default {
       const now = current.find((r) => upstreams(r).includes(String(m.id)));
       if (!now) continue;
       let rates;
+      let endpoints = [];
       try {
         const detail = await getJson(ENDPOINTS(String(m.id)));
-        const endpoints = (detail?.data ?? detail)?.endpoints ?? [];
+        endpoints = (detail?.data ?? detail)?.endpoints ?? [];
         if (endpoints.length === 0) {
           failed.push(`${m.id} (no endpoints)`);
           continue;
@@ -131,7 +146,9 @@ export default {
         continue;
       }
       if (!rates) {
-        failed.push(`${m.id} (no fixed price)`);
+        // No modal price, or none at all. The entry keeps whatever it carries and
+        // the run says so, rather than rewriting a number on a coin toss.
+        failed.push(`${m.id} (no agreed price among ${endpoints.length} upstreams — left as is)`);
         continue;
       }
       rows.push({ id: now.id, ...rates });

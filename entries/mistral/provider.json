@@ -1,0 +1,16 @@
+{
+  "id": "mistral",
+  "name": "Mistral AI",
+  "website": "https://mistral.ai/",
+  "tag": "official",
+  "rating": 4.6,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.mistral.ai/v1"
+    }
+  ],
+  "desc": "Mistral AI's own API, serving the Mistral and Codestral families"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "google-gemini",
+  "name": "Google Gemini",
+  "website": "https://ai.google.dev/",
+  "tag": "official",
+  "rating": 4.8,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai"
+    }
+  ],
+  "desc": "Google's Gemini API, serving the Gemini family"
+}

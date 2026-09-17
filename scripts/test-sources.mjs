@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 /**
- * The parsing helpers that have bitten, asserted with the markup that bit them.
+ * The parsing helpers that have bitten, asserted with the text that bit them.
  *
  * `test-policy.mjs` covers the runner's judgement and `test-validation.mjs` the
- * build's rules. This covers the seam between a source's markup and the numbers
- * that come out of it, which is where the failures are quietest: a parser that
- * reads half a cell returns a plausible row, the merge compares only the fields
- * the proposal carries, and the run reports `no change`. Both cases below did
- * exactly that before they were fixed, and neither announced itself.
+ * build's rules. This covers the seam between a source and the numbers that come
+ * out of it, which is where failures are quietest: a parser that reads half a
+ * cell returns a plausible row, the merge compares only the fields the proposal
+ * carries, and the run reports `no change`. Every case below did exactly that
+ * before it was fixed, and none of them announced itself.
  *
- * The fixtures are copied from the live pages, markup and all, because the
- * markup *is* the bug in both of them.
+ * The fixtures are copied from the live page, character for character — the
+ * trailing spaces and the awkward line breaks included, because they are what the
+ * parser actually has to survive.
  *
  * Usage: node scripts/test-sources.mjs
  */
@@ -26,36 +27,44 @@ const check = (name, got, want) => {
 };
 
 const at = (day) => new Date(`${day}T00:00:00Z`);
+const now = at("2026-09-17");
 
-console.log("google-gemini: a rate that changes on a stated date");
-const dated =
-  "<td>$0.75 through December 31, 2026.<br>$1.50 starting January 1, 2027.</td>";
+console.log("a rate that changes on a stated date");
+// Verbatim from the page, trailing spaces and all: two dates in one cell, and
+// the schema has nowhere to put the second. Reading the one in force is the whole
+// reason this adapter exists.
+const dated = "$0.75 through December 31, 2026.    $1.50 starting January 1, 2027.";
 check("in force before the change", ratesIn(dated, at("2026-09-17")), { now: "0.75" });
 check("still in force on the last day", ratesIn(dated, at("2026-12-31")), { now: "0.75" });
 check("switched on the first day", ratesIn(dated, at("2027-01-01")), { now: "1.50" });
 
-console.log("google-gemini: a rate that changes with the request length");
-// The whole point: `<=` here is a literal less-than, and `<br>` is a tag. A
-// tag pattern of `<[^>]*>` matches from the `<` of `<=` to the `>` of `<br>` and
-// eats the first band, price and all — leaving `$2.00, prompts $4.00, prompts >
-// 200k tokens`, which still yields a plain rate and so still looks like success.
-const banded = "<td>$2.00, prompts <= 200k tokens<br>$4.00, prompts > 200k tokens</td>";
-check("reads both bands", ratesIn(banded, at("2026-09-17")), {
-  now: "2.00",
-  over: 200000,
-  above: "4.00",
-});
-check("and the same shape with a storage price after it", ratesIn(
-  "<td>$0.20, prompts <= 200k tokens<br>$0.40, prompts > 200k $4.50 / 1,000,000 tokens per hour</td>",
-  at("2026-09-17"),
+console.log("a rate that changes with the request length");
+// Price first, band second — `$2.00, prompts <= 200k tokens` then
+// `$4.00, prompts > 200k tokens`. A pattern looking for a price *after* the band
+// finds nothing, falls through to the first number, and returns a plausible
+// `{now}` with no band at all. The entry's `long_context` is then never compared,
+// so the run says `no change` while reading half the row.
+const banded = "$2.00, prompts <= 200k tokens    $4.00, prompts > 200k tokens";
+check("reads both bands", ratesIn(banded, now), { now: "2.00", over: 200000, above: "4.00" });
+check("and when a storage price follows the second", ratesIn(
+  "$0.20, prompts <= 200k tokens    $0.40, prompts > 200k $4.50 / 1,000,000 tokens per hour (storage price)",
+  now,
 ), { now: "0.20", over: 200000, above: "0.40" });
+check("a megabyte band sizes the same way", ratesIn(
+  "$1.00, prompts <= 1M tokens    $2.00, prompts > 1M tokens",
+  now,
+), { now: "1.00", over: 1000000, above: "2.00" });
+// The second band is written without the unit in places; the first always has it.
+check("reads it when the upper band drops the unit", ratesIn(
+  "$12.00, prompts <= 200k tokens    $18.00, prompts > 200k",
+  now,
+), { now: "12.00", over: 200000, above: "18.00" });
 
-console.log("google-gemini: the shapes that carry no qualifier");
-check("a plain rate", ratesIn("<td>$1.50</td>", at("2026-09-17")), { now: "1.50" });
-check("a rate naming its modalities", ratesIn("<td>$0.30 (text / image / video / audio)</td>", at("2026-09-17")), {
-  now: "0.30",
-});
-check("free of charge has no rate", ratesIn("<td>Free of charge</td>", at("2026-09-17")), undefined);
+console.log("the shapes that carry no qualifier");
+check("a plain rate", ratesIn("$1.50", now), { now: "1.50" });
+check("a rate naming its modalities", ratesIn("$0.30 (text / image / video / audio)", now), { now: "0.30" });
+check("free of charge has no rate", ratesIn("Free of charge", now), undefined);
+check("so does a missing row", ratesIn("", now), undefined);
 
 console.log(`\n${failed === 0 ? "all source-parsing cases pass" : `${failed} case(s) failed`}`);
 process.exit(failed > 0 ? 1 : 0);

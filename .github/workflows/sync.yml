@@ -185,9 +185,8 @@ jobs:
               echo "| | | $note | |"
               rm -f "$tmp"
             done <<'PROBE'
-          google-gemini|https://ai.google.dev/gemini-api/docs/pricing
-          cohere|https://cohere.com/pricing
           mistral|https://mistral.ai/pricing/api/
+          cohere|https://cohere.com/pricing
           PROBE
           } | tee -a "$GITHUB_STEP_SUMMARY"
 

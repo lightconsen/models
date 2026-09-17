@@ -148,6 +148,49 @@ jobs:
             echo "opened a PR"
           fi
 
+      # Some entries have prices and no *adapter*, for the same reason every time:
+      # a page that would not answer. That is a property of the request as much as
+      # of the vendor — `ai.google.dev/gemini-api/docs/pricing` answers 200 to a
+      # plain `compatible; kiwano-price-check` user-agent and redirects to an OAuth
+      # consent screen for a browser one, which is why it sat on the unreadable
+      # list until someone tried the other header. So this asks every run, with
+      # the same headers the adapters use, and puts the answer in the summary: the
+      # day one of these starts answering is the day it is worth an adapter.
+      - name: Probe the pages we cannot read
+        if: always()
+        run: |
+          {
+            echo "## Pages this runner cannot read"
+            echo
+            echo "Probed with the same user-agent the adapters send, following no"
+            echo "redirects — a page that refuses a browser is not a page that refuses"
+            echo "us."
+            echo
+            echo "| entry | status | body | page |"
+            echo "|---|---|---|---|"
+            while IFS='|' read -r id url; do
+              [ -z "${id:-}" ] && continue
+              tmp=$(mktemp)
+              code=$(curl -sS -o "$tmp" -w '%{http_code}' --max-time 25 \
+                -A 'Mozilla/5.0 (compatible; kiwano-price-check)' "$url" 2>/dev/null || echo 000)
+              dollars=$(grep -o '\$[0-9]' "$tmp" 2>/dev/null | wc -l | tr -d ' ')
+              case "$code" in
+                200) [ "$dollars" -gt 0 ] \
+                       && note="**${dollars} prices — an adapter can be written**" \
+                       || note="200 but ${dollars} prices in the body" ;;
+                000) note="unreachable" ;;
+                *)   note="blocked" ;;
+              esac
+              echo "| \`$id\` | $code | ${dollars} \`\$\` | <$url> |"
+              echo "| | | $note | |"
+              rm -f "$tmp"
+            done <<'PROBE'
+          openai|https://platform.openai.com/docs/pricing
+          google-gemini|https://ai.google.dev/gemini-api/docs/pricing
+          cohere|https://cohere.com/pricing
+          PROBE
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Report
         if: steps.moved.outputs.commits == '0'
         run: |

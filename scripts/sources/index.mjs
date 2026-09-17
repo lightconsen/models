@@ -12,6 +12,7 @@
  * rather than leaving the gap to be rediscovered.
  */
 import anthropic from "./anthropic.mjs";
+import cohere from "./cohere.mjs";
 import deepseek from "./deepseek.mjs";
 import googleGemini from "./google-gemini.mjs";
 import kimi from "./kimi.mjs";
@@ -26,6 +27,7 @@ import zhipu from "./zhipu.mjs";
 
 export default [
   anthropic,
+  cohere,
   deepseek,
   googleGemini,
   kimi,

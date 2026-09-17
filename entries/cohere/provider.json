@@ -1,0 +1,16 @@
+{
+  "id": "cohere",
+  "name": "Cohere",
+  "website": "https://cohere.com/",
+  "tag": "official",
+  "rating": 4.2,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.cohere.ai/compatibility/v1"
+    }
+  ],
+  "desc": "Cohere's own API, serving the Command family"
+}

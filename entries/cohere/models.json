@@ -1,0 +1,21 @@
+[
+  {
+    "id": "command-a-plus",
+    "name": "Command A+",
+    "in": "0",
+    "out": "0",
+    "flagship": true
+  },
+  {
+    "id": "command-r",
+    "name": "Command R",
+    "in": "0.15",
+    "out": "0.6"
+  },
+  {
+    "id": "command-r7b",
+    "name": "Command R7B",
+    "in": "0.0375",
+    "out": "0.15"
+  }
+]

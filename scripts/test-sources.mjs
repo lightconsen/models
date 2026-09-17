@@ -16,6 +16,7 @@
  * Usage: node scripts/test-sources.mjs
  */
 import { ratesIn } from "./sources/google-gemini.mjs";
+import { slug } from "./sources/cohere.mjs";
 
 let failed = 0;
 const check = (name, got, want) => {
@@ -65,6 +66,16 @@ check("a plain rate", ratesIn("$1.50", now), { now: "1.50" });
 check("a rate naming its modalities", ratesIn("$0.30 (text / image / video / audio)", now), { now: "0.30" });
 check("free of charge has no rate", ratesIn("Free of charge", now), undefined);
 check("so does a missing row", ratesIn("", now), undefined);
+
+console.log("cohere: a display name is the only id the payload carries");
+// The CMS data holds `Command R7B` and no API id, so the entry's id is derived.
+// `+` is the case that matters: `Command A+` slugged naively is `command-a`,
+// which is a *different* model in the same family.
+check("a plain name", slug("Command R"), "command-r");
+check("digits run together", slug("Command R7B"), "command-r7b");
+check("a plus becomes a word", slug("Command A+"), "command-a-plus");
+check("and is not confused with its sibling", slug("Command A+") === slug("Command A"), false);
+check("punctuation collapses", slug("Embed  4.0"), "embed-4-0");
 
 console.log(`\n${failed === 0 ? "all source-parsing cases pass" : `${failed} case(s) failed`}`);
 process.exit(failed > 0 ? 1 : 0);

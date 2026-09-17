@@ -8,10 +8,10 @@
     "cache_creation": "12.5",
     "long_context": {
       "over": 272000,
-      "in": "20",
-      "out": "75",
-      "cache_read": "2",
-      "cache_creation": "25"
+      "in": "20.00",
+      "out": "75.00",
+      "cache_read": "2.00",
+      "cache_creation": "25.00"
     },
     "flagship": true
   },
@@ -24,25 +24,10 @@
     "cache_creation": "5",
     "long_context": {
       "over": 272000,
-      "in": "8",
-      "out": "30",
-      "cache_read": "0.8",
-      "cache_creation": "10"
-    }
-  },
-  {
-    "id": "gpt-5.6",
-    "name": "GPT-5.6",
-    "in": "4",
-    "out": "20",
-    "cache_read": "0.4",
-    "cache_creation": "5",
-    "long_context": {
-      "over": 272000,
-      "in": "8",
-      "out": "30",
-      "cache_read": "0.8",
-      "cache_creation": "10"
+      "in": "8.00",
+      "out": "30.00",
+      "cache_read": "0.80",
+      "cache_creation": "10.00"
     }
   },
   {
@@ -54,10 +39,10 @@
     "cache_creation": "2.5",
     "long_context": {
       "over": 272000,
-      "in": "4",
-      "out": "18",
-      "cache_read": "0.4",
-      "cache_creation": "5"
+      "in": "4.00",
+      "out": "18.00",
+      "cache_read": "0.40",
+      "cache_creation": "5.00"
     }
   },
   {
@@ -69,10 +54,10 @@
     "cache_creation": "0.25",
     "long_context": {
       "over": 272000,
-      "in": "0.4",
-      "out": "1.8",
+      "in": "0.40",
+      "out": "1.80",
       "cache_read": "0.04",
-      "cache_creation": "0.5"
+      "cache_creation": "0.50"
     }
   }
 ]

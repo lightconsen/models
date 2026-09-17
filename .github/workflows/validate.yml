@@ -20,3 +20,4 @@ jobs:
       # Pure and fixture-free, unlike test-validation.mjs which plants and deletes
       # entries — safe on a runner that must not touch the tree.
       - run: node scripts/test-policy.mjs
+      - run: node scripts/test-sources.mjs

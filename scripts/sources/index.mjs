@@ -13,6 +13,7 @@
  */
 import anthropic from "./anthropic.mjs";
 import deepseek from "./deepseek.mjs";
+import googleGemini from "./google-gemini.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
 import openai from "./openai.mjs";
@@ -26,6 +27,7 @@ import zhipu from "./zhipu.mjs";
 export default [
   anthropic,
   deepseek,
+  googleGemini,
   kimi,
   minimax,
   openai,

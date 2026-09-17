@@ -10,9 +10,18 @@
  *
  * The eight columns are the schema exactly: short-context input, cached input,
  * cache writes and output are the row's own rates, and the four long-context
- * ones are `long_context`. The short/long boundary is not in this table — it is
- * named in the rows that need it, `gpt-5.5 (<272K context length)` — so the
- * threshold is taken from there rather than assumed.
+ * ones are `long_context`.
+ *
+ * **The boundary is stated on the model pages, not here.** Each of them says it
+ * in the same words — `Prompts with more than 272K input tokens are priced at 2x
+ * input and cache rates and 1.5x output for the full request` — which is why the
+ * long-context columns are exactly 2× the input and cache rates and 1.5× the
+ * output on every row, and why only some rows spell the threshold out in their
+ * name (`gpt-5.5 (<272K context length)`). `for the full request` is the part
+ * worth not missing: crossing the boundary re-rates every token in the request,
+ * not the excess. Reading the model pages for this would cost four more requests
+ * per run to learn a constant; the table's own columns carry the prices, and the
+ * rows that name the threshold are enough to read it off.
  *
  * **This replaces a third-party transcription, and the reason is worth keeping.**
  * The entry was built from `models.dev/labs/openai` because this page answered

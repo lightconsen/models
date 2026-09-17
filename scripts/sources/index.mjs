@@ -15,6 +15,7 @@ import anthropic from "./anthropic.mjs";
 import deepseek from "./deepseek.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
+import openai from "./openai.mjs";
 import openrouter from "./openrouter.mjs";
 import qianwen from "./qianwen.mjs";
 import volcesark from "./volcesark.mjs";
@@ -27,6 +28,7 @@ export default [
   deepseek,
   kimi,
   minimax,
+  openai,
   openrouter,
   qianwen,
   volcesark,

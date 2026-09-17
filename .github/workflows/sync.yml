@@ -1,0 +1,168 @@
+# Read every price source on a schedule and open a PR for whatever moved.
+#
+# This is the one workflow here that touches the network, and it is deliberately
+# not in the build path: `validate.yml` still runs offline on a PR, and
+# `publish.yml` still publishes only what a person merged. Nothing here writes to
+# `main`. It runs the same `fetch-all.mjs --write --commit` a person runs by hand,
+# so the same guards apply — the trust policy refuses a run that would change what
+# a vendor is said to sell, the fixed-point check refuses a source reporting a
+# value it will not report again, and the commits come out one per entry so each
+# diff reads like one.
+#
+# A PR rather than a merge, because this repo's whole premise is that the data is
+# hand-reviewed. An unattended commit that landed itself would make every
+# "checked <date>" line in the checklist mean nothing.
+#
+# The branch name is fixed on purpose: a daily run that finds something updates
+# the PR already open rather than stacking a hundred of them.
+name: sync
+
+on:
+  schedule:
+    # Off the hour. Every scheduled job in the world fires at :00, and GitHub
+    # delays or drops the runs that arrive with the herd.
+    - cron: "43 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # A US runner with open egress, which is half the reason this exists. The
+      # other half is not needing a laptop awake. As a side effect it answers a
+      # question a laptop cannot: `platform.openai.com` and the Gemini pricing
+      # page reply `unsupported_country_region_territory` from some networks and
+      # not others, and the log below says which way it went.
+      - name: Read the sources
+        id: read
+        run: |
+          set +e
+          node scripts/fetch-all.mjs --write --commit > "$RUNNER_TEMP/sync.log" 2>&1
+          code=$?
+          set -e
+          cat "$RUNNER_TEMP/sync.log"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          # A source that could not be read exits 1 having written nothing for
+          # that entry. That is not a reason to lose the entries that did work,
+          # so it is carried into the PR body instead of failing the job.
+          echo "$code" > "$RUNNER_TEMP/code"
+
+      - name: Count what moved
+        id: moved
+        run: |
+          n=$(git rev-list --count origin/main..HEAD)
+          echo "commits=$n" >> "$GITHUB_OUTPUT"
+          echo "$n commit(s) ahead of main"
+
+      # The written data has to pass the gate a person's PR would. If the sync
+      # produced something invalid it should fail here, not open a PR that
+      # validate.yml rejects a minute later.
+      - name: Validate
+        if: steps.moved.outputs.commits != '0'
+        run: |
+          node scripts/generate.mjs --check
+          node scripts/test-policy.mjs
+
+      - name: Open or update the pull request
+        if: steps.moved.outputs.commits != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: automation/sync
+          READ_CODE: ${{ steps.read.outputs.code }}
+        run: |
+          set -euo pipefail
+
+          {
+            echo "The scheduled run found changes in the vendors' published prices."
+            echo
+            echo "Each commit below is one entry, so every diff is the change to that"
+            echo "vendor alone. The last is the \`global.json\` version bump — the"
+            echo "published table is version-gated, so without it the app never sees any"
+            echo "of this."
+            echo
+            echo "Read it the way the checklist asks: \`in\` / \`out\` / \`cache_read\` against"
+            echo "the vendor's own page. A correct reading reports \`no change\`, so"
+            echo "anything here is a source disagreeing with what the entry carries."
+            echo
+            if [ "$READ_CODE" != "0" ]; then
+              echo "> **This run exited $READ_CODE** — at least one source could not be"
+              echo "> read and was skipped. The log below names it."
+              echo
+            fi
+            echo "### Commits"
+            echo
+            git log --format='- `%h` %s' origin/main..HEAD
+            echo
+            echo "<details><summary>Full run log</summary>"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/sync.log"
+            echo '```'
+            echo
+            echo "</details>"
+            echo
+            echo "---"
+            echo
+            echo "Opened by the \`sync\` workflow at the vendors' own sources. Nothing"
+            echo "here is merged automatically."
+          } > "$RUNNER_TEMP/pr.md"
+
+          # The branch may already carry an earlier run. Fetching it into a
+          # remote-tracking ref is what gives plain `--force-with-lease` something
+          # to compare against; on a first run the fetch fails, there is nothing
+          # to lease, and the push creates the branch.
+          git fetch --no-tags origin "+refs/heads/$BRANCH:refs/remotes/origin/$BRANCH" 2>/dev/null || true
+          git push --force-with-lease origin "HEAD:refs/heads/$BRANCH"
+
+          if gh pr list --head "$BRANCH" --base main --json number --jq '.[0].number' | grep -q .; then
+            gh pr edit "$BRANCH" --body-file "$RUNNER_TEMP/pr.md"
+            echo "updated the open PR"
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "Sync prices from the vendors' own sources" \
+              --body-file "$RUNNER_TEMP/pr.md"
+            echo "opened a PR"
+          fi
+
+      - name: Report
+        if: steps.moved.outputs.commits == '0'
+        run: |
+          {
+            if [ "${{ steps.read.outputs.code }}" = "0" ]; then
+              echo "No vendor changed a price since the last run."
+            else
+              echo "No price moved — but **this run exited ${{ steps.read.outputs.code }}**."
+              echo
+              echo "A source could not be read, so its entry was compared against"
+              echo "nothing and would not have shown a change even if it had one."
+              echo "That is the failure a silent run would hide, so it is named here:"
+              echo
+              echo '```'
+              grep -A1 '^✗' "$RUNNER_TEMP/sync.log" || true
+              echo '```'
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"

@@ -905,10 +905,33 @@ is the point — silence about an entry reads as coverage.
 ## CI
 
 - `validate.yml` — runs on every PR: `node scripts/generate.mjs --check`
-  (schema validation + dry-run build, no writes).
+  (schema validation + dry-run build, no writes) and `test-policy.mjs`.
 - `publish.yml` — runs on push to `main` (or manual dispatch): builds `dist/`
   and uploads the JSON artifacts plus `dist/logos/*` to R2 with
   `wrangler r2 object put --remote`.
+- `sync.yml` — runs daily at 06:43 UTC (or manual dispatch): runs
+  `fetch-all.mjs --write --commit` and opens a PR with whatever moved.
+
+`sync.yml` is the one workflow here that touches the network, and it is kept out
+of the build path deliberately: `validate` still runs offline on a PR, and
+`publish` still ships only what a person merged. It runs the same command a
+person runs by hand, so the same guards apply — the trust policy refuses a run
+that would change what a vendor is said to sell, the fixed-point check refuses a
+source reporting a value it will not report again, and the commits come out one
+per entry so each diff reads like one.
+
+**It opens a PR rather than merging itself**, because this repo's premise is that
+the data is hand-reviewed; an unattended commit that landed on its own would make
+every `checked <date>` in the checklist mean nothing. One fixed branch
+(`automation/sync`) means a quiet day updates the open PR instead of stacking a
+new one, and a source that fails is reported in the step summary rather than
+being allowed to read as a quiet day — which is the failure a silent run would
+hide.
+
+It runs on a US runner, which is the other reason it exists: `platform.openai.com`
+and the Gemini pricing page answer `unsupported_country_region_territory` from
+some networks and not others, and a run from elsewhere is the only way to find
+out which side of that this repository is on.
 
 ## R2 setup (one-time)
 

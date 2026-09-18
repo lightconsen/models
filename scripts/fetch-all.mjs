@@ -265,12 +265,49 @@ for (const r of changed) {
 // did not bump the version has done nothing as far as anyone consuming this repo
 // is concerned — which makes the bump part of applying the change, not a
 // follow-up someone remembers.
-const movedPrices = changed.some(
-  (r) =>
-    r.changes.updated.some((c) => c.field === "in" || c.field === "out") ||
-    r.changes.created.length > 0 ||
-    r.changes.deleted.length > 0,
-);
+const movedPrices =
+  changed.some(
+    (r) =>
+      r.changes.updated.some((c) => c.field === "in" || c.field === "out") ||
+      r.changes.created.length > 0 ||
+      r.changes.deleted.length > 0,
+  ) || pricedRows() !== pricedRows("HEAD");
+
+/** Priced rows in the working tree, and in git HEAD: an *entry deletion* is a
+    price change with no run to report it, and the version gate would hold the
+    stale table open forever. Count both sides and compare. */
+const pricedRows = (rev) => {
+  const ids = readdirSync(path.join(repo, "entries")).filter((d) => {
+    try {
+      return readdirSync(path.join(repo, "entries", d)).includes("models.json");
+    } catch {
+      return false;
+    }
+  });
+  const read = (id) => {
+    if (!rev) return readFileSync(path.join(repo, "entries", id, "models.json"), "utf8");
+    const out = spawnSync("git", ["show", `${rev}:entries/${id}/models.json`], { cwd: repo, encoding: "utf8" });
+    return out.status === 0 ? out.stdout : null;
+  };
+  let n = 0;
+  // HEAD's file list, not the working tree's — a deleted entry is in neither,
+  // and both directions of the comparison must see both sets.
+  const files = rev
+    ? spawnSync("git", ["ls-tree", "--name-only", `${rev}:entries`], { cwd: repo, encoding: "utf8" })
+        .stdout.split("\n").filter(Boolean)
+    : ids;
+  for (const id of new Set([...files, ...(rev ? [] : ids)])) {
+    const raw = read(id);
+    if (raw === null) continue;
+    try {
+      n += JSON.parse(raw).filter((r) => r?.in !== undefined).length;
+    } catch {
+      /* an unreadable models.json fails the build elsewhere; here it reads as zero */
+    }
+  }
+  return n;
+};
+
 const globalPath = path.join(repo, "global.json");
 let bumped = false;
 if (movedPrices) {

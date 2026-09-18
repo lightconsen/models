@@ -18,7 +18,6 @@ import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
 import stepfun from "./stepfun.mjs";
 import togetherai from "./togetherai.mjs";
-import modelsdev from "./modelsdev.mjs";
 import openai from "./openai.mjs";
 import openrouter from "./openrouter.mjs";
 import qianwen from "./qianwen.mjs";
@@ -33,7 +32,6 @@ export default [
   googleGemini,
   kimi,
   minimax,
-  ...modelsdev,
   ...stepfun,
   togetherai,
   openai,
@@ -44,9 +42,14 @@ export default [
   xiaomiMimo,
   zhipu,
 
+  // Removed 2026-09-18 by the owner's scope call: groq, cerebras, fireworks-ai,
+  // upstage (prices were only reachable through models.dev, never the vendor),
+  // mistral (its page changed under the entry), thinkingmachines (no consistent
+  // source) and ai21 (no machine-readable price at all) — plus cohere the day
+  // before. What is left is exactly the entries this repo can price from a
+  // primary source.
+  //
   // No adapter, and why:
-  //   (cohere was removed 2026-09-18: priced only previous-generation models, its
-  //    current flagship free — out of scope by the owner's call, not by failure)
   //   kimi-for-coding          a membership: one price for the service, no per-token rate
   //   tencent-token-plan       a prepaid plan; the model list is published, the rates are not
   //   baidu-qianfan-token-plan a prepaid plan, same shape

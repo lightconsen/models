@@ -12,11 +12,11 @@
  * rather than leaving the gap to be rediscovered.
  */
 import anthropic from "./anthropic.mjs";
-import cohere from "./cohere.mjs";
 import deepseek from "./deepseek.mjs";
 import googleGemini from "./google-gemini.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
+import togetherai from "./togetherai.mjs";
 import modelsdev from "./modelsdev.mjs";
 import openai from "./openai.mjs";
 import openrouter from "./openrouter.mjs";
@@ -28,12 +28,12 @@ import zhipu from "./zhipu.mjs";
 
 export default [
   anthropic,
-  cohere,
   deepseek,
   googleGemini,
   kimi,
   minimax,
   ...modelsdev,
+  togetherai,
   openai,
   openrouter,
   qianwen,
@@ -43,6 +43,8 @@ export default [
   zhipu,
 
   // No adapter, and why:
+  //   (cohere was removed 2026-09-18: priced only previous-generation models, its
+  //    current flagship free — out of scope by the owner's call, not by failure)
   //   kimi-for-coding          a membership: one price for the service, no per-token rate
   //   tencent-token-plan       a prepaid plan; the model list is published, the rates are not
   //   baidu-qianfan-token-plan a prepaid plan, same shape

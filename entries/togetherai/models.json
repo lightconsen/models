@@ -43,9 +43,9 @@
   {
     "id": "qwen3.7-max",
     "name": "Qwen3.7 Max",
-    "in": "1.25",
-    "out": "3.75",
-    "cache_read": "0.125",
+    "in": "2.50",
+    "out": "7.50",
+    "cache_read": "0.50",
     "serves": {
       "openai": "Qwen/Qwen3.7-Max"
     }

@@ -37,7 +37,6 @@ const URL = "https://models.dev/api.json";
 const PROVIDERS = {
   groq: "groq",
   cerebras: "cerebras",
-  togetherai: "togetherai",
   "fireworks-ai": "fireworks-ai",
   upstage: "upstage",
   stepfun: "stepfun",

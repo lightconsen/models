@@ -34,7 +34,7 @@ export default [
   kimi,
   minimax,
   ...modelsdev,
-  stepfun,
+  ...stepfun,
   togetherai,
   openai,
   openrouter,

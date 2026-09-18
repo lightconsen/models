@@ -39,7 +39,6 @@ const PROVIDERS = {
   cerebras: "cerebras",
   "fireworks-ai": "fireworks-ai",
   upstage: "upstage",
-  stepfun: "stepfun",
   // thinkingmachines is deliberately absent. Its models.dev rates (1.87/4.68)
   // contradict the same vendor's own numbers as reported by *three other
   // providers in that same file* — openrouter, fireworks and together all say

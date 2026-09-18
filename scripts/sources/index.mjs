@@ -16,6 +16,7 @@ import deepseek from "./deepseek.mjs";
 import googleGemini from "./google-gemini.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
+import stepfun from "./stepfun.mjs";
 import togetherai from "./togetherai.mjs";
 import modelsdev from "./modelsdev.mjs";
 import openai from "./openai.mjs";
@@ -33,6 +34,7 @@ export default [
   kimi,
   minimax,
   ...modelsdev,
+  stepfun,
   togetherai,
   openai,
   openrouter,

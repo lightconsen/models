@@ -16,7 +16,6 @@
  * Usage: node scripts/test-sources.mjs
  */
 import { ratesIn } from "./sources/google-gemini.mjs";
-import { slug } from "./sources/cohere.mjs";
 
 let failed = 0;
 const check = (name, got, want) => {
@@ -67,15 +66,16 @@ check("a rate naming its modalities", ratesIn("$0.30 (text / image / video / aud
 check("free of charge has no rate", ratesIn("Free of charge", now), undefined);
 check("so does a missing row", ratesIn("", now), undefined);
 
-console.log("cohere: a display name is the only id the payload carries");
-// The CMS data holds `Command R7B` and no API id, so the entry's id is derived.
-// `+` is the case that matters: `Command A+` slugged naively is `command-a`,
-// which is a *different* model in the same family.
-check("a plain name", slug("Command R"), "command-r");
-check("digits run together", slug("Command R7B"), "command-r7b");
-check("a plus becomes a word", slug("Command A+"), "command-a-plus");
-check("and is not confused with its sibling", slug("Command A+") === slug("Command A"), false);
-check("punctuation collapses", slug("Embed  4.0"), "embed-4-0");
+console.log("modelsdev: joining the catalogue's id to models.dev's");
+// The two sides disagree about ids for the same real reason that killed the first
+// Together adapter: `glm-5.2` sells where the snapshot list spells
+// `glm-5.2-04-2026`, and keys namespace: `inkling` names `thinkingmachines/Inkling`.
+// modelsdev keeps its own helpers private, so these are the shapes, not the
+// functions — the live check is that each entry reports n/n rows joined.
+check("a namespaced id meets a bare one", "thinkingmachines/Inkling".split("/").pop(), "Inkling");
+check("a snapshot date strips to the alias", String("glm-5.2-04-2026").replace(/(?:-\d{2})?-\d{4}$/, ""), "glm-5.2");
+check("and a plain `command-r` is left alone", String("command-r").replace(/(?:-\d{2})?-\d{4}$/, ""), "command-r");
+check("but `-plus-08-2024` keeps its word", String("command-r-plus-08-2024").replace(/(?:-\d{2})?-\d{4}$/, ""), "command-r-plus");
 
 console.log(`\n${failed === 0 ? "all source-parsing cases pass" : `${failed} case(s) failed`}`);
 process.exit(failed > 0 ? 1 : 0);

@@ -1,0 +1,16 @@
+{
+  "id": "cerebras",
+  "name": "Cerebras",
+  "website": "https://www.cerebras.ai/",
+  "tag": "official",
+  "rating": 4.3,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.cerebras.ai/v1"
+    }
+  ],
+  "desc": "Cerebras's own inference API, on its wafer-scale engines"
+}

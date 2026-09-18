@@ -1,0 +1,15 @@
+[
+  {
+    "id": "gpt-oss-120b",
+    "name": "GPT-OSS 120B",
+    "in": "0.35",
+    "out": "0.75",
+    "flagship": true
+  },
+  {
+    "id": "qwen-3.8-27b",
+    "name": "Qwen 3.8 27B",
+    "in": "0.99",
+    "out": "1.49"
+  }
+]

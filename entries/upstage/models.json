@@ -1,0 +1,16 @@
+[
+  {
+    "id": "solar-pro4",
+    "name": "Solar Pro 4",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.06",
+    "flagship": true
+  },
+  {
+    "id": "solar-mini",
+    "name": "Solar Mini",
+    "in": "0.15",
+    "out": "0.15"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "id": "thinkingmachines",
+  "name": "Thinking Machines",
+  "website": "https://www.tml.ai/",
+  "tag": "official",
+  "rating": 4.3,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.tml.ai/v1"
+    }
+  ],
+  "desc": "Thinking Machines' own API, serving Inkling"
+}

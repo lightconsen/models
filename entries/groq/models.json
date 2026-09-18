@@ -1,0 +1,54 @@
+[
+  {
+    "id": "llama-3.1-8b-instant",
+    "name": "Llama 3.1 8B Instant",
+    "in": "0.05",
+    "out": "0.08"
+  },
+  {
+    "id": "llama-3.3-70b-versatile",
+    "name": "Llama 3.3 70B Versatile",
+    "in": "0.59",
+    "out": "0.79"
+  },
+  {
+    "id": "gpt-oss-20b",
+    "name": "GPT-OSS 20B",
+    "in": "0.075",
+    "out": "0.3",
+    "cache_read": "0.0375",
+    "serves": {
+      "openai": "openai/gpt-oss-20b"
+    }
+  },
+  {
+    "id": "gpt-oss-120b",
+    "name": "GPT-OSS 120B",
+    "in": "0.15",
+    "out": "0.6",
+    "cache_read": "0.075",
+    "serves": {
+      "openai": "openai/gpt-oss-120b"
+    },
+    "flagship": true
+  },
+  {
+    "id": "qwen3.6-27b",
+    "name": "Qwen3.6 27B",
+    "in": "0.6",
+    "out": "3",
+    "cache_read": "0.3",
+    "serves": {
+      "openai": "qwen/qwen3.6-27b"
+    }
+  },
+  {
+    "id": "qwen3.8-27b",
+    "name": "Qwen3.8 27B",
+    "in": "0.8",
+    "out": "4",
+    "serves": {
+      "openai": "qwen/qwen3.8-27b"
+    }
+  }
+]

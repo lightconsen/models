@@ -1,0 +1,24 @@
+[
+  {
+    "id": "step-3.7-flash",
+    "name": "Step 3.7 Flash",
+    "in": "0.185",
+    "out": "1.11",
+    "cache_read": "0.037",
+    "flagship": true
+  },
+  {
+    "id": "step-3.5-flash",
+    "name": "Step 3.5 Flash",
+    "in": "0.1",
+    "out": "0.3",
+    "cache_read": "0.02"
+  },
+  {
+    "id": "step-3.5-flash-2603",
+    "name": "Step 3.5 Flash 2603",
+    "in": "0.1",
+    "out": "0.3",
+    "cache_read": "0.02"
+  }
+]

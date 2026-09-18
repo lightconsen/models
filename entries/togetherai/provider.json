@@ -1,0 +1,16 @@
+{
+  "id": "togetherai",
+  "name": "Together AI",
+  "website": "https://www.together.ai/",
+  "tag": "official",
+  "rating": 4.2,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.together.xyz/v1"
+    }
+  ],
+  "desc": "Together AI's serverless inference over open-weight models"
+}

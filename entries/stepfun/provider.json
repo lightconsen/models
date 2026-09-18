@@ -1,0 +1,16 @@
+{
+  "id": "stepfun",
+  "name": "StepFun",
+  "website": "https://www.stepfun.com/",
+  "tag": "official",
+  "rating": 4,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.stepfun.com/v1"
+    }
+  ],
+  "desc": "StepFun's own API, serving the Step models it trains"
+}

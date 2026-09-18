@@ -17,6 +17,7 @@ import deepseek from "./deepseek.mjs";
 import googleGemini from "./google-gemini.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
+import modelsdev from "./modelsdev.mjs";
 import openai from "./openai.mjs";
 import openrouter from "./openrouter.mjs";
 import qianwen from "./qianwen.mjs";
@@ -32,6 +33,7 @@ export default [
   googleGemini,
   kimi,
   minimax,
+  ...modelsdev,
   openai,
   openrouter,
   qianwen,

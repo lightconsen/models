@@ -97,9 +97,14 @@ export default {
     }
 
     // ── the peak window, from the footnote ──
-    const note = (html.match(/高峰时段为[\s\S]{0,240}?）/)?.[0] ?? "").replace(/<[^>]*>/g, "");
-    if (!note) drift("no peak-hours footnote — the window is the part we cannot guess");
-    if (!note.includes("北京时间")) drift(`the footnote no longer names 北京时间: "${note}"`);
+    //
+    // Anchored on the timezone, not on the sentence around it. The line used to
+    // read `高峰时段为北京时间周一至周五…` and now reads `北京时间周一至周五…为高峰时段`
+    // — same meaning, word order reversed — and an anchor of `高峰时段为` reported
+    // the whole entry as unreadable the day it changed. The timezone is the part
+    // that cannot go missing; the word order around it can.
+    const note = (html.match(/北京时间[\s\S]{0,300}?[。；]/)?.[0] ?? "").replace(/<[^>]*>/g, "");
+    if (!note) drift("no footnote naming 北京时间 — the window is the part we cannot guess");
     const dayList = [];
     for (const [, from, to] of note.matchAll(/(周[一二三四五六日])(?:至(周[一二三四五六日]))?/g)) {
       const names = Object.keys(DAY_NAMES);

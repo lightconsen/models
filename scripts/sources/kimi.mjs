@@ -34,33 +34,42 @@ export default {
 
   async read() {
     const md = await getText(PRICING_MD);
-    const table = /<DocTable[\s\S]*?\/>/.exec(md);
-    if (!table) drift("no <DocTable> element in the pricing markdown");
+    // The page carries **more than one** <DocTable> — the current models in one,
+    // the rest of the catalogue in another — and reading only the first made the
+    // older models look retired the day the split landed. Every table is read and
+    // their rows merged; a model listed twice prices identically or the first row
+    // wins, which the compare below would catch as a diff.
+    const tables = [...md.matchAll(/<DocTable[\s\S]*?\/>/g)].map((m) => m[0]);
+    if (tables.length === 0) drift("no <DocTable> element in the pricing markdown");
 
-    const titles = [...table[0].matchAll(/\{\s*title:\s*"([^"]+)"/g)].map((m) => m[1]);
-    const rowBlocks = [...table[0].matchAll(/\[([^\][]*)\]/g)].map((m) => m[1]);
-    if (titles.length === 0 || rowBlocks.length === 0) drift("could not read the table's columns or rows");
-    const rows = rowBlocks
-      .map((b) => {
-        try {
-          return JSON.parse(`[${b.replace(/,\s*$/, "")}]`);
-        } catch {
-          return null;
-        }
-      })
-      .filter((r) => Array.isArray(r) && r.every((c) => typeof c === "string"));
-    if (rows.length === 0) drift("no parseable rows in the table");
+    const out = [];
+    for (const table of tables) {
+      const titles = [...table.matchAll(/\{\s*title:\s*"([^"]+)"/g)].map((m) => m[1]);
+      const rowBlocks = [...table.matchAll(/\[([^\][]*)\]/g)].map((m) => m[1]);
+      if (titles.length === 0 || rowBlocks.length === 0) drift("could not read the table's columns or rows");
+      const rows = rowBlocks
+        .map((b) => {
+          try {
+            return JSON.parse(`[${b.replace(/,\s*$/, "")}]`);
+          } catch {
+            return null;
+          }
+        })
+        .filter((r) => Array.isArray(r) && r.every((c) => typeof c === "string"));
 
-    const cols = titles.map((t, i) => [columnField(t), i, t]).filter(([f]) => f);
-    if (cols.length < 3) drift(`could not map the columns: ${titles.join(" | ")}`);
-    const modelAt = titles.findIndex((t) => t === "模型");
-    if (modelAt < 0) drift(`no "模型" column among: ${titles.join(" | ")}`);
+      const cols = titles.map((t, i) => [columnField(t), i, t]).filter(([f]) => f);
+      if (cols.length < 3) drift(`could not map the columns: ${titles.join(" | ")}`);
+      const modelAt = titles.findIndex((t) => t === "模型");
+      if (modelAt < 0) drift(`no "模型" column among: ${titles.join(" | ")}`);
 
-    const out = rows.map((r) => {
-      const row = { id: r[modelAt].trim() };
-      for (const [field, i] of cols) row[field] = decimal(r[i]);
-      return row;
-    });
+      for (const r of rows) {
+        const row = { id: String(r[modelAt]).trim() };
+        if (row.id === "" || out.some((x) => x.id === row.id)) continue;
+        for (const [field, i] of cols) row[field] = decimal(r[i]);
+        out.push(row);
+      }
+    }
+    if (out.length === 0) drift("no parseable rows in the pricing tables");
 
     // A model the vendor has retired, so a row missing from the price table can be
     // told apart from one the vendor simply does not bill for.

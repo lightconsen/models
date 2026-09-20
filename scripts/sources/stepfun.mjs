@@ -69,7 +69,9 @@ const parsePage = (md) => {
       const model = find("model", "模型");
       const inCol = find("cache miss", "缓存未命中");
       const cacheCol = find("cache hit", "缓存命中");
-      const outCol = find("output price", "输出价格");
+      // The page renamed Output Price to Output, and `output price` alone would
+      // match nothing on the newest page and drop the whole table as unreadable.
+      const outCol = find("output price", "输出价格", "output");
       // A table without a cache column has other meanings for its columns;
       // reading it positionally invents numbers.
       cols = [model, inCol, cacheCol, outCol, unit].every((i) => i >= 0)

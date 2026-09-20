@@ -36,8 +36,8 @@ export function PriceRefLine({ entry }: { entry: Entry }) {
   return (
     <span className="price-ref">
       {ref.display_name} — {sym}
-      {formatPrice(parsePrice(ref.in))} in / {sym}
-      {formatPrice(parsePrice(ref.out))} out{note}
+      {formatPrice(parsePrice(ref.input))} in / {sym}
+      {formatPrice(parsePrice(ref.output))} out{note}
     </span>
   );
 }

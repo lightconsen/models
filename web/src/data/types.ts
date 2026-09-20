@@ -41,10 +41,15 @@ export interface Endpoint {
 }
 
 /** The flagship's rates, projected onto the catalog entry so the list page
-    needs no second request to show a "from ¥X" line. */
-export interface PriceRef extends RateBand {
+    needs no second request to show a "from ¥X" line.
+    NOTE: the catalog names these *input/output*, unlike models.json rows which
+    use in/out — mirroring the wire shape here is what keeps the two from being
+    confused, and confusing them renders every flagship price as 0. */
+export interface PriceRef {
   model_id: string;
   display_name: string;
+  input: string;
+  output: string;
   currency: Currency;
   off_peak?: RateBand;
   peak_hours?: PeakHours;

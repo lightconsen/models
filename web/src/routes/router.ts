@@ -5,6 +5,12 @@
  * Hash routing also happens to be the right choice for GitHub Pages, which
  * cannot rewrite arbitrary paths to /index.html: `#/provider/x` never leaves
  * the browser, so deep links and refresh both work.
+ *
+ * **The snapshot must be a stable reference.** `useSyncExternalStore` re-renders
+ * when `getSnapshot` returns a different object — a fresh `{page:"providers"}`
+ * per call is per-render a new value, so React re-renders forever and dies with
+ * error #185. The parsed route is cached per hash and re-parsed only when the
+ * hash actually changes.
  */
 import { useEffect, useSyncExternalStore } from "react";
 
@@ -21,15 +27,18 @@ const parse = (hash: string): Route => {
   return { page: "providers" };
 };
 
-const read = () => parse(location.hash);
+let cache: { hash: string; route: Route } | null = null;
+
+const read = (): Route => {
+  if (!cache || cache.hash !== location.hash) {
+    cache = { hash: location.hash, route: parse(location.hash) };
+  }
+  return cache.route;
+};
 
 const subscribe = (cb: () => void) => {
   window.addEventListener("hashchange", cb);
-  const poll = setInterval(cb, 500);
-  return () => {
-    window.removeEventListener("hashchange", cb);
-    clearInterval(poll);
-  };
+  return () => window.removeEventListener("hashchange", cb);
 };
 
 export const navigate = (r: Route) => {

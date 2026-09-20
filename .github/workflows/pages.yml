@@ -1,11 +1,16 @@
 # Build the hub data + the web app, deploy the whole thing to gh-pages.
 #
 # On every push to main (and manually): regenerate dist/ (data is versioned and
-# gitignored on main), build the Vite SPA in web/, then force-push the resulting
-# static bundle to the gh-pages branch, which GitHub Pages serves from /models/.
+# gitignored on main), stage it into the web app, build the Vite SPA with a
+# typecheck gate, then force-push the resulting static bundle to the gh-pages
+# branch, which GitHub Pages serves at https://models.kiwano.cc.
 #
-# The first deploy needs one manual step: Settings → Pages → Source →
-# "Deploy from a branch" → gh-pages / root. Until that is toggled the URL 404s.
+# Notes:
+# - web/public/CNAME carries the custom domain through every rebuild — the
+#   deploy wipes the branch wholesale, so a CNAME written only by the Pages
+#   panel would be deleted by the next deploy.
+# - Setup (once): Settings → Pages → Source → "Deploy from a branch" →
+#   gh-pages / root, plus the models.kiwano.cc custom domain.
 name: pages
 
 on:
@@ -47,7 +52,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Empty worktree on HEAD so the deploy commit's parent is our HEAD —
+          # Empty worktree on HEAD so the deploy commit's parent is our HEAD;
           # the gh-pages branch is rebuilt wholesale every time.
           rm -rf _deploy
           git worktree add --detach _deploy HEAD
@@ -61,3 +66,7 @@ jobs:
           # preserve. Pushed from inside the worktree so the ref points at the
           # deploy commit rather than at main.
           git -C _deploy push -f origin HEAD:refs/heads/gh-pages
+
+      - name: Confirm CNAME is on the branch
+        run: |
+          git ls-tree gh-pages CNAME 2>/dev/null || git fetch origin gh-pages:gh-pages 2>/dev/null; git ls-tree gh-pages CNAME

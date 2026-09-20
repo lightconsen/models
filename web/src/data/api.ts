@@ -58,4 +58,9 @@ export async function loadData(): Promise<Dataset> {
 export const modelsByProvider = (models: ModelsFile, providerId: string) =>
   models.models.filter((r) => r.provider_id === providerId);
 
+/** A logo's real URL. The catalog carries `logos/<id>.<ext>` relative to the
+    data directory, so the fetch path is `<base>/data/logos/…` — skipping the
+    `data/` segment 404s every card image (which it did, live, 24 times). */
+export const logoUrl = (logo: string): string => `${BASE}data/${logo}`;
+
 export const providerEntry = (catalog: Catalog, id: string) => catalog.entries.find((e) => e.id === id);

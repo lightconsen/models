@@ -1,5 +1,5 @@
 import type { Catalog, ModelsFile, NewsFile } from "../data/types";
-import { modelsByProvider, providerEntry } from "../data/api";
+import { modelsByProvider, providerEntry, logoUrl } from "../data/api";
 import { DataTable, type ColumnDef } from "../components/dataTable";
 import { ExpandableDetail, PriceCell } from "../components/priceCell";
 import { Badge, PriceRefLine, Rating, billingLabel } from "../components/bits";
@@ -71,7 +71,7 @@ export function ProviderDetailPage({
     <main className="page">
       <div className="detail-header">
         <div className="provider-card-top detail-title">
-          <img className="provider-logo" src={entry.logo} alt="" />
+          <img className="provider-logo" src={logoUrl(entry.logo)} alt="" />
           <div>
             <h1 className="page-title">{entry.name}</h1>
             <span className="mono">{entry.id}</span>

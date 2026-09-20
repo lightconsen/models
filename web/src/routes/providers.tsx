@@ -1,4 +1,5 @@
 import type { Catalog, ModelsFile, NewsFile } from "../data/types";
+import { logoUrl } from "../data/api";
 import { navigate } from "../routes/router";
 import { Badge, PriceRefLine, billingLabel } from "../components/bits";
 
@@ -6,7 +7,7 @@ function ProviderCard({ entry }: { entry: Catalog["entries"][number] }) {
   return (
     <div className="provider-card" onClick={() => navigate({ page: "provider", id: entry.id })}>
       <div className="provider-card-top">
-        <img className="provider-logo" src={entry.logo} alt="" loading="lazy" />
+        <img className="provider-logo" src={logoUrl(entry.logo)} alt="" loading="lazy" />
         <div className="provider-card-title">
           <h3>{entry.name}</h3>
           <span className="mono muted">{entry.id}</span>

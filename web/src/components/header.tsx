@@ -27,13 +27,13 @@ export function Header() {
             Search <kbd>⌘K</kbd>
           </button>
           <label className="seg" title="Display currency">
-            <select value={currency} onChange={(e) => setCurrency(e.target.value as "native" | "usd")}>
+            <select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value as "native" | "usd")}>
               <option value="native">Native</option>
               <option value="usd">USD</option>
             </select>
           </label>
           <label className="seg" title="Theme">
-            <select value={theme} onChange={(e) => setTheme(e.target.value as "auto" | "light" | "dark")}>
+            <select name="theme" value={theme} onChange={(e) => setTheme(e.target.value as "auto" | "light" | "dark")}>
               <option value="auto">Auto</option>
               <option value="light">Light</option>
               <option value="dark">Dark</option>

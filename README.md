@@ -911,6 +911,11 @@ is the point — silence about an entry reads as coverage.
   `wrangler r2 object put --remote`.
 - `sync.yml` — runs daily at 06:43 UTC (or manual dispatch): runs
   `fetch-all.mjs --write --commit` and opens a PR with whatever moved.
+- `pages.yml` — on push to `main` (or manual dispatch): builds the web app in
+  `web/` and force-pushes the static bundle to the `gh-pages` branch, which
+  GitHub Pages serves at `https://<owner>.github.io/models/`.
+
+`sync.yml` is the one workflow here that touches the network, and it is kept out
 
 `sync.yml` is the one workflow here that touches the network, and it is kept out
 of the build path deliberately: `validate` still runs offline on a PR, and
@@ -932,6 +937,27 @@ It runs on a US runner, which is the other reason it exists: `platform.openai.co
 and the Gemini pricing page answer `unsupported_country_region_territory` from
 some networks and not others, and a run from elsewhere is the only way to find
 out which side of that this repository is on.
+
+### Web frontend (`web/`)
+
+A zero-heavy Vite + React SPA that renders the catalogue the way models.dev
+renders its own: a providers grid (`#/`), a global sortable price table
+(`#/models`), and per-provider details (`#/provider/<id>`) with expandable
+long-context and peak/off-peak rows. Hash routing keeps deep links working on
+GitHub Pages, which cannot rewrite arbitrary paths. Logos, catalog, models and
+news JSON are staged from the data repo's `dist/` into `web/public/data/` by
+`web/scripts/stage-data.mjs` before every dev or build run.
+
+```
+cd web && npm ci && npm run dev      # local dev (requires ../dist built first)
+node scripts/generate.mjs           # if dist/ is missing (fresh clone)
+```
+
+The site is English-first, honours `prefers-color-scheme` with a manual
+override, and converts CNY prices to USD at a toggle using the rates in
+`models.json` itself. Deployment is `pages.yml`; the **first** deploy needs one
+manual step in repository settings — Pages → Source → Deploy from a branch →
+`gh-pages` / root — after which every push to `main` redeploys.
 
 ## R2 setup (one-time)
 

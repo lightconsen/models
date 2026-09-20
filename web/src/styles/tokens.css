@@ -1,0 +1,59 @@
+/* Design tokens — one place for the palette. Light values are the defaults;
+   prefers-color-scheme: dark flips the surfaces, and a manual [data-theme]
+   override (from the header select) wins over both. Accent #fd9527, the
+   models.dev orange, reserved for interactive accents. */
+
+:root {
+  --bg: #ffffff;
+  --surface: #f5f5f5;
+  --surface-2: #ededed;
+  --border: #ddd;
+  --fg: #333333;
+  --muted: #666666;
+  --tertiary: #999999;
+  --accent: #fd9527;
+  --accent-soft: #fff1e3;
+  --hover: #faf6f0;
+  --code-fg: #4a3a22;
+  --font-sans: "Rubik", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --radius: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1e1e1e;
+    --surface: #111111;
+    --surface-2: #181818;
+    --border: #333333;
+    --fg: #ffffff;
+    --muted: #aaaaaa;
+    --tertiary: #666666;
+    --accent: #fd9527;
+    --accent-soft: #2a1c0d;
+    --hover: #26221d;
+    --code-fg: #d8b27e;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1e1e1e;
+  --surface: #111111;
+  --surface-2: #181818;
+  --border: #333333;
+  --fg: #ffffff;
+  --muted: #aaaaaa;
+  --tertiary: #666666;
+  --code-fg: #d8b27e;
+}
+
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #f5f5f5;
+  --surface-2: #ededed;
+  --border: #ddd;
+  --fg: #333333;
+  --muted: #666666;
+  --tertiary: #999999;
+  --code-fg: #4a3a22;
+}

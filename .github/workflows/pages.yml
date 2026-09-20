@@ -1,0 +1,62 @@
+# Build the hub data + the web app, deploy the whole thing to gh-pages.
+#
+# On every push to main (and manually): regenerate dist/ (data is versioned and
+# gitignored on main), build the Vite SPA in web/, then force-push the resulting
+# static bundle to the gh-pages branch, which GitHub Pages serves from /models/.
+#
+# The first deploy needs one manual step: Settings → Pages → Source →
+# "Deploy from a branch" → gh-pages / root. Until that is toggled the URL 404s.
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build hub data (repo dist/)
+        run: node scripts/generate.mjs
+
+      - name: Build web app
+        working-directory: web
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Empty worktree on HEAD so the deploy commit's parent is our HEAD —
+          # the gh-pages branch is rebuilt wholesale every time.
+          rm -rf _deploy
+          git worktree add --detach _deploy HEAD
+          rm -rf _deploy/*
+          cp -R web/dist/. _deploy/
+
+          git -C _deploy add -A
+          git -C _deploy commit -m "site: deploy $(git rev-parse --short HEAD)"
+
+          # -f: the branch is owned by this workflow alone; there is nothing to
+          # preserve. Pushed from inside the worktree so the ref points at the
+          # deploy commit rather than at main.
+          git -C _deploy push -f origin HEAD:refs/heads/gh-pages

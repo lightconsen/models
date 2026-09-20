@@ -1,0 +1,46 @@
+import { navigate, useRoute } from "../routes/router";
+import { useSettings } from "../settings";
+
+export function Header() {
+  const route = useRoute();
+  const { currency, setCurrency, theme, setTheme, toggleSearch } = useSettings();
+  return (
+    <header className="header">
+      <div className="header-inner">
+        <a className="brand" onClick={() => navigate({ page: "providers" })}>
+          <span className="brand-mark" aria-hidden>
+            m
+          </span>
+          <span className="brand-text">models</span>
+          <span className="brand-sub">Kiwano Hub · providers and prices</span>
+        </a>
+        <nav className="nav">
+          <a className={`nav-link${route.page === "providers" ? " active" : ""}`} onClick={() => navigate({ page: "providers" })}>
+            Providers
+          </a>
+          <a className={`nav-link${route.page === "models" ? " active" : ""}`} onClick={() => navigate({ page: "models" })}>
+            Models
+          </a>
+        </nav>
+        <div className="header-actions">
+          <button className="btn" onClick={toggleSearch} title="Search providers and models (⌘K)">
+            Search <kbd>⌘K</kbd>
+          </button>
+          <label className="seg" title="Display currency">
+            <select value={currency} onChange={(e) => setCurrency(e.target.value as "native" | "usd")}>
+              <option value="native">Native</option>
+              <option value="usd">USD</option>
+            </select>
+          </label>
+          <label className="seg" title="Theme">
+            <select value={theme} onChange={(e) => setTheme(e.target.value as "auto" | "light" | "dark")}>
+              <option value="auto">Auto</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </header>
+  );
+}

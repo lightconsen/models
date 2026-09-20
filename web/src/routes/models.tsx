@@ -12,21 +12,21 @@ const columns = (catalog: Catalog): ColumnDef<ModelsFile["models"][number]>[] =>
   { key: "model", label: "Model", numeric: false, render: (r) => <span className="mono">{r.model_id}</span> },
   {
     key: "in",
-    label: "In",
+    label: "In /1M",
     numeric: true,
     sortValue: (r) => parsePrice(r.input),
     render: (r) => <PriceCell value={r.input} raw={r.input} currency={r.currency} />,
   },
   {
     key: "out",
-    label: "Out",
+    label: "Out /1M",
     numeric: true,
     sortValue: (r) => parsePrice(r.output),
     render: (r) => <PriceCell value={r.output} raw={r.output} currency={r.currency} />,
   },
   {
     key: "cache_read",
-    label: "Cache read",
+    label: "Cache read /1M",
     numeric: true,
     sortValue: (r) => parsePrice(r.cache_read ?? "0"),
     render: (r) =>
@@ -34,7 +34,7 @@ const columns = (catalog: Catalog): ColumnDef<ModelsFile["models"][number]>[] =>
   },
   {
     key: "cache_write",
-    label: "Cache write",
+    label: "Cache write /1M",
     numeric: true,
     sortValue: (r) => parsePrice(r.cache_creation ?? "0"),
     render: (r) =>
@@ -52,7 +52,7 @@ export function ModelsPage({ catalog, models }: { catalog: Catalog; models: Mode
   return (
     <main className="page">
       <h1 className="page-title">Models</h1>
-      <p className="muted">{models.models.length} price rows across {catalog.total} providers.</p>
+      <p className="muted">{models.models.length} price rows across {catalog.total} providers — all prices per 1M tokens.</p>
       <DataTable
         rows={models.models}
         columns={columns(catalog)}

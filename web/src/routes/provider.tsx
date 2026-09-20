@@ -3,27 +3,28 @@ import { modelsByProvider, providerEntry, logoUrl } from "../data/api";
 import { DataTable, type ColumnDef } from "../components/dataTable";
 import { ExpandableDetail, PriceCell } from "../components/priceCell";
 import { Badge, PriceRefLine, Rating, billingLabel } from "../components/bits";
+import { useDismissedNews } from "../components/dismissNews";
 import { modelKey, parsePrice } from "../data/pricing";
 
 const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile["models"][number]>[] => [
   { key: "model", label: "Model", render: (r) => <span className="mono">{r.model_id}</span> },
   {
     key: "in",
-    label: "In",
+    label: "In /1M",
     numeric: true,
     sortValue: (r) => parsePrice(r.input),
     render: (r) => <PriceCell value={r.input} raw={r.input} currency={r.currency} />,
   },
   {
     key: "out",
-    label: "Out",
+    label: "Out /1M",
     numeric: true,
     sortValue: (r) => parsePrice(r.output),
     render: (r) => <PriceCell value={r.output} raw={r.output} currency={r.currency} />,
   },
   {
     key: "cache_read",
-    label: "Cache read",
+    label: "Cache read /1M",
     numeric: true,
     sortValue: (r) => parsePrice(r.cache_read ?? "0"),
     render: (r) =>
@@ -31,7 +32,7 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
   },
   {
     key: "cache_write",
-    label: "Cache write",
+    label: "Cache write /1M",
     numeric: true,
     sortValue: (r) => parsePrice(r.cache_creation ?? "0"),
     render: (r) =>
@@ -65,7 +66,8 @@ export function ProviderDetailPage({
     );
   }
   const rows = modelsByProvider(models, id);
-  const notice = news.news.filter((n) => n.provider_id === id);
+  const { isDismissed, dismiss } = useDismissedNews();
+  const notice = news.news.filter((n) => n.provider_id === id && !isDismissed(n.id));
 
   return (
     <main className="page">
@@ -88,6 +90,7 @@ export function ProviderDetailPage({
           <div key={n.id} className="news-item">
             {n.badge && <Badge kind="news">{n.badge}</Badge>}
             <strong>{n.title}</strong>
+            <button className="news-close" aria-label="dismiss notice" onClick={() => dismiss(n.id)}>×</button>
           </div>
         ))}
       </div>
@@ -113,6 +116,7 @@ export function ProviderDetailPage({
       </table>
 
       <h2 className="section-title">Models ({rows.length})</h2>
+      <p className="muted">All prices per 1M tokens.</p>
       <DataTable
         rows={rows}
         columns={detailColumns(entry)}

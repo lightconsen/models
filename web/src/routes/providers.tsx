@@ -2,6 +2,7 @@ import type { Catalog, ModelsFile, NewsFile } from "../data/types";
 import { logoUrl } from "../data/api";
 import { navigate } from "../routes/router";
 import { Badge, PriceRefLine, billingLabel } from "../components/bits";
+import { useDismissedNews } from "../components/dismissNews";
 
 function ProviderCard({ entry }: { entry: Catalog["entries"][number] }) {
   return (
@@ -27,14 +28,17 @@ function ProviderCard({ entry }: { entry: Catalog["entries"][number] }) {
 }
 
 function NewsStrip({ news }: { news: NewsFile }) {
-  if (news.news.length === 0) return null;
+  const { isDismissed, dismiss } = useDismissedNews();
+  const items = news.news.filter((n) => !isDismissed(n.id));
+  if (items.length === 0) return null;
   return (
     <div className="news-strip">
-      {news.news.map((n) => (
+      {items.map((n) => (
         <div key={n.id} className="news-item">
           {n.badge && <Badge kind="news">{n.badge}</Badge>}
           <strong>{n.title}</strong>
           <span className="muted"> — {n.body.slice(0, 120)}</span>
+          <button className="news-close" aria-label="dismiss notice" onClick={() => dismiss(n.id)}>×</button>
         </div>
       ))}
     </div>

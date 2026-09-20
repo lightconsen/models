@@ -1,4 +1,4 @@
-import { currencySymbol, formatPrice, parsePrice, describePeak, longContextLine } from "../data/pricing";
+import { currencySymbol, formatPrice, parsePrice, describePeak } from "../data/pricing";
 import type { PriceRow } from "../data/types";
 import { useSettings } from "../settings";
 
@@ -26,7 +26,12 @@ export function ExpandableDetail({ row }: { row: PriceRow }) {
     <div className="expand-body">
       {row.long_context && (
         <p>
-          <span className="mono">{longContextLine(row.long_context)}</span>
+          <span className="mono">
+            &gt;{formatPrice(row.long_context.over)} input tokens: {currencySymbol(row.currency)}
+            {formatPrice(parsePrice(row.long_context.in))} in / {currencySymbol(row.currency)}
+            {formatPrice(parsePrice(row.long_context.out))} out
+            {row.long_context.cache_read ? ` · cache read ${currencySymbol(row.currency)}${formatPrice(parsePrice(row.long_context.cache_read))}` : ""}
+          </span>
           <span className="muted"> — applies above {formatPrice(row.long_context.over)} input tokens</span>
         </p>
       )}

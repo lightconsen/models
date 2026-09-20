@@ -11,7 +11,21 @@ export type Currency = "USD" | "CNY";
 export type Tag = "official" | "aggregate";
 export type Billing = "payg" | "plan" | "both";
 
+/** A row's top-level rates. The wire shape of both catalog `price_ref` and
+    models.json rows names them **input/output** (not in/out — conflating the
+    two made every flagship and every price column render 0). */
 export interface RateBand {
+  input: string;
+  output: string;
+  cache_read?: string;
+  cache_creation?: string;
+}
+
+/** The tier bands nested inside a row use the *other* naming — in/out. This is
+    a genuine second shape in the same JSON, not a typo: generate.mjs spreads
+    the source `long_context` / `off_peak` objects verbatim, and the entries
+    store those as in/out. */
+export interface NestedBand {
   in: string;
   out: string;
   cache_read?: string;
@@ -30,7 +44,7 @@ export interface PeakHours {
 }
 
 /** Rates that apply once input exceeds `over` tokens on a single request. */
-export interface LongContext extends RateBand {
+export interface LongContext extends NestedBand {
   over: number;
 }
 
@@ -45,13 +59,13 @@ export interface Endpoint {
     NOTE: the catalog names these *input/output*, unlike models.json rows which
     use in/out — mirroring the wire shape here is what keeps the two from being
     confused, and confusing them renders every flagship price as 0. */
-export interface PriceRef {
+/** The flagship's rates, projected onto the catalog entry so the list page
+    needs no second request to show a "from ¥X" line. */
+export interface PriceRef extends RateBand {
   model_id: string;
   display_name: string;
-  input: string;
-  output: string;
   currency: Currency;
-  off_peak?: RateBand;
+  off_peak?: NestedBand;
   peak_hours?: PeakHours;
   long_context?: LongContext;
 }
@@ -81,7 +95,7 @@ export interface PriceRow extends RateBand {
   model_id: string;
   display_name: string;
   currency: Currency;
-  off_peak?: RateBand;
+  off_peak?: NestedBand;
   peak_hours?: PeakHours;
   long_context?: LongContext;
 }

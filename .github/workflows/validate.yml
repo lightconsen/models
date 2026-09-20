@@ -1,4 +1,6 @@
-# PR gate: validate the Hub data and dry-run the artifact build.
+# PR gate: validate the Hub data, dry-run the artifact build, and typecheck the
+# web frontend. The web check needs npm ci + an npm cache, so it is its own step
+# with a cache path — separate from the data steps which are zero-dependency.
 name: validate
 
 on:
@@ -9,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  data:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -21,3 +23,21 @@ jobs:
       # entries — safe on a runner that must not touch the tree.
       - run: node scripts/test-policy.mjs
       - run: node scripts/test-sources.mjs
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      # Typecheck first: a schema drift in src/data/types.ts sailed past build
+      # and hit the homepage as zeroed prices. The deploy only runs `build`, so
+      # the gate belongs on the PR, before any deploy can happen.
+      - working-directory: web
+        run: |
+          npm ci
+          npm run typecheck
+          npm run build

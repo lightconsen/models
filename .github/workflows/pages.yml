@@ -35,10 +35,11 @@ jobs:
       - name: Build hub data (repo dist/)
         run: node scripts/generate.mjs
 
-      - name: Build web app
+      - name: Build web app (typecheck + build)
         working-directory: web
         run: |
           npm ci
+          npm run typecheck
           npm run build
 
       - name: Deploy to gh-pages

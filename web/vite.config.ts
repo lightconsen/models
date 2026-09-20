@@ -1,12 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// The site lives at https://<owner>.github.io/models/ — the repo is literally
-// named `models`. `base` must match the repository name exactly; renaming the
-// repo breaks the URL. Data fetches go through `import.meta.env.BASE_URL` to
-// stay on this path without hardcoding it there too.
+// The site lives at https://models.kiwano.cc — a custom domain served from
+// the root, so assets live at `/` and the old /models/ subpath is gone with the
+// `github.io` URL. `base` stays a single knob here; data fetches resolve it via
+// `import.meta.env.BASE_URL`.
 export default defineConfig({
-  base: "/models/",
+  base: "/",
   plugins: [react()],
   build: {
     outDir: "dist",

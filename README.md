@@ -912,8 +912,11 @@ is the point — silence about an entry reads as coverage.
 - `sync.yml` — runs daily at 06:43 UTC (or manual dispatch): runs
   `fetch-all.mjs --write --commit` and opens a PR with whatever moved.
 - `pages.yml` — on push to `main` (or manual dispatch): builds the web app in
-  `web/` and force-pushes the static bundle to the `gh-pages` branch, which
-  GitHub Pages serves at `https://<owner>.github.io/models/`.
+  `web/` and force-pushes the static bundle to the `gh-pages` branch.
+
+Once the custom domain is set, the site is served from the root at
+`https://models.kiwano.cc`; until then it is `https://<owner>.github.io/` (see
+below).
 
 `sync.yml` is the one workflow here that touches the network, and it is kept out
 
@@ -955,9 +958,18 @@ node scripts/generate.mjs           # if dist/ is missing (fresh clone)
 
 The site is English-first, honours `prefers-color-scheme` with a manual
 override, and converts CNY prices to USD at a toggle using the rates in
-`models.json` itself. Deployment is `pages.yml`; the **first** deploy needs one
-manual step in repository settings — Pages → Source → Deploy from a branch →
-`gh-pages` / root — after which every push to `main` redeploys.
+`models.json` itself. Deployment is `pages.yml`; it serves from the root (the
+`vite.config.ts` `base` is `"/"`), so it belongs on a custom domain rather than
+the `github.io/models` subpath — `web/public/CNAME` carries `models.kiwano.cc`
+into every build so the domain survives the deploy's wholesale branch rewrite.
+
+Setting the domain up, once:
+1. DNS for `kiwano.cc`: add a `CNAME` record `models → lightconsen.github.io`.
+2. Repository settings → Pages → Custom domain: `models.kiwano.cc` → Save
+   (GitHub verifies the DNS, then issues the TLS certificate; first HTTPS can
+   take a few minutes, HTTP works immediately).
+3. The panel also has Source → Deploy from a branch → `gh-pages` / root — set
+   once; every push to `main` redeploys after that.
 
 ## R2 setup (one-time)
 

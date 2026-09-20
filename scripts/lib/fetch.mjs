@@ -30,6 +30,23 @@ export const drift = (msg) => {
   throw new Drift(msg);
 };
 
+/**
+ * A source this *network* cannot reach — as opposed to one that changed.
+ *
+ * The two are different kinds of fact about one run and were being reported as
+ * the same thing, which cost a day of attention when they first diverged:
+ * `platform.stepfun.com` refused GitHub's US runner while the page itself was
+ * fine, and the run said "this entry is broken" every morning from then on. A
+ * connection or timeout failure says nothing about the vendor's page; a 404
+ * says the page is gone; a parse failure says it changed shape. Only the network
+ * kind gets this class.
+ */
+export class Network extends Error {}
+
+export const network = (msg) => {
+  throw new Network(msg);
+};
+
 /** `--flag value`, or the fallback. */
 export const argOf = (name, fallback = null) => {
   const i = process.argv.indexOf(name);
@@ -70,8 +87,12 @@ export const get = async (url, { headers = {}, timeout = TIMEOUT } = {}) => {
     return res;
   } catch (err) {
     if (err instanceof Drift) throw err;
-    if (err.name === "AbortError") drift(`${url}: no response in ${timeout / 1000}s`);
-    drift(`${url}: ${err.message}`);
+    // A connection that never made it, or a reply that never came. Deliberately
+    // *not* a Drift: a host that refuses this network (a Chinese site refusing
+    // foreign datacentre IPs, an unresolvable route) says nothing about the
+    // vendor's page, and the runner distinguishes the two.
+    if (err.name === "AbortError") network(`${url}: no response in ${timeout / 1000}s`);
+    network(`${url}: ${err.message}`);
   } finally {
     clearTimeout(timer);
   }

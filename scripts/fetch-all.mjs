@@ -40,7 +40,7 @@
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
-import { Drift, MEMBERSHIP, argOf, has, readEntry, repo, sameValue } from "./lib/fetch.mjs";
+import { Drift, Network, MEMBERSHIP, argOf, has, readEntry, repo, sameValue } from "./lib/fetch.mjs";
 import { isPriceField, judge, summarise } from "./lib/policy.mjs";
 import adapters from "./sources/index.mjs";
 
@@ -173,14 +173,35 @@ for (const adapter of adapters) {
     }
   } catch (err) {
     // One vendor's docs restructuring must not cost the other eleven their update.
-    for (const id of ids) results.push({ id, source: adapter.source, error: err.message });
+    // A *Network* failure says nothing about the vendor — a host refusing this
+    // network is an environment fact, not a broken page — so it is reported in
+    // its own list, not as an entry that failed to be read.
+    for (const id of ids) {
+      results.push({
+        id,
+        source: adapter.source,
+        lines: [],
+        changes: { created: [], deleted: [], updated: [] },
+        ...(err instanceof Network ? { unreachable: err.message } : { error: err.message }),
+      });
+    }
   }
 }
 
 // ── report ──
 let failed = 0;
+let unreachable = 0;
 for (const r of results) {
   const head = `${r.id}  (${r.source})`;
+  if (r.unreachable) {
+    // Not a failure: this network cannot reach the host, which says nothing
+    // about the vendor's page. Reported here so a constant blocker like
+    // stepfun.cn never dims a real one beside it.
+    console.log(`\n↯ ${head}\n  ${r.unreachable}`);
+    console.log("  Unreachable from this network, not read. The entry is unchanged.");
+    unreachable++;
+    continue;
+  }
   if (r.error) {
     failed++;
     console.log(`\n✗ ${head}\n  ${r.error}`);
@@ -208,6 +229,7 @@ console.log(
   `\n${changed.length === 0 ? "no change — every entry matches its source" : `${changed.length} entr(ies) to change: ${summarise(verdict)}`}`,
 );
 if (failed) console.log(`${failed} entr(ies) skipped — see the ✗ above`);
+if (unreachable) console.log(`${unreachable} entr(ies) unreachable from this network — see the ↯ above; nothing is wrong with their pages`);
 
 if (!ONLY) {
   const covered = new Set(adapters.flatMap((a) => a.ids));

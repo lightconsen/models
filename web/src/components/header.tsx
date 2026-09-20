@@ -8,9 +8,7 @@ export function Header() {
     <header className="header">
       <div className="header-inner">
         <a className="brand" onClick={() => navigate({ page: "providers" })}>
-          <span className="brand-mark" aria-hidden>
-            m
-          </span>
+          <img className="brand-mark" src={import.meta.env.BASE_URL + "logo.svg"} alt="" />
           <span className="brand-text">models</span>
           <span className="brand-sub">Kiwano Hub · providers and prices</span>
         </a>

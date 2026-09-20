@@ -11,9 +11,9 @@
 .brand { display: flex; align-items: baseline; gap: 8px; color: var(--fg); }
 .brand:hover { text-decoration: none; }
 .brand-mark {
-  width: 24px; height: 24px; border-radius: 6px; background: #1e1e1e; color: var(--accent);
-  display: inline-flex; align-items: center; justify-content: center;
-  font: 700 15px var(--font-mono); align-self: center;
+  width: 26px; height: 26px; object-fit: contain; align-self: center;
+  border-radius: 5px;          /* faint cushion behind the transparent mark */
+  background: rgba(127, 224, 90, 0.12);
 }
 .brand-text { font: 600 18px/1 var(--font-sans); letter-spacing: -0.02em; }
 .brand-sub { font-size: 12px; color: var(--muted); }
@@ -70,7 +70,13 @@
 .badge-news { background: var(--accent); color: #1e1e1e; }
 
 .news-strip { border: 1px solid var(--accent); border-radius: var(--radius); background: var(--accent-soft); padding: 8px 12px; margin-bottom: 16px; }
-.news-item { font-size: 13px; }
+.news-item { font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.news-item .muted { flex: 1; }
+.news-close {
+  border: none; background: transparent; color: var(--muted); cursor: pointer;
+  font-size: 16px; line-height: 1; padding: 0 4px; border-radius: 4px;
+}
+.news-close:hover { color: var(--fg); background: var(--surface-2); }
 
 .detail-header { margin-bottom: 8px; }
 .detail-header .page-title { margin-bottom: 6px; }

@@ -1,0 +1,17 @@
+{
+  "id": "cerebras",
+  "name": "Cerebras",
+  "website": "https://www.cerebras.ai/",
+  "tag": "official",
+  "rating": 4.1,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.cerebras.ai/v1"
+    }
+  ],
+  "desc": "Cerebras' own inference API over open-weight models, on its wafer-scale hardware",
+  "prices_as_of": "2026-09-21"
+}

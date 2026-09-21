@@ -12,10 +12,12 @@
  * rather than leaving the gap to be rediscovered.
  */
 import anthropic from "./anthropic.mjs";
+import cerebras from "./cerebras.mjs";
 import deepseek from "./deepseek.mjs";
 import googleGemini from "./google-gemini.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
+import perplexity from "./perplexity.mjs";
 import stepfun from "./stepfun.mjs";
 import togetherai from "./togetherai.mjs";
 import openai from "./openai.mjs";
@@ -28,10 +30,12 @@ import zhipu from "./zhipu.mjs";
 
 export default [
   anthropic,
+  cerebras,
   deepseek,
   googleGemini,
   kimi,
   minimax,
+  perplexity,
   ...stepfun,
   togetherai,
   openai,
@@ -42,12 +46,19 @@ export default [
   xiaomiMimo,
   zhipu,
 
-  // Removed 2026-09-18 by the owner's scope call: groq, cerebras, fireworks-ai,
-  // upstage (prices were only reachable through models.dev, never the vendor),
-  // mistral (its page changed under the entry), thinkingmachines (no consistent
-  // source) and ai21 (no machine-readable price at all) — plus cohere the day
-  // before. What is left is exactly the entries this repo can price from a
-  // primary source.
+  // Removed 2026-09-18 by the owner's scope call: groq, fireworks-ai, upstage
+  // (prices were only reachable through models.dev, never the vendor), mistral
+  // (its page changed under the entry), thinkingmachines (no consistent source)
+  // and ai21 (no machine-readable price at all) — plus cohere the day before.
+  // What is left is exactly the entries this repo can price from a primary
+  // source.
+  //
+  // Cerebras came back on 2026-09-21 with a primary source: the vendor's own
+  // docs price both of its public models, directly reachable and machine-readable
+  // (`inference-docs.cerebras.ai`), and `cerebras.ai/pricing` — the page the
+  // removal was about — turns out to be client-rendered rather than absent. The
+  // same day's perplexity entry reads the Router rate card. Neither uses
+  // models.dev for anything.
   //
   // No adapter, and why:
   //   kimi-for-coding          a membership: one price for the service, no per-token rate

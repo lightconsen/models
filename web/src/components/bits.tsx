@@ -20,6 +20,24 @@ const BILLING_LABEL: Record<string, string> = { payg: "PAYG", plan: "Plan", both
 
 export const billingLabel = (b: string) => BILLING_LABEL[b] ?? b;
 
+/** The vendor's own site — the address a reader follows to see who they are
+    dealing with, which is the whole of what the field is for.
+ *
+ * The label drops the scheme and a leading `www.`, because a reader needs to
+ * know where the link goes and not that it is https; whatever path the entry
+ * carries is kept, so `cloud.baidu.com/product/s/qianfan_home` still says which
+ * product it names. `website` is validated as an http(s) URL in the data repo,
+ * so nothing is defended against here — a website that is not one is a data
+ * problem, and labelling it more cleverly would only hide it. */
+export function SiteLink({ url }: { url: string }) {
+  const label = url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
+  return (
+    <a className="site-link" href={url} target="_blank" rel="noopener noreferrer">
+      {label}
+    </a>
+  );
+}
+
 /** The flagship's "from ¥X" line, shown on the provider card and detail header. */
 export function PriceRefLine({ entry }: { entry: Entry }) {
   const { currency: mode } = useSettings();

@@ -946,10 +946,13 @@ out which side of that this repository is on.
 A zero-heavy Vite + React SPA that renders the catalogue the way models.dev
 renders its own: a providers grid (`#/`), a global sortable price table
 (`#/models`), and per-provider details (`#/provider/<id>`) with expandable
-long-context and peak/off-peak rows. Hash routing keeps deep links working on
-GitHub Pages, which cannot rewrite arbitrary paths. Logos, catalog, models and
-news JSON are staged from the data repo's `dist/` into `web/public/data/` by
-`web/scripts/stage-data.mjs` before every dev or build run.
+long-context and peak/off-peak rows. The detail page renders the entry's
+`website` as the address a reader follows to see who the vendor is — which is
+what the field is for, and the one place it surfaces. Hash routing keeps deep
+links working on GitHub Pages, which cannot rewrite arbitrary paths. Logos,
+catalog, models and news JSON are staged from the data repo's `dist/` into
+`web/public/data/` by `web/scripts/stage-data.mjs` before every dev or build
+run.
 
 ```
 cd web && npm ci && npm run dev      # local dev (requires ../dist built first)

@@ -2,7 +2,7 @@ import type { Catalog, ModelsFile, NewsFile } from "../data/types";
 import { modelsByProvider, providerEntry, logoUrl } from "../data/api";
 import { DataTable, type ColumnDef } from "../components/dataTable";
 import { ExpandableDetail, PriceCell } from "../components/priceCell";
-import { Badge, PriceRefLine, Rating, billingLabel } from "../components/bits";
+import { Badge, PriceRefLine, Rating, SiteLink, billingLabel } from "../components/bits";
 import { useDismissedNews } from "../components/dismissNews";
 import { modelKey, parsePrice } from "../data/pricing";
 
@@ -89,6 +89,9 @@ export function ProviderDetailPage({
           <p className="muted prices-as-of">Prices last updated {entry.prices_as_of}</p>
         )}
         {entry.desc && <p className="desc">{entry.desc}</p>}
+        <p className="provider-site">
+          <SiteLink url={entry.website} />
+        </p>
         {notice.map((n) => (
           <div key={n.id} className="news-item">
             {n.badge && <Badge kind="news">{n.badge}</Badge>}

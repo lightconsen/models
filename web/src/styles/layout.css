@@ -80,6 +80,8 @@
 
 .detail-header { margin-bottom: 8px; }
 .detail-header .page-title { margin-bottom: 6px; }
+.provider-site { margin: 10px 0 0; font-size: 13px; }
+.provider-site .site-link { font-family: var(--font-mono); }
 
 .footer {
   max-width: 1180px; margin: 0 auto; padding: 16px 20px 32px;

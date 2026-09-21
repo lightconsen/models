@@ -79,16 +79,6 @@
     }
   },
   {
-    "id": "nemotron-3-ultra-550b-a55b:free",
-    "name": "NVIDIA: Nemotron 3 Ultra (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "nvidia/nemotron-3-ultra-550b-a55b:free",
-      "anthropic": "nvidia/nemotron-3-ultra-550b-a55b:free"
-    }
-  },
-  {
     "id": "glm-5.2",
     "name": "Z.ai: GLM 5.2",
     "in": "0.6496",
@@ -200,16 +190,6 @@
     "serves": {
       "openai": "google/gemini-3-flash-preview",
       "anthropic": "google/gemini-3-flash-preview"
-    }
-  },
-  {
-    "id": "laguna-s-2.1:free",
-    "name": "Poolside: Laguna S 2.1 (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "poolside/laguna-s-2.1:free",
-      "anthropic": "poolside/laguna-s-2.1:free"
     }
   },
   {
@@ -385,16 +365,6 @@
     }
   },
   {
-    "id": "nemotron-3.5-lightning:free",
-    "name": "NVIDIA: Nemotron 3.5 Lightning (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "nvidia/nemotron-3.5-lightning:free",
-      "anthropic": "nvidia/nemotron-3.5-lightning:free"
-    }
-  },
-  {
     "id": "gpt-5.5",
     "name": "OpenAI: GPT-5.5",
     "in": "5",
@@ -414,16 +384,6 @@
     "serves": {
       "openai": "google/gemma-4-31b-it",
       "anthropic": "google/gemma-4-31b-it"
-    }
-  },
-  {
-    "id": "nemotron-3-super-120b-a12b:free",
-    "name": "NVIDIA: Nemotron 3 Super (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "nvidia/nemotron-3-super-120b-a12b:free",
-      "anthropic": "nvidia/nemotron-3-super-120b-a12b:free"
     }
   },
   {
@@ -447,16 +407,6 @@
     "serves": {
       "openai": "openai/gpt-5.6-luna-pro",
       "anthropic": "openai/gpt-5.6-luna-pro"
-    }
-  },
-  {
-    "id": "ling-3.0-flash-fin:free",
-    "name": "inclusionAI: Ling 3.0 Flash Fin (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "inclusionai/ling-3.0-flash-fin:free",
-      "anthropic": "inclusionai/ling-3.0-flash-fin:free"
     }
   },
   {
@@ -561,16 +511,6 @@
     }
   },
   {
-    "id": "north-mini-code:free",
-    "name": "Cohere: North Mini Code (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "cohere/north-mini-code:free",
-      "anthropic": "cohere/north-mini-code:free"
-    }
-  },
-  {
     "id": "gpt-oss-20b",
     "name": "OpenAI: gpt-oss-20b",
     "in": "0.03",
@@ -579,16 +519,6 @@
     "serves": {
       "openai": "openai/gpt-oss-20b",
       "anthropic": "openai/gpt-oss-20b"
-    }
-  },
-  {
-    "id": "dots-3-note-preview:free",
-    "name": "Dots Studio: Dots3-Note Preview (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "dots-studio/dots-3-note-preview:free",
-      "anthropic": "dots-studio/dots-3-note-preview:free"
     }
   },
   {
@@ -660,16 +590,6 @@
     }
   },
   {
-    "id": "inkling:free",
-    "name": "Thinking Machines: Inkling (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "thinkingmachines/inkling:free",
-      "anthropic": "thinkingmachines/inkling:free"
-    }
-  },
-  {
     "id": "gpt-5.4-nano",
     "name": "OpenAI: GPT-5.4 Nano",
     "in": "0.2",
@@ -678,16 +598,6 @@
     "serves": {
       "openai": "openai/gpt-5.4-nano",
       "anthropic": "openai/gpt-5.4-nano"
-    }
-  },
-  {
-    "id": "nex-n2.5-pro:free",
-    "name": "Nex AGI: Nex-N2.5-Pro (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "nex-agi/nex-n2.5-pro:free",
-      "anthropic": "nex-agi/nex-n2.5-pro:free"
     }
   },
   {
@@ -712,16 +622,6 @@
     "serves": {
       "openai": "qwen/qwen3.8-max-0902",
       "anthropic": "qwen/qwen3.8-max-0902"
-    }
-  },
-  {
-    "id": "ling-3.0-flash-vl:free",
-    "name": "inclusionAI: Ling 3.0 Flash VL (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "inclusionai/ling-3.0-flash-vl:free",
-      "anthropic": "inclusionai/ling-3.0-flash-vl:free"
     }
   },
   {
@@ -780,26 +680,6 @@
     "serves": {
       "openai": "qwen/qwen3.8-27b",
       "anthropic": "qwen/qwen3.8-27b"
-    }
-  },
-  {
-    "id": "laguna-xs-2.1:free",
-    "name": "Poolside: Laguna XS 2.1 (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "poolside/laguna-xs-2.1:free",
-      "anthropic": "poolside/laguna-xs-2.1:free"
-    }
-  },
-  {
-    "id": "ling-3.0-flash-sante:free",
-    "name": "inclusionAI: Ling 3.0 Flash Sante (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "inclusionai/ling-3.0-flash-sante:free",
-      "anthropic": "inclusionai/ling-3.0-flash-sante:free"
     }
   },
   {

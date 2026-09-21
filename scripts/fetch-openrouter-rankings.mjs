@@ -52,6 +52,7 @@ const argOf = (name, fallback) => {
   return i >= 0 ? process.argv[i + 1] : fallback;
 };
 const TOP = Number(argOf("--top", "20"));
+const DAYS = Number(argOf("--days", "7"));
 const KEY_FILE = argOf("--key-file", null);
 
 const stop = (msg) => {
@@ -102,25 +103,23 @@ const perMillion = (s) => {
 };
 
 // ── the ranking ──
-// Three weeks back is enough for the API to return whole weekly buckets; only the
-// newest one is used, and asking for more than one means a partial leading bucket
-// can never be mistaken for a quiet week.
+// `--days N` aggregates the last N days of daily rows; the period parameter must
+// be `day` — `week`/`month` are *sampled* server-side (a 4-month month query
+// returns ~5 days of rows), and only `day` returns every daily row.
 const end = new Date();
-const start = new Date(end.getTime() - 21 * 86_400_000);
+const start = new Date(end.getTime() - DAYS * 86_400_000);
 const iso = (d) => d.toISOString().slice(0, 10);
-const RANK_URL = `https://openrouter.ai/api/v1/datasets/rankings-daily?period=week&start_date=${iso(start)}&end_date=${iso(end)}`;
+const RANK_URL = `https://openrouter.ai/api/v1/datasets/rankings-daily?period=day&start_date=${iso(start)}&end_date=${iso(end)}`;
 const ranking = await get(RANK_URL);
 if (!Array.isArray(ranking?.data) || ranking.data.length === 0) stop("no rows in the ranking response");
 
-const latest = ranking.data.reduce((max, r) => (r.date > max ? r.date : max), "");
+const dates = [...new Set(ranking.data.map((r) => r.date))].sort();
 const totals = new Map();
 for (const r of ranking.data) {
-  if (r?.model_permaslug === "other" || r?.date !== latest) continue;
+  if (r?.model_permaslug === "other") continue;
   totals.set(r.model_permaslug, (totals.get(r.model_permaslug) ?? 0) + Number(r.total_tokens));
 }
-const weekOf = new Date(`${latest}T00:00:00Z`);
-const weekEnd = new Date(weekOf.getTime() + 6 * 86_400_000);
-console.log(`week of ${latest} .. ${iso(weekEnd)}  (the latest the API has; the same week openrouter.ai/rankings shows)`);
+console.log(`${dates[0]} .. ${dates[dates.length - 1]}  (${DAYS}-day window, ${dates.length} days with data, ${ranking.data.length} rows)`);
 console.log(`as of ${ranking.meta.as_of}\n`);
 
 // ── the models list, and the join between the two id spellings ──

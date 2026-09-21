@@ -1,16 +1,60 @@
 [
   {
+    "id": "mimo-v2.5",
+    "name": "Xiaomi: MiMo-V2.5",
+    "in": "0.14",
+    "out": "0.28",
+    "cache_read": "0.0028",
+    "serves": {
+      "openai": "xiaomi/mimo-v2.5",
+      "anthropic": "xiaomi/mimo-v2.5"
+    },
+    "flagship": true
+  },
+  {
+    "id": "deepseek-v4-flash-0731",
+    "name": "DeepSeek: DeepSeek V4 Flash 0731",
+    "in": "0.04",
+    "out": "0.16",
+    "cache_read": "0.016",
+    "serves": {
+      "openai": "deepseek/deepseek-v4-flash-0731",
+      "anthropic": "deepseek/deepseek-v4-flash-0731"
+    }
+  },
+  {
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek: DeepSeek V4 Flash 0423",
+    "in": "0.088606",
+    "out": "0.177212",
+    "cache_read": "0.0177212",
+    "serves": {
+      "openai": "deepseek/deepseek-v4-flash",
+      "anthropic": "deepseek/deepseek-v4-flash"
+    }
+  },
+  {
     "id": "gpt-5.6-luna",
     "name": "OpenAI: GPT-5.6 Luna",
-    "in": "0.22",
-    "out": "1.32",
-    "cache_read": "0.022",
+    "in": "0.2",
+    "out": "1.2",
+    "cache_read": "0.02",
     "cache_creation": "0.25",
     "serves": {
       "openai": "openai/gpt-5.6-luna",
       "anthropic": "openai/gpt-5.6-luna"
-    },
-    "flagship": true
+    }
+  },
+  {
+    "id": "hy3",
+    "name": "Tencent: Hy3",
+    "in": "0.132",
+    "out": "0.528",
+    "cache_read": "0.033",
+    "serves": {
+      "openai": "tencent/hy3",
+      "anthropic": "tencent/hy3"
+    }
   },
   {
     "id": "hy4-preview",
@@ -26,34 +70,55 @@
   {
     "id": "glm-5.3-flash",
     "name": "Z.ai: GLM 5.3 Flash",
-    "in": "0.15",
-    "out": "0.5",
-    "cache_read": "0.03",
+    "in": "0.09",
+    "out": "0.3",
+    "cache_read": "0.018",
     "serves": {
       "openai": "z-ai/glm-5.3-flash",
       "anthropic": "z-ai/glm-5.3-flash"
     }
   },
   {
-    "id": "deepseek-v4-flash-0731",
-    "name": "DeepSeek: DeepSeek V4 Flash 0731",
-    "in": "0.13",
-    "out": "0.26",
-    "cache_read": "0.028",
+    "id": "nemotron-3-ultra-550b-a55b:free",
+    "name": "NVIDIA: Nemotron 3 Ultra (free)",
+    "in": "0",
+    "out": "0",
     "serves": {
-      "openai": "deepseek/deepseek-v4-flash-0731",
-      "anthropic": "deepseek/deepseek-v4-flash-0731"
+      "openai": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "anthropic": "nvidia/nemotron-3-ultra-550b-a55b:free"
     }
   },
   {
-    "id": "mimo-v2.5",
-    "name": "Xiaomi: MiMo-V2.5",
-    "in": "0.14",
-    "out": "0.28",
-    "cache_read": "0.0028",
+    "id": "glm-5.2",
+    "name": "Z.ai: GLM 5.2",
+    "in": "0.6496",
+    "out": "2.0416",
+    "cache_read": "0.12064",
     "serves": {
-      "openai": "xiaomi/mimo-v2.5",
-      "anthropic": "xiaomi/mimo-v2.5"
+      "openai": "z-ai/glm-5.2",
+      "anthropic": "z-ai/glm-5.2"
+    }
+  },
+  {
+    "id": "minimax-m3",
+    "name": "MiniMax: MiniMax M3",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.06",
+    "serves": {
+      "openai": "minimax/minimax-m3",
+      "anthropic": "minimax/minimax-m3"
+    }
+  },
+  {
+    "id": "deepseek-v4-pro",
+    "name": "DeepSeek: DeepSeek V4 Pro 0423",
+    "in": "0.95526",
+    "out": "1.91052",
+    "cache_read": "0.079605",
+    "serves": {
+      "openai": "deepseek/deepseek-v4-pro",
+      "anthropic": "deepseek/deepseek-v4-pro"
     }
   },
   {
@@ -68,125 +133,14 @@
     }
   },
   {
-    "id": "deepseek-v4-flash",
-    "name": "DeepSeek: DeepSeek V4 Flash 0423",
-    "in": "0.14",
-    "out": "0.28",
-    "cache_read": "0.028",
-    "serves": {
-      "openai": "deepseek/deepseek-v4-flash",
-      "anthropic": "deepseek/deepseek-v4-flash"
-    }
-  },
-  {
-    "id": "hy3",
-    "name": "Tencent: Hy3",
-    "in": "0.14",
-    "out": "0.58",
-    "cache_read": "0.035",
-    "serves": {
-      "openai": "tencent/hy3",
-      "anthropic": "tencent/hy3"
-    }
-  },
-  {
-    "id": "nemotron-3-ultra-550b-a55b:free",
-    "name": "NVIDIA: Nemotron 3 Ultra (free)",
-    "in": "0",
-    "out": "0",
-    "serves": {
-      "openai": "nvidia/nemotron-3-ultra-550b-a55b:free",
-      "anthropic": "nvidia/nemotron-3-ultra-550b-a55b:free"
-    }
-  },
-  {
-    "id": "gemini-3.8-flash",
-    "name": "Google: Gemini 3.8 Flash",
-    "in": "0.375",
-    "out": "1.875",
-    "cache_read": "0.0375",
-    "cache_creation": "0.0416666666666667",
-    "serves": {
-      "openai": "google/gemini-3.8-flash",
-      "anthropic": "google/gemini-3.8-flash"
-    }
-  },
-  {
-    "id": "glm-5.3",
-    "name": "Z.ai: GLM 5.3",
-    "in": "1.4",
-    "out": "4.4",
-    "cache_read": "0.26",
-    "serves": {
-      "openai": "z-ai/glm-5.3",
-      "anthropic": "z-ai/glm-5.3"
-    }
-  },
-  {
-    "id": "muse-spark-1.3-contributor",
-    "name": "Meta: Muse Spark 1.3 Contributor",
-    "in": "0.1",
-    "out": "0.2",
-    "cache_read": "0.002",
-    "serves": {
-      "openai": "meta/muse-spark-1.3-contributor",
-      "anthropic": "meta/muse-spark-1.3-contributor"
-    }
-  },
-  {
-    "id": "glm-5.2",
-    "name": "Z.ai: GLM 5.2",
-    "in": "1.4",
-    "out": "4.4",
-    "cache_read": "0.26",
-    "serves": {
-      "openai": "z-ai/glm-5.2",
-      "anthropic": "z-ai/glm-5.2"
-    }
-  },
-  {
-    "id": "solar-pro4",
-    "name": "Upstage: Solar Pro 4",
-    "in": "0.09",
-    "out": "0.36",
-    "cache_read": "0.018",
-    "serves": {
-      "openai": "upstage/solar-pro4",
-      "anthropic": "upstage/solar-pro4"
-    }
-  },
-  {
-    "id": "gpt-5.6-sol",
-    "name": "OpenAI: GPT-5.6 Sol",
-    "in": "5.5",
-    "out": "33",
-    "cache_read": "0.55",
-    "cache_creation": "2.5",
-    "serves": {
-      "openai": "openai/gpt-5.6-sol",
-      "anthropic": "openai/gpt-5.6-sol"
-    }
-  },
-  {
     "id": "kimi-k3",
     "name": "MoonshotAI: Kimi K3",
-    "in": "3",
-    "out": "15",
-    "cache_read": "0.3",
+    "in": "1.7",
+    "out": "8.5",
+    "cache_read": "0.17",
     "serves": {
       "openai": "moonshotai/kimi-k3",
       "anthropic": "moonshotai/kimi-k3"
-    }
-  },
-  {
-    "id": "minimax-m3",
-    "name": "MiniMax: MiniMax M3",
-    "in": "0.3",
-    "out": "1.2",
-    "cache_read": "0.06",
-    "serves": {
-      "openai": "minimax/minimax-m3",
-      "anthropic": "minimax/minimax-m3"
     }
   },
   {
@@ -202,19 +156,8 @@
     }
   },
   {
-    "id": "deepseek-v4-pro",
-    "name": "DeepSeek: DeepSeek V4 Pro 0423",
-    "in": "1.74",
-    "out": "3.48",
-    "cache_read": "0.145",
-    "serves": {
-      "openai": "deepseek/deepseek-v4-pro",
-      "anthropic": "deepseek/deepseek-v4-pro"
-    }
-  },
-  {
     "id": "claude-opus-5",
-    "name": "Claude Opus 5",
+    "name": "Anthropic: Claude Opus 5",
     "in": "5",
     "out": "25",
     "cache_read": "0.5",
@@ -222,6 +165,697 @@
     "serves": {
       "openai": "anthropic/claude-opus-5",
       "anthropic": "anthropic/claude-opus-5"
+    }
+  },
+  {
+    "id": "step-3.7-flash",
+    "name": "StepFun: Step 3.7 Flash",
+    "in": "0.2",
+    "out": "1.15",
+    "cache_read": "0.04",
+    "serves": {
+      "openai": "stepfun/step-3.7-flash",
+      "anthropic": "stepfun/step-3.7-flash"
+    }
+  },
+  {
+    "id": "gpt-5.6-sol",
+    "name": "OpenAI: GPT-5.6 Sol",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "cache_creation": "2.5",
+    "serves": {
+      "openai": "openai/gpt-5.6-sol",
+      "anthropic": "openai/gpt-5.6-sol"
+    }
+  },
+  {
+    "id": "gemini-3-flash-preview",
+    "name": "Google: Gemini 3 Flash Preview",
+    "in": "0.5",
+    "out": "3",
+    "cache_read": "0.05",
+    "cache_creation": "0.0833333333333333",
+    "serves": {
+      "openai": "google/gemini-3-flash-preview",
+      "anthropic": "google/gemini-3-flash-preview"
+    }
+  },
+  {
+    "id": "laguna-s-2.1:free",
+    "name": "Poolside: Laguna S 2.1 (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "poolside/laguna-s-2.1:free",
+      "anthropic": "poolside/laguna-s-2.1:free"
+    }
+  },
+  {
+    "id": "glm-5.3",
+    "name": "Z.ai: GLM 5.3",
+    "in": "0.91",
+    "out": "2.86",
+    "cache_read": "0.169",
+    "serves": {
+      "openai": "z-ai/glm-5.3",
+      "anthropic": "z-ai/glm-5.3"
+    }
+  },
+  {
+    "id": "gemini-3.7-flash",
+    "name": "Google: Gemini 3.7 Flash",
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075",
+    "cache_creation": "0.0416666666666667",
+    "serves": {
+      "openai": "google/gemini-3.7-flash",
+      "anthropic": "google/gemini-3.7-flash"
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-lite",
+    "name": "Google: Gemini 2.5 Flash Lite",
+    "in": "0.1",
+    "out": "0.4",
+    "cache_read": "0.01",
+    "cache_creation": "0.0833333333333333",
+    "serves": {
+      "openai": "google/gemini-2.5-flash-lite",
+      "anthropic": "google/gemini-2.5-flash-lite"
+    }
+  },
+  {
+    "id": "gemini-2.5-flash",
+    "name": "Google: Gemini 2.5 Flash",
+    "in": "0.3",
+    "out": "2.5",
+    "cache_read": "0.03",
+    "cache_creation": "0.0833333333333333",
+    "serves": {
+      "openai": "google/gemini-2.5-flash",
+      "anthropic": "google/gemini-2.5-flash"
+    }
+  },
+  {
+    "id": "gemini-3.6-flash",
+    "name": "Google: Gemini 3.6 Flash",
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075",
+    "cache_creation": "0.0416666666666667",
+    "serves": {
+      "openai": "google/gemini-3.6-flash",
+      "anthropic": "google/gemini-3.6-flash"
+    }
+  },
+  {
+    "id": "hy3-preview",
+    "name": "Tencent: Hy3 preview",
+    "in": "0.18",
+    "out": "0.6",
+    "cache_read": "0.06",
+    "serves": {
+      "openai": "tencent/hy3-preview",
+      "anthropic": "tencent/hy3-preview"
+    }
+  },
+  {
+    "id": "gpt-oss-120b",
+    "name": "OpenAI: gpt-oss-120b",
+    "in": "0.15",
+    "out": "0.6",
+    "cache_read": "0.075",
+    "serves": {
+      "openai": "openai/gpt-oss-120b",
+      "anthropic": "openai/gpt-oss-120b"
+    }
+  },
+  {
+    "id": "gemini-3.1-flash-lite",
+    "name": "Google: Gemini 3.1 Flash Lite",
+    "in": "0.25",
+    "out": "1.5",
+    "cache_read": "0.025",
+    "cache_creation": "0.0833333333333333",
+    "serves": {
+      "openai": "google/gemini-3.1-flash-lite",
+      "anthropic": "google/gemini-3.1-flash-lite"
+    }
+  },
+  {
+    "id": "solar-pro4",
+    "name": "Upstage: Solar Pro 4",
+    "in": "0.09",
+    "out": "0.36",
+    "cache_read": "0.018",
+    "serves": {
+      "openai": "upstage/solar-pro4",
+      "anthropic": "upstage/solar-pro4"
+    }
+  },
+  {
+    "id": "deepseek-v4-pro-0813",
+    "name": "DeepSeek: DeepSeek V4 Pro 0813",
+    "in": "1.32",
+    "out": "3.96",
+    "cache_read": "0.044",
+    "serves": {
+      "openai": "deepseek/deepseek-v4-pro-0813",
+      "anthropic": "deepseek/deepseek-v4-pro-0813"
+    }
+  },
+  {
+    "id": "gemini-3.8-flash",
+    "name": "Google: Gemini 3.8 Flash",
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075",
+    "cache_creation": "0.0416666666666667",
+    "serves": {
+      "openai": "google/gemini-3.8-flash",
+      "anthropic": "google/gemini-3.8-flash"
+    }
+  },
+  {
+    "id": "mimo-v2.5-pro",
+    "name": "Xiaomi: MiMo-V2.5-Pro",
+    "in": "0.435",
+    "out": "0.87",
+    "cache_read": "0.0036",
+    "serves": {
+      "openai": "xiaomi/mimo-v2.5-pro",
+      "anthropic": "xiaomi/mimo-v2.5-pro"
+    }
+  },
+  {
+    "id": "deepseek-v3.2",
+    "name": "DeepSeek: DeepSeek V3.2",
+    "in": "0.269",
+    "out": "0.4",
+    "cache_read": "0.1345",
+    "serves": {
+      "openai": "deepseek/deepseek-v3.2",
+      "anthropic": "deepseek/deepseek-v3.2"
+    }
+  },
+  {
+    "id": "gpt-5.6-terra",
+    "name": "OpenAI: GPT-5.6 Terra",
+    "in": "2",
+    "out": "12",
+    "cache_read": "0.2",
+    "cache_creation": "2.5",
+    "serves": {
+      "openai": "openai/gpt-5.6-terra",
+      "anthropic": "openai/gpt-5.6-terra"
+    }
+  },
+  {
+    "id": "muse-spark-1.3-contributor",
+    "name": "Meta: Muse Spark 1.3 Contributor",
+    "in": "0.1",
+    "out": "0.2",
+    "cache_read": "0.002",
+    "serves": {
+      "openai": "meta/muse-spark-1.3-contributor",
+      "anthropic": "meta/muse-spark-1.3-contributor"
+    }
+  },
+  {
+    "id": "nemotron-3.5-lightning:free",
+    "name": "NVIDIA: Nemotron 3.5 Lightning (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "nvidia/nemotron-3.5-lightning:free",
+      "anthropic": "nvidia/nemotron-3.5-lightning:free"
+    }
+  },
+  {
+    "id": "gpt-5.5",
+    "name": "OpenAI: GPT-5.5",
+    "in": "5",
+    "out": "30",
+    "cache_read": "0.5",
+    "serves": {
+      "openai": "openai/gpt-5.5",
+      "anthropic": "openai/gpt-5.5"
+    }
+  },
+  {
+    "id": "gemma-4-31b-it",
+    "name": "Google: Gemma 4 31B",
+    "in": "0.09",
+    "out": "0.34",
+    "cache_read": "0.05",
+    "serves": {
+      "openai": "google/gemma-4-31b-it",
+      "anthropic": "google/gemma-4-31b-it"
+    }
+  },
+  {
+    "id": "nemotron-3-super-120b-a12b:free",
+    "name": "NVIDIA: Nemotron 3 Super (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "nvidia/nemotron-3-super-120b-a12b:free",
+      "anthropic": "nvidia/nemotron-3-super-120b-a12b:free"
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-it",
+    "name": "Google: Gemma 4 26B A4B ",
+    "in": "0.09",
+    "out": "0.3",
+    "cache_read": "0.05",
+    "serves": {
+      "openai": "google/gemma-4-26b-a4b-it",
+      "anthropic": "google/gemma-4-26b-a4b-it"
+    }
+  },
+  {
+    "id": "gpt-5.6-luna-pro",
+    "name": "OpenAI: GPT-5.6 Luna Pro",
+    "in": "0.2",
+    "out": "1.2",
+    "cache_read": "0.02",
+    "cache_creation": "0.25",
+    "serves": {
+      "openai": "openai/gpt-5.6-luna-pro",
+      "anthropic": "openai/gpt-5.6-luna-pro"
+    }
+  },
+  {
+    "id": "ling-3.0-flash-fin:free",
+    "name": "inclusionAI: Ling 3.0 Flash Fin (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "inclusionai/ling-3.0-flash-fin:free",
+      "anthropic": "inclusionai/ling-3.0-flash-fin:free"
+    }
+  },
+  {
+    "id": "gpt-4o-mini",
+    "name": "OpenAI: GPT-4o-mini",
+    "in": "0.15",
+    "out": "0.6",
+    "cache_read": "0.075",
+    "serves": {
+      "openai": "openai/gpt-4o-mini",
+      "anthropic": "openai/gpt-4o-mini"
+    }
+  },
+  {
+    "id": "gpt-6-astra",
+    "name": "OpenAI: GPT-6 Astra",
+    "in": "10",
+    "out": "50",
+    "cache_read": "1",
+    "cache_creation": "12.5",
+    "serves": {
+      "openai": "openai/gpt-6-astra",
+      "anthropic": "openai/gpt-6-astra"
+    }
+  },
+  {
+    "id": "gpt-5.4",
+    "name": "OpenAI: GPT-5.4",
+    "in": "2.5",
+    "out": "15",
+    "cache_read": "0.25",
+    "serves": {
+      "openai": "openai/gpt-5.4",
+      "anthropic": "openai/gpt-5.4"
+    }
+  },
+  {
+    "id": "gemini-3.5-flash",
+    "name": "Google: Gemini 3.5 Flash",
+    "in": "1.5",
+    "out": "9",
+    "cache_read": "0.15",
+    "cache_creation": "0.0833333333333333",
+    "serves": {
+      "openai": "google/gemini-3.5-flash",
+      "anthropic": "google/gemini-3.5-flash"
+    }
+  },
+  {
+    "id": "grok-4.6",
+    "name": "SpaceXAI: Grok 4.6",
+    "in": "2",
+    "out": "6",
+    "cache_read": "0.5",
+    "serves": {
+      "openai": "x-ai/grok-4.6",
+      "anthropic": "x-ai/grok-4.6"
+    }
+  },
+  {
+    "id": "mistral-nemo",
+    "name": "Mistral: Mistral Nemo",
+    "in": "0.019",
+    "out": "0.03",
+    "serves": {
+      "openai": "mistralai/mistral-nemo",
+      "anthropic": "mistralai/mistral-nemo"
+    }
+  },
+  {
+    "id": "kimi-k2.6",
+    "name": "MoonshotAI: Kimi K2.6",
+    "in": "0.95",
+    "out": "4",
+    "cache_read": "0.16",
+    "serves": {
+      "openai": "moonshotai/kimi-k2.6",
+      "anthropic": "moonshotai/kimi-k2.6"
+    }
+  },
+  {
+    "id": "gemini-3.1-pro-preview",
+    "name": "Google: Gemini 3.1 Pro Preview",
+    "in": "2",
+    "out": "12",
+    "cache_read": "0.2",
+    "cache_creation": "0.375",
+    "serves": {
+      "openai": "google/gemini-3.1-pro-preview",
+      "anthropic": "google/gemini-3.1-pro-preview"
+    }
+  },
+  {
+    "id": "grok-4.5",
+    "name": "SpaceXAI: Grok 4.5",
+    "in": "2",
+    "out": "6",
+    "cache_read": "0.3",
+    "serves": {
+      "openai": "x-ai/grok-4.5",
+      "anthropic": "x-ai/grok-4.5"
+    }
+  },
+  {
+    "id": "north-mini-code:free",
+    "name": "Cohere: North Mini Code (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "cohere/north-mini-code:free",
+      "anthropic": "cohere/north-mini-code:free"
+    }
+  },
+  {
+    "id": "gpt-oss-20b",
+    "name": "OpenAI: gpt-oss-20b",
+    "in": "0.03",
+    "out": "0.13",
+    "cache_read": "0.03",
+    "serves": {
+      "openai": "openai/gpt-oss-20b",
+      "anthropic": "openai/gpt-oss-20b"
+    }
+  },
+  {
+    "id": "dots-3-note-preview:free",
+    "name": "Dots Studio: Dots3-Note Preview (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "dots-studio/dots-3-note-preview:free",
+      "anthropic": "dots-studio/dots-3-note-preview:free"
+    }
+  },
+  {
+    "id": "minimax-m2.7",
+    "name": "MiniMax: MiniMax M2.7",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.06",
+    "serves": {
+      "openai": "minimax/minimax-m2.7",
+      "anthropic": "minimax/minimax-m2.7"
+    }
+  },
+  {
+    "id": "glm-5",
+    "name": "Z.ai: GLM 5",
+    "in": "0.6",
+    "out": "1.92",
+    "cache_read": "0.12",
+    "serves": {
+      "openai": "z-ai/glm-5",
+      "anthropic": "z-ai/glm-5"
+    }
+  },
+  {
+    "id": "claude-fable-5.1",
+    "name": "Anthropic: Claude Fable 5.1",
+    "in": "10",
+    "out": "50",
+    "cache_read": "0.25",
+    "cache_creation": "12.5",
+    "serves": {
+      "openai": "anthropic/claude-fable-5.1",
+      "anthropic": "anthropic/claude-fable-5.1"
+    }
+  },
+  {
+    "id": "gpt-5.4-mini",
+    "name": "OpenAI: GPT-5.4 Mini",
+    "in": "0.75",
+    "out": "4.5",
+    "cache_read": "0.075",
+    "serves": {
+      "openai": "openai/gpt-5.4-mini",
+      "anthropic": "openai/gpt-5.4-mini"
+    }
+  },
+  {
+    "id": "deepseek-v4-flash-vision-exp",
+    "name": "DeepSeek: DeepSeek V4 Flash Vision Exp",
+    "in": "0.22",
+    "out": "0.66",
+    "cache_read": "0.007",
+    "serves": {
+      "openai": "deepseek/deepseek-v4-flash-vision-exp",
+      "anthropic": "deepseek/deepseek-v4-flash-vision-exp"
+    }
+  },
+  {
+    "id": "qwen3.7-flash",
+    "name": "Qwen: Qwen3.7 Flash",
+    "in": "0.03",
+    "out": "0.13",
+    "cache_read": "0.006",
+    "cache_creation": "0.038",
+    "serves": {
+      "openai": "qwen/qwen3.7-flash",
+      "anthropic": "qwen/qwen3.7-flash"
+    }
+  },
+  {
+    "id": "inkling:free",
+    "name": "Thinking Machines: Inkling (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "thinkingmachines/inkling:free",
+      "anthropic": "thinkingmachines/inkling:free"
+    }
+  },
+  {
+    "id": "gpt-5.4-nano",
+    "name": "OpenAI: GPT-5.4 Nano",
+    "in": "0.2",
+    "out": "1.25",
+    "cache_read": "0.02",
+    "serves": {
+      "openai": "openai/gpt-5.4-nano",
+      "anthropic": "openai/gpt-5.4-nano"
+    }
+  },
+  {
+    "id": "nex-n2.5-pro:free",
+    "name": "Nex AGI: Nex-N2.5-Pro (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "nex-agi/nex-n2.5-pro:free",
+      "anthropic": "nex-agi/nex-n2.5-pro:free"
+    }
+  },
+  {
+    "id": "qwen3.7-max",
+    "name": "Qwen: Qwen3.7 Max",
+    "in": "1.475",
+    "out": "4.425",
+    "cache_read": "0.295",
+    "cache_creation": "1.84375",
+    "serves": {
+      "openai": "qwen/qwen3.7-max",
+      "anthropic": "qwen/qwen3.7-max"
+    }
+  },
+  {
+    "id": "qwen3.8-max-0902",
+    "name": "Qwen: Qwen3.8 Max (0902)",
+    "in": "2",
+    "out": "6",
+    "cache_read": "0.25",
+    "cache_creation": "2.5",
+    "serves": {
+      "openai": "qwen/qwen3.8-max-0902",
+      "anthropic": "qwen/qwen3.8-max-0902"
+    }
+  },
+  {
+    "id": "ling-3.0-flash-vl:free",
+    "name": "inclusionAI: Ling 3.0 Flash VL (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "inclusionai/ling-3.0-flash-vl:free",
+      "anthropic": "inclusionai/ling-3.0-flash-vl:free"
+    }
+  },
+  {
+    "id": "qwen3.8-flash",
+    "name": "Qwen: Qwen3.8 Flash",
+    "in": "0.15",
+    "out": "0.47",
+    "cache_read": "0.016",
+    "cache_creation": "0.2",
+    "serves": {
+      "openai": "qwen/qwen3.8-flash",
+      "anthropic": "qwen/qwen3.8-flash"
+    }
+  },
+  {
+    "id": "kimi-k2.7-code",
+    "name": "MoonshotAI: Kimi K2.7 Code",
+    "in": "0.7062",
+    "out": "3.21",
+    "cache_read": "0.18",
+    "serves": {
+      "openai": "moonshotai/kimi-k2.7-code",
+      "anthropic": "moonshotai/kimi-k2.7-code"
+    }
+  },
+  {
+    "id": "gemini-3.5-flash-lite",
+    "name": "Google: Gemini 3.5 Flash Lite",
+    "in": "0.3",
+    "out": "2.5",
+    "cache_read": "0.03",
+    "cache_creation": "0.0833333333333333",
+    "serves": {
+      "openai": "google/gemini-3.5-flash-lite",
+      "anthropic": "google/gemini-3.5-flash-lite"
+    }
+  },
+  {
+    "id": "qwen3.7-plus",
+    "name": "Qwen: Qwen3.7 Plus",
+    "in": "0.32",
+    "out": "1.28",
+    "cache_read": "0.064",
+    "cache_creation": "0.4",
+    "serves": {
+      "openai": "qwen/qwen3.7-plus",
+      "anthropic": "qwen/qwen3.7-plus"
+    }
+  },
+  {
+    "id": "qwen3.8-27b",
+    "name": "Qwen: Qwen3.8 27B",
+    "in": "0.2",
+    "out": "2.5",
+    "cache_read": "0.05",
+    "serves": {
+      "openai": "qwen/qwen3.8-27b",
+      "anthropic": "qwen/qwen3.8-27b"
+    }
+  },
+  {
+    "id": "laguna-xs-2.1:free",
+    "name": "Poolside: Laguna XS 2.1 (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "poolside/laguna-xs-2.1:free",
+      "anthropic": "poolside/laguna-xs-2.1:free"
+    }
+  },
+  {
+    "id": "ling-3.0-flash-sante:free",
+    "name": "inclusionAI: Ling 3.0 Flash Sante (free)",
+    "in": "0",
+    "out": "0",
+    "serves": {
+      "openai": "inclusionai/ling-3.0-flash-sante:free",
+      "anthropic": "inclusionai/ling-3.0-flash-sante:free"
+    }
+  },
+  {
+    "id": "gemini-3.1-flash-lite-preview",
+    "name": "Google: Gemini 3.1 Flash Lite Preview",
+    "in": "0.25",
+    "out": "1.5",
+    "cache_read": "0.025",
+    "cache_creation": "0.0833333333333333",
+    "serves": {
+      "openai": "google/gemini-3.1-flash-lite-preview",
+      "anthropic": "google/gemini-3.1-flash-lite-preview"
+    }
+  },
+  {
+    "id": "glm-5.1",
+    "name": "Z.ai: GLM 5.1",
+    "in": "0.966",
+    "out": "3.036",
+    "cache_read": "0.1794",
+    "serves": {
+      "openai": "z-ai/glm-5.1",
+      "anthropic": "z-ai/glm-5.1"
+    }
+  },
+  {
+    "id": "muse-spark-1.2-contributor",
+    "name": "Meta: Muse Spark 1.2 Contributor",
+    "in": "0.1",
+    "out": "0.2",
+    "cache_read": "0.002",
+    "serves": {
+      "openai": "meta/muse-spark-1.2-contributor",
+      "anthropic": "meta/muse-spark-1.2-contributor"
+    }
+  },
+  {
+    "id": "muse-spark-1.3",
+    "name": "Meta: Muse Spark 1.3",
+    "in": "1.25",
+    "out": "4.25",
+    "cache_read": "0.15",
+    "serves": {
+      "openai": "meta/muse-spark-1.3",
+      "anthropic": "meta/muse-spark-1.3"
+    }
+  },
+  {
+    "id": "grok-4.3",
+    "name": "SpaceXAI: Grok 4.3",
+    "in": "1.25",
+    "out": "2.5",
+    "cache_read": "0.2",
+    "serves": {
+      "openai": "x-ai/grok-4.3",
+      "anthropic": "x-ai/grok-4.3"
     }
   }
 ]

@@ -85,6 +85,9 @@ export function ProviderDetailPage({
           </div>
         </div>
         <PriceRefLine entry={entry} />
+        {entry.prices_as_of && (
+          <p className="muted prices-as-of">Prices last updated {entry.prices_as_of}</p>
+        )}
         {entry.desc && <p className="desc">{entry.desc}</p>}
         {notice.map((n) => (
           <div key={n.id} className="news-item">

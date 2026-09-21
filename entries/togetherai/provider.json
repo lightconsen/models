@@ -12,5 +12,6 @@
       "endpoint": "https://api.together.xyz/v1"
     }
   ],
-  "desc": "Together AI's serverless inference over open-weight models"
+  "desc": "Together AI's serverless inference over open-weight models",
+  "prices_as_of": "2026-09-18"
 }

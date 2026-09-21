@@ -12,5 +12,6 @@
       "endpoint": "https://api.openai.com/v1"
     }
   ],
-  "desc": "OpenAI's own API, serving the GPT family"
+  "desc": "OpenAI's own API, serving the GPT family",
+  "prices_as_of": "2026-09-17"
 }

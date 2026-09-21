@@ -105,6 +105,9 @@ const PLAN_QUERY_TEMPLATES = new Set([
 const PROVIDER_KEYS = new Set([
   "id", "name", "website", "tag", "rating", "billing", "currency", "endpoints", "desc",
   "plan_query",
+  /* When the price rows were last written by a fetcher. Maintained by
+     fetch-all.mjs on every successful write; a hand-edited entry may omit it. */
+  "prices_as_of",
 ]);
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
@@ -197,6 +200,7 @@ function catalogEntry(e, derived) {
     // cannot leak it.
     ...(e.plan_query === undefined ? {} : { plan_query: { template: e.plan_query.template } }),
     ...(derived.priceRef === undefined ? {} : { price_ref: derived.priceRef }),
+    ...(e.prices_as_of === undefined ? {} : { prices_as_of: e.prices_as_of }),
   };
 }
 
@@ -295,6 +299,13 @@ for (const dir of entryDirs) {
       else if (seen.has(x.protocol)) fail(`${where}: duplicate protocol "${x.protocol}"`);
       seen.add(x.protocol);
       if (typeof x?.endpoint !== "string" || x.endpoint.trim() === "") fail(`${where}: endpoint for "${x?.protocol}" is empty`);
+    }
+  }
+  if (e.prices_as_of !== undefined) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(e.prices_as_of)) {
+      fail(`${where}: prices_as_of "${e.prices_as_of}" must be a YYYY-MM-DD date`);
+    } else if (e.prices_as_of > new Date().toISOString().slice(0, 10)) {
+      fail(`${where}: prices_as_of "${e.prices_as_of}" is in the future`);
     }
   }
   for (const k of Object.keys(e)) if (!PROVIDER_KEYS.has(k)) warn(`${where}: unknown key "${k}" — ignored (known: ${[...PROVIDER_KEYS].join(", ")})`);

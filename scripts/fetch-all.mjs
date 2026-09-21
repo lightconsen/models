@@ -262,6 +262,16 @@ for (const r of changed) {
   const { modelsPath } = readEntry(r.id);
   writeFileSync(modelsPath, JSON.stringify(r.merged, null, 2) + "\n");
 
+  // Stamp the provider with the day the fetcher last wrote its prices. The
+  // stamp lives on provider.json so the frontend can show "prices as of …"
+  // without reading git; hand-edited entries keep their stamp until the next
+  // fetcher write, which is the correct semantics (it dates the *prices*, not
+  // the prose around them).
+  const provPath = path.join(repo, `entries/${r.id}/provider.json`);
+  const prov = JSON.parse(readFileSync(provPath, "utf8"));
+  prov.prices_as_of = new Date().toISOString().slice(0, 10);
+  writeFileSync(provPath, JSON.stringify(prov, null, 2) + "\n");
+
   // Prove it: merge the file we just wrote against the same source rows. A run
   // that has nothing new to say must have nothing left to change. Anything else
   // means the source is reporting a value it will not report again, or the merge
@@ -371,6 +381,7 @@ if (COMMIT && changed.length > 0) {
   for (const r of changed) {
     const file = `entries/${r.id}/models.json`;
     spawnSync("git", ["add", file], { cwd: repo });
+    spawnSync("git", ["add", `entries/${r.id}/provider.json`], { cwd: repo });
     const subject = `Sync ${r.id} from its source — ${summarise(r.changes)}`;
     const body = [
       subject,

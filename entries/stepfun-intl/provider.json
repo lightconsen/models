@@ -12,5 +12,6 @@
       "endpoint": "https://api.stepfun.ai/v1"
     }
   ],
-  "desc": "StepFun's international platform, serving the Step models"
+  "desc": "StepFun's international platform, serving the Step models",
+  "prices_as_of": "2026-09-18"
 }

@@ -17,5 +17,8 @@
     }
   ],
   "desc": "from ¥118 /mo",
-  "plan_query": { "template": "zhipu" }
+  "plan_query": {
+    "template": "zhipu"
+  },
+  "prices_as_of": "2026-09-14"
 }

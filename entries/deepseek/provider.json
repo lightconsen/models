@@ -16,5 +16,6 @@
       "endpoint": "https://api.deepseek.com/anthropic"
     }
   ],
-  "desc": "DeepSeek's own API, serving its open-weight models"
+  "desc": "DeepSeek's own API, serving its open-weight models",
+  "prices_as_of": "2026-09-14"
 }

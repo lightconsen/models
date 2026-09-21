@@ -16,5 +16,6 @@
       "endpoint": "https://api.minimaxi.com/anthropic"
     }
   ],
-  "desc": "MiniMax's own model API"
+  "desc": "MiniMax's own model API",
+  "prices_as_of": "2026-09-14"
 }

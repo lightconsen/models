@@ -16,5 +16,6 @@
       "endpoint": "https://api.xiaomimimo.com/anthropic"
     }
   ],
-  "desc": "Xiaomi's own MiMo API"
+  "desc": "Xiaomi's own MiMo API",
+  "prices_as_of": "2026-09-14"
 }

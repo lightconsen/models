@@ -49,10 +49,18 @@ const columns = (catalog: Catalog): ColumnDef<ModelsFile["models"][number]>[] =>
 ];
 
 export function ModelsPage({ catalog, models }: { catalog: Catalog; models: ModelsFile }) {
+  const latestStamp = catalog.entries
+    .map((e) => e.prices_as_of)
+    .filter(Boolean)
+    .sort()
+    .at(-1);
   return (
     <main className="page">
       <h1 className="page-title">Models</h1>
-      <p className="muted">{models.models.length} price rows across {catalog.total} providers — all prices per 1M tokens.</p>
+      <p className="muted">
+        {models.models.length} price rows across {catalog.total} providers — all prices per 1M tokens.
+        {latestStamp && ` Most recent provider update ${latestStamp}.`}
+      </p>
       <DataTable
         rows={models.models}
         columns={columns(catalog)}

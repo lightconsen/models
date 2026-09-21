@@ -83,6 +83,9 @@ export interface Entry {
   desc?: string;
   plan_query?: { template: string };
   price_ref?: PriceRef;
+  /** The day the fetcher last wrote this entry's price rows (YYYY-MM-DD).
+      Maintained by fetch-all; hand-edited entries may omit it. */
+  prices_as_of?: string;
 }
 
 export interface Catalog {

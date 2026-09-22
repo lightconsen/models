@@ -13,11 +13,37 @@
     "peak_hours": {
       "tz_offset": 480,
       "windows": [
-        { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "09:00", "end": "12:00" },
-        { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "14:00", "end": "18:00" }
+        {
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+          ],
+          "start": "09:00",
+          "end": "12:00"
+        },
+        {
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+          ],
+          "start": "14:00",
+          "end": "18:00"
+        }
       ]
     },
-    "flagship": true
+    "flagship": true,
+    "context": 1000000,
+    "max_output": 393216,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   },
   {
     "id": "deepseek-v4-pro",
@@ -33,9 +59,35 @@
     "peak_hours": {
       "tz_offset": 480,
       "windows": [
-        { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "09:00", "end": "12:00" },
-        { "days": ["mon", "tue", "wed", "thu", "fri"], "start": "14:00", "end": "18:00" }
+        {
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+          ],
+          "start": "09:00",
+          "end": "12:00"
+        },
+        {
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri"
+          ],
+          "start": "14:00",
+          "end": "18:00"
+        }
       ]
-    }
+    },
+    "context": 1000000,
+    "max_output": 393216,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   }
 ]

@@ -5,13 +5,25 @@
     "in": "8",
     "out": "28",
     "cache_read": "2",
-    "flagship": true
+    "flagship": true,
+    "context": 1000000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   },
   {
     "id": "glm-5.3-flash",
     "name": "GLM-5.3 Flash",
     "in": "0.8",
     "out": "2.8",
-    "cache_read": "0.23"
+    "cache_read": "0.23",
+    "context": 1000000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   }
 ]

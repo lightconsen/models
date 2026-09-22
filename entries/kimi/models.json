@@ -5,27 +5,48 @@
     "in": "20.00",
     "out": "100.00",
     "cache_read": "2.00",
-    "flagship": true
+    "flagship": true,
+    "context": 1048576,
+    "max_output": 1048576,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false
   },
   {
     "id": "kimi-k2.7-code",
     "name": "Kimi K2.7 Code",
     "in": "6.50",
     "out": "27.00",
-    "cache_read": "1.30"
+    "cache_read": "1.30",
+    "context": 262144,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false
   },
   {
     "id": "kimi-k2.7-code-highspeed",
     "name": "Kimi K2.7 Code High-speed",
     "in": "13.00",
     "out": "54.00",
-    "cache_read": "2.60"
+    "cache_read": "2.60",
+    "context": 262144,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false
   },
   {
     "id": "kimi-k2.6",
     "name": "Kimi K2.6",
     "in": "6.50",
     "out": "27.00",
-    "cache_read": "1.10"
+    "cache_read": "1.10",
+    "context": 262144,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false
   }
 ]

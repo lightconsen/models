@@ -11,7 +11,12 @@
       "out": "12.00",
       "cache_read": "1.00"
     },
-    "flagship": true
+    "flagship": true,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "context": 500000
   },
   {
     "id": "grok-build-0.1",
@@ -24,7 +29,12 @@
       "in": "2.00",
       "out": "4.00",
       "cache_read": "0.40"
-    }
+    },
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "context": 256000
   },
   {
     "id": "grok-4.5",
@@ -37,7 +47,12 @@
       "in": "4.00",
       "out": "12.00",
       "cache_read": "0.60"
-    }
+    },
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "context": 500000
   },
   {
     "id": "grok-4.3",
@@ -50,7 +65,12 @@
       "in": "2.50",
       "out": "5.00",
       "cache_read": "0.40"
-    }
+    },
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "context": 1000000
   },
   {
     "id": "grok-4.20-multi-agent-0309",
@@ -63,7 +83,12 @@
       "in": "2.50",
       "out": "5.00",
       "cache_read": "0.40"
-    }
+    },
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "context": 1000000
   },
   {
     "id": "grok-4.20-0309-reasoning",
@@ -76,7 +101,12 @@
       "in": "2.50",
       "out": "5.00",
       "cache_read": "0.40"
-    }
+    },
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "context": 1000000
   },
   {
     "id": "grok-4.20-0309-non-reasoning",
@@ -89,6 +119,11 @@
       "in": "2.50",
       "out": "5.00",
       "cache_read": "0.40"
-    }
+    },
+    "reasoning": false,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "context": 1000000
   }
 ]

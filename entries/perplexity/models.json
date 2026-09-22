@@ -10,7 +10,11 @@
       "openai": "perplexity/kimi-k3",
       "anthropic": "perplexity/kimi-k3"
     },
-    "flagship": true
+    "flagship": true,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   },
   {
     "id": "glm-5.3",
@@ -22,7 +26,11 @@
     "serves": {
       "openai": "perplexity/glm-5.3",
       "anthropic": "perplexity/glm-5.3"
-    }
+    },
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   },
   {
     "id": "glm-5.3-flash",
@@ -33,7 +41,11 @@
     "serves": {
       "openai": "perplexity/glm-5.3-flash",
       "anthropic": "perplexity/glm-5.3-flash"
-    }
+    },
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   },
   {
     "id": "nemotron-3-ultra-550b-a55b",
@@ -45,6 +57,10 @@
     "serves": {
       "openai": "perplexity/nemotron-3-ultra-550b-a55b",
       "anthropic": "perplexity/nemotron-3-ultra-550b-a55b"
-    }
+    },
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   }
 ]

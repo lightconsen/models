@@ -6,7 +6,13 @@
     "out": "50",
     "cache_read": "0.25",
     "cache_creation": "12.50",
-    "flagship": true
+    "flagship": true,
+    "context": 1000000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false
   },
   {
     "id": "claude-sonnet-5",
@@ -14,7 +20,13 @@
     "in": "2",
     "out": "10",
     "cache_read": "0.20",
-    "cache_creation": "2.50"
+    "cache_creation": "2.50",
+    "context": 1000000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false
   },
   {
     "id": "claude-opus-5",
@@ -22,7 +34,13 @@
     "in": "5",
     "out": "25",
     "cache_read": "0.50",
-    "cache_creation": "6.25"
+    "cache_creation": "6.25",
+    "context": 1000000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false
   },
   {
     "id": "claude-haiku-4-5",
@@ -30,6 +48,12 @@
     "in": "1",
     "out": "5",
     "cache_read": "0.10",
-    "cache_creation": "1.25"
+    "cache_creation": "1.25",
+    "context": 200000,
+    "max_output": 64000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   }
 ]

@@ -5,20 +5,35 @@
     "in": "0.20",
     "out": "1.15",
     "cache_read": "0.04",
-    "flagship": true
+    "flagship": true,
+    "context": 256000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   },
   {
     "id": "step-3.5-flash",
     "name": "Step 3.5 Flash",
     "in": "0.10",
     "out": "0.30",
-    "cache_read": "0.02"
+    "cache_read": "0.02",
+    "context": 256000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   },
   {
     "id": "step-3.5-flash-2603",
     "name": "Step 3.5 Flash 2603",
     "in": "0.10",
     "out": "0.30",
-    "cache_read": "0.02"
+    "cache_read": "0.02",
+    "context": 256000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true
   }
 ]

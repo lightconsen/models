@@ -11,11 +11,15 @@
  * fetches markdown rather than a rendered page and parses the HTML tables inside
  * it. No browser, no key, no HTML scraping of a layout.
  *
- * Two things the page does that shape this script. It prices **twice** — one table
- * for domestic billing in yuan and one for overseas in dollars — so the table is
- * chosen by the entry's own currency unless `--table` says otherwise. And it bills
- * the ASR series by audio duration (`¥0.5 /h`), which has no field here: those rows
- * are reported and skipped rather than forced into a per-token number.
+ * Three things the page does that shape this script. It prices **twice** — one
+ * table for domestic billing in yuan and one for overseas in dollars — so the
+ * table is chosen by the entry's own currency unless `--table` says otherwise.
+ * Its language table groups rows under an "Inference Type" column (**Real-time
+ * API** / **Batch API**): only the real-time rows are carried, because a batch
+ * row prices a different billed mode (offline jobs) for which there is no field
+ * here. And it bills the ASR series by audio duration (`¥0.5 /h`), which also has
+ * no field here: those rows, like the batch ones, are reported and skipped rather
+ * than forced into a per-token number.
  *
  * Usage:
  *   node scripts/fetch-mimo-pricing.mjs                    show the diff
@@ -54,12 +58,23 @@ for (const part of md.split(/^###\s+/m).slice(1)) {
   const where = /Domestic/i.test(title) ? "domestic" : /Overseas/i.test(title) ? "overseas" : null;
   if (!where) continue;
   const text = (x) => x.replace(/<[^>]+>/g, " ").replace(/&[a-z]+;/gi, " ").replace(/\s+/g, " ").trim();
-  sections[where] = [...part.matchAll(/<table>[\s\S]*?<\/table>/g)].flatMap((t) =>
-    [...t[0].matchAll(/<tr>[\s\S]*?<\/tr>/g)]
-      .map((r) => [...r[0].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((c) => text(c[1])))
-      .filter((cells) => cells.length >= 2 && /^`?mimo-/.test(cells[0]))
-      .map((cells) => ({ model: cells[0].replace(/`/g, ""), cells: cells.slice(1) })),
-  );
+  sections[where] = [...part.matchAll(/<table>[\s\S]*?<\/table>/g)].flatMap((t) => {
+    // A row that carries an Inference-Type label opens its group; the rows after
+    // it (the label's rowspan) inherit it until the next label.
+    let group = null;
+    return [...t[0].matchAll(/<tr>[\s\S]*?<\/tr>/g)].flatMap((r) => {
+      const cells = [...r[0].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((c) => text(c[1]));
+      const kind = cells.find((c) => /Real-time API|Batch API/i.test(c));
+      if (kind) group = /Batch/i.test(kind) ? "batch" : "real-time";
+      // The backticked ids in a model cell — one, or a new model paired with the
+      // one it replaces, sharing one price. A row with none (a header, a feature
+      // cell) is not a price row.
+      const ids = cells.flatMap((c) => [...c.matchAll(/`([^`]+)`/g)].map((m) => m[1])).filter((id) => /^mimo-/.test(id));
+      if (ids.length === 0) return [];
+      const prices = cells.map((c) => c.replace(/^[¥$]\s*/, "")).filter((c) => /^\d+(\.\d+)?$/.test(c));
+      return { group, ids, prices };
+    });
+  });
 }
 if (!sections.domestic || !sections.overseas) stop("could not find both the domestic and overseas price tables");
 
@@ -82,17 +97,27 @@ if (prov.currency !== money[which]) {
   console.log(`  ! ${ENTRY} declares ${prov.currency} and this table is in ${money[which]} — --table picks the other\n`);
 }
 
-/** A row with three prices is per token: hit, miss, output. A row with one is
-    billed by duration, and there is no field for that here. */
+/** A real-time row with three prices is per token: hit, miss, output. A batch row
+    prices a different billed mode and an ASR row prices by the hour — neither has a
+    field here, and both are reported and skipped. */
 const priced = [];
+const onPage = new Set();
+const batch = [];
 const byDuration = [];
 for (const r of rows) {
-  if (r.cells.length >= 3) priced.push({ id: r.model, cache_read: strip(r.cells[0]), in: strip(r.cells[1]), out: strip(r.cells[2]) });
-  else byDuration.push(`${r.model} (${r.cells.join(" ")})`);
+  if (r.group === "batch") {
+    batch.push(r.ids.join("、"));
+  } else if (r.prices.length >= 3) {
+    for (const id of r.ids) priced.push({ id, cache_read: strip(r.prices[0]), in: strip(r.prices[1]), out: strip(r.prices[2]) });
+  } else {
+    byDuration.push(`${r.ids.join("、")} (${r.prices.length ? r.prices.join(" / ") : "no per-token price"})`);
+  }
+  r.ids.forEach((id) => onPage.add(id));
 }
 
 console.log(`${which} table:`);
 for (const p of priced) console.log(`  ${p.id.padEnd(16)} in ${p.in}  out ${p.out}${p.cache_read ? `  cache_read ${p.cache_read}` : ""}`);
+if (batch.length) console.log(`  batch API, a different billed mode with no field here: ${batch.join(", ")}`);
 if (byDuration.length) console.log(`  billed by duration, no field for it: ${byDuration.join(", ")}`);
 
 let changes = 0;
@@ -111,8 +136,7 @@ for (const p of priced) {
   }
 }
 for (const now of current) {
-  if (priced.some((p) => p.id === now.id)) continue;
-  if (byDuration.some((d) => d.startsWith(now.id))) continue;
+  if (onPage.has(now.id)) continue;
   console.log(`\n- ${now.id} is not on the page — check whether it is live`);
   changes++;
 }

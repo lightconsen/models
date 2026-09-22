@@ -1,0 +1,17 @@
+{
+  "id": "baseten",
+  "name": "Baseten",
+  "website": "https://www.baseten.co/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://inference.baseten.co/v1"
+    }
+  ],
+  "desc": "Baseten's model inference platform",
+  "seeded": true
+}

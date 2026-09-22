@@ -1,0 +1,17 @@
+{
+  "id": "siliconflow-cn",
+  "name": "SiliconFlow (China)",
+  "website": "https://siliconflow.cn/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.siliconflow.cn/v1"
+    }
+  ],
+  "desc": "SiliconFlow's inference platform (China)",
+  "seeded": true
+}

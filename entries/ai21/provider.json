@@ -1,0 +1,17 @@
+{
+  "id": "ai21",
+  "name": "AI21",
+  "website": "https://www.ai21.com/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.ai21.com/v1"
+    }
+  ],
+  "desc": "AI21's own API",
+  "seeded": true
+}

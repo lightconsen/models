@@ -1,0 +1,17 @@
+{
+  "id": "ovhcloud",
+  "name": "OVHcloud",
+  "website": "https://www.ovhcloud.com/en/public-cloud/ai-endpoints/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1"
+    }
+  ],
+  "desc": "OVHcloud's AI Endpoints",
+  "seeded": true
+}

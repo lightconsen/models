@@ -1,0 +1,17 @@
+{
+  "id": "novita",
+  "name": "Novita AI",
+  "website": "https://novita.ai/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.novita.ai/v3/openai"
+    }
+  ],
+  "desc": "Novita AI's hosted model inference",
+  "seeded": true
+}

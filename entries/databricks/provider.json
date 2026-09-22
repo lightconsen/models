@@ -1,0 +1,12 @@
+{
+  "id": "databricks",
+  "name": "Databricks",
+  "website": "https://www.databricks.com/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [],
+  "desc": "Databricks's model serving",
+  "seeded": true
+}

@@ -3,7 +3,7 @@ import type { Entry } from "../data/types";
 import { currencySymbol, formatPrice, parsePrice } from "../data/pricing";
 import { useSettings } from "../settings";
 
-export function Badge({ children, kind }: { children: ReactNode; kind: "tag" | "billing" | "news" }) {
+export function Badge({ children, kind }: { children: ReactNode; kind: "tag" | "billing" | "news" | "seeded" }) {
   return <span className={`badge badge-${kind}`}>{children}</span>;
 }
 

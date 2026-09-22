@@ -68,6 +68,11 @@
 .badge-tag { background: var(--accent-soft); color: var(--accent); }
 .badge-billing { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
 .badge-news { background: var(--accent); color: #1e1e1e; }
+/* Tier C — the entry's prices are third-party-sourced, pending verification. */
+.badge-seeded {
+  background: transparent; color: var(--muted);
+  border: 1px dashed var(--muted); border-radius: 4px;
+}
 
 .news-strip { border: 1px solid var(--accent); border-radius: var(--radius); background: var(--accent-soft); padding: 8px 12px; margin-bottom: 16px; }
 .news-item { font-size: 13px; display: flex; align-items: center; gap: 8px; }

@@ -1,0 +1,12 @@
+{
+  "id": "cloudflare-workers-ai",
+  "name": "Cloudflare Workers AI",
+  "website": "https://developers.cloudflare.com/workers-ai/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [],
+  "desc": "Cloudflare's Workers AI",
+  "seeded": true
+}

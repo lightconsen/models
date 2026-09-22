@@ -1,0 +1,17 @@
+{
+  "id": "groq",
+  "name": "Groq",
+  "website": "https://groq.com/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.groq.com/openai/v1"
+    }
+  ],
+  "desc": "Groq's LPU inference cloud",
+  "seeded": true
+}

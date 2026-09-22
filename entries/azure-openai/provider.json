@@ -1,0 +1,12 @@
+{
+  "id": "azure-openai",
+  "name": "Azure OpenAI",
+  "website": "https://azure.microsoft.com/products/ai-services/openai-service",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [],
+  "desc": "Azure's hosted OpenAI models",
+  "seeded": true
+}

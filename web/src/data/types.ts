@@ -82,6 +82,9 @@ export interface Entry {
   logo: string; // "logos/<id>.<ext>"
   desc?: string;
   plan_query?: { template: string };
+  /** Tier C: prices seeded from a third-party database, not yet verified
+      against the vendor's own pages. The badge says so on the site. */
+  seeded?: boolean;
   price_ref?: PriceRef;
   /** The day the fetcher last wrote this entry's price rows (YYYY-MM-DD).
       Maintained by fetch-all; hand-edited entries may omit it. */

@@ -1,0 +1,17 @@
+{
+  "id": "friendli",
+  "name": "FriendliAI",
+  "website": "https://friendli.ai/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://inference.friendli.ai/v1"
+    }
+  ],
+  "desc": "FriendliAI's serving platform",
+  "seeded": true
+}

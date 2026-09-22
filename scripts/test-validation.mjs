@@ -225,16 +225,18 @@ const CASES = [
     provider: provider(`${prefix}-divergent-a`),
     // Named to sort first. The detail list is capped at ten and sorted by model
     // id, so a planted model that sorts late is not named once the real catalogue
-    // has ten divergences of its own — which it now does. The id is deliberately
-    // silly; please leave it that way.
-    models: [{ id: "aaa-shared-model", name: "Shared", in: "1", out: "2" }],
+    // has ten divergences of its own — which it has since the 2026-09-22 seed
+    // batch, whose duplicates start with uppercase (`ByteDance-Seed/…`) and sort
+    // before any lowercase name. The digit prefix beats them all. The id is
+    // deliberately silly; please leave it that way.
+    models: [{ id: "0-shared-model", name: "Shared", in: "1", out: "2" }],
     extra: {
       provider: provider(`${prefix}-divergent-b`),
-      models: [{ id: "aaa-shared-model", name: "Shared", in: "3", out: "4" }],
+      models: [{ id: "0-shared-model", name: "Shared", in: "3", out: "4" }],
     },
     expectCode: 0,
     // The summary line, then the detail naming the model — both on stderr.
-    expectWarn: /priced differently by different providers[\s\S]*aaa-shared-model/,
+    expectWarn: /priced differently by different providers[\s\S]*0-shared-model/,
   },
   {
     rule: "extra — `both` is a billing mode (one address, two arrangements)",
@@ -273,6 +275,18 @@ const CASES = [
     models: [{ id: "m1", name: "M1", reasoning: true }],
     expectCode: 0,
     expectWarn: /capability fields on an unpriced row/,
+  },
+  {
+    rule: "extra — a seeded entry may ship with no endpoints (Tier C relaxation)",
+    provider: provider(`${prefix}-seeded-no-endpoints`, { seeded: true, endpoints: [] }),
+    models: [{ id: "m1", in: "1", out: "1", name: "M1" }],
+    expectCode: 0,
+  },
+  {
+    rule: "extra — seeded must be boolean",
+    provider: provider(`${prefix}-seeded-str`, { seeded: "yes" }),
+    models: [],
+    expect: /seeded must be boolean/,
   },
 ];
 

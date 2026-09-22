@@ -1,0 +1,17 @@
+{
+  "id": "digitalocean",
+  "name": "DigitalOcean",
+  "website": "https://www.digitalocean.com/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://inference.do-ai.run/v1"
+    }
+  ],
+  "desc": "DigitalOcean's Gradient AI platform",
+  "seeded": true
+}

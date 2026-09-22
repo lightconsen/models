@@ -153,6 +153,7 @@ export function ProviderDetailPage({
           <div className="provider-card-badges">
             {entry.tag === "aggregate" && <Badge kind="tag">Aggregate</Badge>}
             <Badge kind="billing">{billingLabel(entry.billing)}</Badge>
+            {entry.seeded && <Badge kind="seeded">Seeded — pending verification</Badge>}
             <Rating value={entry.rating} />
           </div>
         </div>

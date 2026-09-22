@@ -1,0 +1,47 @@
+[
+  {
+    "id": "solar-mini",
+    "name": "solar-mini",
+    "in": "0.15",
+    "out": "0.15",
+    "context": 32768,
+    "max_output": 4096,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "solar-pro2",
+    "name": "solar-pro2",
+    "in": "0.25",
+    "out": "0.25",
+    "context": 65536,
+    "max_output": 8192,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "solar-pro3",
+    "name": "solar-pro3",
+    "in": "0.25",
+    "out": "0.25",
+    "context": 131072,
+    "max_output": 8192,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "solar-pro4",
+    "name": "Solar Pro 4",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.06",
+    "context": 524288,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true,
+    "flagship": true
+  }
+]

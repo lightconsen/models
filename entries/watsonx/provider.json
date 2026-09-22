@@ -1,0 +1,12 @@
+{
+  "id": "watsonx",
+  "name": "IBM watsonx",
+  "website": "https://www.ibm.com/products/watsonx-ai",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [],
+  "desc": "IBM's watsonx.ai",
+  "seeded": true
+}

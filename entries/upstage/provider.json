@@ -1,0 +1,17 @@
+{
+  "id": "upstage",
+  "name": "Upstage",
+  "website": "https://www.upstage.ai/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.upstage.ai/v1/solar"
+    }
+  ],
+  "desc": "Upstage's Solar API",
+  "seeded": true
+}

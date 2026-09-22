@@ -1,0 +1,86 @@
+[
+  {
+    "id": "deepseek-ai/DeepSeek-V3.2",
+    "name": "DeepSeek V3.2",
+    "in": "0.5",
+    "out": "1.5",
+    "cache_read": "0.25",
+    "context": 163840,
+    "max_output": 64000,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "google/gemma-4-31B-it",
+    "name": "Gemma 4 31B IT",
+    "in": "0.14",
+    "out": "0.4",
+    "context": 262144,
+    "max_output": 32768,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "MiniMaxAI/MiniMax-M2.5",
+    "name": "MiniMax-M2.5",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.06",
+    "context": 196608,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "zai-org/GLM-5.1",
+    "name": "GLM-5.1",
+    "in": "1.4",
+    "out": "4.4",
+    "cache_read": "0.26",
+    "context": 202752,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true,
+    "flagship": true
+  },
+  {
+    "id": "zai-org/GLM-5.2",
+    "name": "GLM-5.2",
+    "in": "1.4",
+    "out": "4.4",
+    "cache_read": "0.26",
+    "context": 1048576,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "zai-org/GLM-5.3",
+    "name": "GLM-5.3",
+    "in": "1.26",
+    "out": "3.96",
+    "cache_read": "0.234",
+    "context": 1048576,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "zai-org/GLM-5.3-Flash",
+    "name": "GLM-5.3-Flash",
+    "in": "0.15",
+    "out": "0.5",
+    "cache_read": "0.03",
+    "context": 1048576,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  }
+]

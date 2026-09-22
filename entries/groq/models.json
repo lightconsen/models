@@ -1,0 +1,97 @@
+[
+  {
+    "id": "llama-3.1-8b-instant",
+    "name": "Llama 3.1 8B",
+    "in": "0.05",
+    "out": "0.08",
+    "context": 131072,
+    "max_output": 131072,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "llama-3.3-70b-versatile",
+    "name": "Llama 3.3 70B",
+    "in": "0.59",
+    "out": "0.79",
+    "context": 131072,
+    "max_output": 32768,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "meta-llama/llama-prompt-guard-2-22m",
+    "name": "Llama Prompt Guard 2 22M",
+    "in": "0.03",
+    "out": "0.03",
+    "context": 512,
+    "max_output": 512
+  },
+  {
+    "id": "meta-llama/llama-prompt-guard-2-86m",
+    "name": "Prompt Guard 2 86M",
+    "in": "0.04",
+    "out": "0.04",
+    "context": 512,
+    "max_output": 512
+  },
+  {
+    "id": "openai/gpt-oss-120b",
+    "name": "GPT OSS 120B",
+    "in": "0.15",
+    "out": "0.6",
+    "cache_read": "0.075",
+    "context": 131072,
+    "max_output": 65536,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "openai/gpt-oss-20b",
+    "name": "GPT OSS 20B",
+    "in": "0.075",
+    "out": "0.3",
+    "cache_read": "0.0375",
+    "context": 131072,
+    "max_output": 65536,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "openai/gpt-oss-safeguard-20b",
+    "name": "Safety GPT OSS 20B",
+    "in": "0.075",
+    "out": "0.3",
+    "context": 131072,
+    "max_output": 65536,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "qwen/qwen3.6-27b",
+    "name": "Qwen3.6 27B",
+    "in": "0.6",
+    "out": "3",
+    "cache_read": "0.3",
+    "context": 131072,
+    "max_output": 16384,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  },
+  {
+    "id": "qwen/qwen3.8-27b",
+    "name": "Qwen3.8 27B",
+    "in": "0.8",
+    "out": "4",
+    "context": 131042,
+    "max_output": 16384,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true,
+    "flagship": true
+  }
+]

@@ -17,6 +17,11 @@ function ProviderCard({ entry }: { entry: Catalog["entries"][number] }) {
           {entry.tag === "aggregate" && <Badge kind="tag">Aggregate</Badge>}
           {entry.tag === "official" && <Badge kind="tag">Official</Badge>}
           <Badge kind="billing">{billingLabel(entry.billing)}</Badge>
+          {entry.seeded && (
+            <Badge kind="seeded" >
+              <span title="Prices seeded from a third-party database — not yet verified against the vendor">Seeded</span>
+            </Badge>
+          )}
         </div>
       </div>
       <p className="desc">{entry.desc ?? ""}</p>
@@ -51,7 +56,9 @@ export function ProvidersPage({ catalog, news }: { catalog: Catalog; news: NewsF
       <NewsStrip news={news} />
       <h1 className="page-title">Providers</h1>
       <p className="muted">
-        {catalog.total} entries — {catalog.entries.filter((e) => e.price_ref).length} with published flagship prices.
+        {catalog.total} entries — {catalog.entries.filter((e) => e.price_ref).length} with published flagship prices
+        {catalog.entries.some((e) => e.seeded) &&
+          `, ${catalog.entries.filter((e) => e.seeded).length} of them seeded pending vendor verification`}.
       </p>
       <div className="provider-grid">
         {catalog.entries.map((e) => (

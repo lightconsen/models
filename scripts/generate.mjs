@@ -108,6 +108,10 @@ const PROVIDER_KEYS = new Set([
   /* When the price rows were last written by a fetcher. Maintained by
      fetch-all.mjs on every successful write; a hand-edited entry may omit it. */
   "prices_as_of",
+  /* Tier C: the entry's rows are seeded from a third-party database (models.dev)
+     and have not been verified against the vendor's own pages yet. Boolean —
+     it goes away the day the entry is upgraded. See roadmap. */
+  "seeded",
 ]);
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
@@ -208,6 +212,7 @@ function catalogEntry(e, derived) {
     ...(e.plan_query === undefined ? {} : { plan_query: { template: e.plan_query.template } }),
     ...(derived.priceRef === undefined ? {} : { price_ref: derived.priceRef }),
     ...(e.prices_as_of === undefined ? {} : { prices_as_of: e.prices_as_of }),
+    ...(e.seeded === undefined ? {} : { seeded: e.seeded }),
   };
 }
 
@@ -221,6 +226,7 @@ const entryDirs = readdirSync(path.join(repo, "entries"), { withFileTypes: true 
 const catalog = [];
 const ids = new Set();
 const logoFiles = [];
+const seededIds = [];
 /** Entries that leaned on the USD default, reported at the end. */
 const defaultedCurrency = [];
 // { entry, row } for every priced model; merged into dist/models.json once the
@@ -274,6 +280,16 @@ for (const dir of entryDirs) {
     fail(`${where}: currency "${e.currency}" must be an ISO-4217 code like USD`);
   }
   if (e.desc !== undefined && typeof e.desc !== "string") fail(`${where}: desc must be a string`);
+  // Tier C marker. A seeded entry publishes third-party-sourced prices before
+  // the vendor's own pages have been read; the checklist row says so, and the
+  // marker goes away the day the entry is upgraded. Its one structural
+  // relaxation is below: an entry whose API base is resource-pinned (Azure,
+  // Bedrock, Databricks) has no single endpoint to name yet, and a seeded
+  // entry may ship with none rather than a guessed one.
+  if (e.seeded !== undefined) {
+    if (typeof e.seeded !== "boolean") fail(`${where}: seeded must be boolean`);
+    else seededIds.push(e.id);
+  }
   // Which quota endpoint, if any, can be read with nothing but this provider's
   // own API key. Absent means "none" — and that is most of them: it is a fact
   // about the vendor's API, not about how it bills, so `billing: plan` cannot
@@ -295,7 +311,11 @@ for (const dir of entryDirs) {
     }
   }
   if (!Array.isArray(e.endpoints) || e.endpoints.length === 0) {
-    fail(`${where}: endpoints must be a non-empty array — the first one is the primary protocol`);
+    if (e.seeded) {
+      warn(`${where}: seeded entry with no endpoints yet — a resource-pinned API base waits for verification`);
+    } else {
+      fail(`${where}: endpoints must be a non-empty array — the first one is the primary protocol`);
+    }
   } else {
     // One endpoint per protocol: the provider's PK app-side is
     // (provider_id, protocol) — a repeat here would be silently dropped when
@@ -582,7 +602,7 @@ for (const dir of entryDirs) {
     entryPriceRows.push({ entry: dir, row, currency: e.currency });
   }
 }
-console.log(`  ✓ ${catalog.length} provider directories validated`);
+console.log(`  ✓ ${catalog.length} provider directories validated${seededIds.length ? ` (${seededIds.length} seeded — not yet verified against their vendors)` : ""}`);
 
 // ── prices: exchange rates + the providers' own models.json ──
 

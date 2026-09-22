@@ -16,6 +16,11 @@
 
 .expand-tr td { background: var(--surface-2); }
 
+/* Capability flags in the detail table: ✓ stated-yes, ✗ stated-no, — unstated.
+   The ✗ is dimmer than the ✓ but never mistaken for the dash. */
+.cap-yes { color: var(--muted); }
+.cap-no { color: var(--tertiary); }
+
 .overlay-backdrop {
   position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.45);
   display: flex; align-items: flex-start; justify-content: center; padding-top: 12vh;

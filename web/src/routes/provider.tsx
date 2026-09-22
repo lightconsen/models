@@ -2,12 +2,78 @@ import type { Catalog, ModelsFile, NewsFile } from "../data/types";
 import { modelsByProvider, providerEntry, logoUrl } from "../data/api";
 import { DataTable, type ColumnDef } from "../components/dataTable";
 import { ExpandableDetail, PriceCell } from "../components/priceCell";
-import { Badge, PriceRefLine, Rating, SiteLink, billingLabel } from "../components/bits";
+import { Badge, PriceRefLine, Rating, billingLabel } from "../components/bits";
 import { useDismissedNews } from "../components/dismissNews";
-import { modelKey, parsePrice } from "../data/pricing";
+import { formatTokens, modelKey, parsePrice } from "../data/pricing";
+
+/** One capability-flag cell: ✓ / ✗ / —. Absent is "not stated" (a dash
+    without a claim); false is only ever the vendor's explicit no, so it says
+    so in the title. */
+function FlagCell({ v, label }: { v: boolean | undefined; label: string }) {
+  if (v === undefined) {
+    return (
+      <span className="muted" title={`${label}: not stated by the vendor`}>
+        —
+      </span>
+    );
+  }
+  return (
+    <span
+      className={v ? "cap-yes" : "cap-no"}
+      title={v ? `${label}: stated by the vendor` : `${label}: the vendor states it is not supported`}
+    >
+      {v ? "✓" : "✗"}
+    </span>
+  );
+}
+
+/** Sort order reads worst to best: unstated < stated-no < stated-yes. */
+const flagSort = (v: boolean | undefined): number => (v === undefined ? 0 : v ? 2 : 1);
 
 const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile["models"][number]>[] => [
   { key: "model", label: "Model", render: (r) => <span className="mono">{r.model_id}</span> },
+  {
+    key: "context",
+    label: "Context",
+    numeric: true,
+    sortValue: (r) => r.context ?? -1,
+    render: (r) => (r.context !== undefined ? <span className="mono">{formatTokens(r.context)}</span> : "—"),
+  },
+  {
+    key: "max_output",
+    label: "Max out",
+    numeric: true,
+    sortValue: (r) => r.max_output ?? -1,
+    render: (r) => (r.max_output !== undefined ? <span className="mono">{formatTokens(r.max_output)}</span> : "—"),
+  },
+  {
+    key: "reasoning",
+    label: "Reasoning",
+    numeric: true,
+    sortValue: (r) => flagSort(r.reasoning),
+    render: (r) => <FlagCell v={r.reasoning} label="Reasoning" />,
+  },
+  {
+    key: "tool_call",
+    label: "Tool call",
+    numeric: true,
+    sortValue: (r) => flagSort(r.tool_call),
+    render: (r) => <FlagCell v={r.tool_call} label="Tool calling" />,
+  },
+  {
+    key: "structured_output",
+    label: "JSON",
+    numeric: true,
+    sortValue: (r) => flagSort(r.structured_output),
+    render: (r) => <FlagCell v={r.structured_output} label="Structured output" />,
+  },
+  {
+    key: "temperature",
+    label: "Temp",
+    numeric: true,
+    sortValue: (r) => flagSort(r.temperature),
+    render: (r) => <FlagCell v={r.temperature} label="Temperature" />,
+  },
   {
     key: "in",
     label: "In /1M",
@@ -75,7 +141,13 @@ export function ProviderDetailPage({
         <div className="provider-card-top detail-title">
           <img className="provider-logo" src={logoUrl(entry.logo)} alt="" />
           <div>
-            <h1 className="page-title">{entry.name}</h1>
+            <h1 className="page-title">
+              {/* The name is the way out to the vendor's own site — the reader
+                  who wants the source follows the biggest word on the page. */}
+              <a className="title-link" href={entry.website} target="_blank" rel="noopener noreferrer">
+                {entry.name}
+              </a>
+            </h1>
             <span className="mono">{entry.id}</span>
           </div>
           <div className="provider-card-badges">
@@ -89,9 +161,6 @@ export function ProviderDetailPage({
           <p className="muted prices-as-of">Prices last updated {entry.prices_as_of}</p>
         )}
         {entry.desc && <p className="desc">{entry.desc}</p>}
-        <p className="provider-site">
-          <SiteLink url={entry.website} />
-        </p>
         {notice.map((n) => (
           <div key={n.id} className="news-item">
             {n.badge && <Badge kind="news">{n.badge}</Badge>}

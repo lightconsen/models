@@ -42,6 +42,17 @@ export const formatOver = (n: number): string => {
   return String(n);
 };
 
+/** Compress a capability token count the way it is read, while keeping the
+    vendor's own precision: clean decimal thousands become K/M ("128K",
+    "1.02M"), and everything else — the 2^n windows several vendors state —
+    stays an exact grouped number, so OpenAI's 1,050,000 and Google's
+    1,048,576 never render as the same string. */
+export const formatTokens = (n: number): string => {
+  if (n % 1_000_000 === 0) return `${n / 1_000_000}M`;
+  if (n % 1000 === 0) return n >= 1_000_000 ? `${formatPrice(n / 1_000_000)}M` : `${n / 1000}K`;
+  return n.toLocaleString("en-US");
+};
+
 const DAYS: Record<string, string> = { mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri", sat: "Sat", sun: "Sun" };
 
 /** A peak_hours schedule as prose: "Mon–Fri 09:00–12:00, 14:00–18:00 · UTC+8". */

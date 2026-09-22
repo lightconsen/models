@@ -93,7 +93,21 @@ export interface Catalog {
   entries: Entry[];
 }
 
-export interface PriceRow extends RateBand {
+/** Capability facts read off the vendor's own documentation, optional per row:
+    a length limit is a whole number of tokens, a capability flag is boolean.
+    Absent means the vendor does not say — render absent as nothing, never as
+    "no"; `false` is only ever an explicit vendor statement (a pinned
+    temperature, a model named non-reasoning). */
+export interface Capabilities {
+  context?: number;
+  max_output?: number;
+  reasoning?: boolean;
+  tool_call?: boolean;
+  structured_output?: boolean;
+  temperature?: boolean;
+}
+
+export interface PriceRow extends RateBand, Capabilities {
   provider_id: string;
   model_id: string;
   display_name: string;

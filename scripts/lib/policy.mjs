@@ -65,5 +65,12 @@ export function summarise(verdict) {
   return bits.length ? bits.join(", ") : "nothing";
 }
 
+/** The fields a source may emit: the price fields, and — since the 2026-09-23
+    API-backed adapters — the capability fields a vendor's own models API can
+    publish (length limits and feature flags). The merge still enforces `owns`,
+    so nothing travels unless the adapter claims it. */
 export const isPriceField = (f) =>
-  ["in", "out", "cache_read", "cache_creation", "long_context", "off_peak", "peak_hours"].includes(f);
+  [
+    "in", "out", "cache_read", "cache_creation", "long_context", "off_peak", "peak_hours",
+    "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature",
+  ].includes(f);

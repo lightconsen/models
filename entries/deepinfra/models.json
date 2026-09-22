@@ -6,7 +6,7 @@
     "out": "3",
     "cache_read": "0.1",
     "context": 256000,
-    "max_output": 131072,
+    "max_output": 256000,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -18,7 +18,7 @@
     "out": "0.4",
     "cache_read": "0.02",
     "context": 256000,
-    "max_output": 32000,
+    "max_output": 256000,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -30,7 +30,7 @@
     "out": "3",
     "cache_read": "0.1",
     "context": 256000,
-    "max_output": 128000,
+    "max_output": 256000,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -42,7 +42,7 @@
     "out": "2.15",
     "cache_read": "0.35",
     "context": 163840,
-    "max_output": 64000,
+    "max_output": 163840,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -53,7 +53,7 @@
     "in": "0.32",
     "out": "0.89",
     "context": 163840,
-    "max_output": 8192,
+    "max_output": 163840,
     "tool_call": true,
     "temperature": true
   },
@@ -75,7 +75,7 @@
     "out": "0.95",
     "cache_read": "0.13",
     "context": 163840,
-    "max_output": 8192,
+    "max_output": 163840,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -87,7 +87,7 @@
     "out": "0.38",
     "cache_read": "0.13",
     "context": 163840,
-    "max_output": 64000,
+    "max_output": 163840,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -99,7 +99,7 @@
     "out": "0.18",
     "cache_read": "0.018",
     "context": 1048576,
-    "max_output": 16384,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -111,7 +111,7 @@
     "out": "0.18",
     "cache_read": "0.015",
     "context": 1048576,
-    "max_output": 384000,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -123,7 +123,7 @@
     "out": "1.32",
     "cache_read": "0.014",
     "context": 1048576,
-    "max_output": 384000,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -135,7 +135,7 @@
     "out": "2.6",
     "cache_read": "0.1",
     "context": 1048576,
-    "max_output": 16384,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -147,7 +147,7 @@
     "out": "2.6",
     "cache_read": "0.1",
     "context": 1048576,
-    "max_output": 384000,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -159,7 +159,7 @@
     "out": "0.6",
     "cache_read": "0.006",
     "context": 1048576,
-    "max_output": 384000,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -200,7 +200,7 @@
     "in": "0.07",
     "out": "0.34",
     "context": 262144,
-    "max_output": 32768,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -211,7 +211,7 @@
     "in": "0.13",
     "out": "0.38",
     "context": 262144,
-    "max_output": 32768,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -222,7 +222,7 @@
     "in": "0.02",
     "out": "0.1",
     "context": 131072,
-    "max_output": 8192,
+    "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -233,7 +233,7 @@
     "in": "0.1",
     "out": "0.32",
     "context": 131072,
-    "max_output": 16384,
+    "max_output": 131072,
     "tool_call": true
   },
   {
@@ -242,7 +242,7 @@
     "in": "0.2",
     "out": "0.8",
     "context": 1048576,
-    "max_output": 16384
+    "max_output": 1048576
   },
   {
     "id": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
@@ -250,32 +250,8 @@
     "in": "0.1",
     "out": "0.3",
     "context": 327680,
-    "max_output": 16384,
+    "max_output": 327680,
     "tool_call": true
-  },
-  {
-    "id": "MiniMaxAI/MiniMax-M2.5",
-    "name": "MiniMax M2.5",
-    "in": "0.15",
-    "out": "1.15",
-    "cache_read": "0.03",
-    "context": 196608,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "MiniMaxAI/MiniMax-M2.7",
-    "name": "MiniMax-M2.7",
-    "in": "0.25",
-    "out": "1",
-    "cache_read": "0.05",
-    "context": 196608,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
   },
   {
     "id": "MiniMaxAI/MiniMax-M3",
@@ -284,19 +260,7 @@
     "out": "1.1",
     "cache_read": "0.056",
     "context": 524288,
-    "max_output": 512000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "moonshotai/Kimi-K2.5",
-    "name": "Kimi K2.5",
-    "in": "0.45",
-    "out": "2.25",
-    "cache_read": "0.07",
-    "context": 262144,
-    "max_output": 32768,
+    "max_output": 524288,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -308,7 +272,7 @@
     "out": "3.5",
     "cache_read": "0.15",
     "context": 262144,
-    "max_output": 16384,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -331,21 +295,10 @@
     "out": "14.25",
     "cache_read": "0.285",
     "context": 1048576,
-    "max_output": 131072,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "flagship": true
-  },
-  {
-    "id": "nvidia/Llama-3.3-Nemotron-Super-49B-v1.5",
-    "name": "Llama 3.3 Nemotron Super 49B v1.5",
-    "in": "0.4",
-    "out": "0.4",
-    "context": 131072,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
   },
   {
     "id": "nvidia/Nemotron-3-Nano-30B-A3B",
@@ -360,23 +313,12 @@
     "temperature": true
   },
   {
-    "id": "nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning",
-    "name": "Nemotron 3 Nano Omni 30B A3B Reasoning",
-    "in": "0.2",
-    "out": "0.8",
-    "context": 262144,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "openai/gpt-oss-120b",
     "name": "GPT OSS 120B",
     "in": "0.037",
     "out": "0.17",
     "context": 131072,
-    "max_output": 16384,
+    "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -387,7 +329,7 @@
     "in": "0.03",
     "out": "0.14",
     "context": 131072,
-    "max_output": 16384,
+    "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -398,7 +340,7 @@
     "in": "0.09",
     "out": "0.55",
     "context": 262144,
-    "max_output": 16384,
+    "max_output": 262144,
     "tool_call": true,
     "temperature": true
   },
@@ -408,7 +350,7 @@
     "in": "0.12",
     "out": "0.5",
     "context": 40960,
-    "max_output": 16384,
+    "max_output": 40960,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -419,7 +361,7 @@
     "in": "0.08",
     "out": "0.28",
     "context": 40960,
-    "max_output": 16384,
+    "max_output": 40960,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -431,7 +373,7 @@
     "out": "1",
     "cache_read": "0.1",
     "context": 262144,
-    "max_output": 66536,
+    "max_output": 262144,
     "tool_call": true,
     "temperature": true
   },
@@ -442,7 +384,7 @@
     "out": "6",
     "cache_read": "0.24",
     "context": 256000,
-    "max_output": 65536,
+    "max_output": 256000,
     "tool_call": true,
     "temperature": true
   },
@@ -452,7 +394,7 @@
     "in": "0.09",
     "out": "1.1",
     "context": 262144,
-    "max_output": 32768,
+    "max_output": 262144,
     "tool_call": true,
     "temperature": true
   },
@@ -463,7 +405,7 @@
     "out": "0.88",
     "cache_read": "0.11",
     "context": 262144,
-    "max_output": 32768,
+    "max_output": 262144,
     "tool_call": true,
     "temperature": true
   },
@@ -473,7 +415,7 @@
     "in": "0.29",
     "out": "2.4",
     "context": 262144,
-    "max_output": 65536,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -484,7 +426,7 @@
     "in": "0.26",
     "out": "2.6",
     "context": 262144,
-    "max_output": 65536,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -496,7 +438,7 @@
     "out": "1",
     "cache_read": "0.05",
     "context": 262144,
-    "max_output": 81920,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -508,7 +450,7 @@
     "out": "3",
     "cache_read": "0.22",
     "context": 262144,
-    "max_output": 81920,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -519,7 +461,7 @@
     "in": "0.1",
     "out": "0.15",
     "context": 262144,
-    "max_output": 65536,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -530,7 +472,7 @@
     "in": "0.32",
     "out": "3.2",
     "context": 262144,
-    "max_output": 65536,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -541,7 +483,7 @@
     "in": "0.1",
     "out": "0.95",
     "context": 262144,
-    "max_output": 81920,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -553,7 +495,7 @@
     "out": "7.5",
     "cache_read": "0.5",
     "context": 256000,
-    "max_output": 65536,
+    "max_output": 256000,
     "tool_call": true,
     "temperature": true
   },
@@ -564,7 +506,7 @@
     "out": "6",
     "cache_read": "0.2",
     "context": 262144,
-    "max_output": 131072,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -576,7 +518,7 @@
     "out": "2.5",
     "cache_read": "0.05",
     "context": 262144,
-    "max_output": 32768,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -588,7 +530,7 @@
     "out": "0.382",
     "cache_read": "0.0141",
     "context": 1000000,
-    "max_output": 131072,
+    "max_output": 1000000,
     "tool_call": true
   },
   {
@@ -598,7 +540,7 @@
     "out": "4.951",
     "cache_read": "0.206",
     "context": 256000,
-    "max_output": 131072,
+    "max_output": 256000,
     "tool_call": true,
     "temperature": true
   },
@@ -609,7 +551,7 @@
     "out": "1.15",
     "cache_read": "0.04",
     "context": 262144,
-    "max_output": 256000,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -621,7 +563,7 @@
     "out": "0.53",
     "cache_read": "0.033",
     "context": 262144,
-    "max_output": 128000,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -633,7 +575,7 @@
     "out": "4.05",
     "cache_read": "0.16",
     "context": 524288,
-    "max_output": 1048576,
+    "max_output": 524288,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -645,7 +587,7 @@
     "out": "1.2",
     "cache_read": "0.1",
     "context": 524288,
-    "max_output": 1048576,
+    "max_output": 524288,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -657,7 +599,7 @@
     "out": "0.28",
     "cache_read": "0.0028",
     "context": 262144,
-    "max_output": 16384,
+    "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -669,7 +611,7 @@
     "out": "3",
     "cache_read": "0.2",
     "context": 1048576,
-    "max_output": 16384,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -681,7 +623,7 @@
     "out": "2",
     "cache_read": "0.1",
     "context": 202752,
-    "max_output": 131072,
+    "max_output": 202752,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -693,31 +635,7 @@
     "out": "1.75",
     "cache_read": "0.08",
     "context": 202752,
-    "max_output": 16384,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "zai-org/GLM-4.7-Flash",
-    "name": "GLM-4.7-Flash",
-    "in": "0.06",
-    "out": "0.4",
-    "cache_read": "0.01",
-    "context": 202752,
-    "max_output": 16384,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "zai-org/GLM-5",
-    "name": "GLM-5",
-    "in": "0.6",
-    "out": "2.08",
-    "cache_read": "0.12",
-    "context": 202752,
-    "max_output": 16384,
+    "max_output": 202752,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -729,7 +647,7 @@
     "out": "3.5",
     "cache_read": "0.205",
     "context": 202752,
-    "max_output": 16384,
+    "max_output": 202752,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -741,7 +659,7 @@
     "out": "2.4",
     "cache_read": "0.14",
     "context": 1048576,
-    "max_output": 32768,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -753,7 +671,7 @@
     "out": "4",
     "cache_read": "0.2",
     "context": 1048576,
-    "max_output": 131072,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -765,9 +683,408 @@
     "out": "0.5",
     "cache_read": "0.03",
     "context": 1048576,
-    "max_output": 131072,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
+  },
+  {
+    "id": "google/gemini-3.5-flash",
+    "name": "google/gemini-3.5-flash",
+    "in": "1.5",
+    "out": "9",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "Sao10K/L3-8B-Lunaris-v1-Turbo",
+    "name": "Sao10K/L3-8B-Lunaris-v1-Turbo",
+    "in": "0.04",
+    "out": "0.05",
+    "context": 8192,
+    "max_output": 8192
+  },
+  {
+    "id": "NousResearch/Hermes-3-Llama-3.1-405B",
+    "name": "NousResearch/Hermes-3-Llama-3.1-405B",
+    "in": "1",
+    "out": "1",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "openai/gpt-oss-120b-Ultra",
+    "name": "openai/gpt-oss-120b-Ultra",
+    "in": "0.2",
+    "out": "0.95",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "anthropic/claude-haiku-4-5",
+    "name": "anthropic/claude-haiku-4-5",
+    "in": "1",
+    "out": "5",
+    "context": 200000,
+    "max_output": 200000
+  },
+  {
+    "id": "meta-models/Muse-Glimmer-30B",
+    "name": "meta-models/Muse-Glimmer-30B",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.04",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "mistralai/Mistral-Nemo-Instruct-2407",
+    "name": "mistralai/Mistral-Nemo-Instruct-2407",
+    "in": "0.019",
+    "out": "0.03",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "anthropic/claude-sonnet-4-6",
+    "name": "anthropic/claude-sonnet-4-6",
+    "in": "3",
+    "out": "15",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "ibm-granite/granite-4.2-8b",
+    "name": "ibm-granite/granite-4.2-8b",
+    "in": "0.06",
+    "out": "0.25",
+    "cache_read": "0.015",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "google/gemini-3.7-flash",
+    "name": "google/gemini-3.7-flash",
+    "in": "0.75",
+    "out": "3.75",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B",
+    "name": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B",
+    "in": "0.085",
+    "out": "0.4",
+    "context": 262144,
+    "max_output": 262144
+  },
+  {
+    "id": "inclusionAI/Ling-3.0-flash-VL",
+    "name": "inclusionAI/Ling-3.0-flash-VL",
+    "in": "0.06",
+    "out": "0.18",
+    "cache_read": "0.012",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "inclusionAI/Ling-3.0-flash-Fin",
+    "name": "inclusionAI/Ling-3.0-flash-Fin",
+    "in": "0.06",
+    "out": "0.18",
+    "cache_read": "0.012",
+    "context": 262144,
+    "max_output": 262144
+  },
+  {
+    "id": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B",
+    "name": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B",
+    "in": "0.5",
+    "out": "2.2",
+    "cache_read": "0.1",
+    "context": 262144,
+    "max_output": 262144
+  },
+  {
+    "id": "nvidia/NVIDIA-Nemotron-3.5-Lightning",
+    "name": "nvidia/NVIDIA-Nemotron-3.5-Lightning",
+    "in": "0.08",
+    "out": "0.2",
+    "cache_read": "0.04",
+    "context": 262144,
+    "max_output": 262144
+  },
+  {
+    "id": "Qwen/Qwen2.5-72B-Instruct",
+    "name": "Qwen/Qwen2.5-72B-Instruct",
+    "in": "0.36",
+    "out": "0.4",
+    "context": 32768,
+    "max_output": 32768
+  },
+  {
+    "id": "google/gemma-4-31B-it-turbo",
+    "name": "google/gemma-4-31B-it-turbo",
+    "in": "0.09",
+    "out": "0.34",
+    "cache_read": "0.05",
+    "context": 262144,
+    "max_output": 262144
+  },
+  {
+    "id": "Qwen/Qwen3-Max-Thinking",
+    "name": "Qwen/Qwen3-Max-Thinking",
+    "in": "1.2",
+    "out": "6",
+    "cache_read": "0.24",
+    "context": 256000,
+    "max_output": 256000
+  },
+  {
+    "id": "ByteDance/Seed-1.8",
+    "name": "ByteDance/Seed-1.8",
+    "in": "0.25",
+    "out": "2",
+    "cache_read": "0.05",
+    "context": 256000,
+    "max_output": 256000
+  },
+  {
+    "id": "XiaomiMiMo/MiMo-V2.6-Pro",
+    "name": "XiaomiMiMo/MiMo-V2.6-Pro",
+    "in": "0.435",
+    "out": "0.87",
+    "cache_read": "0.0036",
+    "context": 1048576,
+    "max_output": 1048576
+  },
+  {
+    "id": "google/gemini-2.5-pro",
+    "name": "google/gemini-2.5-pro",
+    "in": "1.25",
+    "out": "10",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "microsoft/phi-4",
+    "name": "microsoft/phi-4",
+    "in": "0.07",
+    "out": "0.14",
+    "context": 16384,
+    "max_output": 16384
+  },
+  {
+    "id": "google/gemma-4-31B-it-Ultra",
+    "name": "google/gemma-4-31B-it-Ultra",
+    "in": "0.27",
+    "out": "0.76",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "ibm-granite/granite-4.2-30b",
+    "name": "ibm-granite/granite-4.2-30b",
+    "in": "0.16",
+    "out": "0.65",
+    "cache_read": "0.04",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "Sao10K/L3.1-70B-Euryale-v2.2",
+    "name": "Sao10K/L3.1-70B-Euryale-v2.2",
+    "in": "0.85",
+    "out": "0.85",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "Gryphe/MythoMax-L2-13b",
+    "name": "Gryphe/MythoMax-L2-13b",
+    "in": "0.4",
+    "out": "0.4",
+    "context": 4096,
+    "max_output": 4096
+  },
+  {
+    "id": "inclusionAI/Ling-3.0-flash",
+    "name": "inclusionAI/Ling-3.0-flash",
+    "in": "0.06",
+    "out": "0.18",
+    "cache_read": "0.012",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "XiaomiMiMo/MiMo-V2.6-Flash",
+    "name": "XiaomiMiMo/MiMo-V2.6-Flash",
+    "in": "0.14",
+    "out": "0.28",
+    "cache_read": "0.0028",
+    "context": 1048576,
+    "max_output": 1048576
+  },
+  {
+    "id": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+    "name": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+    "in": "0.15",
+    "out": "0.6",
+    "context": 262144,
+    "max_output": 262144
+  },
+  {
+    "id": "google/gemini-3.1-flash-lite",
+    "name": "google/gemini-3.1-flash-lite",
+    "in": "0.25",
+    "out": "1.5",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "meta-llama/Llama-Guard-4-12B",
+    "name": "meta-llama/Llama-Guard-4-12B",
+    "in": "0.18",
+    "out": "0.18",
+    "context": 163840,
+    "max_output": 163840
+  },
+  {
+    "id": "anthropic/claude-opus-5",
+    "name": "anthropic/claude-opus-5",
+    "in": "5",
+    "out": "25",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "google/gemini-2.5-flash",
+    "name": "google/gemini-2.5-flash",
+    "in": "0.3",
+    "out": "2.5",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "anthropic/claude-opus-4-7",
+    "name": "anthropic/claude-opus-4-7",
+    "in": "5",
+    "out": "25",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "anthropic/claude-fable-5",
+    "name": "anthropic/claude-fable-5",
+    "in": "10",
+    "out": "50",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "nvidia/Nemotron-Content-Safety-3.5",
+    "name": "nvidia/Nemotron-Content-Safety-3.5",
+    "in": "0.2",
+    "out": "0.2",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "google/gemini-3.1-pro",
+    "name": "google/gemini-3.1-pro",
+    "in": "2",
+    "out": "12",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "NousResearch/Hermes-3-Llama-3.1-70B",
+    "name": "NousResearch/Hermes-3-Llama-3.1-70B",
+    "in": "0.7",
+    "out": "0.7",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "anthropic/claude-sonnet-5",
+    "name": "anthropic/claude-sonnet-5",
+    "in": "3",
+    "out": "15",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+    "name": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+    "in": "0.4",
+    "out": "0.4",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "anthropic/claude-opus-4-8",
+    "name": "anthropic/claude-opus-4-8",
+    "in": "5",
+    "out": "25",
+    "context": 1000000,
+    "max_output": 1000000
+  },
+  {
+    "id": "MiniMaxAI/MiniMax-M2.7-Turbo",
+    "name": "MiniMaxAI/MiniMax-M2.7-Turbo",
+    "in": "0.38",
+    "out": "1.7",
+    "cache_read": "0.07",
+    "context": 196608,
+    "max_output": 196608
+  },
+  {
+    "id": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+    "name": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+    "in": "0.02",
+    "out": "0.04",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "ibm-granite/granite-4.2-3b",
+    "name": "ibm-granite/granite-4.2-3b",
+    "in": "0.03",
+    "out": "0.12",
+    "cache_read": "0.0075",
+    "context": 131072,
+    "max_output": 131072
+  },
+  {
+    "id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+    "name": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+    "in": "0.075",
+    "out": "0.2",
+    "context": 128000,
+    "max_output": 128000
+  },
+  {
+    "id": "Qwen/Qwen3-14B",
+    "name": "Qwen/Qwen3-14B",
+    "in": "0.12",
+    "out": "0.24",
+    "context": 40960,
+    "max_output": 40960
+  },
+  {
+    "id": "mistralai/Mistral-Small-24B-Instruct-2501",
+    "name": "mistralai/Mistral-Small-24B-Instruct-2501",
+    "in": "0.05",
+    "out": "0.08",
+    "context": 32768,
+    "max_output": 32768
+  },
+  {
+    "id": "openai/gpt-oss-120b-Turbo",
+    "name": "openai/gpt-oss-120b-Turbo",
+    "in": "0.15",
+    "out": "0.6",
+    "context": 131072,
+    "max_output": 131072
   }
 ]

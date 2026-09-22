@@ -12,6 +12,5 @@
       "endpoint": "https://inference.friendli.ai/v1"
     }
   ],
-  "desc": "FriendliAI's serving platform",
-  "seeded": true
+  "desc": "FriendliAI's serving platform"
 }

@@ -13,10 +13,13 @@
  */
 import anthropic from "./anthropic.mjs";
 import cerebras from "./cerebras.mjs";
+import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
+import friendli from "./friendli.mjs";
 import googleGemini from "./google-gemini.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
+import novita from "./novita.mjs";
 import perplexity from "./perplexity.mjs";
 import stepfun from "./stepfun.mjs";
 import togetherai from "./togetherai.mjs";
@@ -31,10 +34,13 @@ import zhipu from "./zhipu.mjs";
 export default [
   anthropic,
   cerebras,
+  deepinfra,
   deepseek,
+  friendli,
   googleGemini,
   kimi,
   minimax,
+  novita,
   perplexity,
   ...stepfun,
   togetherai,

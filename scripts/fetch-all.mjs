@@ -297,17 +297,12 @@ for (const r of changed) {
 // did not bump the version has done nothing as far as anyone consuming this repo
 // is concerned — which makes the bump part of applying the change, not a
 // follow-up someone remembers.
-const movedPrices =
-  changed.some(
-    (r) =>
-      r.changes.updated.some((c) => c.field === "in" || c.field === "out") ||
-      r.changes.created.length > 0 ||
-      r.changes.deleted.length > 0,
-  ) || pricedRows() !== pricedRows("HEAD");
-
-/** Priced rows in the working tree, and in git HEAD: an *entry deletion* is a
-    price change with no run to report it, and the version gate would hold the
-    stale table open forever. Count both sides and compare. */
+//
+// Priced rows in the working tree, and in git HEAD: an *entry deletion* is a
+// price change with no run to report it, and the version gate would hold the
+// stale table open forever. Count both sides and compare. Declared before
+// movedPrices — a no-change run evaluates the right half and a `const` arrow
+// below the call site is a TDZ crash on exactly the quiet path (2026-09-23).
 const pricedRows = (rev) => {
   const ids = readdirSync(path.join(repo, "entries")).filter((d) => {
     try {
@@ -340,8 +335,16 @@ const pricedRows = (rev) => {
   return n;
 };
 
-const globalPath = path.join(repo, "global.json");
+const movedPrices =
+  changed.some(
+    (r) =>
+      r.changes.updated.some((c) => c.field === "in" || c.field === "out") ||
+      r.changes.created.length > 0 ||
+      r.changes.deleted.length > 0,
+  ) || pricedRows() !== pricedRows("HEAD");
+
 let bumped = false;
+const globalPath = path.join(repo, "global.json");
 if (movedPrices) {
   const g = JSON.parse(readFileSync(globalPath, "utf8"));
   const next = g.version + 1;

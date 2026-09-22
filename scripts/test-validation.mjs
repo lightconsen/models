@@ -249,6 +249,31 @@ const CASES = [
     expectCode: 0,
     expectWarn: /plan_query template "nosuchvendor" is not one the app knows/,
   },
+  {
+    rule: "extra — context/max_output must be a positive whole number of tokens",
+    provider: provider(`${prefix}-context-frac`),
+    models: [{ id: "m1", in: "1", out: "1", name: "M1", context: 1.5 }],
+    expect: /context must be a positive whole number of tokens/,
+  },
+  {
+    rule: "extra — context/max_output reject zero and negatives",
+    provider: provider(`${prefix}-context-zero`),
+    models: [{ id: "m1", in: "1", out: "1", name: "M1", max_output: 0 }],
+    expect: /max_output must be a positive whole number of tokens/,
+  },
+  {
+    rule: "extra — a capability flag must be boolean",
+    provider: provider(`${prefix}-reasoning-str`),
+    models: [{ id: "m1", in: "1", out: "1", name: "M1", reasoning: "yes" }],
+    expect: /reasoning must be boolean/,
+  },
+  {
+    rule: "extra — capability fields publish only on a priced row (warned, not rejected)",
+    provider: provider(`${prefix}-caps-unpriced`),
+    models: [{ id: "m1", name: "M1", reasoning: true }],
+    expectCode: 0,
+    expectWarn: /capability fields on an unpriced row/,
+  },
 ];
 
 /// Entries planted by the case in flight, removed before the next one starts.

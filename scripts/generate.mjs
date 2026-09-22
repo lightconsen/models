@@ -113,7 +113,14 @@ const PROVIDER_KEYS = new Set([
 const MODEL_KEYS = new Set([
   "id", "name", "in", "out", "cache_read", "cache_creation", "serves", "flagship",
   "off_peak", "peak_hours", "long_context",
+  /* Capability facts from the vendor's own docs, optional per row: a length
+     limit is a whole number of tokens, a capability flag is boolean. Absent
+     means the vendor does not say — never write `false` to mean that. */
+  "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature",
 ]);
+/** The capability fields, for validation and for the dist projection. */
+const CAPABILITY_FIELDS = ["context", "max_output", "reasoning", "tool_call", "structured_output", "temperature"];
+const CAPABILITY_LENGTHS = new Set(["context", "max_output"]);
 /** The rate fields a model row may carry, and the ones an `off_peak` block may.
     (Distinct from `PRICE_FIELDS`, which names the *published* row's columns.) */
 const RATE_FIELDS = ["in", "out", "cache_read", "cache_creation"];
@@ -444,6 +451,22 @@ for (const dir of entryDirs) {
         }
       }
     }
+    // Capability facts, the same "optional, and the vendor is the source" shape
+    // as the price blocks above. Absent means the vendor does not say; a false
+    // would claim the vendor says no.
+    for (const f of CAPABILITY_LENGTHS) {
+      if (m[f] !== undefined && (!Number.isInteger(m[f]) || m[f] <= 0)) {
+        fail(`${mw}: ${f} must be a positive whole number of tokens`);
+      }
+    }
+    for (const f of CAPABILITY_FIELDS) {
+      if (m[f] !== undefined && !CAPABILITY_LENGTHS.has(f) && typeof m[f] !== "boolean") {
+        fail(`${mw}: ${f} must be boolean — omit it when the vendor does not say`);
+      }
+    }
+    if (!(hasIn && hasOut) && CAPABILITY_FIELDS.some((f) => m[f] !== undefined)) {
+      warn(`${mw}: capability fields on an unpriced row validate but never publish — dist/models.json carries priced rows only`);
+    }
     if (hasIn && hasOut) {
       // dist/models.json rows carry display_name and the app's ModelPriceEntry
       // requires it, so a priced model without a name would break the price
@@ -553,6 +576,9 @@ for (const dir of entryDirs) {
     // charges the lower band — the opposite direction from the peak default above,
     // because here the listed band is the cheaper one.
     if (m.long_context !== undefined) row.long_context = m.long_context;
+    // Capability facts travel when present: a client that does not read them
+    // loses nothing, and one that does never guesses them from a model name.
+    for (const f of CAPABILITY_FIELDS) if (m[f] !== undefined) row[f] = m[f];
     entryPriceRows.push({ entry: dir, row, currency: e.currency });
   }
 }

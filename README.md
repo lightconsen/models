@@ -364,7 +364,13 @@ record per model:
     "out": "25",
     "cache_read": "0.50",      // optional, 0 when absent
     "cache_creation": "6.25",  // optional, 0 when absent (most providers charge nothing)
-    "flagship": true           // optional: the model whose price represents this provider
+    "flagship": true,          // optional: the model whose price represents this provider
+    "context": 200000,         // optional: context window, whole input tokens (vendor's figure)
+    "max_output": 32000,       // optional: maximum output tokens
+    "reasoning": true,         // optional capability flags — boolean, or absent
+    "tool_call": true,         //   when the vendor does not say; absent is not false
+    "structured_output": true,
+    "temperature": true
   }
 ]
 ```
@@ -372,6 +378,25 @@ record per model:
 **Presence of `in`/`out` is the price flag.** A model without them is declared but
 unpriced — the app lists it and shows no cost rather than a wrong one. `[]` is
 valid and means the provider serves no models yet.
+
+### Capability facts
+
+`context`, `max_output`, `reasoning`, `tool_call`, `structured_output` and
+`temperature` are the model's capabilities as the vendor's own docs state them —
+the same pages that carry the prices, wherever those pages exist. The rules that
+keep them honest:
+
+- **Absent means the vendor does not say.** It is never `false`: a written
+  `false` claims the vendor published a no, and most vendor docs simply don't.
+  Fill a flag only from a page that states the capability.
+- **Lengths are whole token counts**, transcribed at the vendor's own figure —
+  a page that says `1M` / `128K` is recorded as `1000000` / `128000`, the way
+  MiniMax's `512k` band became `long_context.over: 512000`. Mode-conditional
+  exceptions a boolean cannot hold (MiMo forces `temperature` back to its
+  default in thinking mode) go to the checklist prose, not into the flag.
+- **They publish on priced rows only.** `dist/models.json` carries priced rows,
+  so capability fields on a token-plan row validate and warn but never reach a
+  client — the build says so rather than accepting them silently.
 
 ### Time-of-day pricing
 

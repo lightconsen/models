@@ -24,7 +24,9 @@ against the REST API instead of `gh`.
 ## One-time setup on the box
 
 Node ≥ 24 and a clone are assumed in place (`/root/models` below; adjust
-`REPO_DIR` if different).
+`REPO_DIR` if different). An nvm-installed node is fine — systemd does not read
+`.bashrc`, so `scripts/sync-hk.sh` falls back to the newest `~/.nvm` copy when
+`node` is not on the service's PATH.
 
 **1. A fine-grained PAT.** GitHub → Settings → Developer settings → Fine-grained
 personal access tokens. Repository access: only `lightconsen/models`.

@@ -55,6 +55,14 @@ API="${API:-https://api.github.com/repos/lightconsen/models}"
 
 cd "$REPO_DIR" || { echo "no repository at $REPO_DIR" >&2; exit 1; }
 
+# systemd does not read .bashrc, so an nvm-installed node is invisible to the
+# service. Fall back to the newest nvm copy before declaring failure.
+if ! command -v node >/dev/null 2>&1; then
+  newest="$(ls -d "$HOME"/.nvm/versions/node/v* 2>/dev/null | sort -V | tail -1)"
+  [ -n "$newest" ] && export PATH="$newest/bin:$PATH"
+fi
+command -v node >/dev/null 2>&1 || { echo "node not on PATH and no nvm copy found" >&2; exit 1; }
+
 # Run from the current main every time. Commits and the global.json bump then
 # sit on the newest base, so when the other observation point's PR has merged,
 # this run's bump lands past it instead of colliding with it in a merge.

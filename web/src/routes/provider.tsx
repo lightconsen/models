@@ -172,24 +172,32 @@ export function ProviderDetailPage({
       </div>
 
       <h2 className="section-title">Endpoints</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Protocol</th>
-            <th>Endpoint</th>
-            <th className="num">Models served</th>
-          </tr>
-        </thead>
-        <tbody>
-          {entry.endpoints.map((ep) => (
-            <tr key={ep.protocol}>
-              <td className="mono">{ep.protocol}</td>
-              <td className="mono break">{ep.endpoint}</td>
-              <td className="num">{ep.models.length}</td>
+      {entry.endpoints.length === 0 ? (
+        <p className="muted">
+          No public endpoint — this service provisions a private API base per account
+          (an Azure resource, an AWS region, a workspace host…), so the catalogue
+          publishes the prices and the reader's own deployment URL is the endpoint.
+        </p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Protocol</th>
+              <th>Endpoint</th>
+              <th className="num">Models served</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {entry.endpoints.map((ep) => (
+              <tr key={ep.protocol}>
+                <td className="mono">{ep.protocol}</td>
+                <td className="mono break">{ep.endpoint}</td>
+                <td className="num">{ep.models.length}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       <h2 className="section-title">Models ({rows.length})</h2>
       <p className="muted">All prices per 1M tokens.</p>

@@ -113,8 +113,55 @@ ${trs}
 <p class="back muted">All prices per 1M tokens · <a href="${SITE}/#/">Kiwano Hub</a></p>`;
 };
 
+/** Per-model pages: the deep-index surface. Each priced row gets a static
+    page carrying its own price table, capabilities and provider chrome — the
+    URL a search for "<model> pricing" should land on. */
+const modelBody = (entry, r) => {
+  const cur = r.currency === "CNY" ? "¥" : "$";
+  const caps = [
+    ["Context", r.context ? `${money(r.context)} tokens` : null],
+    ["Max output", r.max_output ? `${money(r.max_output)} tokens` : null],
+    ["Reasoning", yes(r.reasoning)],
+    ["Tool call", yes(r.tool_call)],
+    ["Structured output", yes(r.structured_output)],
+  ];
+  const capCells = caps.map(([k, v]) => `<tr><td>${k}</td><td class="num mono">${typeof v === "string" ? esc(v) : v}</td></tr>`).join("\n");
+  const rateRows = [
+    ["Input / 1M tokens", `${cur}${money(r.input)}`],
+    ["Output / 1M tokens", `${cur}${money(r.output)}`],
+    ...(r.cache_read && Number(r.cache_read) > 0 ? [["Cache read / 1M tokens", `${cur}${money(r.cache_read)}`]] : []),
+    ...(r.cache_creation && Number(r.cache_creation) > 0 ? [["Cache write / 1M tokens", `${cur}${money(r.cache_creation)}`]] : []),
+  ].map(([k, v]) => `<tr><td>${k}</td><td class="num mono">${esc(v)}</td></tr>`).join("\n");
+  const off = r.off_peak && r.peak_hours
+    ? `<tr><td>Off-peak / 1M tokens</td><td class="num mono">${cur}${money(r.off_peak.in)} in / ${cur}${money(r.off_peak.out)} out</td></tr>`
+    : "";
+  const lc = r.long_context
+    ? `<tr><td>Above ${money(r.long_context.over)} input tokens</td><td class="num mono">${cur}${money(r.long_context.in)} in / ${cur}${money(r.long_context.out)} out</td></tr>`
+    : "";
+  return `<h1>${esc(r.display_name)}</h1>
+<p class="muted mono">${esc(r.model_id)} · ${esc(entry.name)}${entry.seeded ? " · seeded, pending verification" : ""}</p>
+${entry.price_ref && entry.price_ref.model_id === r.model_id ? `<p class="muted">This is ${esc(entry.name)}'s flagship — the rate its provider card shows.</p>` : ""}
+<table>
+<thead><tr><th>Rate</th><th class="num">Value</th></tr></thead>
+<tbody>
+${rateRows}
+${off}
+${lc}
+</tbody>
+</table>
+<h2 style="margin-top:28px;font-size:16px">Capabilities</h2>
+<table>
+<tbody>
+${capCells}
+</tbody>
+</table>
+${entry.desc ? `<p style="margin-top:18px">${esc(entry.desc)}</p>` : ""}
+<p class="back muted">All prices per 1M tokens, ${esc(r.currency)}${entry.prices_as_of ? ` · prices as of ${esc(entry.prices_as_of)}` : ""} · <a href="${SITE}/provider/${esc(entry.id)}/">${esc(entry.name)} on Kiwano Hub</a></p>`;
+};
+
 const today = new Date().toISOString().slice(0, 10);
 const made = [];
+const modelMade = [];
 for (const entry of catalog.entries) {
   const rows = byProvider.get(entry.id) ?? [];
   const ref = entry.price_ref;
@@ -125,11 +172,26 @@ for (const entry of catalog.entries) {
   mkdirSync(dir, { recursive: true });
   writeFileSync(path.join(dir, "index.html"), page(`${entry.name} — models and prices | Kiwano Hub`, desc, providerBody(entry, rows), `provider/${entry.id}/`));
   made.push(entry.id);
+
+  // Per-model pages: the URL path mirrors the SPA's future route shape and
+  // keeps model ids case-safe (ids are case-sensitive in some APIs, so the
+  // directory spells them base64url-encoded).
+  for (const r of rows) {
+    if (r.input === undefined || r.output === undefined) continue;
+    const key = Buffer.from(`${entry.id}/${r.model_id}`, "utf8").toString("base64url");
+    const mdir = path.join(outDir, "model", key);
+    mkdirSync(mdir, { recursive: true });
+    const mtitle = `${r.display_name} pricing — ${entry.name} | Kiwano Hub`;
+    const mdesc = `${r.display_name} on ${entry.name}: ${money(r.input)} in / ${money(r.output)} out per 1M tokens${r.context ? `, ${money(r.context)} context` : ""}.`;
+    writeFileSync(path.join(mdir, "index.html"), page(mtitle, mdesc, modelBody(entry, r), `model/${key}/`));
+    modelMade.push({ entry: entry.id, model: r.model_id, key, asof: entry.prices_as_of ?? today });
+  }
 }
 
 const urls = [
   `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod></url>`,
   ...made.map((id) => `  <url><loc>${SITE}/provider/${esc(id)}/</loc><lastmod>${today}</lastmod></url>`),
+  ...modelMade.map((m) => `  <url><loc>${SITE}/model/${m.key}/</loc><lastmod>${m.asof}</lastmod></url>`),
 ];
 writeFileSync(
   path.join(outDir, "sitemap.xml"),
@@ -137,4 +199,4 @@ writeFileSync(
 );
 writeFileSync(path.join(outDir, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-console.log(`✓ prerendered ${made.length} provider pages + sitemap.xml + robots.txt`);
+console.log(`✓ prerendered ${made.length} provider pages, ${modelMade.length} model pages + sitemap.xml + robots.txt`);

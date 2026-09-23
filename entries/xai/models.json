@@ -125,5 +125,18 @@
     "structured_output": true,
     "temperature": true,
     "context": 1000000
+  },
+  {
+    "id": "grok-4.7",
+    "name": "grok-4.7",
+    "in": "2.00",
+    "out": "6.00",
+    "cache_read": "0.50",
+    "long_context": {
+      "over": 200000,
+      "in": "4.00",
+      "out": "12.00",
+      "cache_read": "1.00"
+    }
   }
 ]

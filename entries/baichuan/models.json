@@ -1,0 +1,102 @@
+[
+  {
+    "id": "Baichuan-M3-Plus",
+    "name": "Baichuan-M3-Plus",
+    "in": "5",
+    "out": "9",
+    "context": 32000
+  },
+  {
+    "id": "Baichuan-M3",
+    "name": "Baichuan-M3",
+    "in": "10",
+    "out": "30",
+    "context": 32000
+  },
+  {
+    "id": "Baichuan-M2-Plus",
+    "name": "Baichuan-M2-Plus",
+    "in": "10",
+    "out": "30",
+    "context": 32000
+  },
+  {
+    "id": "Baichuan-M2",
+    "name": "Baichuan-M2",
+    "in": "2",
+    "out": "20",
+    "context": 32000
+  },
+  {
+    "id": "Baichuan4-Turbo",
+    "name": "Baichuan4-Turbo",
+    "in": "15",
+    "out": "15",
+    "context": 32000
+  },
+  {
+    "id": "Baichuan4-Air",
+    "name": "Baichuan4-Air",
+    "in": "0.98",
+    "out": "0.98",
+    "context": 32000
+  },
+  {
+    "id": "Baichuan4",
+    "name": "Baichuan4",
+    "in": "100",
+    "out": "100",
+    "context": 32000,
+    "flagship": true
+  },
+  {
+    "id": "Baichuan3-Turbo",
+    "name": "Baichuan3-Turbo",
+    "in": "12",
+    "out": "12",
+    "context": 32000
+  },
+  {
+    "id": "Baichuan3-Turbo-128k",
+    "name": "Baichuan3-Turbo-128k",
+    "in": "24",
+    "out": "24",
+    "context": 128000
+  },
+  {
+    "id": "Baichuan2-Turbo",
+    "name": "Baichuan2-Turbo",
+    "in": "8",
+    "out": "8",
+    "context": 32000
+  },
+  {
+    "id": "Baichuan2-53B",
+    "name": "Baichuan2-53B",
+    "in": "20",
+    "out": "20",
+    "context": 32000,
+    "off_peak": {
+      "in": "10",
+      "out": "10"
+    },
+    "peak_hours": {
+      "tz_offset": 480,
+      "windows": [
+        {
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat",
+            "sun"
+          ],
+          "start": "08:00",
+          "end": "23:59"
+        }
+      ]
+    }
+  }
+]

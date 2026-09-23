@@ -1,0 +1,17 @@
+{
+  "id": "baichuan",
+  "name": "Baichuan",
+  "website": "https://platform.baichuan-ai.com/",
+  "tag": "official",
+  "rating": 3.8,
+  "billing": "payg",
+  "currency": "CNY",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.baichuan-ai.com/v1"
+    }
+  ],
+  "desc": "Baichuan Intelligence's own model API",
+  "prices_as_of": "2026-09-23"
+}

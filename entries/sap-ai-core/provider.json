@@ -8,5 +8,6 @@
   "currency": "USD",
   "endpoints": [],
   "desc": "SAP's AI Core service",
-  "seeded": true
+  "seeded": true,
+  "endpoint_template": "https://{ai-core-url}/v2/inference"
 }

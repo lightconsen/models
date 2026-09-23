@@ -8,5 +8,6 @@
   "currency": "USD",
   "endpoints": [],
   "desc": "Databricks's model serving",
-  "seeded": true
+  "seeded": true,
+  "endpoint_template": "https://{workspace-host}/serving-endpoints"
 }

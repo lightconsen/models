@@ -174,9 +174,15 @@ export function ProviderDetailPage({
       <h2 className="section-title">Endpoints</h2>
       {entry.endpoints.length === 0 ? (
         <p className="muted">
-          No public endpoint — this service provisions a private API base per account
-          (an Azure resource, an AWS region, a workspace host…), so the catalogue
-          publishes the prices and the reader's own deployment URL is the endpoint.
+          No public endpoint — this service provisions a private API base per account.{" "}
+          {entry.endpoint_template ? (
+            <>
+              Your endpoint follows the vendor's pattern:{" "}
+              <span className="mono endpoint-template">{entry.endpoint_template}</span>
+            </>
+          ) : (
+            "The catalogue publishes the prices; your deployment URL is the endpoint."
+          )}
         </p>
       ) : (
         <table>

@@ -8,5 +8,6 @@
   "currency": "USD",
   "endpoints": [],
   "desc": "Oracle Cloud's Generative AI service",
-  "seeded": true
+  "seeded": true,
+  "endpoint_template": "https://inference.generativeai.{region}.oci.oraclecloud.com"
 }

@@ -112,6 +112,11 @@ const PROVIDER_KEYS = new Set([
      and have not been verified against the vendor's own pages yet. Boolean —
      it goes away the day the entry is upgraded. See roadmap. */
   "seeded",
+  /* For the resource-pinned services: the URL pattern the vendor's own docs
+     give, with the per-account parts in braces. It is documentation, not a
+     callable address — the endpoints array stays empty and this renders in
+     its place. */
+  "endpoint_template",
 ]);
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
@@ -213,6 +218,7 @@ function catalogEntry(e, derived) {
     ...(derived.priceRef === undefined ? {} : { price_ref: derived.priceRef }),
     ...(e.prices_as_of === undefined ? {} : { prices_as_of: e.prices_as_of }),
     ...(e.seeded === undefined ? {} : { seeded: e.seeded }),
+    ...(e.endpoint_template === undefined ? {} : { endpoint_template: e.endpoint_template }),
   };
 }
 
@@ -289,6 +295,24 @@ for (const dir of entryDirs) {
   if (e.seeded !== undefined) {
     if (typeof e.seeded !== "boolean") fail(`${where}: seeded must be boolean`);
     else seededIds.push(e.id);
+  }
+  // The template is the vendor's URL pattern with per-account parts in braces.
+  // Braces are what make it a pattern rather than an address — validate that
+  // it parses as a URL once the placeholders are filled with a harmless name,
+  // so a typo'd template fails here rather than rendering a dead link.
+  if (e.endpoint_template !== undefined) {
+    if (typeof e.endpoint_template !== "string" || !e.endpoint_template.includes("{")) {
+      fail(`${where}: endpoint_template must be a URL pattern with {placeholders}`);
+    } else {
+      let ok = true;
+      try {
+        const u = new URL(e.endpoint_template.replaceAll(/\{[^}]*\}/g, "example"));
+        ok = u.protocol === "https:" || u.protocol === "http:";
+      } catch {
+        ok = false;
+      }
+      if (!ok) fail(`${where}: endpoint_template "${e.endpoint_template}" must be an http(s) URL pattern`);
+    }
   }
   // Which quota endpoint, if any, can be read with nothing but this provider's
   // own API key. Absent means "none" — and that is most of them: it is a fact

@@ -8,5 +8,6 @@
   "currency": "USD",
   "endpoints": [],
   "desc": "AWS's managed model hosting",
-  "seeded": true
+  "seeded": true,
+  "endpoint_template": "https://bedrock-runtime.{region}.amazonaws.com/openai/v1"
 }

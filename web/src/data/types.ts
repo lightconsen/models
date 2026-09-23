@@ -85,6 +85,10 @@ export interface Entry {
   /** Tier C: prices seeded from a third-party database, not yet verified
       against the vendor's own pages. The badge says so on the site. */
   seeded?: boolean;
+  /** The vendor's URL pattern for a resource-pinned API base, with the
+      per-account parts in braces: documentation of what the user's endpoint
+      looks like, not a callable address. */
+  endpoint_template?: string;
   price_ref?: PriceRef;
   /** The day the fetcher last wrote this entry's price rows (YYYY-MM-DD).
       Maintained by fetch-all; hand-edited entries may omit it. */

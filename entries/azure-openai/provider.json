@@ -8,5 +8,6 @@
   "currency": "USD",
   "endpoints": [],
   "desc": "Azure's hosted OpenAI models",
-  "seeded": true
+  "seeded": true,
+  "endpoint_template": "https://{resource-name}.openai.azure.com/openai/v1"
 }

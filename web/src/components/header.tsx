@@ -24,6 +24,15 @@ export function Header() {
           <button className="btn" onClick={toggleSearch} title="Search providers and models (⌘K)">
             Search <kbd>⌘K</kbd>
           </button>
+          <a
+            className="btn"
+            href="https://github.com/lightconsen/models"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="The data repo — every price cites its vendor page"
+          >
+            GitHub
+          </a>
           <label className="seg" title="Display currency">
             <select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value as "native" | "usd")}>
               <option value="native">Native</option>

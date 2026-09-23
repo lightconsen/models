@@ -24,15 +24,6 @@ export function Header() {
           <button className="btn" onClick={toggleSearch} title="Search providers and models (⌘K)">
             Search <kbd>⌘K</kbd>
           </button>
-          <a
-            className="btn"
-            href="https://github.com/lightconsen/models"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="The data repo — every price cites its vendor page"
-          >
-            GitHub
-          </a>
           <label className="seg" title="Display currency">
             <select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value as "native" | "usd")}>
               <option value="native">Native</option>
@@ -46,6 +37,15 @@ export function Header() {
               <option value="dark">Dark</option>
             </select>
           </label>
+          <a
+            className="gh-link"
+            href="https://github.com/lightconsen/models"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="The data repo — every price cites its vendor page"
+          >
+            <img className="gh-mark" src={import.meta.env.BASE_URL + "github.svg"} alt="GitHub" />
+          </a>
         </div>
       </div>
     </header>

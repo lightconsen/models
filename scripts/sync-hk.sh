@@ -66,9 +66,16 @@ command -v node >/dev/null 2>&1 || { echo "node not on PATH and no nvm copy foun
 # Run from the current main every time. Commits and the global.json bump then
 # sit on the newest base, so when the other observation point's PR has merged,
 # this run's bump lands past it instead of colliding with it in a merge.
+#
+# The reset can replace this very file (a pull that touched sync-hk.sh). Bash
+# reads scripts lazily, so continuing in-process would run a mix of the old and
+# new text — which is exactly what the first broken run did. Re-exec instead.
+old_blob="$(git rev-parse "HEAD:scripts/sync-hk.sh" 2>/dev/null || true)"
 git fetch origin main || exit 1
 git reset --hard origin/main
 git clean -fdq
+[ "$old_blob" = "$(git rev-parse "HEAD:scripts/sync-hk.sh" 2>/dev/null)" ] \
+  || exec bash "${BASH_SOURCE[0]}" "$@"
 
 log="$(mktemp)"
 code=0

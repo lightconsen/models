@@ -20,9 +20,13 @@ import { getText, drift, decimal, MEMBERSHIP } from "../lib/fetch.mjs";
 
 const URL = "https://www.anthropic.com/pricing";
 
-/** A current model: name, description, then the four rates in this order. */
+/** A current model: name, description, then the four rates in this order. The
+    2026-09-24 restructure moved the prompt-caching block ahead of input and
+    output — until then the page read Input, Output, then Prompt caching, and
+    the reorder is the whole reason this adapter failed for a day (the values
+    and their labels were untouched; only their order changed). */
 const BLOCK =
-  /([^\n]+)\n[^\n]+\nInput\n\$([0-9.]+)\n\/ MTok\nOutput\n\$([0-9.]+)\n\/ MTok\nPrompt caching\nRead\n\$([0-9.]+)\n\/ MTok\nWrite\n\$([0-9.]+)\n\/ MTok/g;
+  /([^\n]+)\n[^\n]+\nPrompt caching\nRead\n\$([0-9.]+)\n\/ MTok\nWrite\n\$([0-9.]+)\n\/ MTok\nInput\n\$([0-9.]+)\n\/ MTok\nOutput\n\$([0-9.]+)\n\/ MTok/g;
 
 /** "Fable 5.1" -> "claude-fable-5-1". */
 const idOf = (name) => `claude-${name.toLowerCase().replace(/[.\s]+/g, "-")}`;
@@ -49,7 +53,7 @@ export default {
       .filter(Boolean)
       .join("\n");
 
-    const rows = [...visible.matchAll(BLOCK)].map(([, name, i, o, read, write]) => ({
+    const rows = [...visible.matchAll(BLOCK)].map(([, name, read, write, i, o]) => ({
       id: idOf(name),
       in: decimal(i),
       out: decimal(o),

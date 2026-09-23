@@ -98,7 +98,14 @@ fi
 node scripts/generate.mjs --check || exit 2
 node scripts/test-policy.mjs || exit 2
 
-git push --force-with-lease origin "HEAD:refs/heads/$BRANCH" || exit 3
+# The push authenticates from GH_TOKEN itself: systemd gives this process no
+# terminal to prompt on, and with no $HOME its global config would hide any
+# stored credential anyway. Clear the helper list, install one that answers
+# git's prompt from the env file, and forbid a terminal fallback — a bad token
+# must fail loudly, not hang.
+GIT_TERMINAL_PROMPT=0 git -c credential.helper= \
+  -c 'credential.helper=!f(){ printf "username=%s\npassword=%s\n" "$GH_TOKEN" "$GH_TOKEN"; }; f' \
+  push --force-with-lease origin "HEAD:refs/heads/$BRANCH" || exit 3
 
 # The PR body, worded like the US one's: per-entry commits, the skipped sources
 # named, the full log folded away.
@@ -159,8 +166,10 @@ existing="$(curl -fsS "${auth[@]}" "$API/pulls?head=lightconsen:$BRANCH&state=op
 
 if [ -n "$existing" ]; then
   curl -fsS -X PATCH "${auth[@]}" "$API/pulls/$existing" -d @"$patch" >/dev/null \
-    && echo "updated PR #$existing"
+    && echo "updated PR #$existing" \
+    || echo "⚠ the commits are pushed, but the PR could not be updated — check GH_TOKEN and API in /etc/kiwano-sync.env"
 else
   curl -fsS -X POST "${auth[@]}" "$API/pulls" -d @"$post" >/dev/null \
-    && echo "opened a PR"
+    && echo "opened a PR" \
+    || echo "⚠ the commits are pushed, but the PR could not be opened — check GH_TOKEN and API in /etc/kiwano-sync.env"
 fi

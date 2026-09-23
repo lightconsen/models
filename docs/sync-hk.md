@@ -33,14 +33,10 @@ personal access tokens. Repository access: only `lightconsen/models`.
 Permissions: **Contents: read and write**, **Pull requests: read and write**.
 Expiry 90 days; calendar the rotation — the timer has no other secret.
 
-**2. Push credentials.** The clone is https; seed the store once so the script's
-plain `git push` works:
-
-```bash
-git config --global credential.helper store
-printf 'https://x-access-token:%s@github.com\n' 'github_pat_…' >> ~/.git-credentials
-chmod 600 ~/.git-credentials
-```
+**2. Push credentials.** Nothing to configure: the script pushes with the env
+file's `GH_TOKEN` through a credential helper it installs for itself, and the
+service has no terminal to prompt on. A `~/.git-credentials` file and a
+`credential.helper` config are neither needed nor consulted.
 
 **3. Commit identity.** The commits carry this name through review:
 

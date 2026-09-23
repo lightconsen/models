@@ -55,10 +55,14 @@ API="${API:-https://api.github.com/repos/lightconsen/models}"
 
 cd "$REPO_DIR" || { echo "no repository at $REPO_DIR" >&2; exit 1; }
 
-# systemd does not read .bashrc, so an nvm-installed node is invisible to the
-# service. Fall back to the newest nvm copy before declaring failure.
+# systemd does not read .bashrc and does not even set $HOME for a root
+# service, so an nvm-installed node is invisible to the service. Fall back to
+# the newest nvm copy before declaring failure.
 if ! command -v node >/dev/null 2>&1; then
-  newest="$(ls -d "$HOME"/.nvm/versions/node/v* 2>/dev/null | sort -V | tail -1)"
+  home="${HOME:-$(getent passwd "$(id -un)" 2>/dev/null | cut -d: -f6)}"
+  home="${home:-$(awk -F: -v u="$(id -un)" '$1==u {print $6}' /etc/passwd 2>/dev/null)}"
+  home="${home:-$(dirname "$REPO_DIR")}"
+  newest="$(ls -d "$home"/.nvm/versions/node/v* 2>/dev/null | sort -V | tail -1)"
   [ -n "$newest" ] && export PATH="$newest/bin:$PATH"
 fi
 command -v node >/dev/null 2>&1 || { echo "node not on PATH and no nvm copy found" >&2; exit 1; }

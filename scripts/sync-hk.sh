@@ -17,13 +17,36 @@
 # The branch is not the US one (automation/sync vs automation/sync-hk) because
 # the US push is --force-with-lease and would clobber commits parked here.
 #
-# Setup lives in docs/sync-hk.md. Env comes from the systemd env file:
+# Setup lives in docs/sync-hk.md. `install` (run as root, from the pulled
+# clone) copies deploy/sync-hk.* into /etc/systemd/system and enables the
+# timer — nothing is copied between machines; the repo is the only source.
+# With no argument the script runs the sync, and env comes from the systemd
+# env file:
 #   REPO_DIR  where the clone lives           (/root/models)
 #   BRANCH    the fixed branch to push        (automation/sync-hk)
 #   GH_TOKEN  fine-grained PAT, this repo only (contents + pull-requests)
 #   API       override only for a fork        (lightconsen/models)
 
 set -uo pipefail
+
+MODE="${1:-run}"
+
+if [ "$MODE" = "install" ]; then
+  [ "$(id -u)" = 0 ] || { echo "install must run as root (sudo)" >&2; exit 1; }
+  here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+  [ -f "$here/deploy/sync-hk.service" ] && [ -f "$here/deploy/sync-hk.timer" ] \
+    || { echo "unit files missing under $here/deploy" >&2; exit 1; }
+  [ -f /etc/kiwano-sync.env ] \
+    || { echo "/etc/kiwano-sync.env is missing — write it first (docs/sync-hk.md, step 4)" >&2; exit 1; }
+  cp -f "$here/deploy/sync-hk.service" "$here/deploy/sync-hk.timer" /etc/systemd/system/
+  systemctl daemon-reload
+  systemctl enable --now sync-hk.timer
+  echo "timer enabled (daily 13:23 HKT) — first run now, blocking until it finishes:"
+  code=0
+  systemctl start sync-hk.service || code=$?
+  journalctl -u sync-hk.service -n 100 --no-pager
+  exit $code
+fi
 
 REPO_DIR="${REPO_DIR:?REPO_DIR must be set (docs/sync-hk.md)}"
 BRANCH="${BRANCH:-automation/sync-hk}"

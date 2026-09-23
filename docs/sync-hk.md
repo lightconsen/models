@@ -57,19 +57,28 @@ BRANCH=automation/sync-hk
 GH_TOKEN=github_pat_…
 ```
 
-**5. The timer.** The two unit files ship in `deploy/`:
+**5. The timer.** The unit files live in this repo's `deploy/`, so the box gets
+them the way it gets everything else — by pulling. Nothing is copied between
+machines; the clone is the only source:
 
 ```bash
-cp deploy/sync-hk.service deploy/sync-hk.timer /etc/systemd/system/
-systemctl daemon-reload
-systemctl enable --now sync-hk.timer
+cd /root/models && git pull
+sudo scripts/sync-hk.sh install
 ```
+
+`install` copies `deploy/sync-hk.service` and `deploy/sync-hk.timer` into
+`/etc/systemd/system/`, daemon-reloads, enables the timer, and runs the sync
+once so the first output is right there. It refuses to run if
+`/etc/kiwano-sync.env` is missing, and is safe to re-run after a pull that
+changed the units.
 
 The timer fires 13:23 HKT daily, ahead of the US run (06:43 UTC = 14:43 HKT), so
 both PRs are ready for review in the same afternoon. `Persistent=true` catches
 up a missed run after downtime.
 
 ## First run and verification
+
+`install` already runs the sync once. To rerun it at any time:
 
 ```bash
 systemctl start sync-hk.service

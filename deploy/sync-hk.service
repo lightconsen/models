@@ -6,5 +6,5 @@ After=network-online.target
 [Service]
 Type=oneshot
 EnvironmentFile=/etc/kiwano-sync.env
-ExecStart=/bin/bash /root/models/scripts/sync-hk.sh
-WorkingDirectory=/root/models
+# ${REPO_DIR} expands from the env file, so one unit serves any clone location.
+ExecStart=/bin/bash ${REPO_DIR}/scripts/sync-hk.sh

@@ -42,5 +42,25 @@
   {
     "id": "deepseek-v4-pro",
     "name": "DeepSeek V4 Pro"
+  },
+  {
+    "id": "doubao-seed-2.1-pro",
+    "name": "Doubao-Seed-2.1-pro"
+  },
+  {
+    "id": "doubao-seed-2.1-lite",
+    "name": "Doubao-Seed-2.1-lite"
+  },
+  {
+    "id": "doubao-seed-2.0-mini",
+    "name": "Doubao-Seed-2.0-mini"
+  },
+  {
+    "id": "kimi-k2.8-preview",
+    "name": "Kimi-K2.8-Preview"
+  },
+  {
+    "id": "deepseek-v4.1-flash",
+    "name": "DeepSeek-V4.1-Flash"
   }
 ]

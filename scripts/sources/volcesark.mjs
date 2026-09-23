@@ -96,6 +96,13 @@ const cell = (s) =>
 
 const line1 = (text) => String(text ?? "").split("\n")[0].trim();
 
+/** The vendor marks rows it is sunsetting with an inline `即将下线` ("going
+    offline") glued to the id — on the coding plan with no space, on the agent
+    plan with one. The row is still sold and priced today, so the badge comes
+    off and the id stands; the actual retirement arrives as the row leaving the
+    table, which the ordinary removal flow handles. */
+const stripRetiring = (s) => String(s).replace(/\s*`?即将下线`?\s*$/, "").trim();
+
 /** A header cell's label, without the unit on the line below it. */
 const label = (c) => line1(cell(c));
 
@@ -171,7 +178,7 @@ const paygRows = (md) => {
     const raw = line[at.model];
     const written = line1(raw);
     if (!written || /调整前价格/.test(raw)) continue;
-    const id = written.replace(/正式版$/, "").toLowerCase();
+    const id = stripRetiring(written).replace(/正式版$/, "").toLowerCase();
     if (!CARRIED["volcesark-payg"].includes(id)) continue;
     if (rows.has(id)) drift(`doc ${DOC.payg}: ${id} is priced twice in the 常规 table`);
     const row = { id };
@@ -192,7 +199,7 @@ const codingRows = (md) => {
     .map((line) => line1(line[0]))
     .filter(Boolean)
     // The console's own switch, which is the id the endpoint answers to.
-    .map((name) => ({ id: name === "Auto" ? "ark-code-latest" : name.toLowerCase(), name }));
+    .map((name) => ({ id: name === "Auto" ? "ark-code-latest" : stripRetiring(name).toLowerCase(), name: stripRetiring(name) }));
 };
 
 /** The Agent Plan: its text models, ids and names, no rates. */
@@ -201,7 +208,7 @@ const agentRows = (md) => {
   return grid
     .slice(1)
     .filter((line) => line1(line[1]).startsWith("文本生成"))
-    .map((line) => line1(line[2]).replace(/\s*\(.*\)$/, ""))
+    .map((line) => stripRetiring(line1(line[2])).replace(/\s*\(.*\)$/, ""))
     .filter((id) => CARRIED["volcesark-agent-plan"].includes(id))
     .map((id) => ({ id, name: id }));
 };

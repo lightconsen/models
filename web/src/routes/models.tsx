@@ -51,7 +51,7 @@ const columns = (catalog: Catalog): ColumnDef<ModelsFile["models"][number]>[] =>
     },
     {
       key: "as_of",
-      label: <span title="When this provider's price rows were last written from its own pages. A dash means the entry is seeded from a third party and not yet verified, or plan-billed with no rate to write.">As of</span>,
+      label: <span title="When this provider's price rows were last written from its own pages. A dash means the entry is seeded from a third party and not yet verified, or plan-billed with no rate to write.">Prices updated</span>,
       numeric: false,
       sortValue: (r) => asOf.get(r.provider_id) ?? "",
       render: (r) => {

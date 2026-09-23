@@ -1,0 +1,12 @@
+[Unit]
+Description=daily price sync at 13:23 HKT, ahead of the US runner's 06:43 UTC
+
+[Timer]
+# Off the hour, and before the US run (06:43 UTC = 14:43 HKT) so both PRs are
+# ready for review in the same afternoon.
+OnCalendar=*-*-* 13:23:00 Asia/Hong_Kong
+Persistent=true
+Unit=sync-hk.service
+
+[Install]
+WantedBy=timers.target

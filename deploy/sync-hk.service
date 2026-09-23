@@ -1,0 +1,10 @@
+[Unit]
+Description=kiwano models — daily price sync (HK observation point)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/kiwano-sync.env
+ExecStart=/bin/bash /root/models/scripts/sync-hk.sh
+WorkingDirectory=/root/models

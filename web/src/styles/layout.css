@@ -109,3 +109,14 @@
   :root:not([data-theme="light"]) { --logo-filter: invert(1) hue-rotate(180deg); }
 }
 :root[data-theme="dark"] { --logo-filter: invert(1) hue-rotate(180deg); }
+/* Category chips on the providers grid; the chip-count is the category's
+   size, so the filter reads as a map of the catalogue before it filters it. */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; align-items: center; }
+.chip {
+  font: 13px var(--font-sans); color: var(--muted); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; cursor: pointer;
+}
+.chip:hover { border-color: var(--accent); color: var(--fg); }
+.chip-on { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.chip-count { opacity: 0.65; font-size: 11px; margin-left: 2px; }
+.select { width: auto; min-width: 260px; }

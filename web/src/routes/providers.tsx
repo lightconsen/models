@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Catalog, ModelsFile, NewsFile } from "../data/types";
 import { logoUrl } from "../data/api";
 import { navigate } from "../routes/router";
@@ -50,7 +51,20 @@ function NewsStrip({ news }: { news: NewsFile }) {
   );
 }
 
+/** The categories a reader actually sorts providers into: what the vendor
+    sells at that address (the badge the card shows), plus the one reseller.
+    Built from the data so a tag the catalogue gains later appears on its own. */
+const categoryOf = (e: Catalog["entries"][number]) => (e.tag === "aggregate" ? "aggregate" : e.billing);
+
 export function ProvidersPage({ catalog, news }: { catalog: Catalog; news: NewsFile }) {
+  const [cat, setCat] = useState("all");
+  const counts = new Map<string, number>();
+  for (const e of catalog.entries) counts.set(categoryOf(e), (counts.get(categoryOf(e)) ?? 0) + 1);
+  const cats = ["all", ...[...counts.keys()].sort((a, b) => counts.get(b)! - counts.get(a)!)];
+  const label = (c: string) =>
+    c === "all" ? "All" : c === "aggregate" ? "Aggregate" : (billingLabel(c) ?? c);
+  const shown = cat === "all" ? catalog.entries : catalog.entries.filter((e) => categoryOf(e) === cat);
+
   return (
     <main className="page">
       <NewsStrip news={news} />
@@ -60,11 +74,19 @@ export function ProvidersPage({ catalog, news }: { catalog: Catalog; news: NewsF
         {catalog.entries.some((e) => e.seeded) &&
           `, ${catalog.entries.filter((e) => e.seeded).length} of them seeded pending vendor verification`}.
       </p>
+      <div className="chip-row" role="group" aria-label="Filter by category">
+        {cats.map((c) => (
+          <button key={c} className={`chip${cat === c ? " chip-on" : ""}`} onClick={() => setCat(c)}>
+            {label(c)} <span className="chip-count">{c === "all" ? catalog.total : counts.get(c)}</span>
+          </button>
+        ))}
+      </div>
       <div className="provider-grid">
-        {catalog.entries.map((e) => (
+        {shown.map((e) => (
           <ProviderCard key={e.id} entry={e} />
         ))}
       </div>
+      {shown.length === 0 && <p className="muted">No provider in this category.</p>}
     </main>
   );
 }

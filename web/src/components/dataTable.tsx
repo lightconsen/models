@@ -14,6 +14,9 @@ interface DataTableProps<T> {
   rowKey: (t: T) => string;
   detail?: (t: T) => ReactNode;
   placeholder?: ReactNode;
+  /** Extra controls rendered inside the toolbar, on the filter's line — the
+      place a second filter belongs, rather than a row of its own above. */
+  toolbar?: ReactNode;
 }
 
 /**
@@ -22,7 +25,7 @@ interface DataTableProps<T> {
  * storage shape is strings; row click toggles an expanded body (long-context
  * band / peak schedule) below the row.
  */
-export function DataTable<T>({ rows, columns, rowKey, detail, placeholder }: DataTableProps<T>) {
+export function DataTable<T>({ rows, columns, rowKey, detail, placeholder, toolbar }: DataTableProps<T>) {
   const [sort, setSort] = useState<{ key: string; dir: 1 | -1 } | null>(null);
   const [filter, setFilter] = useState("");
   const [open, setOpen] = useState<string | null>(null);
@@ -64,7 +67,8 @@ export function DataTable<T>({ rows, columns, rowKey, detail, placeholder }: Dat
           onChange={(e) => setFilter(e.target.value)}
           aria-label="Filter rows"
         />
-        <span className="muted">{shown.length} of {rows.length}</span>
+        {toolbar}
+        <span className="muted" style={{ marginLeft: "auto" }}>{shown.length} of {rows.length}</span>
       </div>
       <table>
         <thead>

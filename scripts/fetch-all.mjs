@@ -369,8 +369,11 @@ if (COMMIT && changed.length > 0) {
     return rest.includes(" -> ") ? rest.slice(rest.indexOf(" -> ") + 4) : rest;
   };
   const versionFile = "global.json";
+  // provider.json belongs to us too: the write step above stamps prices_as_of
+  // on every changed entry (39e2649). The guard that ignored it turned every
+  // run with a change into "refuses to commit" the day that stamp landed.
   const ours = new Set([
-    ...changed.map((r) => `entries/${r.id}/models.json`),
+    ...changed.flatMap((r) => [`entries/${r.id}/models.json`, `entries/${r.id}/provider.json`]),
     ...(bumped ? [versionFile] : []),
   ]);
   const foreign = dirty.filter((line) => !ours.has(pathOf(line)));
@@ -383,8 +386,9 @@ if (COMMIT && changed.length > 0) {
 
   for (const r of changed) {
     const file = `entries/${r.id}/models.json`;
+    const stamp = `entries/${r.id}/provider.json`;
     spawnSync("git", ["add", file], { cwd: repo });
-    spawnSync("git", ["add", `entries/${r.id}/provider.json`], { cwd: repo });
+    spawnSync("git", ["add", stamp], { cwd: repo });
     const subject = `Sync ${r.id} from its source — ${summarise(r.changes)}`;
     const body = [
       subject,
@@ -395,7 +399,7 @@ if (COMMIT && changed.length > 0) {
       "",
       "Co-Authored-By: Claude Code <noreply@anthropic.com>",
     ].join("\n");
-    const out = spawnSync("git", ["commit", "-m", body, "--", file], { cwd: repo, encoding: "utf8" });
+    const out = spawnSync("git", ["commit", "-m", body, "--", file, stamp], { cwd: repo, encoding: "utf8" });
     if (out.status !== 0) {
       console.error(`✗ commit failed for ${r.id}: ${(out.stderr || out.stdout).trim()}`);
       process.exit(1);

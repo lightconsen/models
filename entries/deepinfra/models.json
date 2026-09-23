@@ -58,17 +58,6 @@
     "temperature": true
   },
   {
-    "id": "deepseek-ai/DeepSeek-V3-0324",
-    "name": "DeepSeek V3 0324",
-    "in": "0.24",
-    "out": "0.9",
-    "cache_read": "0.135",
-    "context": 163840,
-    "max_output": 163840,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "deepseek-ai/DeepSeek-V3.1",
     "name": "DeepSeek-V3.1",
     "in": "0.25",
@@ -276,17 +265,6 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true
-  },
-  {
-    "id": "moonshotai/Kimi-K2.7-Code",
-    "name": "Kimi K2.7 Code",
-    "in": "0.68",
-    "out": "3.4",
-    "cache_read": "0.136",
-    "context": 262144,
-    "max_output": 262144,
-    "reasoning": true,
-    "tool_call": true
   },
   {
     "id": "moonshotai/Kimi-K3",
@@ -593,30 +571,6 @@
     "temperature": true
   },
   {
-    "id": "XiaomiMiMo/MiMo-V2.5",
-    "name": "MiMo-V2.5",
-    "in": "0.14",
-    "out": "0.28",
-    "cache_read": "0.0028",
-    "context": 262144,
-    "max_output": 262144,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "XiaomiMiMo/MiMo-V2.5-Pro",
-    "name": "MiMo-V2.5-Pro",
-    "in": "1",
-    "out": "3",
-    "cache_read": "0.2",
-    "context": 1048576,
-    "max_output": 1048576,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "zai-org/GLM-4.6",
     "name": "GLM-4.6",
     "in": "0.5",
@@ -667,7 +621,7 @@
   {
     "id": "zai-org/GLM-5.3",
     "name": "GLM-5.3",
-    "in": "1.2",
+    "in": "0.9",
     "out": "4",
     "cache_read": "0.2",
     "context": 1048576,

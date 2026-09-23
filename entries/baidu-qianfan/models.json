@@ -204,7 +204,8 @@
     "name": "GLM-5.3",
     "in": "8",
     "out": "28",
-    "cache_read": "2"
+    "cache_read": "2",
+    "flagship": true
   },
   {
     "id": "GLM-5.2",

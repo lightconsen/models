@@ -22,6 +22,7 @@ import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
 import novita from "./novita.mjs";
 import perplexity from "./perplexity.mjs";
+import siliconflow from "./siliconflow.mjs";
 import stepfun from "./stepfun.mjs";
 import togetherai from "./togetherai.mjs";
 import openai from "./openai.mjs";
@@ -44,6 +45,7 @@ export default [
   minimax,
   novita,
   perplexity,
+  siliconflow,
   ...stepfun,
   togetherai,
   openai,

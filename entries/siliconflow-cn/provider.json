@@ -5,7 +5,7 @@
   "tag": "official",
   "rating": 3.5,
   "billing": "payg",
-  "currency": "USD",
+  "currency": "CNY",
   "endpoints": [
     {
       "protocol": "openai",
@@ -13,5 +13,5 @@
     }
   ],
   "desc": "SiliconFlow's inference platform (China)",
-  "seeded": true
+  "prices_as_of": "2026-09-23"
 }

@@ -14,7 +14,7 @@
  * message (not a confusing 404 in a fetch) when the data has not been built —
  * that is the normal state of a fresh clone.
  */
-import { cpSync, mkdirSync, existsSync, readdirSync } from "node:fs";
+import { cpSync, mkdirSync, existsSync, readdirSync, rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -31,6 +31,10 @@ if (!existsSync(path.join(src, "catalog.json"))) {
   process.exit(1);
 }
 
+// Stale logos would live forever: a logo that changed extension (svg → webp,
+// say) would leave the old file here while the catalog points at the new one,
+// and both would ship. The directory is fully rebuilt every stage.
+rmSync(path.join(dst, "logos"), { recursive: true, force: true });
 mkdirSync(path.join(dst, "logos"), { recursive: true });
 for (const f of JSON_FILES) cpSync(path.join(src, f), path.join(dst, f));
 for (const f of readdirSync(path.join(src, "logos"))) {

@@ -56,6 +56,17 @@ const perMillionFromK = (s) => {
 const SUB = /^(输入|输出|命中缓存|缓存命中|搜索增强)/;
 const decimal = (s) => (/^\d+(\.\d+)?$/.test(s.trim()) ? s.trim() : undefined);
 
+/** A price cell may carry a standing rate and an undated limited one —
+    `原价：0.008 国庆限定价：0.0048`. The limited price names no window, so the
+    standing 原价 is the one recorded: a stale reading overstates while the
+    promo runs and is exact again after it ends — the direction the checklist
+    prefers (an un-updated client overstates, never understates). The entry's
+    GLM-5.3 flagship rates are the 原价 figures, which is what settled it. */
+const standingOf = (cell) => {
+  const m = /原价[：:]\s*(\d+(?:\.\d+)?)/.exec(cell);
+  return m ? m[1] : decimal(cell);
+};
+
 /** '推理服务 输入Token数：[0,32k]' → 'le32'; '…(128k,256]' → 'gt128'. */
 const bandOf = (text) => {
   const m = /输入Token数[：:]\s*([\[(])\s*(\d+)\s*k?\s*(?:,\s*(\d+)\s*k?\s*[\])])?/.exec(text);
@@ -118,7 +129,7 @@ export default {
       const secondIsId = cells.length >= 7 && looksId(cells[1]);
       // Sub-row: its first cell says what it prices.
       if (!firstIsId && !secondIsId && (SUB.test(cells[0]) || /^缓存/.test(cells[0]))) {
-        addSub(cells[0], cells.map(decimal).find((v, i) => i >= 1 && v !== undefined));
+        addSub(cells[0], cells.map(standingOf).find((v, i) => i >= 1 && v !== undefined));
         continue;
       }
       // Block or version row — a model id sits in the first (or, when the
@@ -130,8 +141,8 @@ export default {
         block = { ids: versions, name, groups: new Map() };
         band = /输入Token数/.test(joined) ? bandOf(joined) : "";
         const sub = cells.find((c) => SUB.test(c)) ?? "输入";
-        const onlineIdx = cells.findIndex((c) => decimal(c) !== undefined);
-        addSub(sub, onlineIdx >= 0 ? cells[onlineIdx] : undefined);
+        const onlineIdx = cells.findIndex((c) => standingOf(c) !== undefined);
+        addSub(sub, onlineIdx >= 0 ? standingOf(cells[onlineIdx]) : undefined);
         continue;
       }
       // Band marker: 推理服务 输入Token数：… — its band applies to the
@@ -139,10 +150,10 @@ export default {
       if (/输入Token数/.test(joined)) {
         band = bandOf(joined);
         const sub = cells.find((c) => SUB.test(c)) ?? "输入";
-        addSub(sub, cells.map(decimal).find(Boolean));
+        addSub(sub, cells.map(standingOf).find(Boolean));
         continue;
       }
-      addSub(cells[0], cells.map(decimal).find((v, i) => i >= 1 && v !== undefined));
+      addSub(cells[0], cells.map(standingOf).find((v, i) => i >= 1 && v !== undefined));
     }
     if (block) blocks.push(block);
 

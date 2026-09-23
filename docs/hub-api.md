@@ -84,3 +84,21 @@ is still fresh), optional `expires_at`, `badge`, `url`.
 - The price table is **the whole table, not a patch** — a model the catalogue
   stops pricing disappears from it, and a client that caches must drop what
   is no longer there.
+
+## Tool access — the MCP server
+
+The catalogue is also served in the tool loop:
+`scripts/hub-mcp.mjs` is a zero-dependency MCP server (stdio) reading `dist/`
+directly, so a build refreshes everything it serves. Three tools:
+`list_providers`, `search_models` (name substring, min context, tool/reasoning
+filters), `get_model_price`.
+
+One-time wiring for any MCP client:
+
+```
+claude mcp add kiwano-hub -- node /path/to/models/scripts/hub-mcp.mjs
+```
+
+Failures degrade to empty results with the reason — the server never guesses
+half-matched prices, and nothing here needs a key: the data is public, the
+server is read-only.

@@ -12,6 +12,7 @@
  * rather than leaving the gap to be rediscovered.
  */
 import anthropic from "./anthropic.mjs";
+import baiduQianfan from "./baidu-qianfan.mjs";
 import cerebras from "./cerebras.mjs";
 import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
@@ -33,6 +34,7 @@ import zhipu from "./zhipu.mjs";
 
 export default [
   anthropic,
+  baiduQianfan,
   cerebras,
   deepinfra,
   deepseek,

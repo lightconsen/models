@@ -7,7 +7,7 @@
  * `models` failing is fatal (both pages need them), `news` failing is a
  * dismissed banner and nothing more.
  */
-import type { Catalog, Dataset, ModelsFile, NewsFile, Manifest } from "./types";
+import type { ArchiveVersion, Catalog, Dataset, ModelsFile, NewsFile, Manifest, PriceArchive } from "./types";
 
 const BASE = import.meta.env.BASE_URL; // "/models/"
 
@@ -64,3 +64,54 @@ export const modelsByProvider = (models: ModelsFile, providerId: string) =>
 export const logoUrl = (logo: string): string => `${BASE}data/${logo}`;
 
 export const providerEntry = (catalog: Catalog, id: string) => catalog.entries.find((e) => e.id === id);
+/**
+ * The price archive, loaded lazily: dist/history/archive.json is small, but
+ * every per-version models.json is a full table (~1.5MB), so nothing is
+ * fetched until a viewer asks for a model's history — and then only the
+ * versions whose sha differs from what is already in hand. A sha repeat (a
+ * version bump that moved no price) is skipped on sight.
+ */
+let archivePromise: Promise<PriceArchive | null> | null = null;
+
+export const loadArchiveIndex = (): Promise<PriceArchive | null> => {
+  archivePromise ??= fetchJson<unknown>("history/archive.json")
+    .then((body) => (isObj(body) && isObj(body.versions) ? (body as unknown as PriceArchive) : null))
+    .catch(() => null);
+  return archivePromise;
+};
+
+export interface HistoryPoint {
+  version: number;
+  date: string;
+  input: string;
+  output: string;
+  cache_read?: string;
+}
+
+/** The price timeline of one (provider, model) pair, oldest first. Rows the
+    versions do not carry (a model added after v53) simply start later — the
+    curve shows the span it has. */
+export async function loadPriceHistory(providerId: string, modelId: string): Promise<HistoryPoint[]> {
+  const archive = await loadArchiveIndex();
+  if (!archive) return [];
+  const versions = Object.entries(archive.versions)
+    .map(([v, e]) => ({ version: Number(v), ...e }) as ArchiveVersion)
+    .sort((a, b) => a.version - b.version);
+  const seen = new Set<string>();
+  const points: HistoryPoint[] = [];
+  // Fetches run one at a time: versions arrive in order and each response is
+  // big, so parallelism would only multiply the bytes on a slow day.
+  for (const v of versions) {
+    if (seen.has(v.sha256)) continue;
+    seen.add(v.sha256);
+    try {
+      const file = await fetchJson<ModelsFile>(`history/${v.version}/models.json`);
+      const row = file.models.find((r) => r.provider_id === providerId && r.model_id === modelId);
+      if (row) points.push({ version: v.version, date: v.generated_at, input: row.input, output: row.output, cache_read: row.cache_read });
+    } catch {
+      // A version that never landed (an old bucket, a pruned archive) is a gap
+      // in the line, not an error — the curve shows what it has.
+    }
+  }
+  return points;
+}

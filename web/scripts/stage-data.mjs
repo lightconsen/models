@@ -36,8 +36,14 @@ if (!existsSync(path.join(src, "catalog.json"))) {
 // and both would ship. The directory is fully rebuilt every stage.
 rmSync(path.join(dst, "logos"), { recursive: true, force: true });
 mkdirSync(path.join(dst, "logos"), { recursive: true });
+// Same for the price archive: an old dist/ carries versions the new build no
+// longer emitted (a rewound version, a pruned archive), and both would ship.
+rmSync(path.join(dst, "history"), { recursive: true, force: true });
 for (const f of JSON_FILES) cpSync(path.join(src, f), path.join(dst, f));
 for (const f of readdirSync(path.join(src, "logos"))) {
   cpSync(path.join(src, "logos", f), path.join(dst, "logos", f));
+}
+if (existsSync(path.join(src, "history"))) {
+  cpSync(path.join(src, "history"), path.join(dst, "history"), { recursive: true });
 }
 console.log(`✓ staged ${JSON_FILES.length} data files + logos/ → web/public/data/`);

@@ -154,6 +154,19 @@ export interface Manifest {
   catalog: { count: number; sha256: string };
   models: { version: number; sha256: string };
   news: { count: number; sha256: string };
+  history?: { version: number; sha256: string; archive: string };
+}
+
+/** One archived price table: dist/history/<version>/models.json. The shape is
+    ModelsFile's, carried under the version that shipped it. */
+export interface ArchiveVersion {
+  version: number;
+  sha256: string;
+  generated_at: string;
+}
+
+export interface PriceArchive {
+  versions: Record<string, { sha256: string; generated_at: string }>;
 }
 
 export interface Dataset {

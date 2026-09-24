@@ -858,6 +858,26 @@ const write = (name, obj) => {
 
 const catalogSha = write("catalog.json", { total: catalog.length, entries: catalog });
 const modelsSha = write("models.json", { ...doc, models: priceRows, generated_at: today });
+
+// The price history: this build's models.json is also emitted under
+// dist/history/<version>/models.json, with a one-entry index beside it
+// (dist/history/<version>/index.json). The full index lives on R2 —
+// history/archive.json — and publish.yml merges this build's entry into it,
+// because a CI checkout builds into an empty dist/ and sees none of what
+// previous builds emitted. The dedupe is the sha: an unchanged table keeps
+// its sha, so a version bump that moved nothing points at the same content
+// as its predecessor, and a client walking the archive skips repeated shas
+// rather than refetching. R2 keeps no overwrite history, so without this
+// directory a price that moved yesterday is gone today — and the price-drop
+// curve is the one thing here no competitor carries.
+const ver = String(doc.version);
+const historyDir = path.join(dist, "history", ver);
+mkdirSync(historyDir, { recursive: true });
+writeFileSync(path.join(historyDir, "models.json"), readFileSync(path.join(dist, "models.json")));
+write("history/archive.json", {
+  versions: { [ver]: { sha256: modelsSha, generated_at: today } },
+  merge_hint: "publish.yml merges this one-entry index into the R2 copy of history/archive.json — this file is one build's increment, not the archive",
+});
 // No generated_at inside news.json, and no build-time freshness filter. The
 // file is content-addressed: a date stamp would move the sha (and make every
 // client re-download) once a day with nothing new, and dropping items by age
@@ -870,6 +890,7 @@ write("manifest.json", {
   catalog: { count: catalog.length, sha256: catalogSha },
   models: { version: doc.version, sha256: modelsSha },
   news: { count: news.length, sha256: newsSha },
+  history: { version: doc.version, sha256: modelsSha, archive: "history/archive.json" },
 });
 
 // Rebuilt, not merged: a provider whose logo changed extension would otherwise
@@ -885,7 +906,7 @@ for (const { id, ext } of logoFiles) {
 }
 
 console.log("\ndist/ written:");
-for (const f of ["catalog.json", "models.json", "news.json", "manifest.json"]) {
+for (const f of ["catalog.json", "models.json", "news.json", "manifest.json", "history/archive.json"]) {
   console.log(`  ${f}`);
 }
 console.log(`  logos/ (${logoFiles.length} files)`);

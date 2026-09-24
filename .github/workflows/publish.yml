@@ -13,6 +13,12 @@
 #   manifest.json  counts/versions + sha256 of all three
 #   logos/<id>.<ext>  provider logos, referenced by each catalog entry's
 #                     relative `logo` field
+#   history/<v>/models.json + history/archive.json
+#                  the price archive: every shipped price table, one directory
+#                  per version, and an index of version → sha256 → date. The
+#                  index is merged on the bucket — each build emits a one-entry
+#                  increment, and the step below folds it into the copy R2
+#                  already holds, so the archive survives fresh checkouts.
 
 name: publish
 
@@ -34,6 +40,32 @@ jobs:
         with:
           node-version: 24
       - run: node scripts/generate.mjs
+      - name: Merge the history increment into the archive on the bucket
+        id: version
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: |
+          # dist/history/archive.json carries only this build's version (a fresh
+          # checkout builds into an empty dist/). The durable index lives on the
+          # bucket: fetch it, fold the increment in — keyed by version, each
+          # entry its own sha256 — and upload the merged copy. On the very
+          # first run the fetch fails and the increment is the archive.
+          npx wrangler r2 object get "$R2_BUCKET/history/archive.json" --file /tmp/archive.remote.json --remote \
+            || echo "no archive on the bucket yet — starting it"
+          node - <<'EOF'
+          const { readFileSync, writeFileSync, existsSync } = require("fs");
+          const inc = JSON.parse(readFileSync("dist/history/archive.json", "utf8"));
+          let merged = { versions: {} };
+          if (existsSync("/tmp/archive.remote.json")) {
+            try { merged = JSON.parse(readFileSync("/tmp/archive.remote.json", "utf8")); } catch {}
+          }
+          merged.versions = { ...merged.versions, ...inc.versions };
+          writeFileSync("dist/history/archive.json", JSON.stringify(merged, null, 2) + "\n");
+          console.log(`archive holds ${Object.keys(merged.versions).length} version(s)`);
+          echo "v=$(node -e 'console.log(JSON.parse(require("fs").readFileSync("dist/manifest.json","utf8")).history.version)')" >> "$GITHUB_OUTPUT"
+          EOF
       - name: Upload to R2
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -44,6 +76,8 @@ jobs:
           npx wrangler r2 object put "$R2_BUCKET/models.json" --file dist/models.json --content-type application/json --remote
           npx wrangler r2 object put "$R2_BUCKET/news.json" --file dist/news.json --content-type application/json --remote
           npx wrangler r2 object put "$R2_BUCKET/manifest.json" --file dist/manifest.json --content-type application/json --remote
+          npx wrangler r2 object put "$R2_BUCKET/history/archive.json" --file dist/history/archive.json --content-type application/json --remote
+          npx wrangler r2 object put "$R2_BUCKET/history/${{ steps.version.outputs.v }}/models.json" --file dist/history/${{ steps.version.outputs.v }}/models.json --content-type application/json --remote
       - name: Upload logos to R2
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

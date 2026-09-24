@@ -1,0 +1,16 @@
+{
+  "id": "xunfei",
+  "name": "iFlytek Spark",
+  "website": "https://www.xfyun.cn/",
+  "tag": "official",
+  "rating": 4,
+  "billing": "payg",
+  "currency": "CNY",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://spark-api-open.xf-yun.com/v1"
+    }
+  ],
+  "desc": "iFlytek's Spark MaaS, pay-as-you-go"
+}

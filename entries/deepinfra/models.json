@@ -1040,5 +1040,14 @@
     "out": "0.6",
     "context": 131072,
     "max_output": 131072
+  },
+  {
+    "id": "anthropic/claude-opus-5-5",
+    "name": "anthropic/claude-opus-5-5",
+    "in": "4",
+    "out": "20",
+    "cache_read": "0.2",
+    "context": 1000000,
+    "max_output": 1000000
   }
 ]

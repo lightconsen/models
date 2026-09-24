@@ -80,6 +80,38 @@ ${body}
 </html>
 `;
 
+
+/** The homepage a crawler actually sees. Until now `/` served the SPA shell —
+    the highest-weight page on the site had no description and no content. One
+    row per provider: name, model count, flagship price — every row a link to
+    the provider page, the crawl-depth root the rest hangs from. */
+const homeBody = () => {
+  const trs = catalog.entries
+    .map((entry) => {
+      const rows = byProvider.get(entry.id) ?? [];
+      const ref = entry.price_ref ?? (rows.find((r) => r.flagship) ?? rows.find((r) => r.input !== undefined) ?? null);
+      const cur = ref && ref.currency === "CNY" ? "¥" : "$";
+      return `<tr>
+  <td><a href="${SITE}/provider/${esc(entry.id)}/">${esc(entry.name)}</a>${entry.seeded ? ` <span class="muted">(seeded)</span>` : ""}</td>
+  <td class="num">${rows.length}</td>
+  <td class="num">${ref ? `${cur}${money(ref.input)} / ${cur}${money(ref.output)}` : "—"}</td>
+  <td>${esc(entry.desc ?? "")}</td>
+</tr>`;
+    })
+    .join("\n");
+  const priced = models.models.filter((r) => r.input !== undefined).length;
+  return `<h1>LLM model prices across ${catalog.entries.length} providers</h1>
+<p class="muted">${models.models.length} price rows · ${priced} priced · every figure checked against the vendor's own pages and dated. Prices per 1M tokens.</p>
+<p>The Kiwano Hub catalogue tracks what each LLM provider charges per token — Anthropic, OpenAI, DeepSeek, Kimi, Zhipu, the MaaS platforms, the inference hosts — with an as-of date on every row and the vendor's own page one click away. Pick a provider:</p>
+<table>
+<thead><tr><th>Provider</th><th class="num">Models</th><th class="num">Flagship in / out per 1M</th><th>About</th></tr></thead>
+<tbody>
+${trs}
+</tbody>
+</table>
+<p class="back muted">The interactive catalogue is <a href="${SITE}/#/">the app itself</a> — this page is its static mirror.</p>`;
+};
+
 const yes = (v) => (v === true ? "✓" : v === false ? "✗" : "—");
 
 const providerBody = (entry, rows) => {
@@ -88,7 +120,7 @@ const providerBody = (entry, rows) => {
   const cur = ref && ref.currency === "CNY" ? "¥" : "$";
   const trs = priced
     .map((r) => `<tr>
-  <td class="mono">${esc(r.model_id)}</td>
+  <td><a class="mono" href="${SITE}/model/${Buffer.from(`${esc(entry.id)}/${esc(r.model_id)}`, "utf8").toString("base64url")}/">${esc(r.model_id)}</a></td>
   <td class="num">${r.context ? money(r.context) : "—"}</td>
   <td class="num">${r.max_output ? money(r.max_output) : "—"}</td>
   <td class="cap">${yes(r.reasoning)}</td>
@@ -186,6 +218,34 @@ for (const entry of catalog.entries) {
     writeFileSync(path.join(mdir, "index.html"), page(mtitle, mdesc, modelBody(entry, r), `model/${key}/`));
     modelMade.push({ entry: entry.id, model: r.model_id, key, asof: entry.prices_as_of ?? today });
   }
+}
+
+// The homepage: real content where the SPA shell used to be — but the shell
+// is also the hash router's only document, so the page carries both. The
+// static mirror serves the crawler (and anyone with JS off); Vite's own script
+// and stylesheet ride below it, and the moment the app mounts, an inline
+// observer hides the mirror — one document, two readers, no double content.
+// Written last so it overrides Vite's `index.html`, whose bootstrap lines are
+// lifted out first.
+const viteHtml = readFileSync(path.join(outDir, "index.html"), "utf8");
+const appScript = viteHtml.match(/<script type="module"[^>]*><\/script>/)?.[0] ?? "";
+const appCss = viteHtml.match(/<link rel="stylesheet"[^>]*>/)?.[0] ?? "";
+const appFavicon = viteHtml.match(/<link rel="icon"[^>]*>/)?.[0] ?? "";
+if (!appScript) {
+  // index.html is already a prerendered homepage (prerender ran twice without
+  // a vite build between). Leave it — re-overwriting would strip the app
+  // bootstrap and take the interactive site offline.
+  console.log("= index.html already prerendered; left as-is (run `vite build` first to refresh)");
+} else {
+const home = page(
+  "LLM model prices across " + catalog.entries.length + " providers | Kiwano Hub",
+  "Per-token prices for every major LLM provider — Anthropic, OpenAI, DeepSeek, Kimi, Zhipu, MaaS platforms and inference hosts — checked against the vendors' own pages and dated.",
+  `<div id="app"></div>\n<div id="prerender-home">\n${homeBody()}\n</div>\n<script>(function(){var a=document.getElementById("app"),m=document.getElementById("prerender-home");if(!a||!m)return;var hide=function(){if(a.children.length)m.style.display="none"};new MutationObserver(hide).observe(a,{childList:true});hide()})()</script>\n${appScript}`,
+  "",
+)
+  .replace("</head>", `${appFavicon}\n${appCss}\n</head>`)
+  .replace(`<link rel="canonical" href="${SITE}/" />`, `<link rel="canonical" href="${SITE}/" />\n<link rel="alternate" hreflang="en" href="${SITE}/" />`);
+  writeFileSync(path.join(outDir, "index.html"), home);
 }
 
 const urls = [

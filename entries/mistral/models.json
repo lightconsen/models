@@ -10,92 +10,10 @@
     "temperature": true
   },
   {
-    "id": "devstral-2512",
-    "name": "Devstral 2",
-    "in": "0.4",
-    "out": "2",
-    "context": 262144,
-    "max_output": 262144,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "devstral-latest",
-    "name": "Devstral 2",
-    "in": "0.4",
-    "out": "2",
-    "context": 262144,
-    "max_output": 262144,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "devstral-medium-2507",
-    "name": "Devstral Medium",
-    "in": "0.4",
-    "out": "2",
-    "context": 128000,
-    "max_output": 128000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "devstral-medium-latest",
-    "name": "Devstral 2 (latest)",
-    "in": "0.4",
-    "out": "2",
-    "context": 262144,
-    "max_output": 262144,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "devstral-small-2505",
-    "name": "Devstral Small 2505",
-    "in": "0.1",
-    "out": "0.3",
-    "context": 128000,
-    "max_output": 128000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "devstral-small-2507",
-    "name": "Devstral Small",
-    "in": "0.1",
-    "out": "0.3",
-    "context": 128000,
-    "max_output": 128000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "magistral-medium-latest",
-    "name": "Magistral Medium (latest)",
-    "in": "2",
-    "out": "5",
-    "context": 128000,
-    "max_output": 16384,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "magistral-small",
-    "name": "Magistral Small",
-    "in": "0.5",
-    "out": "1.5",
-    "context": 128000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "ministral-3b-latest",
     "name": "Ministral 3B (latest)",
-    "in": "0.04",
-    "out": "0.04",
+    "in": "0.1",
+    "out": "0.1",
     "context": 128000,
     "max_output": 128000,
     "tool_call": true,
@@ -104,8 +22,8 @@
   {
     "id": "ministral-8b-latest",
     "name": "Ministral 8B (latest)",
-    "in": "0.1",
-    "out": "0.1",
+    "in": "0.15",
+    "out": "0.15",
     "context": 128000,
     "max_output": 128000,
     "tool_call": true,
@@ -118,16 +36,6 @@
     "out": "0",
     "context": 8000,
     "max_output": 3072
-  },
-  {
-    "id": "mistral-large-2411",
-    "name": "Mistral Large 2.1",
-    "in": "2",
-    "out": "6",
-    "context": 131072,
-    "max_output": 16384,
-    "tool_call": true,
-    "temperature": true
   },
   {
     "id": "mistral-large-2512",
@@ -144,26 +52,6 @@
     "name": "Mistral Large (latest)",
     "in": "0.5",
     "out": "1.5",
-    "context": 262144,
-    "max_output": 262144,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "mistral-medium-2505",
-    "name": "Mistral Medium 3",
-    "in": "0.4",
-    "out": "2",
-    "context": 131072,
-    "max_output": 131072,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "mistral-medium-2508",
-    "name": "Mistral Medium 3.1",
-    "in": "0.4",
-    "out": "2",
     "context": 262144,
     "max_output": 262144,
     "tool_call": true,
@@ -193,26 +81,6 @@
     "temperature": true
   },
   {
-    "id": "mistral-nemo",
-    "name": "Mistral Nemo",
-    "in": "0.15",
-    "out": "0.15",
-    "context": 128000,
-    "max_output": 128000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "mistral-small-2506",
-    "name": "Mistral Small 3.2",
-    "in": "0.1",
-    "out": "0.3",
-    "context": 128000,
-    "max_output": 16384,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "mistral-small-2603",
     "name": "Mistral Small 4",
     "in": "0.15",
@@ -235,70 +103,10 @@
     "temperature": true
   },
   {
-    "id": "open-mistral-7b",
-    "name": "Mistral 7B",
-    "in": "0.25",
-    "out": "0.25",
-    "context": 8000,
-    "max_output": 8000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "open-mistral-nemo",
-    "name": "Open Mistral Nemo",
-    "in": "0.15",
-    "out": "0.15",
-    "context": 128000,
-    "max_output": 128000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "open-mixtral-8x22b",
-    "name": "Mixtral 8x22B",
-    "in": "2",
-    "out": "6",
-    "context": 64000,
-    "max_output": 64000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "open-mixtral-8x7b",
-    "name": "Mixtral 8x7B",
-    "in": "0.7",
-    "out": "0.7",
-    "context": 32000,
-    "max_output": 32000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "pixtral-12b",
-    "name": "Pixtral 12B",
-    "in": "0.15",
-    "out": "0.15",
-    "context": 128000,
-    "max_output": 128000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "pixtral-large-latest",
-    "name": "Pixtral Large (latest)",
-    "in": "2",
-    "out": "6",
-    "context": 128000,
-    "max_output": 128000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "voxtral-small-latest",
     "name": "Voxtral Small (latest)",
     "in": "0.1",
-    "out": "0.3",
+    "out": "0.4",
     "context": 32000,
     "max_output": 32000,
     "tool_call": true,

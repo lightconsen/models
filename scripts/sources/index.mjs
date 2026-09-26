@@ -13,6 +13,7 @@
  */
 import anthropic from "./anthropic.mjs";
 import baiduQianfan from "./baidu-qianfan.mjs";
+import bedrock from "./bedrock.mjs";
 import cerebras from "./cerebras.mjs";
 import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
@@ -25,6 +26,7 @@ import perplexity from "./perplexity.mjs";
 import siliconflow from "./siliconflow.mjs";
 import stepfun from "./stepfun.mjs";
 import togetherai from "./togetherai.mjs";
+import watsonx from "./watsonx.mjs";
 import openai from "./openai.mjs";
 import openrouter from "./openrouter.mjs";
 import qianwen from "./qianwen.mjs";
@@ -36,6 +38,7 @@ import zhipu from "./zhipu.mjs";
 export default [
   anthropic,
   baiduQianfan,
+  bedrock,
   cerebras,
   deepinfra,
   deepseek,
@@ -48,6 +51,7 @@ export default [
   siliconflow,
   ...stepfun,
   togetherai,
+  watsonx,
   openai,
   openrouter,
   qianwen,
@@ -60,8 +64,9 @@ export default [
   // (prices were only reachable through models.dev, never the vendor), mistral
   // (its page changed under the entry), thinkingmachines (no consistent source)
   // and ai21 (no machine-readable price at all) — plus cohere the day before.
-  // What is left is exactly the entries this repo can price from a primary
-  // source.
+  // Several have returned with primary sources since (cerebras 09-21, mistral
+  // and ovhcloud 09-24, bedrock 09-26 — the AWS Price List Bulk API). What is
+  // left is exactly the entries this repo can price from a primary source.
   //
   // Cerebras came back on 2026-09-21 with a primary source: the vendor's own
   // docs price both of its public models, directly reachable and machine-readable

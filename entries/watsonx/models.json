@@ -10,16 +10,6 @@
     "temperature": true
   },
   {
-    "id": "meta-llama/llama-3-3-70b-instruct",
-    "name": "Llama-3.3-70B-Instruct",
-    "in": "0.7526",
-    "out": "0.7526",
-    "context": 131072,
-    "max_output": 4096,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "meta-llama/llama-4-maverick-17b-128e-instruct-fp8",
     "name": "Llama 4 Maverick 17B 128E Instruct FP8",
     "in": "0.371",
@@ -50,5 +40,11 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true
+  },
+  {
+    "id": "mistralai/mistral-large-2512",
+    "name": "mistralai/mistral-large-2512",
+    "in": "0.636",
+    "out": "1.908"
   }
 ]

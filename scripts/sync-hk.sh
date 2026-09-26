@@ -7,10 +7,11 @@
 # and togetherai — fetch-all skips, exactly as the US run skips stepfun; between
 # the two vantage points every entry is read every day.
 #
-# Two rules carried over from sync.yml, unchanged:
-# - never touch main: the run commits to a branch and opens a PR, and a person
-#   merges — an unattended commit that landed itself would make every "checked
-#   <date>" line in the checklist mean nothing
+# Two rules carried over from sync.yml:
+# - never touch main: the run commits to a branch and opens a PR. Price-only
+#   PRs merge themselves (automerge.yml); one that adds or leaves a model
+#   waits for a person — an unattended membership change is what would make
+#   every "checked <date>" line in the checklist mean nothing
 # - one fixed branch name, so a run that finds something updates the PR already
 #   open instead of stacking one per day
 #
@@ -141,8 +142,8 @@ body="$(mktemp)"
   echo
   echo "---"
   echo
-  echo "Opened by \`scripts/sync-hk.sh\` on the HK box. Nothing here is merged"
-  echo "automatically."
+  echo "Opened by \`scripts/sync-hk.sh\` on the HK box. Price-only runs merge"
+  echo "themselves; a run that adds or leaves a model waits for a person."
 } >"$body"
 
 post="$(mktemp)" patch="$(mktemp)"

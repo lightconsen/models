@@ -1,0 +1,95 @@
+# Auto-merge the price-sync PRs that carry price changes only.
+#
+# The sync pipelines open two rolling PRs — automation/sync from the US runner,
+# automation/sync-hk from the HK box — and on a quiet day nobody needs to click
+# merge; unclicked PRs are also how the as-of guard regression hid for three
+# days. The rule is the trust policy's own line (fetch-all.mjs header): a price
+# is a fact the vendor is the authority on and nobody needs to look at it; a
+# model arriving or leaving changes what the catalogue claims a vendor sells.
+# So a PR merges itself when:
+#   - every changed file is a price file (entries/*/models.json,
+#     entries/*/provider.json, global.json)
+#   - provider.json moved nothing but its prices_as_of stamp
+#   - models.json added or removed no row — the diff adds/removes no "id"
+#     line, and touches no "name"/"flagship"/"serves"
+# Anything else — a model added or left, a file outside the price set — leaves
+# the PR open for a person, and the daily run that finds the same changes
+# keeps it current until one looks. Fork PRs never merge here: the head-branch
+# filter is automation/*, which only this repo's own runners push to.
+
+name: automerge
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: automerge-${{ github.event.pull_request.head.ref }}
+  cancel-in-progress: false
+
+jobs:
+  merge-if-price-only:
+    if: startsWith(github.event.pull_request.head.ref, 'automation/sync')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Decide — price-only, or a person is needed
+        id: decide
+        run: |
+          set -euo pipefail
+          BASE=$(git rev-parse origin/main)
+          echo "diffing $BASE...HEAD"
+
+          if git diff --name-only "$BASE...HEAD" | grep -qvE '^(entries/[^/]+/(models|provider)\.json|global\.json)$'; then
+            echo "a file outside the price set changed:"
+            git diff --name-only "$BASE...HEAD" | grep -vE '^(entries/[^/]+/(models|provider)\.json|global\.json)$'
+            echo "verdict=human" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # provider.json: only the prices_as_of stamp may move. A line that
+          # starts with +/- but is not a diff header (which is +++ or ---).
+          if git diff "$BASE...HEAD" -- 'entries/*/provider.json' \
+              | grep -E '^[+-][^+-]' | grep -v 'prices_as_of' | grep .; then
+            echo "provider.json carries more than the stamp"
+            echo "verdict=human" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # models.json: no row may arrive or leave. A row's first line is its
+          # id, so any created/removed row crosses this; a reprice does not.
+          if git diff "$BASE...HEAD" -- 'entries/*/models.json' \
+              | grep -E '^[+-][^+-]' | grep -E '"(id|name|flagship|serves)"' | grep .; then
+            echo "a model arrived or left — membership change"
+            echo "verdict=human" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "verdict=price-only" >> "$GITHUB_OUTPUT"
+
+      - name: Merge
+        if: steps.decide.outputs.verdict == 'price-only'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          # Two observation points finding changes on the same day both bump
+          # the version, so the second PR cannot merge — it stays open and the
+          # next day's run re-proposes from the merged base. Not an error.
+          state=$(gh pr view "$PR" --json mergeable --jq .mergeable)
+          if [ "$state" != "MERGEABLE" ]; then
+            echo "PR is $state — leaving it open; the next run re-proposes from the merged base"
+            exit 0
+          fi
+          gh pr merge "$PR" --merge
+          echo "merged: price-only changes, both guards had passed before the PR opened"

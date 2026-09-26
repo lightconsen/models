@@ -9,9 +9,10 @@
 # value it will not report again, and the commits come out one per entry so each
 # diff reads like one.
 #
-# A PR rather than a merge, because this repo's whole premise is that the data is
-# hand-reviewed. An unattended commit that landed itself would make every
-# "checked <date>" line in the checklist mean nothing.
+# A PR rather than a direct merge, because the checklist's "checked <date>"
+# lines rest on a person having looked. Price-only changes now merge themselves
+# (automerge.yml — the trust policy's own line: a price is the vendor's to
+# state); a run that adds or leaves a model stays open for a person.
 #
 # The branch name is fixed on purpose: a daily run that finds something updates
 # the PR already open rather than stacking a hundred of them.
@@ -125,8 +126,9 @@ jobs:
             echo
             echo "---"
             echo
-            echo "Opened by the \`sync\` workflow at the vendors' own sources. Nothing"
-            echo "here is merged automatically."
+            echo "Opened by the \`sync\` workflow at the vendors' own sources. Price-only"
+            echo "runs merge themselves; a run that adds or leaves a model waits for"
+            echo "a person."
           } > "$RUNNER_TEMP/pr.md"
 
           # The branch may already carry an earlier run. Fetching it into a

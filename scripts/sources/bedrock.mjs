@@ -1,74 +1,39 @@
 /**
- * Amazon Bedrock's on-demand token prices, from AWS's own Price List Bulk API —
- * the machine-readable form of aws.amazon.com/bedrock/pricing, which itself
- * client-renders from this file. No key; the file is large (~17MB) so the
- * adapter fetches once and filters.
+ * Amazon Bedrock's on-demand token prices, from two sources the vendor
+ * publishes:
  *
- * The product records carry what the price depends on and the offer carries the
- * figure: attributes.regionCode, .model ("Claude 3 Haiku"), .inferenceType
- * ("Input tokens" / "Output tokens"), .usagetype — whose suffix says which
- * route a price belongs to. The suffix is the mapping, because Bedrock sells
- * the same model at different rates per route and the entry carries one row
- * per (route, model):
+ * 1. The Price List Bulk API (`pricing.us-east-1.amazonaws.com/offers/v1.0/aws/
+ *    AmazonBedrock/current/index.json`, ~17MB, no key) — every product's
+ *    attributes (region, model, inference type, usage type) joined to its
+ *    offer's price dimensions. This covers the models the catalogue prices
+ *    through inference profiles and the older generations.
+ * 2. The pricing page's own metered-unit map (`calculator.aws/pricing/2.0/
+ *    meteredUnitMaps/bedrockfoundationmodels/USD/current/
+ *    bedrockfoundationmodels.json`, no key) — the JSON the page's
+ *    `{priceOf!…}` placeholders resolve against, keyed by an opaque hash per
+ *    (model, field, region). The NEW Claude generation (Opus 5.5, Fable 5.1,
+ *    Sonnet 5…) prices here and nowhere in the bulk feed, so the adapter
+ *    fetches both: the bulk feed for what it covers, the page's markup (the
+ *    `data-pricing-markup` tables carry model name → hash → column role) for
+ *    what only the map has.
  *
- *   USE1-Nova2.0Lite-input-tokens                              region-level on-demand  → us.amazon.nova-2-lite-v1:0
- *   USE1-Nova2.0Lite-input-tokens-cross-region-global          global cross-region     → global.…
- *   EU-Nova…-input-tokens-cross-region-eu                      EU cross-region         → eu.…
- *   …-cross-region-apac / -jp / -au / -ca / -in                the other cross-regions → apac.… / jp.… / au.… / ca.… / in.…
- *
- * The rate suffixes this deliberately skips: -batch and -flex (discounted
- * throughput tiers), -priority (priority processing), -cross-region (bare,
- * without a region name — appears beside the named ones), ProvisionedThroughput
- * (per hour), Customization-Training (training, not inference), and every
- * usage type that is not token-billed at all (Nova Canvas/Reel/Sonic — images
- * and speech; Guardrail, Flows, Data Automation — per request). Cache rides
- * in usagetype too (-cache-read-input-token-count / -cache-write-) and joins
- * the row it belongs to; the flex/priority/batch variants of it are skipped
- * with their tier, keeping one cache rate per row — the standard tier, the
- * one the pricing page leads with.
- *
- * Region code → the entry's id prefix is one table, read off the usagetype
- * itself rather than the regionCode field: what the entry prices is the
- * route (us. / global. / eu. / …), not the source region, and the bare
- * -tokens suffix on a us-east-1 row is the on-demand region rate.
+ * Route semantics (why the entry carries `us.`/`eu.`/`global.` prefixes): a
+ * Bedrock inference profile routes a request through a region group, and the
+ * price is the SAME figure the source region charges — the profile is a
+ * routing choice, not a separate SKU. The bulk feed prices the source region;
+ * the seed's per-route rows repeat one figure under several prefixes. This
+ * adapter therefore prices each model ONCE at its source region and lets the
+ * entry decide the route rows — the join the seed carried by hand.
  */
-import { drift, MEMBERSHIP, getJson } from "../lib/fetch.mjs";
+import { drift, getJson, getText, MEMBERSHIP } from "../lib/fetch.mjs";
 
-const API = "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/index.json";
+const OFFER = "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/index.json";
+const PAGE = "https://aws.amazon.com/bedrock/pricing/";
+const MAP = "https://calculator.aws/pricing/2.0/meteredUnitMaps/bedrockfoundationmodels/USD/current/bedrockfoundationmodels.json";
 
-/** usagetype → entry id prefix. The region routes the entry carries; a
-    usagetype whose cross-region suffix is not in this table is a new route
-    the vendor added, and it is dropped loudly (counted in the notes). */
-const ROUTES = {
-  "-cross-region-global": "global",
-  "-cross-region-eu": "eu",
-  "-cross-region-apac": "apac",
-  "-cross-region-jp": "jp",
-  "-cross-region-au": "au",
-  "-cross-region-ca": "ca",
-  "-cross-region-in": "in",
-  // bare region-level on-demand (us-east-1 rows): the entry spells it "us"
-  "": "us",
-};
-
-/** us-east-1's own region rows do not say "us" anywhere in the usagetype —
-    the -cross-region-* suffixes are named, the bare `-tokens` / `-cache-*`
-    suffixes are the region rate. Regions whose code is not us-east-1 price
-    their own region rate, and the entry carries none of those (only the
-    cross-region routes + the US one) — same rule the seed followed. */
-const HOME_REGION = "us-east-1";
-
-/** One inferenceType label → one field. Everything else in inferenceType
-    (cache lines have their own usagetype markers; the priority/flex variants
-    are dropped by the suffix filter before this map runs). */
-const FIELDS = { "Input tokens": "in", "Output tokens": "out" };
-
-/** "Nova 2.0 Lite" and friends are the API's display names; the entry ids are
-    the API model ids (amazon.nova-2-lite-v1:0). The offer file does not carry
-    ids, so the join runs against the entry's own names — by hand below, one
-    line per model, the way the checklist records the provenance. A name the
-    table lacks is a new vendor model, and it is dropped loudly. */
-const MODEL_IDS = {
+/** Bulk-feed meter prefix → entry id (the feed spells display names; the
+    entry spells API ids). A name the table lacks drops loudly. */
+const FEED_IDS = {
   "Claude 2.0": "anthropic.claude-2.0",
   "Claude 2.1": "anthropic.claude-2.1",
   "Claude 3 Haiku": "anthropic.claude-3-haiku-20240307-v1:0",
@@ -126,7 +91,7 @@ const MODEL_IDS = {
   "Qwen3 Coder Next": "qwen.qwen3-coder-next",
   "Qwen3 Next 80B A3B": "qwen.qwen3-next-80b-a3b",
   "Qwen3 VL 235B A22B": "qwen.qwen3-vl-235b-a22b",
-  R1: "deepseek.r1-v1:0",
+  "R1": "deepseek.r1-v1:0",
   "gpt-oss-120b": "openai.gpt-oss-120b",
   "gpt-oss-20b": "openai.gpt-oss-20b",
   "openai.gpt-5.4": "openai.gpt-5.4",
@@ -137,108 +102,131 @@ const MODEL_IDS = {
   "xai.grok-4.6": "xai.grok-4.6",
 };
 
-/** Per 1K tokens is the offer's usual unit; per 1M appears on some rows. Both
-    normalize to the catalogue's per-million, in string space, the way every
-    price here lands. */
+/** The calculator map's model rows (page markup) → entry ids, for the new
+    Claude generation the bulk feed does not carry. The markup table spells
+    the field order per row: Input, Output, [Batch×2], 5m Cache Write, 1h
+    Cache Write, [cache read] — with N/A where a tier does not exist. */
+const PAGE_IDS = {
+  "Claude Opus 5.5": "anthropic.claude-opus-5-5",
+  "Claude Fable 5.1": "anthropic.claude-fable-5-1",
+  "Claude Fable 5": "anthropic.claude-fable-5",
+  "Claude Sonnet 5": "anthropic.claude-sonnet-5",
+  "Claude Sonnet 4.6": "anthropic.claude-sonnet-4-6",
+  "Claude Sonnet 4.5": "anthropic.claude-sonnet-4-5",
+  "Claude Opus 4.8": "anthropic.claude-opus-4-8",
+  "Claude Opus 4.7": "anthropic.claude-opus-4-7",
+  "Claude Opus 4.6": "anthropic.claude-opus-4-6",
+  "Claude Opus 4.5": "anthropic.claude-opus-4-5",
+  "Claude Haiku 4.5": "anthropic.claude-haiku-4-5",
+};
+
+/** per 1K tokens is the offer's usual unit; per 1M appears on some rows. */
 const perMillion = (v, unit) => {
-  const f = Number(v);
-  if (!Number.isFinite(f)) drift(`"${v}" is not a number`);
-  const n = unit === "1K tokens" ? f * 1000 : unit === "1M tokens" ? f : drift(`unknown unit "${unit}"`);
-  return String(Math.round(n * 100_000) / 100_000).replace(/(\.\d*?)0+$/, "$1").replace(/\.$/, "");
+  const n = Number(v);
+  if (!Number.isFinite(n)) return undefined;
+  const scaled = unit === "1K tokens" ? n * 1000 : unit === "1M tokens" ? n : undefined;
+  if (scaled === undefined) return undefined;
+  return String(Math.round(scaled * 100_000) / 100_000).replace(/(\.\d*?)0+$/, "$1").replace(/\.$/, "");
 };
 
 export default {
   ids: ["bedrock"],
-  source: API,
+  source: `${OFFER} + ${MAP}`,
   membership: MEMBERSHIP.FOLLOW,
   owns: ["in", "out", "cache_read", "cache_creation"],
 
   async read() {
-    const body = await getJson(API);
-    const products = body?.products;
-    const terms = body?.terms?.OnDemand;
-    if (!products || !terms) drift("the offer file's shape has changed — products/terms missing");
-
-    /** (route, modelId) → {in, out, cache_read, cache_creation}. Cache lines
-        carry their own sku; the first standard-tier rate seen wins and later
-        ones (batch/flex/priority repeats of the same key) are ignored. */
     const rows = new Map();
     const dropped = new Map();
-    const drop = (why, label) => dropped.set(why, (dropped.get(why) ?? 0) + 1);
+    const drop = (why) => dropped.set(why, (dropped.get(why) ?? 0) + 1);
+
+    // ── source 1: the bulk feed, us-east-1 on-demand standard tier ──
+    const offer = await getJson(OFFER);
+    const products = offer?.products;
+    const terms = offer?.terms?.OnDemand;
+    if (!products || !terms) drift("the offer file's shape has changed — products/terms missing");
 
     for (const p of Object.values(products)) {
       const a = p?.attributes ?? {};
       if (p.productFamily !== "Amazon Bedrock") continue;
       const ut = a.usagetype ?? "";
-
-      // Route: the cross-region suffix, or the bare region rate for us-east-1.
-      let route = null;
-      let cacheKind = null;
-      for (const [suffix, r] of Object.entries(ROUTES)) {
-        if (suffix && ut.includes(suffix)) { route = r; break; }
-      }
-      if (route === null) {
-        // No cross-region suffix. The bare us-east-1 rows are the region rate;
-        // everything else prices a region the entry does not carry.
-        if (a.regionCode === HOME_REGION && !ut.includes("cross-region")) route = "us";
-      }
-      if (route === null) { drop("another region's rate", ut); continue; }
-
-      // Tier: only the standard tier. The suffix tables repeat per tier.
-      const isCache = ut.includes("cache-read-input-token-count") || ut.includes("cache-write-input-token-count");
-      const tiered = /-batch|-flex|-priority|cross-region$/.test(ut);
-      if (tiered && !(isCache && ut.includes("-cross-region-") && ROUTES[ut.slice(ut.lastIndexOf("-cross-region"))])) {
-        // batch/flex/priority tiers are skipped wholesale; the cache lines of
-        // the named cross-region routes are not tiered, they are the route's
-        // cache rate (the bare "-cross-region" cache rows belong to the
-        // unnamed route and drop with it).
-        if (!ut.includes("-cross-region-") || !/global|eu|apac|jp|au|ca|in/.test(ut)) {
-          drop("a discounted tier (batch/flex/priority)", ut);
-          continue;
-        }
-      }
-      if (/ProvisionedThroughput|Customization|Guardrail|Flow|Automation|Optimize/.test(ut)) {
-        drop("not per-token inference (provisioned/training/other)", ut);
-        continue;
-      }
-
-      // Field: the token pair from inferenceType, cache from the usagetype.
-      let field = null;
-      if (isCache) field = ut.includes("cache-read") ? "cache_read" : "cache_creation";
-      else field = FIELDS[a.inferenceType] ?? null;
-      if (!field) { drop("not token-billed (images/audio/other units)", ut); continue; }
-
-      const modelId = MODEL_IDS[a.model ?? ""];
-      if (!modelId) { drop(`a model the id table lacks (${a.model ?? "?"})`, ut); continue; }
-
-      const offer = terms[p.sku];
-      if (!offer) { drop("a sku with no published offer", ut); continue; }
-      let usd = null;
-      let unit = null;
-      for (const ov of Object.values(offer)) {
+      if (a.regionCode !== "us-east-1") { drop("another region's rate"); continue; }
+      if (/batch|cross-region|flex|priority/i.test(ut)) { drop("a discounted or routed tier"); continue; }
+      const field = a.inferenceType === "Input tokens" ? "in" : a.inferenceType === "Output tokens" ? "out" : null;
+      if (!field) { drop("not a token rate (cache/provisioned/training)"); continue; }
+      const modelId = FEED_IDS[a.model ?? ""];
+      if (!modelId) { drop(`a model the id table lacks (${a.model ?? "?"})`); continue; }
+      const off = terms[p.sku];
+      if (!off) { drop("a sku with no published offer"); continue; }
+      let usd, unit;
+      for (const ov of Object.values(off)) {
         for (const dim of Object.values(ov.priceDimensions ?? {})) {
           usd = dim.pricePerUnit?.USD;
           unit = dim.unit;
           break;
         }
-        if (usd !== null && usd !== undefined) break;
+        if (usd != null) break;
       }
-      if (usd == null || !unit) { drop("an offer with no price dimension", ut); continue; }
-
-      const key = `${route}.${modelId}`;
-      const row = rows.get(key) ?? { id: key };
-      // The first standard-tier figure wins per field; a later duplicate is a
-      // different inferenceType spelling of the same route and stays out.
-      if (row[field] === undefined) row[field] = perMillion(usd, unit);
-      rows.set(key, row);
+      if (usd == null || !unit) { drop("an offer with no price dimension"); continue; }
+      const v = perMillion(usd, unit);
+      if (v === undefined) { drop("a price that did not parse"); continue; }
+      const row = rows.get(modelId) ?? { id: modelId, _r: {} };
+      if (row[field] === undefined || row._r[field] > 1) {
+        // rank 1 = the standard tier; cache rows (usagetype -cache-*) join as
+        // cache_read/cache_creation on the same model row.
+        if (/cache-read/.test(ut)) { if (row.cache_read === undefined) { row.cache_read = v; row._r.cache_read = 1; } }
+        else if (/cache-write/.test(ut)) { if (row.cache_creation === undefined) { row.cache_creation = v; row._r.cache_creation = 1; } }
+        else { row[field] = v; row._r[field] = 1; }
+      }
+      rows.set(modelId, row);
     }
 
-    const out = [...rows.values()].filter((r) => r.in !== undefined && r.out !== undefined);
-    const half = [...rows.values()].filter((r) => r.in === undefined || r.out === undefined);
-    if (out.length === 0) drift("no complete token-billed rows in the offer file");
+    // ── source 2: the page markup + the metered map, for the new Claude rows ──
+    const page = await getText(PAGE, { headers: { accept: "text/html" } });
+    const map = await getJson(MAP);
+    const regionRows = map?.regions?.["US East (N. Virginia)"];
+    if (!regionRows) drift("the metered map has no US East (N. Virginia) region");
+
+    // The page's pricing-markup tables: one row per model, cells carrying
+    // {priceOf!service!hash} placeholders in column order.
+    for (const mk of page.matchAll(/data-pricing-markup="([^"]+)"/g)) {
+      const table = mk[1].replace(/&quot;/g, '"').replace(/&#x27;/g, "'");
+      // the column roles come from the header row
+      const head = table.match(/<thead>([\s\S]*?)<\/thead>/);
+      if (!head) continue;
+      const cols = [...head[1].matchAll(/<th>(?:<strong>)?([^<]{0,70})/g)].map((c) => c[1].trim());
+      for (const tr of table.matchAll(/<tr><td>([^<]+)<\/td>([\s\S]*?)<\/tr>/g)) {
+        const name = tr[1].trim();
+        const id = PAGE_IDS[name];
+        if (!id) { if (/\bClaude\b/.test(name)) drop(`a Claude model the page map lacks (${name})`); continue; }
+        const cells = [...tr[2].matchAll(/\{priceOf![^}]*\}|N\/A/g)].map((c) => {
+      // "{priceOf!service!HASH!opt}" — the hash is the third '!'-separated
+      // part; the trailing "!opt" marks an optional column, not part of it.
+      if (c[0] === "N/A") return c[0];
+      const hash = c[0].split("!")[2] ?? null;
+      return hash ? hash.replace(/\}\s*$/, "") : null;
+    });
+        const row = rows.get(id) ?? { id, _r: {} };
+        cells.forEach((c, i) => {
+          if (c === "N/A" || c === null) return;
+          const role = cols[i + 1] ?? "";
+          const rec = regionRows[c];
+          if (!rec) return;
+          const v = String(Math.round(Number(rec.price) * 100) / 100);
+          if (/^Price per 1M input tokens$/.test(role)) { if (row.in === undefined) { row.in = v; row._r.in = 0; } }
+          else if (/^Price per 1M output tokens$/.test(role)) { if (row.out === undefined) { row.out = v; row._r.out = 0; } }
+          else if (/5m Cache Write/.test(role)) { if (row.cache_creation === undefined) { row.cache_creation = v; row._r.cache_creation = 0; } }
+          else if (/cache read/i.test(role)) { if (row.cache_read === undefined) { row.cache_read = v; row._r.cache_read = 0; } }
+        });
+        rows.set(id, row);
+      }
+    }
+
+    const out = [...rows.values()].map(({ _r, ...r }) => r)
+      .filter((r) => r.in !== undefined && r.out !== undefined);
+    if (out.length === 0) drift("no complete rows from either source");
 
     const notes = [...dropped.entries()].map(([why, n]) => `${why}: ${n} row(s)`);
-    if (half.length) notes.push(`rows with one rate only (input without output): ${half.length}, e.g. ${half.slice(0, 3).map((r) => r.id).join(", ")}`);
     return { rows: { bedrock: out }, notes: { bedrock: notes } };
   },
 };

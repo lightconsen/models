@@ -12,6 +12,7 @@
  * rather than leaving the gap to be rediscovered.
  */
 import anthropic from "./anthropic.mjs";
+import azureOpenai from "./azure-openai.mjs";
 import baiduQianfan from "./baidu-qianfan.mjs";
 import bedrock from "./bedrock.mjs";
 import cerebras from "./cerebras.mjs";
@@ -37,6 +38,7 @@ import zhipu from "./zhipu.mjs";
 
 export default [
   anthropic,
+  azureOpenai,
   baiduQianfan,
   bedrock,
   cerebras,

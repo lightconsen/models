@@ -3,7 +3,7 @@
     "id": "codex-mini",
     "name": "Codex Mini",
     "in": "1.5",
-    "out": "6",
+    "out": "6.6",
     "cache_read": "0.375",
     "context": 200000,
     "max_output": 100000,
@@ -11,45 +11,17 @@
     "tool_call": true
   },
   {
-    "id": "gpt-3.5-turbo-0125",
-    "name": "GPT-3.5 Turbo 0125",
-    "in": "0.5",
-    "out": "1.5",
-    "context": 16384,
-    "max_output": 16384,
-    "temperature": true
-  },
-  {
     "id": "gpt-3.5-turbo-1106",
     "name": "GPT-3.5 Turbo 1106",
     "in": "1",
-    "out": "2",
+    "out": "2.5",
     "context": 16384,
     "max_output": 16384,
-    "temperature": true
-  },
-  {
-    "id": "gpt-3.5-turbo-instruct",
-    "name": "GPT-3.5 Turbo Instruct",
-    "in": "1.5",
-    "out": "2",
-    "context": 4096,
-    "max_output": 4096,
     "temperature": true
   },
   {
     "id": "gpt-4-turbo",
     "name": "GPT-4 Turbo",
-    "in": "10",
-    "out": "30",
-    "context": 128000,
-    "max_output": 4096,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "gpt-4-turbo-vision",
-    "name": "GPT-4 Turbo Vision",
     "in": "10",
     "out": "30",
     "context": 128000,
@@ -104,8 +76,8 @@
   {
     "id": "gpt-4o-mini",
     "name": "GPT-4o mini",
-    "in": "0.15",
-    "out": "0.6",
+    "in": "0.165",
+    "out": "0.66",
     "cache_read": "0.075",
     "context": 128000,
     "max_output": 16384,
@@ -117,18 +89,7 @@
     "name": "GPT-5",
     "in": "1.25",
     "out": "10",
-    "cache_read": "0.13",
-    "context": 400000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true
-  },
-  {
-    "id": "gpt-5-codex",
-    "name": "GPT-5-Codex",
-    "in": "1.25",
-    "out": "10",
-    "cache_read": "0.13",
+    "cache_read": "0.125",
     "context": 400000,
     "max_output": 128000,
     "reasoning": true,
@@ -139,7 +100,7 @@
     "name": "GPT-5 Mini",
     "in": "0.25",
     "out": "2",
-    "cache_read": "0.03",
+    "cache_read": "0.025",
     "context": 400000,
     "max_output": 128000,
     "reasoning": true,
@@ -150,7 +111,7 @@
     "name": "GPT-5 Nano",
     "in": "0.05",
     "out": "0.4",
-    "cache_read": "0.01",
+    "cache_read": "0.005",
     "context": 400000,
     "max_output": 128000,
     "reasoning": true,
@@ -215,7 +176,7 @@
     "name": "GPT-5.2",
     "in": "1.75",
     "out": "14",
-    "cache_read": "0.125",
+    "cache_read": "0.175",
     "context": 400000,
     "max_output": 128000,
     "reasoning": true,
@@ -253,7 +214,13 @@
     "max_output": 128000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "long_context": {
+      "over": 272000,
+      "out": "22.5",
+      "cache_read": "0.5",
+      "in": "5"
+    }
   },
   {
     "id": "gpt-5.4-mini",
@@ -288,7 +255,12 @@
     "max_output": 128000,
     "reasoning": true,
     "tool_call": true,
-    "flagship": true
+    "flagship": true,
+    "long_context": {
+      "over": 272000,
+      "out": "270",
+      "in": "60"
+    }
   },
   {
     "id": "gpt-5.5",
@@ -299,7 +271,13 @@
     "context": 1050000,
     "max_output": 128000,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "long_context": {
+      "over": 272000,
+      "cache_read": "1",
+      "out": "45",
+      "in": "10"
+    }
   },
   {
     "id": "gpt-5.6-luna",
@@ -311,19 +289,33 @@
     "context": 1050000,
     "max_output": 128000,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "long_context": {
+      "over": 272000,
+      "in": "0.4",
+      "cache_creation": "0.5",
+      "cache_read": "0.04",
+      "out": "1.8"
+    }
   },
   {
     "id": "gpt-5.6-sol",
     "name": "GPT-5.6 Sol",
     "in": "4",
     "out": "20",
-    "cache_read": "0.5",
-    "cache_creation": "6.25",
+    "cache_read": "0.4",
+    "cache_creation": "5",
     "context": 1050000,
     "max_output": 128000,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "long_context": {
+      "over": 272000,
+      "cache_read": "0.8",
+      "out": "30",
+      "in": "8",
+      "cache_creation": "10"
+    }
   },
   {
     "id": "gpt-5.6-terra",
@@ -335,7 +327,14 @@
     "context": 1050000,
     "max_output": 128000,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "long_context": {
+      "over": 272000,
+      "cache_creation": "5",
+      "out": "18",
+      "cache_read": "0.4",
+      "in": "4"
+    }
   },
   {
     "id": "gpt-6-astra",
@@ -347,7 +346,14 @@
     "context": 1050000,
     "max_output": 128000,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "long_context": {
+      "over": 272000,
+      "cache_creation": "25",
+      "out": "75",
+      "cache_read": "2",
+      "in": "20"
+    }
   },
   {
     "id": "gpt-chat-latest",
@@ -359,13 +365,6 @@
     "max_output": 16384,
     "reasoning": true,
     "tool_call": true
-  },
-  {
-    "id": "gpt-image-1.5",
-    "name": "GPT-Image-1.5",
-    "in": "5",
-    "out": "32",
-    "cache_read": "1.25"
   },
   {
     "id": "o1",
@@ -414,7 +413,7 @@
   {
     "id": "text-embedding-3-large",
     "name": "text-embedding-3-large",
-    "in": "0.13",
+    "in": "0.143",
     "out": "0",
     "context": 8191,
     "max_output": 3072
@@ -422,7 +421,7 @@
   {
     "id": "text-embedding-3-small",
     "name": "text-embedding-3-small",
-    "in": "0.02",
+    "in": "0.022",
     "out": "0",
     "context": 8191,
     "max_output": 1536
@@ -430,9 +429,78 @@
   {
     "id": "text-embedding-ada-002",
     "name": "text-embedding-ada-002",
-    "in": "0.1",
+    "in": "0.125",
     "out": "0",
     "context": 8192,
     "max_output": 1536
+  },
+  {
+    "id": "gpt-4o-0513",
+    "name": "gpt-4o-0513",
+    "in": "5",
+    "out": "15"
+  },
+  {
+    "id": "gpt-6-sol",
+    "name": "gpt-6-sol",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "cache_creation": "2.5",
+    "long_context": {
+      "over": 272000,
+      "out": "15",
+      "cache_creation": "5",
+      "cache_read": "0.4",
+      "in": "4"
+    }
+  },
+  {
+    "id": "gpt-6-luna",
+    "name": "gpt-6-luna",
+    "in": "0.1",
+    "out": "0.5",
+    "cache_read": "0.01",
+    "cache_creation": "0.125",
+    "long_context": {
+      "over": 272000,
+      "out": "0.75",
+      "in": "0.2",
+      "cache_creation": "0.25",
+      "cache_read": "0.02"
+    }
+  },
+  {
+    "id": "gpt-4o-0806",
+    "name": "gpt-4o-0806",
+    "in": "2.75",
+    "out": "11",
+    "cache_read": "1.25"
+  },
+  {
+    "id": "gpt-oss-120b",
+    "name": "gpt-oss-120b",
+    "in": "0.15",
+    "out": "0.6"
+  },
+  {
+    "id": "gpt-5.2-pro",
+    "name": "gpt-5.2-pro",
+    "in": "21",
+    "out": "168"
+  },
+  {
+    "id": "o1-mini",
+    "name": "o1-mini",
+    "in": "1.1",
+    "out": "4.4",
+    "cache_read": "0.55"
+  },
+  {
+    "id": "gpt-5-chat",
+    "name": "gpt-5-chat",
+    "in": "1.25",
+    "out": "10",
+    "cache_read": "0.125"
   }
 ]

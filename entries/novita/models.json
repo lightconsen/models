@@ -1273,5 +1273,16 @@
     "max_output": 8192,
     "reasoning": true,
     "structured_output": true
+  },
+  {
+    "id": "inclusionai/ling-3.0-flash-vl",
+    "name": "Ling 3.0 Flash VL",
+    "in": "0.075",
+    "out": "0.22",
+    "cache_read": "0.015",
+    "context": 262144,
+    "max_output": 32768,
+    "reasoning": true,
+    "tool_call": true
   }
 ]

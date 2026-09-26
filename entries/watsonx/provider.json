@@ -6,7 +6,12 @@
   "rating": 3.5,
   "billing": "payg",
   "currency": "USD",
-  "endpoints": [],
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://us-south.ml.cloud.ibm.com/ml/v1/text"
+    }
+  ],
   "desc": "IBM's watsonx.ai",
   "endpoint_template": "https://{region}.ml.cloud.ibm.com/ml/v1/text",
   "prices_as_of": "2026-09-26"

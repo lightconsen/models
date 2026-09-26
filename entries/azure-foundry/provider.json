@@ -1,0 +1,12 @@
+{
+  "id": "azure-foundry",
+  "name": "Azure AI Foundry",
+  "website": "https://azure.microsoft.com/products/ai-foundry",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoint_template": "https://{resource-name}.services.ai.azure.com/models",
+  "desc": "Azure AI Foundry's hosted third-party models (Microsoft sells these under its own pricing)",
+  "seeded": true
+}

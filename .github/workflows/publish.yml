@@ -64,8 +64,11 @@ jobs:
           merged.versions = { ...merged.versions, ...inc.versions };
           writeFileSync("dist/history/archive.json", JSON.stringify(merged, null, 2) + "\n");
           console.log(`archive holds ${Object.keys(merged.versions).length} version(s)`);
-          echo "v=$(node -e 'console.log(JSON.parse(require("fs").readFileSync("dist/manifest.json","utf8")).history.version)')" >> "$GITHUB_OUTPUT"
           EOF
+          # The version for the per-version upload path — outside the heredoc,
+          # which is node's stdin, not shell (the line used to sit inside it and
+          # every publish since 09-24 died on the SyntaxError).
+          echo "v=$(node -e 'console.log(JSON.parse(require("fs").readFileSync("dist/manifest.json","utf8")).history.version)')" >> "$GITHUB_OUTPUT"
       - name: Upload to R2
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

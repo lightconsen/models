@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LLM model prices across 56 providers | Kiwano Hub</title>
+<meta name="description" content="Per-token prices for every major LLM provider — Anthropic, OpenAI, DeepSeek, Kimi, Zhipu, MaaS platforms and inference hosts — checked against the vendors' own pages and dated." />
+<link rel="canonical" href="https://models.kiwano.cc/" />
+<link rel="alternate" hreflang="en" href="https://models.kiwano.cc/" />
+<style>
+:root { --bg:#fff; --border:#ddd; --fg:#333; --muted:#666; --accent:#fd9527; }
+@media (prefers-color-scheme: dark) { :root { --bg:#1e1e1e; --border:#333; --fg:#fff; --muted:#aaa; } }
+body { margin:0; font:15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--fg); }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 20px 64px; }
+h1 { font-size: 26px; letter-spacing: -0.02em; margin: 0 0 4px; }
+.muted { color: var(--muted); }
+.mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 14px; }
+th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+th.num, td.num { text-align: right; }
+td.cap { text-align: center; }
+code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; background: var(--border); border-radius: 4px; padding: 2px 6px; }
+p.back { margin: 18px 0 0; }
+</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="stylesheet" crossorigin href="/assets/index-3yILBtg5.css">
+</head>
+<body>
+<main>
+<div id="app"></div>
+<div id="prerender-home">
+<h1>LLM model prices across 56 providers</h1>
+<p class="muted">1478 price rows · 1478 priced · every figure checked against the vendor's own pages and dated. Prices per 1M tokens.</p>
+<p>The Kiwano Hub catalogue tracks what each LLM provider charges per token — Anthropic, OpenAI, DeepSeek, Kimi, Zhipu, the MaaS platforms, the inference hosts — with an as-of date on every row and the vendor's own page one click away. Pick a provider:</p>
+<table>
+<thead><tr><th>Provider</th><th class="num">Models</th><th class="num">Flagship in / out per 1M</th><th>About</th></tr></thead>
+<tbody>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/ai21/">AI21</a></td>
+  <td class="num">2</td>
+  <td class="num">$2 / $8</td>
+  <td>AI21's own API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/anthropic/">Anthropic</a></td>
+  <td class="num">4</td>
+  <td class="num">$10 / $50</td>
+  <td>Anthropic's own Claude API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/azure-foundry/">Azure AI Foundry</a></td>
+  <td class="num">20</td>
+  <td class="num">$2.5 / $10</td>
+  <td>Azure AI Foundry's hosted third-party models (Microsoft sells these under its own pricing)</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/azure-openai/">Azure OpenAI</a></td>
+  <td class="num">44</td>
+  <td class="num">$30 / $180</td>
+  <td>Azure's hosted OpenAI models</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/baichuan/">Baichuan</a></td>
+  <td class="num">11</td>
+  <td class="num">¥100 / ¥100</td>
+  <td>Baichuan Intelligence's own model API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/baidu-qianfan/">Baidu Qianfan</a></td>
+  <td class="num">23</td>
+  <td class="num">¥8 / ¥28</td>
+  <td>Baidu Cloud's model platform on Qianfan, billed per token</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/baidu-qianfan-token-plan/">Baidu Qianfan Token Plan</a></td>
+  <td class="num">0</td>
+  <td class="num">—</td>
+  <td>Baidu Cloud's prepaid token plan on Qianfan</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/baseten/">Baseten</a> <span class="muted">(seeded)</span></td>
+  <td class="num">15</td>
+  <td class="num">$3 / $15</td>
+  <td>Baseten's model inference platform</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/bedrock/">Amazon Bedrock</a> <span class="muted">(seeded)</span></td>
+  <td class="num">165</td>
+  <td class="num">$15 / $75</td>
+  <td>AWS's managed model hosting</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/cerebras/">Cerebras</a></td>
+  <td class="num">2</td>
+  <td class="num">$0.35 / $0.75</td>
+  <td>Cerebras' own inference API over open-weight models, on its wafer-scale hardware</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/cloudflare-workers-ai/">Cloudflare Workers AI</a> <span class="muted">(seeded)</span></td>
+  <td class="num">27</td>
+  <td class="num">$0.5 / $4.88</td>
+  <td>Cloudflare's Workers AI</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/cohere/">Cohere</a> <span class="muted">(seeded)</span></td>
+  <td class="num">9</td>
+  <td class="num">$2.5 / $10</td>
+  <td>Cohere's own API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/databricks/">Databricks</a> <span class="muted">(seeded)</span></td>
+  <td class="num">30</td>
+  <td class="num">$15 / $75</td>
+  <td>Databricks's model serving</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/deepinfra/">DeepInfra</a></td>
+  <td class="num">106</td>
+  <td class="num">$2.85 / $14.25</td>
+  <td>DeepInfra's hosted open-model inference</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/deepseek/">DeepSeek</a></td>
+  <td class="num">2</td>
+  <td class="num">¥2 / ¥8</td>
+  <td>DeepSeek's own API, serving its open-weight models</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/digitalocean/">DigitalOcean</a> <span class="muted">(seeded)</span></td>
+  <td class="num">84</td>
+  <td class="num">$30 / $180</td>
+  <td>DigitalOcean's Gradient AI platform</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/fireworks/">Fireworks AI</a> <span class="muted">(seeded)</span></td>
+  <td class="num">33</td>
+  <td class="num">$4.5 / $22.5</td>
+  <td>Fireworks AI's hosted inference platform</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/friendli/">FriendliAI</a></td>
+  <td class="num">7</td>
+  <td class="num">$1.4 / $4.4</td>
+  <td>FriendliAI's serving platform</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/google-gemini/">Google Gemini</a></td>
+  <td class="num">7</td>
+  <td class="num">$0.75 / $3.75</td>
+  <td>Google's Gemini API, serving the Gemini family</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/groq/">Groq</a> <span class="muted">(seeded)</span></td>
+  <td class="num">9</td>
+  <td class="num">$0.8 / $4</td>
+  <td>Groq's LPU inference cloud</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/huggingface/">Hugging Face</a> <span class="muted">(seeded)</span></td>
+  <td class="num">77</td>
+  <td class="num">$3 / $15</td>
+  <td>Hugging Face's Inference Providers</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/kimi/">Kimi</a></td>
+  <td class="num">4</td>
+  <td class="num">¥20 / ¥100</td>
+  <td>Moonshot AI's Kimi assistant and API platform</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/kimi-for-coding/">Kimi For Coding</a></td>
+  <td class="num">0</td>
+  <td class="num">—</td>
+  <td>Kimi Membership's coding service for CLI and VS Code</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/minimax/">MiniMax</a></td>
+  <td class="num">3</td>
+  <td class="num">¥2.1 / ¥8.4</td>
+  <td>MiniMax's own model API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/minimax-intl/">MiniMax (Intl)</a></td>
+  <td class="num">3</td>
+  <td class="num">$0.3 / $1.2</td>
+  <td>MiniMax's own model API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/mistral/">Mistral AI</a></td>
+  <td class="num">13</td>
+  <td class="num">$1.5 / $7.5</td>
+  <td>Mistral AI's own API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/nebius/">Nebius</a> <span class="muted">(seeded)</span></td>
+  <td class="num">20</td>
+  <td class="num">$3 / $15</td>
+  <td>Nebius's AI inference service</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/novita/">Novita AI</a></td>
+  <td class="num">114</td>
+  <td class="num">$3 / $15</td>
+  <td>Novita AI's hosted model inference</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/oci/">Oracle OCI</a> <span class="muted">(seeded)</span></td>
+  <td class="num">9</td>
+  <td class="num">$2 / $6</td>
+  <td>Oracle Cloud's Generative AI service</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/openai/">OpenAI</a></td>
+  <td class="num">4</td>
+  <td class="num">$10 / $50</td>
+  <td>OpenAI's own API, serving the GPT family</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/openrouter/">OpenRouter</a></td>
+  <td class="num">350</td>
+  <td class="num">$0.14 / $0.28</td>
+  <td>OpenRouter's own marketplace API over many upstream providers</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/ovhcloud/">OVHcloud</a></td>
+  <td class="num">8</td>
+  <td class="num">$0.6 / $3.6</td>
+  <td>OVHcloud's AI Endpoints</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/perplexity/">Perplexity</a></td>
+  <td class="num">4</td>
+  <td class="num">$3 / $15</td>
+  <td>Perplexity's own API platform, serving the open-weight models it hosts</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/qianwenai/">Qianwen</a></td>
+  <td class="num">2</td>
+  <td class="num">¥12 / ¥36</td>
+  <td>Alibaba Cloud's own model platform</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/qianwenai-token-plan/">Qianwen Token Plan</a></td>
+  <td class="num">0</td>
+  <td class="num">—</td>
+  <td>Alibaba Cloud's prepaid token plan</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/sap-ai-core/">SAP AI Core</a> <span class="muted">(seeded)</span></td>
+  <td class="num">45</td>
+  <td class="num">$15 / $75</td>
+  <td>SAP's AI Core service</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/siliconflow/">SiliconFlow</a> <span class="muted">(seeded)</span></td>
+  <td class="num">57</td>
+  <td class="num">$2.7 / $13.5</td>
+  <td>SiliconFlow's inference platform (international)</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/siliconflow-cn/">SiliconFlow (China)</a></td>
+  <td class="num">27</td>
+  <td class="num">¥6 / ¥24</td>
+  <td>SiliconFlow's inference platform (China)</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/stepfun/">StepFun</a></td>
+  <td class="num">3</td>
+  <td class="num">¥1.35 / ¥8.1</td>
+  <td>StepFun's own API, serving the Step models it trains</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/stepfun-intl/">StepFun (International)</a></td>
+  <td class="num">3</td>
+  <td class="num">$0.2 / $1.15</td>
+  <td>StepFun's international platform, serving the Step models</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/tencent-token-plan/">Tencent Token Plan</a></td>
+  <td class="num">0</td>
+  <td class="num">—</td>
+  <td>Tencent Cloud's prepaid token plan on LKEAP</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/tencent-tokenhub/">Tencent TokenHub</a></td>
+  <td class="num">32</td>
+  <td class="num">¥20 / ¥100</td>
+  <td>Tencent Cloud's model-service platform, hosting Hunyuan and third-party models under one API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/togetherai/">Together AI</a></td>
+  <td class="num">6</td>
+  <td class="num">$3 / $15</td>
+  <td>Together AI's serverless inference over open-weight models</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/upstage/">Upstage</a></td>
+  <td class="num">5</td>
+  <td class="num">$0.3 / $1.2</td>
+  <td>Upstage's Solar API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/vertex/">Google Vertex AI</a> <span class="muted">(seeded)</span></td>
+  <td class="num">50</td>
+  <td class="num">$2 / $120</td>
+  <td>Google Cloud's model garden on Vertex AI</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/volcesark/">VolcesArk</a></td>
+  <td class="num">0</td>
+  <td class="num">—</td>
+  <td>Official pricing</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/volcesark-agent-plan/">VolcesArk Agent Plan</a></td>
+  <td class="num">0</td>
+  <td class="num">—</td>
+  <td>Volcengine's Ark agent plan</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/volcesark-payg/">VolcesArk Pay-as-you-go</a></td>
+  <td class="num">11</td>
+  <td class="num">¥6 / ¥30</td>
+  <td>Volcengine's own Ark API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/watsonx/">IBM watsonx</a></td>
+  <td class="num">5</td>
+  <td class="num">$0.37 / $1.48</td>
+  <td>IBM's watsonx.ai</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/xai/">xAI</a></td>
+  <td class="num">8</td>
+  <td class="num">$2 / $6</td>
+  <td>xAI's own Grok API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/xfyun-token-plan/">iFlytek Spark Token Plan</a></td>
+  <td class="num">0</td>
+  <td class="num">—</td>
+  <td>iFlytek Spark MaaS's prepaid token plan</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/xiaomi-mimo/">Xiaomi MiMo</a></td>
+  <td class="num">5</td>
+  <td class="num">¥3 / ¥6</td>
+  <td>Xiaomi's own MiMo API</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/xiaomi-mimo-token-plan/">Xiaomi MiMo Token Plan</a></td>
+  <td class="num">0</td>
+  <td class="num">—</td>
+  <td>Xiaomi's prepaid token plan on MiMo</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/xunfei/">iFlytek Spark</a></td>
+  <td class="num">6</td>
+  <td class="num">¥1.6 / ¥6</td>
+  <td>iFlytek's Spark MaaS, pay-as-you-go</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/zhipu-glm/">Zhipu GLM</a></td>
+  <td class="num">2</td>
+  <td class="num">¥8 / ¥28</td>
+  <td>from ¥118 /mo</td>
+</tr>
+<tr>
+  <td><a href="https://models.kiwano.cc/provider/zhipu-glm-intl/">Z.AI</a></td>
+  <td class="num">2</td>
+  <td class="num">$1.4 / $4.4</td>
+  <td>from $18 /mo</td>
+</tr>
+</tbody>
+</table>
+<p class="back muted">The interactive catalogue is <a href="https://models.kiwano.cc/#/">the app itself</a> — this page is its static mirror.</p>
+</div>
+<script>(function(){var a=document.getElementById("app"),m=document.getElementById("prerender-home");if(!a||!m)return;var hide=function(){if(a.children.length)m.style.display="none"};new MutationObserver(hide).observe(a,{childList:true});hide()})()</script>
+<script type="module" crossorigin src="/assets/index-C8RvUY21.js"></script>
+</main>
+</body>
+</html>

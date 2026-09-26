@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Upstage — models and prices | Kiwano Hub</title>
+<meta name="description" content="Upstage — model prices and capabilities. Solar Pro 4: 0.3 in / 1.2 out per 1M tokens." />
+<link rel="canonical" href="https://models.kiwano.cc/provider/upstage/" />
+<style>
+:root { --bg:#fff; --border:#ddd; --fg:#333; --muted:#666; --accent:#fd9527; }
+@media (prefers-color-scheme: dark) { :root { --bg:#1e1e1e; --border:#333; --fg:#fff; --muted:#aaa; } }
+body { margin:0; font:15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--fg); }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 20px 64px; }
+h1 { font-size: 26px; letter-spacing: -0.02em; margin: 0 0 4px; }
+.muted { color: var(--muted); }
+.mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 14px; }
+th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+th.num, td.num { text-align: right; }
+td.cap { text-align: center; }
+code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; background: var(--border); border-radius: 4px; padding: 2px 6px; }
+p.back { margin: 18px 0 0; }
+</style>
+</head>
+<body>
+<main>
+<h1>Upstage</h1>
+<p class="muted mono">upstage · pay-as-you-go</p>
+<p class="muted">Solar Pro 4 — $0.3 in / $1.2 out per 1M tokens · prices as of 2026-09-23</p>
+
+<p>Upstage's Solar API</p>
+<table>
+<thead><tr><th>Model</th><th class="num">Context</th><th class="num">Max out</th><th>Reasoning</th><th>Tool call</th><th>JSON</th><th class="num">In /1M</th><th class="num">Out /1M</th><th class="num">Cache read /1M</th></tr></thead>
+<tbody>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/dXBzdGFnZS9zb2xhci1taW5p/">solar-mini</a></td>
+  <td class="num">32768</td>
+  <td class="num">4096</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.15</td>
+  <td class="num">$0.15</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/dXBzdGFnZS9zb2xhci1taW5pNA/">solar-mini4</a></td>
+  <td class="num">—</td>
+  <td class="num">—</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="num">$0.1</td>
+  <td class="num">$0.4</td>
+  <td class="num">$0.01</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/dXBzdGFnZS9zb2xhci1wcm8y/">solar-pro2</a></td>
+  <td class="num">65536</td>
+  <td class="num">8192</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.15</td>
+  <td class="num">$0.6</td>
+  <td class="num">$0.02</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/dXBzdGFnZS9zb2xhci1wcm8z/">solar-pro3</a></td>
+  <td class="num">131072</td>
+  <td class="num">8192</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.15</td>
+  <td class="num">$0.6</td>
+  <td class="num">$0.02</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/dXBzdGFnZS9zb2xhci1wcm80/">solar-pro4</a></td>
+  <td class="num">524288</td>
+  <td class="num">131072</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.3</td>
+  <td class="num">$1.2</td>
+  <td class="num">$0.06</td>
+</tr>
+</tbody>
+</table>
+<p class="back muted">All prices per 1M tokens · <a href="https://models.kiwano.cc/#/">Kiwano Hub</a></p>
+</main>
+</body>
+</html>

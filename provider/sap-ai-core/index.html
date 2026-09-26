@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SAP AI Core — models and prices | Kiwano Hub</title>
+<meta name="description" content="SAP AI Core — model prices and capabilities. anthropic--claude-3-opus: 15 in / 75 out per 1M tokens." />
+<link rel="canonical" href="https://models.kiwano.cc/provider/sap-ai-core/" />
+<style>
+:root { --bg:#fff; --border:#ddd; --fg:#333; --muted:#666; --accent:#fd9527; }
+@media (prefers-color-scheme: dark) { :root { --bg:#1e1e1e; --border:#333; --fg:#fff; --muted:#aaa; } }
+body { margin:0; font:15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--fg); }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 20px 64px; }
+h1 { font-size: 26px; letter-spacing: -0.02em; margin: 0 0 4px; }
+.muted { color: var(--muted); }
+.mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 14px; }
+th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+th.num, td.num { text-align: right; }
+td.cap { text-align: center; }
+code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; background: var(--border); border-radius: 4px; padding: 2px 6px; }
+p.back { margin: 18px 0 0; }
+</style>
+</head>
+<body>
+<main>
+<h1>SAP AI Core</h1>
+<p class="muted mono">sap-ai-core · pay-as-you-go · seeded, pending verification</p>
+<p class="muted">anthropic--claude-3-opus — $15 in / $75 out per 1M tokens</p>
+<p class="muted">No public endpoint — the vendor provisions a private API base per account: <code>https://{ai-core-url}/v2/inference</code></p>
+<p>SAP's AI Core service</p>
+<table>
+<thead><tr><th>Model</th><th class="num">Context</th><th class="num">Max out</th><th>Reasoning</th><th>Tool call</th><th>JSON</th><th class="num">In /1M</th><th class="num">Out /1M</th><th class="num">Cache read /1M</th></tr></thead>
+<tbody>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW1hem9uLS1ub3ZhLWxpdGU/">amazon--nova-lite</a></td>
+  <td class="num">1000000</td>
+  <td class="num">64000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.3</td>
+  <td class="num">$2.37</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW1hem9uLS1ub3ZhLW1pY3Jv/">amazon--nova-micro</a></td>
+  <td class="num">128000</td>
+  <td class="num">8192</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.03</td>
+  <td class="num">$0.1</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW1hem9uLS1ub3ZhLXBybw/">amazon--nova-pro</a></td>
+  <td class="num">300000</td>
+  <td class="num">8192</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.56</td>
+  <td class="num">$2.13</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW1hem9uLS10aXRhbi1lbWJlZC10ZXh0/">amazon--titan-embed-text</a></td>
+  <td class="num">8192</td>
+  <td class="num">1536</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="num">$0.14</td>
+  <td class="num">$0</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtMy1oYWlrdQ/">anthropic--claude-3-haiku</a></td>
+  <td class="num">200000</td>
+  <td class="num">4096</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.25</td>
+  <td class="num">$1.25</td>
+  <td class="num">$0.03</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtMy1vcHVz/">anthropic--claude-3-opus</a></td>
+  <td class="num">200000</td>
+  <td class="num">4096</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$15</td>
+  <td class="num">$75</td>
+  <td class="num">$1.5</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtMy1zb25uZXQ/">anthropic--claude-3-sonnet</a></td>
+  <td class="num">200000</td>
+  <td class="num">4096</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$3</td>
+  <td class="num">$15</td>
+  <td class="num">$0.3</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtMy41LXNvbm5ldA/">anthropic--claude-3.5-sonnet</a></td>
+  <td class="num">200000</td>
+  <td class="num">8192</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$3</td>
+  <td class="num">$15</td>
+  <td class="num">$0.3</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtMy43LXNvbm5ldA/">anthropic--claude-3.7-sonnet</a></td>
+  <td class="num">200000</td>
+  <td class="num">64000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$3</td>
+  <td class="num">$15</td>
+  <td class="num">$0.3</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC1vcHVz/">anthropic--claude-4-opus</a></td>
+  <td class="num">200000</td>
+  <td class="num">32000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$15</td>
+  <td class="num">$75</td>
+  <td class="num">$1.5</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC1zb25uZXQ/">anthropic--claude-4-sonnet</a></td>
+  <td class="num">200000</td>
+  <td class="num">64000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$3</td>
+  <td class="num">$15</td>
+  <td class="num">$0.3</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC41LWhhaWt1/">anthropic--claude-4.5-haiku</a></td>
+  <td class="num">200000</td>
+  <td class="num">64000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$1</td>
+  <td class="num">$5</td>
+  <td class="num">$0.1</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC41LW9wdXM/">anthropic--claude-4.5-opus</a></td>
+  <td class="num">200000</td>
+  <td class="num">64000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$5</td>
+  <td class="num">$25</td>
+  <td class="num">$0.5</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC41LXNvbm5ldA/">anthropic--claude-4.5-sonnet</a></td>
+  <td class="num">200000</td>
+  <td class="num">64000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$3</td>
+  <td class="num">$15</td>
+  <td class="num">$0.3</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC42LW9wdXM/">anthropic--claude-4.6-opus</a></td>
+  <td class="num">1000000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$5</td>
+  <td class="num">$25</td>
+  <td class="num">$0.5</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC42LXNvbm5ldA/">anthropic--claude-4.6-sonnet</a></td>
+  <td class="num">1000000</td>
+  <td class="num">64000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$3</td>
+  <td class="num">$15</td>
+  <td class="num">$0.3</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC43LW9wdXM/">anthropic--claude-4.7-opus</a></td>
+  <td class="num">1000000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$5</td>
+  <td class="num">$25</td>
+  <td class="num">$0.5</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvYW50aHJvcGljLS1jbGF1ZGUtNC44LW9wdXM/">anthropic--claude-4.8-opus</a></td>
+  <td class="num">1000000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$5</td>
+  <td class="num">$25</td>
+  <td class="num">$0.5</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvY29oZXJlLS1jb21tYW5kLWEtcmVhc29uaW5n/">cohere--command-a-reasoning</a></td>
+  <td class="num">256000</td>
+  <td class="num">32000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.63</td>
+  <td class="num">$5.05</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ2VtaW5pLTIuNS1mbGFzaA/">gemini-2.5-flash</a></td>
+  <td class="num">1048576</td>
+  <td class="num">65536</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.3</td>
+  <td class="num">$2.5</td>
+  <td class="num">$0.03</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ2VtaW5pLTIuNS1mbGFzaC1saXRl/">gemini-2.5-flash-lite</a></td>
+  <td class="num">1048576</td>
+  <td class="num">65536</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.1</td>
+  <td class="num">$0.4</td>
+  <td class="num">$0.01</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ2VtaW5pLTIuNS1wcm8/">gemini-2.5-pro</a></td>
+  <td class="num">1048576</td>
+  <td class="num">65536</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$1.25</td>
+  <td class="num">$10</td>
+  <td class="num">$0.13</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ2VtaW5pLTMuMS1mbGFzaC1saXRl/">gemini-3.1-flash-lite</a></td>
+  <td class="num">1048576</td>
+  <td class="num">65536</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.25</td>
+  <td class="num">$1.5</td>
+  <td class="num">$0.03</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ2VtaW5pLTMuNS1mbGFzaA/">gemini-3.5-flash</a></td>
+  <td class="num">1048576</td>
+  <td class="num">65536</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$1.5</td>
+  <td class="num">$9</td>
+  <td class="num">$0.15</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTQuMQ/">gpt-4.1</a></td>
+  <td class="num">1047576</td>
+  <td class="num">32768</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$2</td>
+  <td class="num">$8</td>
+  <td class="num">$0.32</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTQuMS1taW5p/">gpt-4.1-mini</a></td>
+  <td class="num">1047576</td>
+  <td class="num">32768</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.4</td>
+  <td class="num">$1.6</td>
+  <td class="num">$0.1</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTQuMS1uYW5v/">gpt-4.1-nano</a></td>
+  <td class="num">1047576</td>
+  <td class="num">32768</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.08</td>
+  <td class="num">$0.26</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTU/">gpt-5</a></td>
+  <td class="num">400000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$1.25</td>
+  <td class="num">$10</td>
+  <td class="num">$0.13</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTUtbWluaQ/">gpt-5-mini</a></td>
+  <td class="num">400000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.25</td>
+  <td class="num">$2</td>
+  <td class="num">$0.03</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTUtbmFubw/">gpt-5-nano</a></td>
+  <td class="num">400000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.05</td>
+  <td class="num">$0.4</td>
+  <td class="num">$0.01</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTUuMg/">gpt-5.2</a></td>
+  <td class="num">400000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$1.25</td>
+  <td class="num">$9.44</td>
+  <td class="num">$0.12</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTUuNA/">gpt-5.4</a></td>
+  <td class="num">1050000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$2.5</td>
+  <td class="num">$15</td>
+  <td class="num">$0.25</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTUuNQ/">gpt-5.5</a></td>
+  <td class="num">1050000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$5</td>
+  <td class="num">$30</td>
+  <td class="num">$0.5</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTUuNi1sdW5h/">gpt-5.6-luna</a></td>
+  <td class="num">1050000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$1</td>
+  <td class="num">$6</td>
+  <td class="num">$0.1</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTUuNi1zb2w/">gpt-5.6-sol</a></td>
+  <td class="num">1050000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$5</td>
+  <td class="num">$30</td>
+  <td class="num">$0.5</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvZ3B0LTUuNi10ZXJyYQ/">gpt-5.6-terra</a></td>
+  <td class="num">1050000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$2.5</td>
+  <td class="num">$15</td>
+  <td class="num">$0.25</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvbWlzdHJhbGFpLS1taXN0cmFsLW1lZGl1bS1pbnN0cnVjdA/">mistralai--mistral-medium-instruct</a></td>
+  <td class="num">128000</td>
+  <td class="num">128000</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.36</td>
+  <td class="num">$1.22</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvbWlzdHJhbGFpLS1taXN0cmFsLXNtYWxs/">mistralai--mistral-small</a></td>
+  <td class="num">128000</td>
+  <td class="num">128000</td>
+  <td class="cap">✓</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.07</td>
+  <td class="num">$0.28</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvbnZpZGlhLS1sbGFtYS0zLjItbnYtZW1iZWRxYS0xYg/">nvidia--llama-3.2-nv-embedqa-1b</a></td>
+  <td class="num">8192</td>
+  <td class="num">4096</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="num">$0.07</td>
+  <td class="num">$0</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvc2FwLWFiYXAtMQ/">sap-abap-1</a></td>
+  <td class="num">32768</td>
+  <td class="num">4096</td>
+  <td class="cap">—</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="num">$0.48</td>
+  <td class="num">$1.7</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvc29uYXI/">sonar</a></td>
+  <td class="num">128000</td>
+  <td class="num">4096</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="num">$1</td>
+  <td class="num">$1</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvc29uYXItZGVlcC1yZXNlYXJjaA/">sonar-deep-research</a></td>
+  <td class="num">128000</td>
+  <td class="num">32768</td>
+  <td class="cap">✓</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="num">$2</td>
+  <td class="num">$8</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvc29uYXItcHJv/">sonar-pro</a></td>
+  <td class="num">200000</td>
+  <td class="num">8192</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="num">$3</td>
+  <td class="num">$15</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvdGV4dC1lbWJlZGRpbmctMy1sYXJnZQ/">text-embedding-3-large</a></td>
+  <td class="num">8191</td>
+  <td class="num">3072</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="num">$0.09</td>
+  <td class="num">$0</td>
+  <td class="num">—</td>
+</tr>
+<tr>
+  <td><a class="mono" href="https://models.kiwano.cc/model/c2FwLWFpLWNvcmUvdGV4dC1lbWJlZGRpbmctMy1zbWFsbA/">text-embedding-3-small</a></td>
+  <td class="num">8191</td>
+  <td class="num">1536</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="cap">—</td>
+  <td class="num">$0.02</td>
+  <td class="num">$0</td>
+  <td class="num">—</td>
+</tr>
+</tbody>
+</table>
+<p class="back muted">All prices per 1M tokens · <a href="https://models.kiwano.cc/#/">Kiwano Hub</a></p>
+</main>
+</body>
+</html>

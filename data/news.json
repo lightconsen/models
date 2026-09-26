@@ -1,0 +1,46 @@
+{
+  "news": [
+    {
+      "id": "upstage-solar-pro4-discount",
+      "kind": "discount",
+      "provider_id": "upstage",
+      "model_id": "solar-pro4",
+      "released": "2026-09-23",
+      "title": "Upstage: Solar Pro 4 at 70% off through October 9",
+      "body": "Upstage's launch promo bills Solar Pro 4 at 30% of its standard rates - $0.09 in / $0.36 out per million - through 2026-10-09 (UTC). The catalogue's rows carry the standard rates, which apply again from October 10. Solar Mini 4 runs 50% off until October 22.",
+      "badge": "DISCOUNT",
+      "expires_at": "2026-10-09"
+    },
+    {
+      "id": "volcesark-doubao-retiring",
+      "kind": "announce",
+      "provider_id": "volcesark",
+      "model_id": "doubao-seed-2.1-turbo",
+      "released": "2026-09-23",
+      "title": "Volcengine flags doubao-seed-2.1-turbo and doubao-seed-2.0-lite 即将下线",
+      "body": "The Coding Plan and Agent Plan tables now badge both models 即将下线 (going offline soon), with no removal date given. Both are still sold and priced as of 2026-09-23, so the entries keep the rows; when the tables drop them the ordinary removal flow takes them out.",
+      "badge": "NOTICE"
+    },
+    {
+      "id": "xiaomi-mimo-v2-6",
+      "kind": "new_model",
+      "provider_id": "xiaomi-mimo",
+      "model_id": "mimo-v2.6-pro",
+      "released": "2026-09-21",
+      "title": "Xiaomi MiMo V2.6 is out — Pro, Flash, and a 20x UltraSpeed tier",
+      "body": "MiMo-V2.6-Pro and -Flash are natively multimodal at a 1M-token context, built on large-scale RL, at the same rates as V2.5. Pro also gains an UltraSpeed mode worth up to 20x the speed. V2.5 stays live at the same prices until 2026-10-21.",
+      "badge": "NEW",
+      "url": "https://mimo.mi.com/docs/en-US/news/latest/v2-6"
+    },
+    {
+      "id": "deepseek-v4-pro-continues",
+      "kind": "announce",
+      "provider_id": "deepseek",
+      "model_id": "deepseek-v4-pro",
+      "released": "2026-09-11",
+      "title": "DeepSeek V4 Pro stays available after September 14, 2026",
+      "body": "In response to the needs of our users, we have decided to continue providing the DeepSeek V4 Pro API service after September 14, 2026, with the billing method unchanged. If anything changes, we will notify you separately. Thank you for your understanding and support.",
+      "badge": "NOTICE"
+    }
+  ]
+}

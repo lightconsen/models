@@ -10,7 +10,13 @@ const columns = (catalog: Catalog): ColumnDef<ModelsFile["models"][number]>[] =>
     {
       key: "provider",
       label: "Provider",
-      render: (r) => catalog.entries.find((e) => e.id === r.provider_id)?.name ?? r.provider_id,
+      render: (r) => {
+        const e = catalog.entries.find((x) => x.id === r.provider_id);
+        const name = e?.name ?? r.provider_id;
+        // the full name rides the title — the ellipsis is for the column
+        // width, not a claim the name is shorter
+        return <span className="provider-name" title={name}>{name}</span>;
+      },
     },
     { key: "model", label: "Model", numeric: false, render: (r) => <span className="mono">{r.model_id}</span> },
     {

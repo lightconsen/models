@@ -16,4 +16,5 @@ th.num, td.num { text-align: right; }
 tbody td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
 tbody tr:hover, tbody tr.row-open { background: var(--hover); cursor: pointer; }
 .model-id { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.provider-name { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .expand-cell { color: var(--muted); font-size: 12px; white-space: nowrap; }

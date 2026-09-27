@@ -51,7 +51,16 @@ export function ExpandableDetail({ row }: { row: PriceRow }) {
           <span className="muted"> — off-peak rates</span>
         </p>
       )}
-      {!row.long_context && !row.peak_hours && !row.off_peak && (
+      {row.batch && (
+        <p>
+          <span className="mono">
+            In {formatPrice(parsePrice(row.batch.in))} / Out {formatPrice(parsePrice(row.batch.out))}
+            {row.batch.cache_read ? ` · cache ${formatPrice(parsePrice(row.batch.cache_read))}` : ""}
+          </span>
+          <span className="muted"> — batch processing rates</span>
+        </p>
+      )}
+      {!row.long_context && !row.peak_hours && !row.off_peak && !row.batch && (
         <p className="muted">No tiering published for this row.</p>
       )}
       <PriceHistory row={row} />

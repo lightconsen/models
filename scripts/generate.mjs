@@ -337,6 +337,12 @@ for (const dir of entryDirs) {
   if (!Array.isArray(e.endpoints) || e.endpoints.length === 0) {
     if (e.seeded) {
       warn(`${where}: seeded entry with no endpoints yet — a resource-pinned API base waits for verification`);
+    } else if (e.endpoint_template !== undefined) {
+      // A resource-pinned provider whose prices are verified but whose
+      // endpoint is per-resource ({resource-name}.services.ai.azure.com) —
+      // there is no single callable base, and the template documents the
+      // pattern. The app infers the endpoint from the user's own resource.
+      warn(`${where}: no endpoints — resource-pinned; the template documents the per-account base`);
     } else {
       fail(`${where}: endpoints must be a non-empty array — the first one is the primary protocol`);
     }

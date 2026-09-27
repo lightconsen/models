@@ -12,7 +12,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "batch": {
+      "in": "5.0",
+      "out": "25.0",
+      "cache_read": "0.25"
+    }
   },
   {
     "id": "claude-sonnet-5",
@@ -26,7 +31,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "batch": {
+      "in": "1.0",
+      "out": "5.0",
+      "cache_read": "0.20"
+    }
   },
   {
     "id": "claude-haiku-4-5",
@@ -40,7 +50,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "batch": {
+      "in": "0.5",
+      "out": "2.5",
+      "cache_read": "0.10"
+    }
   },
   {
     "id": "claude-opus-5-5",
@@ -48,6 +63,11 @@
     "in": "4",
     "out": "20",
     "cache_read": "0.20",
-    "cache_creation": "5"
+    "cache_creation": "5",
+    "batch": {
+      "in": "2.0",
+      "out": "10.0",
+      "cache_read": "0.20"
+    }
   }
 ]

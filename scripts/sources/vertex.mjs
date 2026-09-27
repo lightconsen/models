@@ -5,15 +5,20 @@
  * Grok, DeepSeek and the embeddings, plus Google's own extras (grounding,
  * image generation, live API).
  *
- * Dated pricing, the google-gemini pattern: several models run an
+ * The Gemini tables use a **rowspan pattern**: the model name's cell spans
+ * multiple rows, one per modality/field. Row 1 is Input (text, image, …),
+ * row 2 is Text output (response and reasoning). The Type column says which;
+ * the model name cell is empty on the continuation rows. The adapter walks
+ * each table's rows, tracking the current model, and joins Input + Output.
+ *
+ * The Claude/Llama/Mistral/Grok tables price differently — a separate table
+ * per model with all the rates on one row. These parse the same way.
+ *
+ * Dated pricing, the google-gemini pattern: Gemini 3.6–3.8 Flash carry an
  * introductory rate "through December 31, 2026" beside the standard rate
  * "starting January 1, 2027". The adapter reads whichever is in force on the
  * day it runs — the introductory row before the switch, the standard row
  * after — the same rule the google-gemini entry documents.
- *
- * Units: the page prices per 1M tokens for most models, but a few rows
- * (Gemini 2.0 Flash, the Live API) spell per-token figures — the adapter
- * scales those to per-1M the way every price here lands.
  *
  * The ids are the API model ids the seed carried (`claude-opus-4-6@default`,
  * `gemini-3.5-flash`…) — Vertex's deployment naming, distinct from the
@@ -25,57 +30,34 @@ import { drift, getText, MEMBERSHIP } from "../lib/fetch.mjs";
 
 const URL = "https://cloud.google.com/vertex-ai/generative-ai/pricing";
 
-/** Page row label → entry id + how the row's figures price.
-    slot: "base" = the row's in/out; "embed" = input-only. */
-const ROWS = {
-  // ── Gemini ──
-  "Gemini 3.5 Flash": ["gemini-3.5-flash", "base"],
-  "Gemini 3.5 Flash-Lite": ["gemini-3.5-flash-lite", "base"],
-  "Gemini 3.6 Flash": ["gemini-3.6-flash", "base"],
-  "Gemini 3.7 Flash": ["gemini-3.7-flash", "base"],
-  "Gemini 3.8 Flash": ["gemini-3.8-flash", "base"],
-  "Gemini 3.1 Flash-Lite": ["gemini-3.1-flash-lite", "base"],
-  "Gemini 3.1 Pro": ["gemini-3.1-pro-preview", "base"],
-  "Gemini 3.1 Pro Preview": ["gemini-3.1-pro-preview", "base"],
-  "Gemini 3 Pro": ["gemini-3-pro", "base"],
-  "Gemini 2.5 Pro": ["gemini-2.5-pro", "base"],
-  "Gemini 2.5 Flash": ["gemini-2.5-flash", "base"],
-  "Gemini 2.5 Flash Lite": ["gemini-2.5-flash-lite", "base"],
-  // ── Claude ──
-  "Claude Fable 5": ["claude-fable-5@default", "base"],
-  "Claude Fable 5.1": ["claude-fable-5-1@default", "base"],
-  "Claude Opus 4.8": ["claude-opus-4-8@default", "base"],
-  "Claude Opus 4.7": ["claude-opus-4-7@default", "base"],
-  "Claude Opus 4.6": ["claude-opus-4-6@default", "base"],
-  "Claude Opus 4.5": ["claude-opus-4-5@20251101", "base"],
-  "Claude Sonnet 5": ["claude-sonnet-5@default", "base"],
-  "Claude Sonnet 4.6": ["claude-sonnet-4-6@default", "base"],
-  "Claude Sonnet 4.5": ["claude-sonnet-4-5@20250929", "base"],
-  // ── Mistral ──
-  "Mistral OCR (25.05)": null, // per-page, not token-billed
-  // ── Llama ──
-  "Llama 4 Maverick 17B": ["meta/llama-4-maverick-17b-128e-instruct-fp8@default", "base"],
-  // ── Grok ──
-  "Grok 4.6": ["xai/grok-4-6@default", "base"],
+/** Page row label → entry id. The labels are the page's display names; the
+    ids are the seed's Vertex deployment ids. */
+const MODELS = {
+  "Gemini 3.5 Flash": "gemini-3.5-flash",
+  "Gemini 3.5 Flash-Lite": "gemini-3.5-flash-lite",
+  "Gemini 3.6 Flash": "gemini-3.6-flash",
+  "Gemini 3.7 Flash": "gemini-3.7-flash",
+  "Gemini 3.8 Flash": "gemini-3.8-flash",
+  "Gemini 3.1 Flash-Lite": "gemini-3.1-flash-lite",
+  "Gemini 3.1 Pro": "gemini-3.1-pro-preview",
+  "Gemini 2.5 Pro": "gemini-2.5-pro",
+  "Gemini 2.5 Flash": "gemini-2.5-flash",
+  "Gemini 2.5 Flash Lite": "gemini-2.5-flash-lite",
+  "Claude Fable 5": "claude-fable-5@default",
+  "Claude Fable 5.1": "claude-fable-5-1@default",
+  "Claude Opus 4.8": "claude-opus-4-8@default",
+  "Claude Opus 4.7": "claude-opus-4-7@default",
+  "Claude Opus 4.6": "claude-opus-4-6@default",
+  "Claude Opus 4.5": "claude-opus-4-5@20251101",
+  "Claude Sonnet 5": "claude-sonnet-5@default",
+  "Claude Sonnet 4.6": "claude-sonnet-4-6@default",
+  "Claude Sonnet 4.5": "claude-sonnet-4-5@20250929",
+  "Llama 4 Maverick 17B": "meta/llama-4-maverick-17b-128e-instruct-fp8@default",
+  "Grok 4.6": "xai/grok-4-6@default",
+  "Grok 4.3": "xai/grok-4-3@default",
 };
 
-/** What counts as "the model is priced" on this page: the Input/Output pair.
-    Batch and cache-write columns exist beside them and are skipped — batch is
-    a discounted tier, cache writes are Google's own additions the seed never
-    carried. */
-const ROW_FIELDS = /Input\s*\$([\d.]+)/;
-
-const perMillion = (v) => {
-  const n = Number(v);
-  return String(Math.round(n * 100_000) / 100_000).replace(/(\.\d*?)0+$/, "$1").replace(/\.$/, "");
-};
-
-/** Strip the dated-price suffixes: a row label carries "through December 31,
-    2026" (the introductory rate, in force) or "starting January 1, 2027" (the
-    future rate). Both price the same model — the entry reads the in-force
-    one and the future rate rides in the notes. */
-const isFutureRate = (label, today) => /starting January 1, 2027/i.test(label);
-const isInForce = (label, today) => /through December 31, 2026/i.test(label) || !/starting|through/i.test(label);
+const strip = (s) => s.replace(/<[^>]+>/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
 
 export default {
   ids: ["vertex"],
@@ -89,52 +71,74 @@ export default {
     const tables = [...html.matchAll(/<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
     if (tables.length === 0) drift("no tables — the page has been restructured");
 
-    /** One pass over every table's rows: label → figures. Rows appear per
-        deployment column (Standard first), so the FIRST price figure in a row
-        is the standard rate. */
+    /** (modelId) → {in, out} — the per-model best rate. For the rowspan
+        tables, Input and Output are on different rows of the same table; for
+        the Claude/Llama single-row tables, both rates are on the same row.
+        Dated rows: the introductory row (in force) wins; the future row
+        (starting Jan 1 2027) is skipped. */
     const rows = new Map();
     const skipped = new Map();
     const skip = (why, label) => skipped.set(why, [...(skipped.get(why) ?? []), label]);
 
-    const today = new Date();
-    const isFuture = (d) => d > today;
-
     for (const tb of tables) {
-      for (const tr of tb.matchAll(/<tr[\s\S]*?<\/tr>/g)) {
-        const cells = [...tr[0].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((c) => c[1]);
+      // These tables carry no <thead> — the header is the first <tr> whose
+      // cells are <th>. Walk the rows after it.
+      const rowsAll = [...tb.matchAll(/<tr[\s\S]*?<\/tr>/g)].map((m) => m[0]);
+      const headRow = rowsAll.find((r) => /<th[\s>]/.test(r));
+      if (!headRow) continue;
+      const cols = [...headRow.matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g)].map((c) => strip(c[1]));
+      const isInputTable = cols.some((c) => /input tokens/i.test(c));
+      const isTokenTable = cols.some((c) => /token price|price.*token/i.test(c));
+      if (!isInputTable && !isTokenTable) continue;
+
+      let currentModel = null;
+      let currentLabel = null;
+      let currentFuture = false;
+
+      for (const tr of rowsAll) {
+        if (tr === headRow) continue;
+        const cells = [...tr.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((c) => strip(c[1]));
         if (cells.length < 3) continue;
-        const label = cells[0].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-        const figures = [...cells.slice(1).join(" ").matchAll(/\$\s*([\d.]+)/g)].map((m) => m[1]);
-        if (figures.length < 2) continue;
 
-        const mapped = ROWS[label];
-        if (mapped === null) { skip("priced on the page, not token-billed", label); continue; }
-        if (!mapped) { skip("a model the id table lacks", label); continue; }
-        const [id, slot] = mapped;
-        if (slot !== "base") { skip("a non-base slot", label); continue; }
+        // the model name cell: non-empty opens a new model; empty carries over
+        const label = cells[0];
+        if (label) {
+          currentModel = MODELS[label] ?? null;
+          currentLabel = label;
+          currentFuture = /starting January 1, 2027/i.test(label);
+          if (!currentModel) skip("a model the id table lacks", label);
+        }
+        if (!currentModel) continue;
 
-        // dated rows: the introductory rate (labelled "through December 31,
-        // 2026") is in force until the switch; the "starting January 1, 2027"
-        // rows are the future rate, skipped today. After the switch the
-        // introductory row itself dates out and the plain/standard row reads.
-        const future = /starting January 1, 2027/i.test(label);
-        if (future) { skip("a future-dated rate (starting Jan 1 2027)", label); continue; }
+        // the type cell: Input vs Text output
+        const type = cells[1] ?? "";
+        const isOutput = /output|response/i.test(type);
+        const isInput = /input/i.test(type);
+        if (!isInput && !isOutput) continue;
+        const field = isOutput ? "out" : "in";
 
-        // per-token rows scale ×1M (the page spells Gemini 2.0's and some
-        // Gemini 3 rows per-token: 0.000001 = $1/1M)
+        // the prices: the first $ figure in the price cells
+        const priceCells = cells.slice(3);
+        const figures = priceCells.map((c) => (c.match(/\$([\d.]+)/) ?? [])[1]).filter((v) => v !== undefined);
+        if (figures.length === 0) continue;
+        // per-token figures scale ×1M (0.000001 = $1/1M)
         const scale = figures.some((f) => Number(f) < 0.001) ? 1_000_000 : 1;
-        const inP = perMillion(figures[0]) * scale;
-        const outP = perMillion(figures[1]) * scale;
-        if (!inP || !outP) { skip("a row with no complete rate", label); continue; }
+        let v = figures[0];
+        if (scale > 1) v = String(Number(v) * scale);
+        v = String(Math.round(Number(v) * 100) / 100);
 
-        const row = rows.get(id) ?? { id };
-        if (row.in === undefined) { row.in = String(Math.round(inP * 100_000) / 100_000); row.out = String(Math.round(outP * 100_000) / 100_000); }
-        rows.set(id, row);
+        if (currentFuture) { skip("a future-dated rate (starting Jan 1 2027)", currentLabel ?? "?"); continue; }
+
+        const row = rows.get(currentModel) ?? { id: currentModel };
+        if (row[field] === undefined) row[field] = v;
+        rows.set(currentModel, row);
       }
     }
 
     if (rows.size === 0) drift("no rows after mapping");
+    const out = [...rows.values()].filter((r) => r.in !== undefined && r.out !== undefined);
+    if (out.length === 0) drift("no complete rows after the Input/Output join");
     const notes = [...skipped.entries()].map(([why, labels]) => `${why}: ${labels.length} row(s), e.g. ${labels.slice(0, 3).join(", ")}`);
-    return { rows: { vertex: [...rows.values()] }, notes: { vertex: notes } };
+    return { rows: { vertex: out }, notes: { vertex: notes } };
   },
 };

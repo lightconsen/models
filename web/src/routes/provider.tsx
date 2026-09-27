@@ -164,9 +164,11 @@ export function ProviderDetailPage({
         {entry.desc && <p className="desc">{entry.desc}</p>}
         {notice.map((n) => (
           <div key={n.id} className="news-item">
-            {n.badge && <Badge kind="news">{n.badge}</Badge>}
-            <strong>{n.title}</strong>
-            <button className="news-close" aria-label="dismiss notice" onClick={() => dismiss(n.id)}>×</button>
+            <div className="news-head">
+              {n.badge && <Badge kind="news">{n.badge}</Badge>}
+              <strong>{n.title}</strong>
+              <button className="news-close" aria-label="dismiss notice" onClick={() => dismiss(n.id)}>×</button>
+            </div>
           </div>
         ))}
       </div>

@@ -41,10 +41,12 @@ function NewsStrip({ news }: { news: NewsFile }) {
     <div className="news-strip">
       {items.map((n) => (
         <div key={n.id} className="news-item">
-          {n.badge && <Badge kind="news">{n.badge}</Badge>}
-          <strong>{n.title}</strong>
-          <span className="muted"> — {n.body.slice(0, 120)}</span>
-          <button className="news-close" aria-label="dismiss notice" onClick={() => dismiss(n.id)}>×</button>
+          <div className="news-head">
+            {n.badge && <Badge kind="news">{n.badge}</Badge>}
+            <strong>{n.title}</strong>
+            <button className="news-close" aria-label="dismiss notice" onClick={() => dismiss(n.id)}>×</button>
+          </div>
+          <span className="muted news-body">{n.body.slice(0, 120)}</span>
         </div>
       ))}
     </div>

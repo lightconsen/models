@@ -75,8 +75,13 @@
 }
 
 .news-strip { border: 1px solid var(--accent); border-radius: var(--radius); background: var(--accent-soft); padding: 8px 12px; margin-bottom: 16px; }
-.news-item { font-size: 13px; display: flex; align-items: center; gap: 8px; }
-.news-item .muted { flex: 1; }
+/* Two lines per notice: badge + title + dismiss on the first, body on the
+   second — the strip reads as a headline with its lead, not one run-on line. */
+.news-item { font-size: 13px; }
+.news-item + .news-item { margin-top: 8px; }
+.news-item .news-head { display: flex; align-items: center; gap: 8px; }
+.news-item .news-head strong { flex: 1; }
+.news-item .news-body { display: block; margin-top: 2px; }
 .news-close {
   border: none; background: transparent; color: var(--muted); cursor: pointer;
   font-size: 16px; line-height: 1; padding: 0 4px; border-radius: 4px;

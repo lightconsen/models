@@ -5,6 +5,7 @@ import { SearchOverlay } from "./components/searchOverlay";
 import { ProviderDetailPage } from "./routes/provider";
 import { ProvidersPage } from "./routes/providers";
 import { ModelsPage } from "./routes/models";
+import { ApiPage } from "./routes/api";
 import { useRoute } from "./routes/router";
 import { LoadError, loadData } from "./data/api";
 import { SettingsProvider, type CurrencyMode, type ThemeMode } from "./settings";
@@ -88,6 +89,7 @@ export function App() {
         <>
           {route.page === "providers" && <ProvidersPage catalog={data.catalog} news={data.news} />}
           {route.page === "models" && <ModelsPage catalog={data.catalog} models={data.models} />}
+          {route.page === "api" && <ApiPage catalog={data.catalog} />}
           {route.page === "provider" && <ProviderDetailPage catalog={data.catalog} models={data.models} news={data.news} id={route.id} />}
           <Footer manifest={data.manifest} />
         </>

@@ -19,7 +19,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "batch": {
+      "in": "5",
+      "out": "25",
+      "cache_read": "0.5"
+    }
   },
   {
     "id": "gpt-5.6-sol",
@@ -40,7 +45,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "batch": {
+      "in": "2",
+      "out": "10",
+      "cache_read": "0.2"
+    }
   },
   {
     "id": "gpt-5.6-terra",
@@ -61,7 +71,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "batch": {
+      "in": "1",
+      "out": "6",
+      "cache_read": "0.1"
+    }
   },
   {
     "id": "gpt-5.6-luna",
@@ -82,6 +97,11 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "batch": {
+      "in": "0.1",
+      "out": "0.6",
+      "cache_read": "0.01"
+    }
   }
 ]

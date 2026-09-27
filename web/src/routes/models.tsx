@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Catalog, ModelsFile } from "../data/types";
 import { DataTable, type ColumnDef } from "../components/dataTable";
 import { ExpandableDetail, PriceCell } from "../components/priceCell";
+import { navigate } from "../routes/router";
 import { modelKey, parsePrice } from "../data/pricing";
 
 const columns = (catalog: Catalog): ColumnDef<ModelsFile["models"][number]>[] => {
@@ -13,9 +14,24 @@ const columns = (catalog: Catalog): ColumnDef<ModelsFile["models"][number]>[] =>
       render: (r) => {
         const e = catalog.entries.find((x) => x.id === r.provider_id);
         const name = e?.name ?? r.provider_id;
-        // the full name rides the title — the ellipsis is for the column
-        // width, not a claim the name is shorter
-        return <span className="provider-name" title={name}>{name}</span>;
+        // The name is the way into the provider's detail page; clicking it must
+        // not also toggle the row's expandable body, so the click stops here.
+        // The full name rides the title — the ellipsis is for the column
+        // width, not a claim the name is shorter.
+        return (
+          <a
+            className="provider-name provider-link"
+            title={name}
+            href={`#/provider/${r.provider_id}`}
+            onClick={(ev) => {
+              ev.stopPropagation();
+              ev.preventDefault();
+              navigate({ page: "provider", id: r.provider_id });
+            }}
+          >
+            {name}
+          </a>
+        );
       },
     },
     { key: "model", label: "Model", numeric: false, render: (r) => <span className="mono">{r.model_id}</span> },

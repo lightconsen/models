@@ -6,8 +6,12 @@
   "rating": 3.5,
   "billing": "payg",
   "currency": "USD",
-  "endpoints": [],
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://inference.generativeai.{region}.oci.oraclecloud.com"
+    }
+  ],
   "desc": "Oracle Cloud's Generative AI service",
-  "seeded": true,
-  "endpoint_template": "https://inference.generativeai.{region}.oci.oraclecloud.com"
+  "seeded": true
 }

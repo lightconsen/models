@@ -6,8 +6,12 @@
   "rating": 3.5,
   "billing": "payg",
   "currency": "USD",
-  "endpoints": [],
-  "endpoint_template": "https://{resource-name}.services.ai.azure.com/models",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://{resource-name}.services.ai.azure.com/models"
+    }
+  ],
   "desc": "Azure AI Foundry's hosted third-party models (Microsoft sells these under its own pricing)",
   "prices_as_of": "2026-09-26"
 }

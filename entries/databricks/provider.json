@@ -6,8 +6,12 @@
   "rating": 3.5,
   "billing": "payg",
   "currency": "USD",
-  "endpoints": [],
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://{workspace-host}/serving-endpoints"
+    }
+  ],
   "desc": "Databricks's model serving",
-  "seeded": true,
-  "endpoint_template": "https://{workspace-host}/serving-endpoints"
+  "seeded": true
 }

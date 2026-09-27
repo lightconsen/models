@@ -6,8 +6,12 @@
   "rating": 3.5,
   "billing": "payg",
   "currency": "USD",
-  "endpoints": [],
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.cloudflare.com/client/v4/accounts/{account-id}/ai/v1"
+    }
+  ],
   "desc": "Cloudflare's Workers AI",
-  "seeded": true,
-  "endpoint_template": "https://api.cloudflare.com/client/v4/accounts/{account-id}/ai/v1"
+  "seeded": true
 }

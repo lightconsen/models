@@ -9,10 +9,9 @@
   "endpoints": [
     {
       "protocol": "openai",
-      "endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com/openai/v1"
+      "endpoint": "https://bedrock-runtime.{region}.amazonaws.com/openai/v1"
     }
   ],
   "desc": "AWS's managed model hosting",
-  "endpoint_template": "https://bedrock-runtime.{region}.amazonaws.com/openai/v1",
   "prices_as_of": "2026-09-26"
 }

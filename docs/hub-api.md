@@ -38,13 +38,12 @@ Each entry:
 | `rating` | 0–5 | editorial |
 | `billing` | `payg` \| `plan` \| `both` \| `unl` | what the vendor sells at that address |
 | `currency` | ISO-4217 | the provider bills in this |
-| `endpoints` | `[{protocol, endpoint, models[]}]` | protocol: `openai` \| `anthropic` \| `gemini`; `models[]` carries the upstream strings per protocol |
+| `endpoints` | `[{protocol, endpoint, models[]}]` | protocol: `openai` \| `anthropic` \| `gemini`; `models[]` carries the upstream strings per protocol. The endpoint may be a template (`{region}`, `{resource-name}`…) when the API base is resource-pinned — the app substitutes the user's own parts |
 | `logo` | relative path | resolve against the data root |
 | `desc` | string | who the vendor is; no model names, no numbers |
 | `price_ref` | object | the flagship's `{model_id, display_name, input, output, currency, off_peak?, peak_hours?, long_context?}` — enough to show "from ¥X" without the second file |
 | `prices_as_of` | YYYY-MM-DD | when a fetcher last wrote this entry's price rows |
 | `seeded` | boolean | Tier C: prices from a third party, pending verification |
-| `endpoint_template` | URL pattern | resource-pinned API bases (`{region}`, `{resource}`) — documentation, not a callable address |
 
 `price_ref` is projected only for the flagship, so the list page needs no
 second request. Absent means the provider prices no model itself (plan-billed

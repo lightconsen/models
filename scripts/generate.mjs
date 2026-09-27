@@ -112,11 +112,6 @@ const PROVIDER_KEYS = new Set([
      and have not been verified against the vendor's own pages yet. Boolean —
      it goes away the day the entry is upgraded. See roadmap. */
   "seeded",
-  /* For the resource-pinned services: the URL pattern the vendor's own docs
-     give, with the per-account parts in braces. It is documentation, not a
-     callable address — the endpoints array stays empty and this renders in
-     its place. */
-  "endpoint_template",
 ]);
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
@@ -218,7 +213,6 @@ function catalogEntry(e, derived) {
     ...(derived.priceRef === undefined ? {} : { price_ref: derived.priceRef }),
     ...(e.prices_as_of === undefined ? {} : { prices_as_of: e.prices_as_of }),
     ...(e.seeded === undefined ? {} : { seeded: e.seeded }),
-    ...(e.endpoint_template === undefined ? {} : { endpoint_template: e.endpoint_template }),
   };
 }
 
@@ -298,22 +292,6 @@ for (const dir of entryDirs) {
   }
   // The template is the vendor's URL pattern with per-account parts in braces.
   // Braces are what make it a pattern rather than an address — validate that
-  // it parses as a URL once the placeholders are filled with a harmless name,
-  // so a typo'd template fails here rather than rendering a dead link.
-  if (e.endpoint_template !== undefined) {
-    if (typeof e.endpoint_template !== "string" || !e.endpoint_template.includes("{")) {
-      fail(`${where}: endpoint_template must be a URL pattern with {placeholders}`);
-    } else {
-      let ok = true;
-      try {
-        const u = new URL(e.endpoint_template.replaceAll(/\{[^}]*\}/g, "example"));
-        ok = u.protocol === "https:" || u.protocol === "http:";
-      } catch {
-        ok = false;
-      }
-      if (!ok) fail(`${where}: endpoint_template "${e.endpoint_template}" must be an http(s) URL pattern`);
-    }
-  }
   // Which quota endpoint, if any, can be read with nothing but this provider's
   // own API key. Absent means "none" — and that is most of them: it is a fact
   // about the vendor's API, not about how it bills, so `billing: plan` cannot
@@ -337,14 +315,16 @@ for (const dir of entryDirs) {
   if (!Array.isArray(e.endpoints) || e.endpoints.length === 0) {
     if (e.seeded) {
       warn(`${where}: seeded entry with no endpoints yet — a resource-pinned API base waits for verification`);
-    } else if (e.endpoint_template !== undefined) {
-      // A resource-pinned provider whose prices are verified but whose
-      // endpoint is per-resource ({resource-name}.services.ai.azure.com) —
-      // there is no single callable base, and the template documents the
-      // pattern. The app infers the endpoint from the user's own resource.
-      warn(`${where}: no endpoints — resource-pinned; the template documents the per-account base`);
     } else {
-      fail(`${where}: endpoints must be a non-empty array — the first one is the primary protocol`);
+      // A resource-pinned provider prices no single callable base — but if it
+      // carries a template endpoint (below), the app infers the base from the
+      // user's own resource. Empty AND template-less means genuinely unpinned.
+      const hasTemplateEp = (e.endpoints ?? []).some((x) => /\{[^}]*\}/.test(x.endpoint ?? ""));
+      if (hasTemplateEp) {
+        warn(`${where}: no concrete endpoints — resource-pinned; the template endpoints document the per-account base`);
+      } else {
+        fail(`${where}: endpoints must be a non-empty array — the first one is the primary protocol`);
+      }
     }
   } else {
     // One endpoint per protocol: the provider's PK app-side is
@@ -353,9 +333,20 @@ for (const dir of entryDirs) {
     const seen = new Set();
     for (const x of e.endpoints) {
       if (!PROTOCOLS.has(x?.protocol)) fail(`${where}: endpoint protocol "${x?.protocol}" not one of ${[...PROTOCOLS].join("|")}`);
-      else if (seen.has(x.protocol)) fail(`${where}: duplicate protocol "${x.protocol}"`);
-      seen.add(x.protocol);
       if (typeof x?.endpoint !== "string" || x.endpoint.trim() === "") fail(`${where}: endpoint for "${x?.protocol}" is empty`);
+      // The endpoint may be a template ({region}, {resource-name}…) — the
+      // per-account parts a user substitutes. The URL must parse once the
+      // placeholders are filled with a harmless value.
+      try {
+        const u = new URL(x.endpoint.replaceAll(/\{[^}]*\}/g, "example"));
+        if (!(u.protocol === "https:" || u.protocol === "http:")) {
+          fail(`${where}: endpoint "${x.endpoint}" must be an http(s) URL`);
+        }
+      } catch {
+        fail(`${where}: endpoint "${x.endpoint}" must be an http(s) URL`);
+      }
+      if (seen.has(x.protocol)) fail(`${where}: duplicate protocol "${x.protocol}"`);
+      seen.add(x.protocol);
     }
   }
   if (e.prices_as_of !== undefined) {

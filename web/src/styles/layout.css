@@ -99,6 +99,20 @@
   font-size: 12px; color: var(--code-fg);
 }
 
+/* The API page: the GET lines stand out as endpoints do in API docs, and the
+   wire line (the MCP command) renders as a block the reader can copy whole. */
+.api-endpoint { margin: 14px 0 4px; }
+.api-method {
+  display: inline-block; padding: 1px 6px; margin-right: 6px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 11px; color: var(--accent);
+}
+.api-wire {
+  display: block; margin: 8px 0; padding: 8px 12px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 12px; overflow-x: auto; white-space: pre;
+}
+
 .footer {
   max-width: 1180px; margin: 0 auto; padding: 16px 20px 32px;
   border-top: 1px solid var(--border); display: flex; justify-content: space-between;

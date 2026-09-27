@@ -17,6 +17,7 @@ import { useEffect, useSyncExternalStore } from "react";
 export type Route =
   | { page: "providers" }
   | { page: "models" }
+  | { page: "api" }
   | { page: "provider"; id: string };
 
 const parse = (hash: string): Route => {
@@ -24,6 +25,7 @@ const parse = (hash: string): Route => {
   if (h === "" || h === "/") return { page: "providers" };
   if (h.startsWith("provider/")) return { page: "provider", id: h.slice("provider/".length) };
   if (h === "models") return { page: "models" };
+  if (h === "api") return { page: "api" };
   return { page: "providers" };
 };
 
@@ -42,7 +44,7 @@ const subscribe = (cb: () => void) => {
 };
 
 export const navigate = (r: Route) => {
-  const h = r.page === "providers" ? "#/" : r.page === "models" ? "#/models" : `#/provider/${r.id}`;
+  const h = r.page === "providers" ? "#/" : r.page === "models" ? "#/models" : r.page === "api" ? "#/api" : `#/provider/${r.id}`;
   if (location.hash !== h) location.hash = h;
 };
 
@@ -54,7 +56,9 @@ export const useRoute = (): Route => {
         ? "models — Kiwano Hub providers"
         : route.page === "models"
           ? "models — all prices"
-          : `models — ${route.id}`;
+          : route.page === "api"
+            ? "models — API"
+            : `models — ${route.id}`;
   }, [route]);
   return route;
 };

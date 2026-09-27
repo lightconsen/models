@@ -19,6 +19,9 @@ export function Header() {
           <a className={`nav-link${route.page === "models" ? " active" : ""}`} onClick={() => navigate({ page: "models" })}>
             Models
           </a>
+          <a className={`nav-link${route.page === "api" ? " active" : ""}`} onClick={() => navigate({ page: "api" })}>
+            API
+          </a>
         </nav>
         <div className="header-actions">
           <button className="btn" onClick={toggleSearch} title="Search providers and models (⌘K)">

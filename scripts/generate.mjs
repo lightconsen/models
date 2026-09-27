@@ -121,7 +121,7 @@ const PROVIDER_KEYS = new Set([
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
   "id", "name", "in", "out", "cache_read", "cache_creation", "serves", "flagship",
-  "off_peak", "peak_hours", "long_context", "batch",
+  "off_peak", "peak_hours", "long_context", "batch", "service_tier",
   /* Capability facts from the vendor's own docs, optional per row: a length
      limit is a whole number of tokens, a capability flag is boolean. Absent
      means the vendor does not say — never write `false` to mean that. */
@@ -177,7 +177,7 @@ const PRICE_FIELDS = ["model_id", "display_name", "input", "output", "cache_read
     clocks are not the same price. Values go through JSON.stringify rather than
     String() so the nested `off_peak` / `peak_hours` compare by content — String
     would collapse either to "[object Object]" and call them equal. */
-const AGREEMENT_FIELDS = [...PRICE_FIELDS, "currency", "off_peak", "peak_hours", "long_context", "batch"];
+const AGREEMENT_FIELDS = [...PRICE_FIELDS, "currency", "off_peak", "peak_hours", "long_context", "batch", "service_tier"];
 const priceKey = (m) => JSON.stringify(AGREEMENT_FIELDS.map((f) => m?.[f] ?? null));
 
 /** The published catalog entry, in a canonical key order. Canonical on purpose:
@@ -442,6 +442,19 @@ for (const dir of entryDirs) {
         }
       }
     }
+    if (m.service_tier !== undefined) {
+      const ok = m.service_tier !== null && typeof m.service_tier === "object" && !Array.isArray(m.service_tier);
+      if (!ok) fail(`${mw}: service_tier must be an object`);
+      else {
+        if (typeof m.service_tier.name !== "string" || m.service_tier.name === "") {
+          fail(`${mw}: service_tier.name is required (the tier the vendor names)`);
+        }
+        const mul = m.service_tier.multiplier;
+        if (typeof mul !== "number" || mul <= 0) {
+          fail(`${mw}: service_tier.multiplier must be a positive number`);
+        }
+      }
+    }
     if (m.off_peak !== undefined) {
       const okShape = m.off_peak !== null && typeof m.off_peak === "object" && !Array.isArray(m.off_peak);
       if (!okShape) fail(`${mw}: off_peak must be an object of price fields`);
@@ -633,6 +646,7 @@ for (const dir of entryDirs) {
     // charges the listed rate (the higher one), so the un-updated direction
     // overstates rather than understates.
     if (m.batch !== undefined) row.batch = m.batch;
+    if (m.service_tier !== undefined) row.service_tier = m.service_tier;
     // The length band travels the same way, and a client that does not read it
     // charges the lower band — the opposite direction from the peak default above,
     // because here the listed band is the cheaper one.

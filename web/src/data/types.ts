@@ -68,6 +68,7 @@ export interface PriceRef extends RateBand {
   off_peak?: NestedBand;
   peak_hours?: PeakHours;
   batch?: { in: string; out: string; cache_read?: string };
+  service_tier?: { name: string; multiplier: number };
   long_context?: LongContext;
 }
 
@@ -123,6 +124,7 @@ export interface PriceRow extends RateBand, Capabilities {
   off_peak?: NestedBand;
   peak_hours?: PeakHours;
   batch?: { in: string; out: string; cache_read?: string };
+  service_tier?: { name: string; multiplier: number };
   long_context?: LongContext;
 }
 

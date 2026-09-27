@@ -60,6 +60,14 @@ export function ExpandableDetail({ row }: { row: PriceRow }) {
           <span className="muted"> — batch processing rates</span>
         </p>
       )}
+      {row.service_tier && (
+        <p>
+          <span className="mono">
+            {row.service_tier.name}: ×{row.service_tier.multiplier}
+          </span>
+          <span className="muted"> — set <span className="mono">service_tier</span> on the request for the multiplier tier</span>
+        </p>
+      )}
       {!row.long_context && !row.peak_hours && !row.off_peak && !row.batch && (
         <p className="muted">No tiering published for this row.</p>
       )}

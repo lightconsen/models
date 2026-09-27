@@ -11,7 +11,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "batch": {
+      "cache_read": "0.0125",
+      "in": "1.50",
+      "out": "3.00"
+    }
   },
   {
     "id": "mimo-v2.6-flash",
@@ -24,7 +29,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "batch": {
+      "cache_read": "0.01",
+      "in": "0.50",
+      "out": "1.00"
+    }
   },
   {
     "id": "mimo-v2.6-pro-ultraspeed",

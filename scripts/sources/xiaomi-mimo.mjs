@@ -45,7 +45,7 @@ export default {
   ids: ["xiaomi-mimo", "xiaomi-mimo-token-plan"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read"],
+  owns: ["in", "out", "cache_read", "batch"],
 
   async read() {
     const md = await getText(URL);
@@ -98,8 +98,20 @@ export default {
           });
         }
       } else if (r.group === "batch") {
-        notes.push(`batch API, a different billed mode with no field here: ${r.ids.join("、")}`);
-      } else {
+        // The batch rows ARE the models: a batch call is the same tokens at a
+        // discount. Emit a `batch` block on the row, per 1M, the way the seed
+        // spells per-token prices.
+        for (const id of r.ids) {
+          const existing = priced.find((r) => r.id === id);
+          if (!existing) { notes.push(`batch row for a model the real-time table does not price: ${r.ids.join("、")}`); continue; }
+          // the batch section's prices: cache hit, cache miss, output — the
+          // same order as real-time
+          existing.batch = {
+            cache_read: decimal(r.prices[0]),
+            in: decimal(r.prices[1]),
+            out: decimal(r.prices[2]),
+          };
+        }
         notes.push(`billed by duration, no field for it: ${r.ids.join("、")}`);
       }
     }

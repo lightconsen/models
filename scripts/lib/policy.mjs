@@ -71,6 +71,6 @@ export function summarise(verdict) {
     so nothing travels unless the adapter claims it. */
 export const isPriceField = (f) =>
   [
-    "in", "out", "cache_read", "cache_creation", "long_context", "off_peak", "peak_hours",
+    "in", "out", "cache_read", "cache_creation", "long_context", "off_peak", "peak_hours", "batch",
     "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature",
   ].includes(f);

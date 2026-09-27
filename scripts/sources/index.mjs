@@ -42,6 +42,7 @@ export default [
   anthropic,
   azureFoundry,
   azureOpenai,
+  vertex,
   baiduQianfan,
   bedrock,
   cerebras,

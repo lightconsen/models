@@ -932,18 +932,52 @@ is the point — silence about an entry reads as coverage.
 - `validate.yml` — runs on every PR: `node scripts/generate.mjs --check`
   (schema validation + dry-run build, no writes) and `test-policy.mjs`.
 - `publish.yml` — runs on push to `main` (or manual dispatch): builds `dist/`
-  and uploads the JSON artifacts plus `dist/logos/*` to R2 with
-  `wrangler r2 object put --remote`.
+  and uploads the JSON artifacts plus `dist/logos/*` to R2, and archives the
+  shipped price table under `history/<version>/` with a merged
+  `history/archive.json` index (see below).
 - `sync.yml` — runs daily at 06:43 UTC (or manual dispatch): runs
   `fetch-all.mjs --write --commit` and opens a PR with whatever moved.
+- `automerge.yml` — on the sync PRs (the `automation/*` branches): merges a PR
+  whose diff is price-only — prices are facts the vendor is the authority on —
+  and leaves a PR open when a model arrived or left, which is a decision a
+  person makes.
 - `pages.yml` — on push to `main` (or manual dispatch): builds the web app in
   `web/` and force-pushes the static bundle to the `gh-pages` branch.
+
+### The daily update: two observation points
+
+The sync runs from two machines, because no single network can read every
+vendor:
+
+| | US runner (`sync.yml`, 06:43 UTC) | HK box (`sync-hk.sh`, 13:23 HKT) |
+|---|---|---|
+| Chinese vendors (stepfun, baidu-qianfan, xunfei…) | ✗ — they refuse foreign datacentre IPs | ✓ |
+| `ovhcloud` | ✓ | ✓ |
+| `openai`, `togetherai` | ✓ | ✗ (403) |
+| everything else | ✓ | ✓ |
+
+The HK box runs the same `fetch-all.mjs --write --commit` pipeline from its own
+clone (`scripts/sync-hk.sh`, installed as a systemd timer) and opens a PR from
+its own fixed branch (`automation/sync-hk`) — setup lives in
+`docs/sync-hk.md`. Between the two, every entry is read every day; a source
+neither can read is skipped and named, never left looking fresh.
+
+Price-only PRs merge themselves (`automerge.yml`): the trust policy's own line
+is that a price is a fact the vendor is the authority on, so a diff that moves
+no model in or out needs nobody to click merge. A PR that adds or leaves a
+model stays open for a person, and the next day's run keeps it current until
+one looks.
+
+`publish.yml` also archives every shipped price table under
+`history/<version>/models.json` with a merged `history/archive.json` index
+(sha256-deduped, so a version bump that moved no price reuses its
+predecessor's content). The app's expandable rows read the archive as a
+per-model price timeline; the archive is the one thing here no competitor
+carries.
 
 Once the custom domain is set, the site is served from the root at
 `https://models.kiwano.cc`; until then it is `https://<owner>.github.io/` (see
 below).
-
-`sync.yml` is the one workflow here that touches the network, and it is kept out
 
 `sync.yml` is the one workflow here that touches the network, and it is kept out
 of the build path deliberately: `validate` still runs offline on a PR, and
@@ -953,18 +987,20 @@ that would change what a vendor is said to sell, the fixed-point check refuses a
 source reporting a value it will not report again, and the commits come out one
 per entry so each diff reads like one.
 
-**It opens a PR rather than merging itself**, because this repo's premise is that
-the data is hand-reviewed; an unattended commit that landed on its own would make
-every `checked <date>` in the checklist mean nothing. One fixed branch
-(`automation/sync`) means a quiet day updates the open PR instead of stacking a
-new one, and a source that fails is reported in the step summary rather than
-being allowed to read as a quiet day — which is the failure a silent run would
-hide.
+**It opens a PR rather than merging itself** — price-only PRs are merged by
+`automerge.yml` (the trust policy's own line: a price is the vendor's to state),
+but a PR that adds or leaves a model waits for a person, because an unattended
+membership change is what would make every `checked <date>` in the checklist
+mean nothing. One fixed branch (`automation/sync`) means a quiet day updates
+the open PR instead of stacking a new one, and a source that fails is reported
+in the step summary rather than being allowed to read as a quiet day — which is
+the failure a silent run would hide.
 
 It runs on a US runner, which is the other reason it exists: `platform.openai.com`
 and the Gemini pricing page answer `unsupported_country_region_territory` from
 some networks and not others, and a run from elsewhere is the only way to find
-out which side of that this repository is on.
+out which side of that this repository is on. The HK box covers the mirror-image
+half — the Chinese vendors that refuse the US runner.
 
 ### Web frontend (`web/`)
 

@@ -87,7 +87,7 @@ export function App() {
         <main className="page"><p className="muted">Loading…</p></main>
       ) : (
         <>
-          {route.page === "providers" && <ProvidersPage catalog={data.catalog} news={data.news} />}
+          {route.page === "providers" && <ProvidersPage catalog={data.catalog} models={data.models} news={data.news} />}
           {route.page === "models" && <ModelsPage catalog={data.catalog} models={data.models} />}
           {route.page === "api" && <ApiPage catalog={data.catalog} />}
           {route.page === "provider" && <ProviderDetailPage catalog={data.catalog} models={data.models} news={data.news} id={route.id} />}

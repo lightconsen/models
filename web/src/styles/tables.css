@@ -17,6 +17,15 @@ tbody td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
 tbody tr:hover, tbody tr.row-open { background: var(--hover); cursor: pointer; }
 .model-id { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .provider-name { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A provider row: the logo, the name (which is the link), the id, and the rare
+   aggregate badge. The logo is smaller than the detail header's — a table row
+   is one line tall. */
+.provider-cell { display: flex; align-items: center; gap: 8px; color: inherit; text-decoration: none; }
+.provider-cell .provider-logo { width: 18px; height: 18px; }
+.provider-cell:hover .provider-name { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--accent); }
+.provider-id { font-size: 11px; white-space: nowrap; }
+.provider-open { color: var(--accent); text-decoration: none; }
+.provider-open:hover { text-decoration: underline; }
 /* The name inside the models table is a link to the provider's detail page —
    it inherits the row hover, and marks itself on its own hover. */
 a.provider-link { color: inherit; text-decoration: none; }

@@ -469,7 +469,7 @@ stamps it into every published row of `dist/models.json` (so the app-side table
 keeps its per-row currency). Listing one fails validation — two places to
 disagree is exactly what this layout removes.
 
-### Where a price lives, and the one thing the app cannot express yet
+### Where a price lives, and why copies need not agree
 
 A price belongs to the provider entry that serves the model, and nowhere else.
 There is no vendor price table: a model the catalog does not carry is a model the
@@ -478,20 +478,24 @@ one.
 
 Aggregators resell the same vendor models, so one `id` appears in several
 `models.json` files — and **each is free to price it differently**: a subsidy, a
-markup, an off-peak rate. Those prices do *not* have to agree, and the validator's
-objection to disagreement is a **temporary limitation, not a rule**.
+markup, an off-peak rate. Those prices do *not* have to agree. `dist/models.json`
+carries one row per `(provider, model)`, so every one of them is published.
 
-The limitation: the app's price table is keyed by model alone, so it holds exactly
-one price per model, and publishing two would leave the winner up to whichever row
-the seeder wrote last. Until the app looks a price up by `(provider, model)` — which
-needs the published rows to name the provider — a disagreement fails the build,
-with a message saying exactly that.
+What the build does instead is **warn**, naming each model that more than one
+provider prices differently. The warning is not about this repository, where both
+prices are representable: it is about an app build whose `model_pricing` is still
+keyed by the model alone, which folds those rows into one and keeps whichever the
+seeder wrote last. That build cannot be reached from here, so the catalogue says it
+out loud rather than letting a publish ship a coin flip to the installs that have
+not updated.
 
 ### What gets published
 
 `generate.mjs` writes the priced rows of every `models.json` into
-`dist/models.json`, one row per `id`, sorted by id — the flat global `model_id ->
-price` table the app seeds from.
+`dist/models.json`, one row per `(provider, model)`, sorted by model id and then by
+provider id — the global table the app seeds from. A model one provider serves
+carries one row; a model several providers resell carries one each, which is what
+makes the prices above publishable side by side.
 
 ## Model news (`news/`)
 

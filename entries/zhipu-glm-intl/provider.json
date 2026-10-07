@@ -16,7 +16,7 @@
       "endpoint": "https://api.z.ai/api/anthropic"
     }
   ],
-  "desc": "from $18 /mo",
+  "desc": "Z.AI's own GLM API and coding plan",
   "plan_query": {
     "template": "zhipu"
   },

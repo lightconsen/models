@@ -325,6 +325,16 @@ const writable = FORCE ? changed : changed.filter((r) => !heldIds.has(r.id));
 // *would* write, or the file reads as "this run wrote nothing" either way.
 outcome.written = writable.map((r) => r.id);
 
+// What was actually applied, which is not `verdict.written`: that counts the
+// entries that passed on their own, and `--force-write` applies the rest too —
+// the first version summarised the bump commit from it and committed "Bump the
+// version for nothing" over 23 new models.
+const writtenChanges = {
+  created: writable.flatMap((r) => r.changes.created),
+  deleted: writable.flatMap((r) => r.changes.deleted),
+  updated: writable.flatMap((r) => r.changes.updated),
+};
+
 if (!WRITE) {
   if (writable.length) console.log("\nre-run with --write to apply");
   else if (heldIds.size) console.log("\nnothing to write — every changed entry is held back");
@@ -493,7 +503,7 @@ if (COMMIT && writable.length > 0) {
         "commit",
         "-m",
         [
-          `Bump the version for ${summarise(verdict.written)}`,
+          `Bump the version for ${summarise(writtenChanges)}`,
           "",
           "The published table is version-gated, so a price that moved without this",
           "is a price the app never sees.",

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "fugu-ultra",
+    "name": "Fugu Ultra",
+    "in": "5",
+    "out": "30",
+    "cache_read": "0.5",
+    "long_context": {
+      "over": 272000,
+      "in": "10",
+      "out": "45",
+      "cache_read": "1"
+    },
+    "context": 1000000,
+    "max_output": 1000000,
+    "reasoning": true,
+    "tool_call": true,
+    "flagship": true
+  },
+  {
+    "id": "sakana-namazu",
+    "name": "Sakana Namazu",
+    "in": "0.95",
+    "out": "4",
+    "cache_read": "0.15",
+    "context": 262144,
+    "max_output": 65536,
+    "reasoning": true,
+    "tool_call": true,
+    "temperature": true
+  }
+]

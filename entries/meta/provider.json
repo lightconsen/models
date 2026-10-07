@@ -1,0 +1,17 @@
+{
+  "id": "meta",
+  "name": "Meta",
+  "website": "https://ai.meta.com/",
+  "tag": "official",
+  "rating": 3.5,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.meta.ai/v1"
+    }
+  ],
+  "desc": "Meta's own API, serving its Muse models",
+  "seeded": true
+}

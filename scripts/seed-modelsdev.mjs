@@ -74,6 +74,8 @@ const PROVIDERS = [
   { id: "sap-ai-core", src: "sap-ai-core", name: "SAP AI Core", website: "https://help.sap.com/docs/sap-ai-core", desc: "SAP's AI Core service", endpoints: [] },
   { id: "siliconflow", src: "siliconflow", name: "SiliconFlow", website: "https://siliconflow.com/", desc: "SiliconFlow's inference platform (international)", endpoints: [{ protocol: "openai", endpoint: "https://api.siliconflow.com/v1" }] },
   { id: "siliconflow-cn", src: "siliconflow-cn", name: "SiliconFlow (China)", website: "https://siliconflow.cn/", desc: "SiliconFlow's inference platform (China)", endpoints: [{ protocol: "openai", endpoint: "https://api.siliconflow.cn/v1" }] },
+  { id: "meta", src: "meta", name: "Meta", website: "https://ai.meta.com/", desc: "Meta's own API, serving its Muse models", endpoints: [{ protocol: "openai", endpoint: "https://api.meta.ai/v1" }] },
+  { id: "sakana", src: "sakana", name: "Sakana AI", website: "https://sakana.ai/", desc: "Sakana AI's own API, serving the models it trains", endpoints: [{ protocol: "openai", endpoint: "https://api.sakana.ai/v1" }] },
 ];
 
 const res = await fetch(SOURCE, { headers: { "user-agent": "Mozilla/5.0 (compatible; kiwano-seed)" } });

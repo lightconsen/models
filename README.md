@@ -43,6 +43,8 @@ scripts/
                        come from"
   fetch-all.mjs        read every source, judge the changes, write, prove the
                        write settled, and (with --commit) commit per entry
+  report-run.mjs       say what a run did, from the file fetch-all --outcome
+                       wrote — the report both daily runners print
   fetch-deepseek-pricing.mjs
   fetch-kimi-pricing.mjs
   fetch-openrouter-pricing.mjs
@@ -739,12 +741,19 @@ node scripts/fetch-all.mjs                     show the diff for every entry
 node scripts/fetch-all.mjs --entry xai         just one
 node scripts/fetch-all.mjs --write             apply
 node scripts/fetch-all.mjs --write --commit    apply and commit, one per entry
-node scripts/fetch-all.mjs --force-write       apply even if the policy says no
+node scripts/fetch-all.mjs --force-write       apply even to an entry the policy held back
+node scripts/fetch-all.mjs --outcome run.json  write the run's result as JSON
 ```
 
 That last pair is the whole thing unattended: read, judge, write, prove, commit.
 Nothing is pushed, and `--commit` refuses to run on a tree with changes it did not
 make, so it cannot sweep up someone else's work.
+
+`--outcome` is what the two daily runners report from: `report-run.mjs` turns the
+file into the run's summary, the GitHub annotations and the PR body's "held back for
+review" section. The exit code cannot carry that — it says a run stopped, never
+why — and the workflow that inferred the reason from it named the wrong one for
+three weeks.
 
 The per-vendor scripts still exist and are still the best place to read about any
 one vendor. What the runner adds is the thing none of them could do alone: keep
@@ -800,10 +809,24 @@ something went wrong in a single session it was here:
 - an `intersect` adapter that had not been taught to intersect offered to add 410 rows;
 - an aggregator about to be trusted with prices reported values no upstream charged.
 
-So a run may create at most 10 models, delete at most 10, and churn at most 15 in
-total; past that it refuses to write and says which models and why, unless
-`--force-write`. `test-policy.mjs` asserts the edges, where an off-by-one is silent
-data loss.
+So an entry may create at most 10 models, delete at most 10, and churn at most 15;
+past that it is **held back** — nothing written for it, prices included, because a
+source that just changed shape is the one whose numbers we are least sure of — and
+named with the models and the reason. Every other entry in the same run is written
+as usual.
+
+That per-entry boundary is the second version of the rule. The first summed the
+whole run and refused all of it, and from 2026-09-25 to 2026-10-07 every daily run
+refused: one talkative reseller proposing 14 new models held the entire catalogue's
+prices still, in the same refusal that anthropic's own `claude-sonnet-5 ->
+claude-sonnet-5-5` rename sat in. `--force-write` applies a held-back entry anyway,
+for the morning after someone has read the list.
+
+A run-level ceiling survives at 40 created / 40 deleted / 60 churn. No honest entry
+can reach it alone, so passing it means the *run* looks wrong — a shared helper
+broken, every adapter misreading — and then refusing everything is the point.
+`test-policy.mjs` asserts the edges of both, where an off-by-one is silent data
+loss.
 
 Version bumps are part of applying a change rather than a follow-up to remember:
 the published table is version-gated, so a price that moved without one is a price
@@ -982,10 +1005,11 @@ below).
 `sync.yml` is the one workflow here that touches the network, and it is kept out
 of the build path deliberately: `validate` still runs offline on a PR, and
 `publish` still ships only what a person merged. It runs the same command a
-person runs by hand, so the same guards apply — the trust policy refuses a run
-that would change what a vendor is said to sell, the fixed-point check refuses a
-source reporting a value it will not report again, and the commits come out one
-per entry so each diff reads like one.
+person runs by hand, so the same guards apply — the trust policy holds back any
+entry whose source proposes more membership change than a machine may apply on its
+own (that entry alone; the rest of the run is written), the fixed-point check
+refuses a source reporting a value it will not report again, and the commits come
+out one per entry so each diff reads like one.
 
 **It opens a PR rather than merging itself** — price-only PRs are merged by
 `automerge.yml` (the trust policy's own line: a price is the vendor's to state),
@@ -995,6 +1019,12 @@ mean nothing. One fixed branch (`automation/sync`) means a quiet day updates
 the open PR instead of stacking a new one, and a source that fails is reported
 in the step summary rather than being allowed to read as a quiet day — which is
 the failure a silent run would hide.
+
+Both runners report from the file `fetch-all.mjs --outcome` writes, through
+`report-run.mjs`: the step summary, a `::warning::` per held-back entry, and the
+PR body's "held back for review" table. Reading the exit code instead is what the
+first version did, and it named the wrong cause every day for three weeks (see
+the trust policy above).
 
 It runs on a US runner, which is the other reason it exists: `platform.openai.com`
 and the Gemini pricing page answer `unsupported_country_region_territory` from

@@ -83,15 +83,23 @@ git clean -fdq
   || exec bash "${BASH_SOURCE[0]}" "$@"
 
 log="$(mktemp)"
+outcome="$(mktemp)"
 code=0
-node scripts/fetch-all.mjs --write --commit >"$log" 2>&1 || code=$?
+node scripts/fetch-all.mjs --write --commit --outcome "$outcome" >"$log" 2>&1 || code=$?
 cat "$log"
+
+# The run's own report, from the file it wrote rather than from the exit code:
+# the code cannot tell an entry the trust policy held back from a source that
+# would not answer, and this script used to pass it on to the journal as "fetch
+# exited 1" — which named the wrong cause for three weeks of empty runs. It goes
+# to the journal here and into the PR body below.
+node scripts/report-run.mjs "$outcome"
 
 # A source this box cannot read exits nonzero having written nothing for that
 # entry — that is not a reason to lose the entries that did work.
 n="$(git rev-list --count origin/main..HEAD)"
 if [ "$n" = 0 ]; then
-  echo "no commits — nothing to open a PR for (fetch exited $code)"
+  echo "no commits — nothing to open a PR for"
   exit 0
 fi
 
@@ -122,10 +130,13 @@ body="$(mktemp)"
   echo "the vendor's own page. A correct reading reports \`no change\`, so anything"
   echo "here is a source disagreeing with what the entry carries."
   echo
-  if [ "$code" != "0" ]; then
-    echo "> **This run exited $code** — at least one source could not be read from"
-    echo "> this box and was skipped (today that is openai and togetherai, the US"
-    echo "> runner's half). The log below names every one."
+  # What waits for a person — the entries the trust policy held back, and the
+  # sources this box could not read — named from the run's own outcome file.
+  if [ -s "$outcome" ]; then
+    node scripts/report-run.mjs "$outcome" --pr
+  elif [ "$code" != "0" ]; then
+    echo "> **This run exited $code** and wrote no outcome file — read the log below;"
+    echo "> the run did not reach the end of the pipeline."
     echo
   fi
   echo "### Commits"

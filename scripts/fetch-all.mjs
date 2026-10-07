@@ -12,9 +12,12 @@
  *
  *   read    every source, each isolated; one vendor's docs restructuring costs
  *           that entry and nothing else.
- *   judge   `lib/policy.mjs`. A price is a fact the vendor is the authority on
- *           and nobody needs to look at it; a model arriving or leaving changes
- *           what the catalogue claims a vendor sells, and is limited.
+ *   judge   `lib/policy.mjs`, **per entry**. A price is a fact the vendor is the
+ *           authority on and nobody needs to look at it; a model arriving or
+ *           leaving changes what the catalogue claims a vendor sells, and is
+ *           limited. An entry over the limit is held back — nothing written for
+ *           it, its prices included — and named, while the entries beside it are
+ *           written as usual. (`--force-write` overrides the hold.)
  *   write   only when `--write`. The default is to print the diff.
  *   prove   after writing, every entry is merged a second time and must come out
  *           clean. This is the property the whole thing rests on — a run that
@@ -30,12 +33,21 @@
  * and the runner refuses the row rather than let a scraper quietly take over a
  * human's decision.
  *
+ * `--outcome <path>` writes the run's result as JSON — what changed, what was
+ * written, what was held back and why, which sources were skipped. The workflows
+ * report from that file rather than from the exit code, because the exit code
+ * cannot tell a held-back entry from a source that would not answer, and on
+ * 2026-09-25..10-07 the workflow guessed wrong every day: it told the reader a
+ * source could not be read while the real cause was the trust policy refusing a
+ * 25-model churn, and the ten lines that said so scrolled past unread.
+ *
  * Usage:
  *   node scripts/fetch-all.mjs                    show the diff for every entry
  *   node scripts/fetch-all.mjs --entry xai        just one
  *   node scripts/fetch-all.mjs --write            apply
  *   node scripts/fetch-all.mjs --write --commit   apply and commit per entry
- *   node scripts/fetch-all.mjs --force-write      apply even if the policy says no
+ *   node scripts/fetch-all.mjs --force-write      apply even to a held-back entry
+ *   node scripts/fetch-all.mjs --outcome f.json   write the run's result as JSON
  */
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -48,6 +60,7 @@ const ONLY = argOf("--entry");
 const WRITE = has("--write");
 const COMMIT = has("--commit");
 const FORCE = has("--force-write");
+const OUTCOME = argOf("--outcome");
 
 /** Price equality by value: the entry writes "0.20" where a vendor writes "0.2",
     and the same price spelled two ways is not a change worth committing. Nested
@@ -239,26 +252,88 @@ if (!ONLY) {
   if (untouched.length) console.log(`no source, still hand-maintained: ${untouched.join(", ")}`);
 }
 
+// ── the run's result, for whoever reports it ──
+// One object, filled in as the run proceeds and written by `finish` on every way
+// out. The consumer is a workflow that cannot tell a held-back entry from an
+// unreadable source by exit code alone, which is how the reason for three weeks
+// of empty runs stayed invisible.
+const outcome = {
+  changed: changed.map((r) => r.id),
+  written: [],
+  held: verdict.held.map((j) => ({
+    entry: j.entry,
+    reasons: j.reasons,
+    created: j.created.map((m) => m.id),
+    deleted: j.deleted.map((m) => m.id),
+  })),
+  systemic: verdict.systemic,
+  runReasons: verdict.runReasons,
+  failed: results.filter((r) => r.error).map((r) => ({ entry: r.id, error: r.error })),
+  unreachable: results.filter((r) => r.unreachable).map((r) => ({ entry: r.id, error: r.unreachable })),
+  bumped: false,
+  exit: 0,
+};
+
+const finish = (code) => {
+  outcome.exit = code;
+  if (OUTCOME) {
+    try {
+      writeFileSync(OUTCOME, JSON.stringify(outcome, null, 2) + "\n");
+    } catch (err) {
+      // Worth saying out loud but not worth failing the run over: the data is
+      // written either way, and the report degrades to the log.
+      console.error(`\n! could not write the outcome file ${OUTCOME}: ${err.message}`);
+    }
+  }
+  process.exit(code);
+};
+
 // ── judge ──
-if (!verdict.safe) {
-  console.log("\nthis run changes what the catalogue says a vendor sells:");
-  for (const reason of verdict.reasons) console.log(`  ! ${reason}`);
-  for (const m of [...verdict.created, ...verdict.deleted]) console.log(`      ${m.entry}: ${m.id}`);
+// Per entry, not per run — one talkative reseller must not hold the catalogue
+// still (lib/policy.mjs has the three weeks this rule was learned in). An entry
+// over the limit is held back and named; the rest is written.
+if (verdict.systemic) {
+  console.log("\nthe whole run changes what the catalogue says vendors sell:");
+  for (const reason of verdict.runReasons) console.log(`  ! ${reason}`);
+  console.log("  That is the shape of a run-wide misread rather than a vendor's news — nothing is written.");
   if (!FORCE) {
-    console.log("\nRefusing to write. Review the list, then re-run with --force-write if it is right.");
-    process.exit(1);
+    console.log("\nRefusing to write. Check the adapters, then re-run — or --force-write to override.");
+    finish(1);
   }
   console.log("\n--force-write given: proceeding anyway.");
+} else if (verdict.held.length) {
+  console.log(`\n${verdict.held.length} entr(ies) held back — over what a machine may change on its own:`);
+  for (const j of verdict.held) {
+    console.log(`  ${j.entry}`);
+    for (const reason of j.reasons) console.log(`    ! ${reason}`);
+    for (const m of [...j.created, ...j.deleted]) console.log(`      ${m.id}`);
+  }
+  if (FORCE) {
+    console.log("\n--force-write given: writing them anyway.");
+  } else {
+    console.log("\nNothing is written for these entries, prices included: a source that just changed");
+    console.log("shape is the one whose numbers we are least sure of. Review the list above, then");
+    console.log("re-run with --force-write if it is right — leaving it alone is fine too, because");
+    console.log("the next run proposes the same list again.");
+  }
 }
 
+// What this run may actually apply. A run-level trip writes nothing at all.
+const heldIds = new Set(verdict.systemic ? changed.map((r) => r.id) : verdict.held.map((j) => j.entry));
+const writable = FORCE ? changed : changed.filter((r) => !heldIds.has(r.id));
+// Recorded here, not after the write loop: a dry run's outcome should say what it
+// *would* write, or the file reads as "this run wrote nothing" either way.
+outcome.written = writable.map((r) => r.id);
+
 if (!WRITE) {
-  if (changed.length) console.log("\nre-run with --write to apply");
-  process.exit(failed > 0 ? 1 : 0);
+  if (writable.length) console.log("\nre-run with --write to apply");
+  else if (heldIds.size) console.log("\nnothing to write — every changed entry is held back");
+  finish(failed > 0 ? 1 : 0);
 }
 
 // ── write, then prove the write is a fixed point ──
 let written = 0;
-for (const r of changed) {
+for (const r of writable) {
   const { modelsPath } = readEntry(r.id);
   writeFileSync(modelsPath, JSON.stringify(r.merged, null, 2) + "\n");
 
@@ -285,7 +360,7 @@ for (const r of changed) {
     for (const line of again.lines) console.error(`    ${line}`);
     console.error("  The source is not reporting a stable value. Reverting this entry.");
     console.error(`  (Nothing else was affected; the file is left as written for inspection.)`);
-    process.exit(1);
+    finish(1);
   }
 
   console.log(`✓ wrote entries/${r.id}/models.json`);
@@ -336,7 +411,7 @@ const pricedRows = (rev) => {
 };
 
 const movedPrices =
-  changed.some(
+  writable.some(
     (r) =>
       r.changes.updated.some((c) => c.field === "in" || c.field === "out") ||
       r.changes.created.length > 0 ||
@@ -352,10 +427,11 @@ if (movedPrices) {
   writeFileSync(globalPath, JSON.stringify(g, null, 2) + "\n");
   console.log(`✓ bumped global.json version ${next - 1} -> ${next}`);
   bumped = true;
+  outcome.bumped = true;
 }
 
 // ── commit ──
-if (COMMIT && changed.length > 0) {
+if (COMMIT && writable.length > 0) {
   // Not `.trim()` on the whole blob: git's first line begins ` M path`, and
   // trimming eats that leading space, which shifts the status prefix and slices
   // the path one character short — so the guard reports our own file as foreign
@@ -373,7 +449,7 @@ if (COMMIT && changed.length > 0) {
   // on every changed entry (39e2649). The guard that ignored it turned every
   // run with a change into "refuses to commit" the day that stamp landed.
   const ours = new Set([
-    ...changed.flatMap((r) => [`entries/${r.id}/models.json`, `entries/${r.id}/provider.json`]),
+    ...writable.flatMap((r) => [`entries/${r.id}/models.json`, `entries/${r.id}/provider.json`]),
     ...(bumped ? [versionFile] : []),
   ]);
   const foreign = dirty.filter((line) => !ours.has(pathOf(line)));
@@ -381,10 +457,10 @@ if (COMMIT && changed.length > 0) {
     console.log("\n! the tree has other changes staged or modified — not committing:");
     for (const line of foreign) console.log(`    ${line}`);
     console.log("  Commit or stash them, then re-run with --write --commit.");
-    process.exit(1);
+    finish(1);
   }
 
-  for (const r of changed) {
+  for (const r of writable) {
     const file = `entries/${r.id}/models.json`;
     const stamp = `entries/${r.id}/provider.json`;
     spawnSync("git", ["add", file], { cwd: repo });
@@ -402,7 +478,7 @@ if (COMMIT && changed.length > 0) {
     const out = spawnSync("git", ["commit", "-m", body, "--", file, stamp], { cwd: repo, encoding: "utf8" });
     if (out.status !== 0) {
       console.error(`✗ commit failed for ${r.id}: ${(out.stderr || out.stdout).trim()}`);
-      process.exit(1);
+      finish(1);
     }
     console.log(`✓ committed ${file}`);
   }
@@ -417,7 +493,7 @@ if (COMMIT && changed.length > 0) {
         "commit",
         "-m",
         [
-          `Bump the version for ${summarise(verdict)}`,
+          `Bump the version for ${summarise(verdict.written)}`,
           "",
           "The published table is version-gated, so a price that moved without this",
           "is a price the app never sees.",
@@ -431,13 +507,15 @@ if (COMMIT && changed.length > 0) {
     );
     if (out.status !== 0) {
       console.error(`✗ commit failed for ${versionFile}: ${(out.stderr || out.stdout).trim()}`);
-      process.exit(1);
+      finish(1);
     }
     console.log(`✓ committed ${versionFile}`);
   }
   console.log("\ncommits are local; nothing was pushed");
 } else if (written > 0) {
   console.log("\nbump global.json's version, then run: node scripts/generate.mjs --check");
+} else if (changed.length > 0) {
+  console.log(`\nnothing written — all ${changed.length} changed entr(ies) are held back, see above`);
 }
 
-process.exit(failed > 0 ? 1 : 0);
+finish(failed > 0 ? 1 : 0);

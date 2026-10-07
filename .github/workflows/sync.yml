@@ -4,15 +4,18 @@
 # not in the build path: `validate.yml` still runs offline on a PR, and
 # `publish.yml` still publishes only what a person merged. Nothing here writes to
 # `main`. It runs the same `fetch-all.mjs --write --commit` a person runs by hand,
-# so the same guards apply — the trust policy refuses a run that would change what
-# a vendor is said to sell, the fixed-point check refuses a source reporting a
-# value it will not report again, and the commits come out one per entry so each
-# diff reads like one.
+# so the same guards apply — the trust policy holds back any entry whose source
+# proposes more membership change than a machine may apply on its own (that entry
+# alone; every other entry is written as usual), the fixed-point check refuses a
+# source reporting a value it will not report again, and the commits come out one
+# per entry so each diff reads like one.
 #
 # A PR rather than a direct merge, because the checklist's "checked <date>"
 # lines rest on a person having looked. Price-only changes now merge themselves
 # (automerge.yml — the trust policy's own line: a price is the vendor's to
-# state); a run that adds or leaves a model stays open for a person.
+# state); a run that adds or leaves a model stays open for a person. An entry
+# the policy held back is not in the PR at all: it is named in the body, and the
+# next run proposes it again.
 #
 # The branch name is fixed on purpose: a daily run that finds something updates
 # the PR already open rather than stacking a hundred of them.
@@ -60,7 +63,7 @@ jobs:
         id: read
         run: |
           set +e
-          node scripts/fetch-all.mjs --write --commit > "$RUNNER_TEMP/sync.log" 2>&1
+          node scripts/fetch-all.mjs --write --commit --outcome "$RUNNER_TEMP/outcome.json" > "$RUNNER_TEMP/sync.log" 2>&1
           code=$?
           set -e
           cat "$RUNNER_TEMP/sync.log"
@@ -107,9 +110,15 @@ jobs:
             echo "the vendor's own page. A correct reading reports \`no change\`, so"
             echo "anything here is a source disagreeing with what the entry carries."
             echo
-            if [ "$READ_CODE" != "0" ]; then
-              echo "> **This run exited $READ_CODE** — at least one source could not be"
-              echo "> read and was skipped. The log below names it."
+            # What waits for a person, from the file the pipeline wrote. The
+            # fallback is for a run that died before it could write one — the
+            # exit code is the only thing left to go on, and it cannot name a
+            # cause, which is why it is not the first choice.
+            if [ -f "$RUNNER_TEMP/outcome.json" ]; then
+              node scripts/report-run.mjs "$RUNNER_TEMP/outcome.json" --pr
+            elif [ "$READ_CODE" != "0" ]; then
+              echo "> **This run exited $READ_CODE** and wrote no outcome file — read the log"
+              echo "> below; the run did not reach the end of the pipeline."
               echo
             fi
             echo "### Commits"
@@ -192,21 +201,14 @@ jobs:
           PROBE
           } | tee -a "$GITHUB_STEP_SUMMARY"
 
-      - name: Report
-        if: steps.moved.outputs.commits == '0'
-        run: |
-          {
-            if [ "${{ steps.read.outputs.code }}" = "0" ]; then
-              echo "No vendor changed a price since the last run."
-            else
-              echo "No price moved — but **this run exited ${{ steps.read.outputs.code }}**."
-              echo
-              echo "A source could not be read, so its entry was compared against"
-              echo "nothing and would not have shown a change even if it had one."
-              echo "That is the failure a silent run would hide, so it is named here:"
-              echo
-              echo '```'
-              grep -A1 '^✗' "$RUNNER_TEMP/sync.log" || true
-              echo '```'
-            fi
-          } | tee -a "$GITHUB_STEP_SUMMARY"
+      # The run's own report, from the file it wrote rather than from the exit
+      # code — the code cannot tell a held-back entry from a source that would
+      # not answer, and the version of this step that guessed told readers the
+      # wrong one for three weeks (scripts/report-run.mjs has the story). It runs
+      # even when a later step failed, because that is exactly when the reason
+      # matters.
+      - name: Report the run
+        if: always()
+        env:
+          OUTCOME: ${{ runner.temp }}/outcome.json
+        run: node scripts/report-run.mjs "$OUTCOME" | tee -a "$GITHUB_STEP_SUMMARY"

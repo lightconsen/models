@@ -83,10 +83,13 @@ systemctl start sync-hk.service
 journalctl -u sync-hk.service -n 100
 ```
 
-Expected: the fetch-all output, `no commits — nothing to open a PR for` on a
-quiet day, or a push plus `opened a PR` when a vendor moved. On GitHub, the PR
-titled "Sync prices from the HK observation point" reads like PR #1 does:
-per-entry commits, skipped sources named. Price-only runs merge themselves (automerge.yml); a run that adds or leaves a model waits for a person.
+Expected: the fetch-all output, then the run's report from `report-run.mjs`,
+then `no commits — nothing to open a PR for` on a quiet day, or a push plus
+`opened a PR` when a vendor moved. On GitHub, the PR titled "Sync prices from the
+HK observation point" reads like PR #1 does: per-entry commits, skipped sources
+named, and a "held back for review" table for any entry the trust policy would not
+write unattended. Price-only runs merge themselves (automerge.yml); a run that adds
+or leaves a model waits for a person.
 
 ## Operations
 

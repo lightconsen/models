@@ -17,28 +17,57 @@
  *
  * So the limits below are not about fear of the vendors. They are the boundary
  * between "the source told us a number" and "the source told us what to be".
+ *
+ * **Judged per entry, not per run.** The first version summed every entry's
+ * churn and refused the whole run when the total went over — which meant one
+ * talkative reseller held the entire catalogue's prices still: from 2026-09-25
+ * to 2026-10-07 every daily run refused, 25 models created and 22 gone across
+ * five entries, while anthropic's own `claude-sonnet-5 -> claude-sonnet-5-5`
+ * rename sat in the same refused list. A source that changes shape does so
+ * inside one entry; the entries beside it have nothing to do with it. So an
+ * entry over the limit is *held back* — nothing written for it, including its
+ * prices, because a source that just showed us a shape change is exactly the
+ * source whose numbers we are least sure of — and every other entry is written
+ * as usual.
+ *
+ * The run-level ceiling stays, at limits an individual entry cannot reach on
+ * its own: it fires when the *whole run* looks wrong (a shared helper broken,
+ * every adapter misreading), and there refusing everything is the point. It is
+ * the one case where one entry's problem is genuinely evidence about the rest.
  */
 
 export const LIMITS = {
-  /** New models one run may bring into the catalogue, per entry and in total. */
+  /** New models one entry may bring into the catalogue in one run. */
   created: 10,
-  /** Models one run may drop. Deleting is how a shape change destroys data. */
+  /** Models one entry may drop. Deleting is how a shape change destroys data. */
   deleted: 10,
-  /** created + deleted. Catches the churn that neither count alone sees: ten in
-      and ten out is twenty changes to read even though each limit passes. */
+  /** created + deleted, per entry. Catches the churn that neither count alone
+      sees: ten in and ten out is twenty changes to read even though each limit
+      passes. */
   churn: 15,
 };
 
+/** The run-level ceiling. Set where no honest day reaches it — an entry may
+    propose at most `LIMITS.created` + `LIMITS.deleted`, so passing these means
+    a great many entries changed shape at once, which is what a run-wide misread
+    looks like. When it fires, nothing is written. */
+export const RUN_LIMITS = {
+  created: 40,
+  deleted: 40,
+  churn: 60,
+};
+
 /**
- * Decide whether a set of entry changes may be applied unattended.
+ * Judge one entry's changes against the per-entry limits.
  *
- * Takes the merged results — each with its `changes` — and returns the verdict
- * plus the flat lists a commit message or a refusal message needs.
+ * Returns the verdict plus the flat lists a commit message or a refusal message
+ * needs: `created` / `deleted` carry `{entry, id}`, `updated` carries the field
+ * change the diff shows.
  */
-export function judge(entries, limits = LIMITS) {
-  const created = entries.flatMap((e) => e.changes.created.map((id) => ({ entry: e.id, id })));
-  const deleted = entries.flatMap((e) => e.changes.deleted.map((id) => ({ entry: e.id, id })));
-  const updated = entries.flatMap((e) => e.changes.updated.map((c) => ({ entry: e.id, ...c })));
+export function judgeEntry(entry, limits = LIMITS) {
+  const created = entry.changes.created.map((id) => ({ entry: entry.id, id }));
+  const deleted = entry.changes.deleted.map((id) => ({ entry: entry.id, id }));
+  const updated = entry.changes.updated.map((c) => ({ entry: entry.id, ...c }));
 
   const reasons = [];
   if (created.length > limits.created) {
@@ -53,10 +82,69 @@ export function judge(entries, limits = LIMITS) {
     );
   }
 
-  return { safe: reasons.length === 0, created, deleted, updated, reasons };
+  return { entry: entry.id, safe: reasons.length === 0, created, deleted, updated, reasons };
 }
 
-/** A one-line summary of what a run would do, for a commit subject. */
+/**
+ * Judge a whole run, one entry at a time.
+ *
+ * `held` is what a person has to look at; `written` is what the run may apply.
+ * The top-level `created` / `deleted` / `updated` stay the totals the run
+ * *proposed*, because that is what the run's own summary line reports — what it
+ * will actually write is `written`, and the two differ exactly by `held`.
+ */
+export function judge(entries, limits = LIMITS, runLimits = RUN_LIMITS) {
+  const judged = entries.map((e) => judgeEntry(e, limits));
+  const passed = judged.filter((j) => j.safe);
+  const held = judged.filter((j) => !j.safe);
+
+  const flat = (list, field) => list.flatMap((j) => j[field]);
+  const totals = (list) => ({
+    created: flat(list, "created"),
+    deleted: flat(list, "deleted"),
+    updated: flat(list, "updated"),
+  });
+
+  const proposed = totals(judged);
+  const writable = totals(passed);
+
+  // The run-level ceiling, applied to what would be written rather than to what
+  // was proposed: the entries already held back are a person's problem, not
+  // evidence about the run.
+  const runReasons = [];
+  if (writable.created.length > runLimits.created) {
+    runReasons.push(`${writable.created.length} models created across the run, over the run limit of ${runLimits.created}`);
+  }
+  if (writable.deleted.length > runLimits.deleted) {
+    runReasons.push(`${writable.deleted.length} models deleted across the run, over the run limit of ${runLimits.deleted}`);
+  }
+  if (writable.created.length + writable.deleted.length > runLimits.churn) {
+    runReasons.push(
+      `${writable.created.length + writable.deleted.length} models created or deleted across the run, over the run churn limit of ${runLimits.churn}`,
+    );
+  }
+
+  // A run-level trip writes nothing at all: every entry is held, including the
+  // ones that passed on their own. `held` stays the per-entry list, because it
+  // is what the refusal block prints per entry — under a trip the reason is the
+  // run's, and it is printed once.
+  const systemic = runReasons.length > 0;
+  const none = { entries: [], created: [], deleted: [], updated: [] };
+
+  return {
+    judged,
+    passed,
+    held,
+    safe: held.length === 0 && !systemic,
+    systemic,
+    runReasons,
+    ...proposed,
+    written: systemic ? none : { entries: passed.map((j) => j.entry), ...writable },
+    reasons: [...runReasons, ...held.flatMap((j) => j.reasons)],
+  };
+}
+
+/** A one-line summary of what a set of changes does, for a commit subject. */
 export function summarise(verdict) {
   const bits = [];
   if (verdict.updated.length) bits.push(`${verdict.updated.length} price(s)`);

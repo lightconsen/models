@@ -325,17 +325,6 @@
     "temperature": true
   },
   {
-    "id": "Qwen/Qwen3-Max",
-    "name": "Qwen3 Max",
-    "in": "1.2",
-    "out": "6",
-    "cache_read": "0.24",
-    "context": 256000,
-    "max_output": 256000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "Qwen/Qwen3-Next-80B-A3B-Instruct",
     "name": "Qwen3-Next 80B-A3B Instruct",
     "in": "0.09",
@@ -605,7 +594,7 @@
   {
     "id": "mistralai/Mistral-Nemo-Instruct-2407",
     "name": "mistralai/Mistral-Nemo-Instruct-2407",
-    "in": "0.019",
+    "in": "0.029",
     "out": "0.03",
     "context": 131072,
     "max_output": 131072
@@ -686,15 +675,6 @@
     "cache_read": "0.05",
     "context": 262144,
     "max_output": 262144
-  },
-  {
-    "id": "Qwen/Qwen3-Max-Thinking",
-    "name": "Qwen/Qwen3-Max-Thinking",
-    "in": "1.2",
-    "out": "6",
-    "cache_read": "0.24",
-    "context": 256000,
-    "max_output": 256000
   },
   {
     "id": "ByteDance/Seed-1.8",

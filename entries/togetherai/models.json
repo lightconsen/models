@@ -32,8 +32,8 @@
   {
     "id": "kimi-k3",
     "name": "Kimi K3",
-    "in": "3",
-    "out": "15",
+    "in": "2.70",
+    "out": "13.50",
     "cache_read": "0.3",
     "serves": {
       "openai": "moonshotai/Kimi-K3"

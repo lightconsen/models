@@ -230,12 +230,6 @@
     "out": "6.00"
   },
   {
-    "id": "THUDM/GLM-4-32B-0414",
-    "name": "THUDM/GLM-4-32B-0414",
-    "in": "1.89",
-    "out": "1.89"
-  },
-  {
     "id": "meituan-longcat/LongCat-2.0",
     "name": "meituan-longcat/LongCat-2.0",
     "in": "5.00",
@@ -266,5 +260,12 @@
     "name": "inclusionAI/Ling-mini-2.0",
     "in": "0.50",
     "out": "2.00"
+  },
+  {
+    "id": "zai-org/GLM-5.3-Flash",
+    "name": "zai-org/GLM-5.3-Flash",
+    "in": "0.80",
+    "out": "2.80",
+    "cache_read": "0.23"
   }
 ]

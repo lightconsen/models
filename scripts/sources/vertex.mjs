@@ -1,34 +1,50 @@
 /**
  * Google Vertex AI's generative-ai prices, from the vendor's own pricing page
- * (`cloud.google.com/vertex-ai/generative-ai/pricing`) — server-rendered
- * tables (~3.3MB, no key) covering Gemini, Claude, Llama, Mistral, Qwen,
- * Grok, DeepSeek and the embeddings, plus Google's own extras (grounding,
- * image generation, live API).
+ * (`cloud.google.com/vertex-ai/generative-ai/pricing` — renamed "Agent Platform
+ * pricing" in the October 2026 redesign) — server-rendered tables (~3.5MB,
+ * no key) covering Gemini, Claude, Llama, Mistral, Qwen, Grok, DeepSeek and
+ * the embeddings, plus Google's own extras (grounding, image generation).
  *
- * The page prices a model in SEVERAL tables — the Gemini 3 section carries
- * one table per deployment (Global, Non-global — the region premium, Batch —
- * the discounted tier), each with the model name's cell spanning rows: Input
- * on one row, Text output on the next, the Type column says which. The
- * adapter walks every table, tracks the current model, and joins the rates
- * per (deployment, field):
+ * The redesign tripled the table count and wrapped most of them in tab
+ * groups, so the walk is three filters deep:
  *
- *   deployment  the table's rows carry a Region cell ("Global" / "Non-
- *               global" / …) — Global is the rate the direct API charges,
- *               and it is what this entry prices; Non-global's premium (1.8×)
- *               and Batch's discount are skipped as other SKUs.
- *   dated       the labels carry the pricing windows — "through December 31,
- *               2026" (introductory, in force) beside "starting January 1,
- *               2027" (the future standard). The adapter parses the date and
- *               reads whichever is in force on the day it runs — the same
- *               rule the google-gemini entry documents.
- *   bands       the price columns are [≤200K, >200K, cached ≤200K, cached
- *               >200K] — the first is the base rate, the second folds into
- *               long_context, the cached pair into cache_read.
+ *   sections    a token table is read only under a heading that names a
+ *               model family (Gemini N, Anthropic's Claude models, xAI's
+ *               Grok models, Meta's Llama models). Agent products price
+ *               their own SKU under a model's name — the CodeMender table
+ *               carries a "Gemini 3.1 Pro" row whose figures are the
+ *               agent's, not the model's — so the section has to vouch for
+ *               the table, not just the row label.
+ *   tabs        each group renders every variant: Standard Model /
+ *               Priority / Flex/Batch for Gemini, Global / US / EU /
+ *               us-east5 / … for Claude, Token-based / Modality-based for
+ *               the 2.0s. The first tab (`-t0`, "Standard Model", "Global",
+ *               "Token-based pricing") is the rate the direct API charges;
+ *               the rest are other SKUs. The tab's <button> names itself in
+ *               track-metadata-eventdetail, the panel points back with
+ *               aria-labelledby.
+ *   bands       the price columns pair up per context threshold — [=<200K,
+ *               >200K] for most models, [=<100K, >100K] where the model's
+ *               long-context rate starts earlier (Claude Haiku 5.5). A row
+ *               fills only its own band's columns; the filled pair is the
+ *               model's, and its threshold is the long_context `over`. A
+ *               model with no long band (Claude Opus 4.5 is a 200K-context
+ *               model) leaves the long columns empty and gets none.
+ *
+ * Rows carry their own traps, all observed on the live page: the Type cell
+ * is typo'd ("Inpur", "Outpur") on the newest Claude rows, so the match is
+ * on the prefix; "Batch Input" / "Batch Cache Hit" rows price the batch SKU
+ * and are skipped; the model-name cell spans rows, so continuation rows
+ * open with an empty cell; and the dated labels carry the pricing windows
+ * ("through December 31, 2026" beside "starting January 1, 2027"), of which
+ * the in-force one reads. Ragged rows are the norm (a model fills four of
+ * six price columns), so every cell read is optional-chained — the pre-
+ * redesign adapter died on exactly that.
  *
  * The ids are the API model ids the seed carried (`claude-opus-4-6@default`,
  * `gemini-3.5-flash`…) — Vertex's deployment naming, distinct from the
  * upstream vendors' own ids. The map below carries the page label each id
- * prices; a label the table lacks is a new or retired model and is dropped
+ * prices; a label the map lacks is a new or retired model and is dropped
  * loudly.
  */
 import { drift, getText, MEMBERSHIP } from "../lib/fetch.mjs";
@@ -39,7 +55,7 @@ const URL = "https://cloud.google.com/vertex-ai/generative-ai/pricing";
     ids are the seed's Vertex deployment ids. Dated suffixes are handled by
     the date parser, not here — but the label the map carries is the model's
     own name, and a row whose label names a DIFFERENT model (a batch copy, a
-    "Non-global" repeat) prices another SKU. */
+    regional repeat) prices another SKU. */
 const MODELS = {
   "Gemini 3.5 Flash": "gemini-3.5-flash",
   "Gemini 3.5 Flash-Lite": "gemini-3.5-flash-lite",
@@ -47,7 +63,7 @@ const MODELS = {
   "Gemini 3.7 Flash": "gemini-3.7-flash",
   "Gemini 3.8 Flash": "gemini-3.8-flash",
   "Gemini 3.1 Flash-Lite": "gemini-3.1-flash-lite",
-  "Gemini 3.1 Pro": "gemini-3.1-pro-preview",
+  "Gemini 3.1 Pro Preview": "gemini-3.1-pro-preview",
   "Gemini 2.5 Pro": "gemini-2.5-pro",
   "Gemini 2.5 Flash": "gemini-2.5-flash",
   "Gemini 2.5 Flash Lite": "gemini-2.5-flash-lite",
@@ -60,10 +76,23 @@ const MODELS = {
   "Claude Sonnet 5": "claude-sonnet-5@default",
   "Claude Sonnet 4.6": "claude-sonnet-4-6@default",
   "Claude Sonnet 4.5": "claude-sonnet-4-5@20250929",
-  "Llama 4 Maverick 17B": "meta/llama-4-maverick-17b-128e-instruct-fp8@default",
+  "Llama 4 Maverick": "meta/llama-4-maverick-17b-128e-instruct-fp8@default",
   "Grok 4.6": "xai/grok-4-6@default",
   "Grok 4.3": "xai/grok-4-3@default",
 };
+
+/** A token table counts only under a heading that names a model family —
+    the CodeMender / AlphaEvolve / tuning / storage sections price something
+    else under a model's name. Extend this when the map gains a family. The
+    apostrophes are the page's own curly ones. */
+const SECTIONS = /^(gemini \d|anthropic[’']s claude models|xai[’']s grok models|meta[’']s llama models)/i;
+
+/** In a tab group, only the base tab is this entry's price: the direct-API
+    rate. Priority and Flex/Batch are other billing SKUs; the regional tabs
+    (US Multi-Region, us-east5, …) price the same models at the region
+    premium; "Modality-based" is the per-image/per-second view of the same
+    models. */
+const BASE_TAB = /^(global|standard( model)?|token-based pricing)$/i;
 
 const strip = (s) =>
   s.replace(/<[^>]+>/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
@@ -89,45 +118,67 @@ export default {
   async read() {
     const html = await getText(URL, { headers: { accept: "text/html" } });
 
-    const tables = [...html.matchAll(/<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
-    if (tables.length === 0) drift("no tables — the page has been restructured");
+    /** Tab id → the tab's own name, from the button's tracking attribute. */
+    const tabLabel = {};
+    for (const m of html.matchAll(/<button[^>]*id="(tab-[^"]+)"[^>]*>/g))
+      tabLabel[m[1]] = /track-metadata-eventdetail="([^"]*)"/.exec(m[0])?.[1] ?? null;
 
-    /** (modelId) → {in, out, cache_read?, long_context?} — Global only (the
-        direct-API price), with the long band in long_context. Rows collect
-        per (field, band); the in-force date window decides which row's
-        figures read. */
+    /** (modelId) → {in, out, cache_read?, long_context?} — the base rate
+        (Standard/Global tab), with the long band in long_context. */
     const rows = new Map();
     const skipped = new Map();
     const skip = (why, label) => skipped.set(why, [...(skipped.get(why) ?? []), label]);
     const now = new Date();
 
-    for (const tb of tables) {
+    // Walk headings and tables in document order, so each token table knows
+    // the section it sits in.
+    let section = "";
+    const walk = [...html.matchAll(/<h[1-6][^>]*>[\s\S]*?<\/h[1-6]>|<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
+    let tables = 0;
+    for (const node of walk) {
+      if (node.startsWith("<h")) { section = strip(node); continue; }
+      tables++;
+      const tb = node;
+
+      // tab filter: a panel that answers to a non-base tab prices another SKU
+      const pre = html.slice(Math.max(0, html.indexOf(tb) - 2500), html.indexOf(tb));
+      const tabM = [...pre.matchAll(/role="tabpanel" aria-labelledby="([^"]+)"/g)].pop();
+      if (tabM) {
+        const label = tabLabel[tabM[1]];
+        if (label === null || label === undefined) { skip("a tab whose button does not name itself", section); continue; }
+        if (!BASE_TAB.test(label)) { skip(`the "${label}" tab`, section); continue; }
+      }
+
+      if (!SECTIONS.test(section)) continue;
+
       const rowsAll = [...tb.matchAll(/<tr[\s\S]*?<\/tr>/g)].map((m) => m[0]);
       const headRow = rowsAll.find((r) => /<th[\s>]/.test(r));
       if (!headRow) continue;
       const cols = [...headRow.matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g)].map((c) => strip(c[1]));
-      // this table prices tokens if its header names token prices
-      const isTokenTable = cols.some((c) => /token price|price.*token|input tok/i.test(c));
+      // this table prices tokens if a header names a token price
+      // this table prices tokens if a header says so — either in words
+      // ("Price (/1M tokens) …") or in units (the partner tables' bare
+      // "Price /1M (USD)")
+      const isTokenTable = cols.some((c) => /price/i.test(c) && (/token/i.test(c) || /\/\s*1M/i.test(c)));
       if (!isTokenTable) continue;
-      // the header may carry a Region column (the Gemini deployment tables);
-      // the partner tables (Claude/Llama/Mistral) price straight — no Region
-      const hasRegionCol = cols.some((c) => /^region$/i.test(c));
+
+      /** The price columns' roles, from the header: base band vs long band
+          vs the cached pair, and the threshold (200K, 100K) the band turns
+          at. A column with no band marker is a flat price. */
+      const priceCols = [];
+      cols.forEach((c, i) => {
+        if (!/price/i.test(c)) return;
+        const long = />\s*(\d+)\s*K/i.test(c);
+        const band = /(?:<=|=<|≤|>)\s*(\d+)\s*K/i.test(c) ? Number(/(\d+)\s*K/i.exec(c)[1]) * 1000 : null;
+        const cache = /cache/i.test(c);
+        priceCols.push({ i, band, cache, long });
+      });
+      if (priceCols.length === 0) continue;
+      const typeIdx = cols.findIndex((c) => /^type$/i.test(c));
+      const regionIdx = cols.findIndex((c) => /^region$/i.test(c));
 
       let currentModel = null;
       let currentLabel = null;
-
-      /** The price columns' roles, from the header: which index prices the
-          base band (≤200K), which the long band (>200K), which the cached
-          pair. The Model/Type/Region columns are not prices. */
-      const priceIdx = cols
-        .map((c, i) => ({ c, i }))
-        .filter(({ c }) => /price/i.test(c) && !/cache/i.test(c))
-        .map(({ i }) => i);
-      const cachedIdx = cols
-        .map((c, i) => ({ c, i }))
-        .filter(({ c }) => /cache/i.test(c))
-        .map(({ i }) => i);
-      if (priceIdx.length === 0) continue;
 
       for (const tr of rowsAll) {
         if (tr === headRow) continue;
@@ -147,32 +198,21 @@ export default {
         }
         if (!currentModel) continue;
 
-        // the type cell: the column the header labels "Type" — Input vs
-        // Text output vs cached
-        const typeIdx = cols.findIndex((c) => /^type$/i.test(c));
+        // the type cell — the page itself typos "Inpur"/"Outpur" on the
+        // newest Claude rows, so the match is on the prefix
         const type = cells[typeIdx >= 0 ? typeIdx : 1] ?? "";
-        const isOutput = /output|response/i.test(type);
-        const isInput = /input/i.test(type);
-        const isCached = /cached/i.test(type);
-        if (!isInput && !isOutput && !isCached) continue;
+        if (/^batch/i.test(type)) continue; // the batch SKU, at half price
+        const isInput = /^inp/i.test(type);
+        const isOutput = /^(out|text output)/i.test(type);
+        const isCacheHit = /^cache hit/i.test(type);
+        if (!isInput && !isOutput && !isCacheHit) continue;
 
-        // the Region cell, where the table carries one (the Gemini deployment
-        // tables): Global vs Non-global vs other — Global is the direct-API
-        // rate; the Non-global premium is another SKU.
-        if (hasRegionCol) {
-          const regionCell = cells[2] ?? "";
-          if (!/global/i.test(regionCell)) {
-            skip("a non-Global deployment", `${currentLabel ?? "?"} (${regionCell.slice(0, 20)})`);
-            continue;
-          }
+        // the Region cell, where the table carries one (the Gemini tables):
+        // Global is the direct-API rate; Non-global is the region premium
+        if (regionIdx >= 0) {
+          const regionCell = cells[regionIdx] ?? "";
+          if (regionCell && !/^global$/i.test(regionCell)) continue;
         }
-
-        // the figures: the price columns in header order — [base, long] on a
-        // token row
-        const figures = priceIdx.map((i) => (cells[i].match(/\$([\d.]+)/) ?? [])[1]).filter((v) => v !== undefined);
-        if (figures.length === 0) continue;
-        const scale = figures.some((f) => Number(f) < 0.001) ? 1_000_000 : 1;
-        const fmt = (x) => String(Math.round(Number(x) * scale * 100) / 100);
 
         // the date windows: the introductory row is in force until its date;
         // the future row from its date. A row in neither window (no date in
@@ -182,29 +222,60 @@ export default {
         if (fromDate && now < fromDate) { skip("a future-dated rate", currentLabel ?? "?"); continue; }
         if (untilDate && now >= untilDate) { skip("an expired introductory rate", currentLabel ?? "?"); continue; }
 
+        // the figures. Rows are ragged — a model fills only its own band's
+        // columns — so every cell read is optional. The band that carries a
+        // base figure on this row is this model's band.
+        const fig = (col) => /\$([\d.]+)/.exec(cells[col.i] ?? "")?.[1];
+        const at = (band, { cache = false, long = false } = {}) => {
+          const col = priceCols.find((c) => c.band === band && c.cache === cache && c.long === long);
+          return col ? fig(col) : undefined;
+        };
+        const bands = [...new Set(priceCols.filter((c) => c.band).map((c) => c.band))];
+        const band = bands.find((b) => at(b) !== undefined) ?? null;
+        const flat = priceCols.find((c) => !c.band && !c.cache);
+        const flatFig = flat ? fig(flat) : undefined;
+
+        const figures = [band !== null ? at(band) : flatFig].filter((v) => v !== undefined);
+        if (figures.length === 0) continue;
+        const scale = figures.some((f) => Number(f) < 0.001) ? 1_000_000 : 1;
+        // 6dp, not 2: the cache columns carry real sub-cent figures ($0.075,
+        // $0.125) and rounding to cents repriced them
+        const fmt = (x) => String(Math.round(Number(x) * scale * 1e6) / 1e6);
+
         const row = rows.get(currentModel) ?? { id: currentModel };
-        if (isOutput) {
-          if (row.out === undefined) row.out = fmt(figures[0]);
-          if (figures[1] !== undefined) {
-            row.long_context ??= { over: 200000 };
-            if (row.long_context.out === undefined) row.long_context.out = fmt(figures[1]);
+        if (isInput) {
+          if (row.in === undefined) row.in = fmt(band !== null ? at(band) : flatFig);
+          const lcIn = band !== null ? at(band, { long: true }) : undefined;
+          if (lcIn !== undefined) {
+            row.long_context ??= { over: band };
+            if (row.long_context.in === undefined) row.long_context.in = fmt(lcIn);
+            const lcCache = at(band, { long: true, cache: true });
+            if (lcCache !== undefined && row.long_context.cache_read === undefined) row.long_context.cache_read = fmt(lcCache);
           }
-        } else if (isInput) {
-          if (row.in === undefined) row.in = fmt(figures[0]);
-          if (figures[1] !== undefined) {
-            row.long_context ??= { over: 200000 };
-            if (row.long_context.in === undefined) row.long_context.in = fmt(figures[1]);
+          const cache = band !== null ? at(band, { cache: true }) : undefined;
+          if (cache !== undefined && row.cache_read === undefined) row.cache_read = fmt(cache);
+        } else if (isOutput) {
+          if (row.out === undefined) row.out = fmt(band !== null ? at(band) : flatFig);
+          const lcOut = band !== null ? at(band, { long: true }) : undefined;
+          if (lcOut !== undefined) {
+            row.long_context ??= { over: band };
+            if (row.long_context.out === undefined) row.long_context.out = fmt(lcOut);
           }
-        } else if (isCached) {
-          if (row.cache_read === undefined) row.cache_read = fmt(figures[0]);
+        } else if (isCacheHit) {
+          if (row.cache_read === undefined) row.cache_read = fmt(band !== null ? at(band) : flatFig);
+          const lcCache = band !== null ? at(band, { long: true }) : undefined;
+          if (lcCache !== undefined) {
+            row.long_context ??= { over: band };
+            if (row.long_context.cache_read === undefined) row.long_context.cache_read = fmt(lcCache);
+          }
         }
         rows.set(currentModel, row);
       }
     }
 
+    if (tables === 0) drift("no tables — the page has been restructured");
     if (rows.size === 0) drift("no rows after mapping");
     const out = [...rows.values()]
-      .map(({ _r, ...r }) => r)
       // long_context only means something beside a base rate
       .filter((r) => {
         if (r.long_context && (r.long_context.in === undefined || r.long_context.out === undefined)) delete r.long_context;

@@ -45,12 +45,7 @@
     "max_output": 64000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true,
-    "long_context": {
-      "over": 200000,
-      "in": "5.5",
-      "out": "27.5"
-    }
+    "temperature": true
   },
   {
     "id": "claude-opus-4-6@default",

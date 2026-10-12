@@ -173,8 +173,14 @@ BODY="$body" POST="$post" PATCH="$patch" BRANCH="$BRANCH" node -e '
 # Plain curl — no gh on this box. A PAT for the same repo drives both the push
 # (credential.helper store, seeded once) and these calls.
 auth=(-H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" -H "Content-Type: application/json")
+# Look up the rolling PR before deciding between PATCH and POST. The response
+# is pretty-printed — "number": 4, with a space — and a grep for "number":[0-9]
+# silently matches zero digits, which is exactly how a stale body ships: the
+# lookup reads as "no PR", the POST that follows 422s, and the branch updates
+# go out with yesterday's description. Parse the JSON with the node the run
+# already depends on instead of pattern-matching its whitespace.
 existing="$(curl -fsS "${auth[@]}" "$API/pulls?head=lightconsen:$BRANCH&state=open" \
-  | grep -m1 -o '"number":[0-9]*' | tr -dc 0-9 || true)"
+  | node -e 'let s="";process.stdin.on("data",(d)=>s+=d).on("end",()=>{try{const p=JSON.parse(s);console.log(p[0]?.number??"")}catch{console.log("")}})' || true)"
 
 if [ -n "$existing" ]; then
   curl -fsS -X PATCH "${auth[@]}" "$API/pulls/$existing" -d @"$patch" >/dev/null \

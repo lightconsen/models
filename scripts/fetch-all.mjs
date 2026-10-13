@@ -420,10 +420,17 @@ const pricedRows = (rev) => {
   return n;
 };
 
+// Any field a source may write is a field dist/models.json publishes, so any
+// update at all is a change to the table. It read `field === "in" || "out"` until
+// 2026-10-13, which missed cache_read and cache_creation: the table moved, the
+// version did not, and `publish.yml` files each build under `history/<version>/`
+// — so two different tables would have claimed one version number. The predicate
+// is `isPriceField` rather than a fresh list because that is the same question
+// asked elsewhere, and two lists would drift.
 const movedPrices =
   writable.some(
     (r) =>
-      r.changes.updated.some((c) => c.field === "in" || c.field === "out") ||
+      r.changes.updated.some((c) => isPriceField(c.field)) ||
       r.changes.created.length > 0 ||
       r.changes.deleted.length > 0,
   ) || pricedRows() !== pricedRows("HEAD");

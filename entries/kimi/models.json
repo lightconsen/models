@@ -5,6 +5,7 @@
     "in": "20.00",
     "out": "100.00",
     "cache_read": "2.00",
+    "cache_creation": "20.00",
     "flagship": true,
     "context": 1048576,
     "max_output": 1048576,

@@ -115,7 +115,8 @@ const PROVIDER_KEYS = new Set([
 ]);
 /** models.json keys we read. */
 const MODEL_KEYS = new Set([
-  "id", "name", "in", "out", "cache_read", "cache_creation", "serves", "flagship",
+  "id", "name", "in", "out", "cache_read", "cache_creation", "cache_creation_1h",
+  "serves", "flagship",
   "off_peak", "peak_hours", "long_context", "batch", "service_tier",
   /* Capability facts from the vendor's own docs, optional per row: a length
      limit is a whole number of tokens, a capability flag is boolean. Absent
@@ -125,9 +126,12 @@ const MODEL_KEYS = new Set([
 /** The capability fields, for validation and for the dist projection. */
 const CAPABILITY_FIELDS = ["context", "max_output", "reasoning", "tool_call", "structured_output", "temperature"];
 const CAPABILITY_LENGTHS = new Set(["context", "max_output"]);
-/** The rate fields a model row may carry, and the ones an `off_peak` block may.
+/** The rate fields a model row may carry, and the ones an `off_peak`, `batch` or
+    `long_context` block may. `cache_creation_1h` is the one that is **optional
+    everywhere**: a row that states it prices the hour-long cache write apart from
+    the five-minute one, and a row that does not prices both at `cache_creation`.
     (Distinct from `PRICE_FIELDS`, which names the *published* row's columns.) */
-const RATE_FIELDS = ["in", "out", "cache_read", "cache_creation"];
+const RATE_FIELDS = ["in", "out", "cache_read", "cache_creation", "cache_creation_1h"];
 const DAYS = new Set(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
 const HHMM = /^([01]\d|2[0-3]):([0-5]\d)$/;
 const CURRENCY_RE = /^[A-Z]{3}$/;
@@ -147,7 +151,7 @@ function checkPriceRow(m, where, rates) {
   for (const f of ["model_id", "display_name", "input", "output", "cache_read", "cache_creation", "currency"]) {
     if (typeof m?.[f] !== "string" || m[f].trim() === "") fail(`${where}: price row "${id}" missing/empty ${f}`);
   }
-  for (const f of ["input", "output", "cache_read", "cache_creation"]) {
+  for (const f of ["input", "output", "cache_read", "cache_creation", "cache_creation_1h"]) {
     if (m?.[f] !== undefined && !isDecimal(m[f])) {
       fail(`${where}: price row "${id}" ${f} "${m[f]}" is not a non-negative decimal`);
     }
@@ -172,7 +176,7 @@ const PRICE_FIELDS = ["model_id", "display_name", "input", "output", "cache_read
     clocks are not the same price. Values go through JSON.stringify rather than
     String() so the nested `off_peak` / `peak_hours` compare by content — String
     would collapse either to "[object Object]" and call them equal. */
-const AGREEMENT_FIELDS = [...PRICE_FIELDS, "currency", "off_peak", "peak_hours", "long_context", "batch", "service_tier"];
+const AGREEMENT_FIELDS = [...PRICE_FIELDS, "cache_creation_1h", "currency", "off_peak", "peak_hours", "long_context", "batch", "service_tier"];
 const priceKey = (m) => JSON.stringify(AGREEMENT_FIELDS.map((f) => m?.[f] ?? null));
 
 /** The published catalog entry, in a canonical key order. Canonical on purpose:
@@ -637,6 +641,12 @@ for (const dir of entryDirs) {
       cache_read: m.cache_read ?? "0",
       cache_creation: m.cache_creation ?? "0",
     };
+    // The hour-long cache write, where the vendor prices it apart from the short
+    // one. Conditional like the tiers rather than always written: a row that
+    // states one write rate must not publish a second number that says the same
+    // thing — a client reading it would show two charges where the vendor makes
+    // one.
+    if (m.cache_creation_1h !== undefined) row.cache_creation_1h = m.cache_creation_1h;
     if (m.off_peak !== undefined) row.off_peak = m.off_peak;
     if (m.peak_hours !== undefined) row.peak_hours = m.peak_hours;
     // Batch pricing travels the same way: a client that does not read it

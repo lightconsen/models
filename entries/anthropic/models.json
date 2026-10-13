@@ -6,6 +6,7 @@
     "out": "50",
     "cache_read": "0.25",
     "cache_creation": "12.50",
+    "cache_creation_1h": "20",
     "flagship": true,
     "context": 1000000,
     "max_output": 128000,
@@ -26,6 +27,7 @@
     "out": "20",
     "cache_read": "0.20",
     "cache_creation": "5",
+    "cache_creation_1h": "8",
     "batch": {
       "in": "2.0",
       "out": "10.0",
@@ -38,6 +40,7 @@
     "in": "2",
     "out": "10",
     "cache_read": "0.10",
-    "cache_creation": "2.50"
+    "cache_creation": "2.50",
+    "cache_creation_1h": "4"
   }
 ]

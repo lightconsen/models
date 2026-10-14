@@ -508,6 +508,14 @@ row and routes the call to action from that entry.
 different files, so they never conflict on a shared array — the same reason a
 provider is a directory rather than a row.
 
+A notice that a model is leaving is consumed when the model leaves: the day the
+removal flow takes the row out, the notice naming it fails validation — the
+entry no longer serves the model — and wedges the pipeline until a person
+deletes the file. So a retirement notice goes out with the model, in the same
+change. (Learned 2026-10-12, when `doubao-seed-2.1-turbo` left the volcesark
+tables on schedule and both observation points spent two days computing their
+changes and discarding them at the validate step.)
+
 ```jsonc
 // news/anthropic-claude-opus-5.json
 {

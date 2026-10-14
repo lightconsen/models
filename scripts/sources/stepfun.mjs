@@ -51,8 +51,15 @@ const isNameCell = (c) => /^`?[a-z][a-z0-9.\-]*`?$/i.test(String(c ?? "").trim()
 const parsePage = (md) => {
   const byVendor = new Map();
   let cols = null;
+  // The CN page dropped the 计费单位 column in October 2026 and states the
+  // unit in prose above the table instead ("单位：元／百万 tokens"), so the
+  // unit guard moved with it: a table without a unit column counts only when
+  // the prose above it says the rates are per million tokens.
+  let prose = [];
   for (const l of md.split("\n")) {
     if (!l.trimStart().startsWith("|")) {
+      prose.push(l);
+      if (prose.length > 5) prose.shift();
       cols = null;
       continue;
     }
@@ -72,9 +79,11 @@ const parsePage = (md) => {
       // The page renamed Output Price to Output, and `output price` alone would
       // match nothing on the newest page and drop the whole table as unreadable.
       const outCol = find("output price", "输出价格", "output");
+      const proseSaysPerMillion = /(百万\s*tokens?|1m\s*tokens)/i.test(prose.join(" "));
       // A table without a cache column has other meanings for its columns;
-      // reading it positionally invents numbers.
-      cols = [model, inCol, cacheCol, outCol, unit].every((i) => i >= 0)
+      // reading it positionally invents numbers. The unit column may be absent
+      // where the prose above carries the unit instead.
+      cols = [model, inCol, cacheCol, outCol].every((i) => i >= 0) && (unit >= 0 || proseSaysPerMillion)
         ? { model, inCol, cacheCol, outCol, unit }
         : null;
       continue;
@@ -83,7 +92,7 @@ const parsePage = (md) => {
     const c = cells(l);
     const name = String(c[cols.model] ?? "").replace(/`/g, "").trim().toLowerCase();
     if (!isNameCell(c[cols.model])) continue;
-    if (!/1m\s*tokens|百万|1m=|1m =/i.test(String(c[cols.unit] ?? ""))) continue;
+    if (cols.unit >= 0 && !/1m\s*tokens|百万|1m=|1m =/i.test(String(c[cols.unit] ?? ""))) continue;
     const row = { id: name };
     for (const [field, i] of [["in", cols.inCol], ["cache_read", cols.cacheCol], ["out", cols.outCol]]) {
       const v = rate(c[i]);

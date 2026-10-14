@@ -36,12 +36,16 @@ import { getText, decimal, drift, readEntry, MEMBERSHIP } from "../lib/fetch.mjs
 const CN = "https://docs.bigmodel.cn/cn/guide/start/pricing.md";
 const INTL = "https://docs.z.ai/guides/overview/pricing.md";
 
-/** The lines under one heading, up to the next heading of the same level. */
+/** The lines under one heading, up to the next heading of the same level.
+    `title` may be a list — the section's name is its identity, not data, and
+    the vendor renamed 旗舰模型 to 最新模型 in October 2026 without moving a
+    column; the first name the page answers to wins, and none at all drifts. */
 const section = (md, title) => {
+  const titles = Array.isArray(title) ? title : [title];
   const lines = md.split("\n");
   const heads = lines.map((l) => /^(#+)\s+(.*)$/.exec(l));
-  const at = heads.findIndex((h) => h && h[2].trim() === title);
-  if (at < 0) drift(`${title}: no such heading — the page has been restructured`);
+  const at = heads.findIndex((h) => h && titles.includes(h[2].trim()));
+  if (at < 0) drift(`${titles.join("/")}: no such heading — the page has been restructured`);
   const end = heads.findIndex((h, i) => i > at && h && h[1].length <= heads[at][1].length);
   return lines.slice(at + 1, end < 0 ? undefined : end);
 };
@@ -64,9 +68,10 @@ const columns = (where, head, wanted) => {
   return at;
 };
 
-/** The CN page's 旗舰模型 table: the current generation, in yuan. */
+/** The CN page's current-generation table (最新模型, renamed from 旗舰模型
+    in the October 2026 restructure): the current generation, in yuan. */
 const cnRows = (md) => {
-  const [head, body] = table(section(md, "旗舰模型"), CN);
+  const [head, body] = table(section(md, ["最新模型", "旗舰模型"]), CN);
   const at = columns(CN, head, { model: "模型名称", input: "输入单价", output: "输出单价", cache_read: "缓存命中" });
   return body.map((c) => ({
     id: c[at.model].toLowerCase(),

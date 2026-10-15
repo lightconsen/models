@@ -921,5 +921,23 @@
     "cache_read": "0.042",
     "context": 1048576,
     "max_output": 1048576
+  },
+  {
+    "id": "stepfun-ai/Step-5-Preview",
+    "name": "stepfun-ai/Step-5-Preview",
+    "in": "1",
+    "out": "2.7",
+    "cache_read": "0.05",
+    "context": 1048576,
+    "max_output": 1048576
+  },
+  {
+    "id": "inclusionAI/Ling-3.1-flash",
+    "name": "inclusionAI/Ling-3.1-flash",
+    "in": "0.3",
+    "out": "0.9",
+    "cache_read": "0.06",
+    "context": 262144,
+    "max_output": 262144
   }
 ]

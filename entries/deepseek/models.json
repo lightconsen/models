@@ -48,9 +48,6 @@
       "input": [
         "text",
         "image"
-      ],
-      "output": [
-        "text"
       ]
     }
   },
@@ -100,9 +97,6 @@
     "temperature": true,
     "modalities": {
       "input": [
-        "text"
-      ],
-      "output": [
         "text"
       ]
     }

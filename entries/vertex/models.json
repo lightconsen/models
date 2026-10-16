@@ -14,7 +14,8 @@
     "long_context": {
       "over": 200000,
       "in": "10",
-      "out": "50"
+      "out": "50",
+      "cache_read": "0.25"
     }
   },
   {
@@ -31,7 +32,8 @@
     "long_context": {
       "over": 200000,
       "in": "10",
-      "out": "50"
+      "out": "50",
+      "cache_read": "1"
     }
   },
   {
@@ -62,7 +64,8 @@
     "long_context": {
       "over": 200000,
       "in": "5",
-      "out": "25"
+      "out": "25",
+      "cache_read": "0.5"
     }
   },
   {
@@ -79,7 +82,8 @@
     "long_context": {
       "over": 200000,
       "in": "5",
-      "out": "25"
+      "out": "25",
+      "cache_read": "0.5"
     }
   },
   {
@@ -96,7 +100,8 @@
     "long_context": {
       "over": 200000,
       "in": "5",
-      "out": "25"
+      "out": "25",
+      "cache_read": "0.5"
     }
   },
   {
@@ -114,7 +119,8 @@
     "long_context": {
       "over": 200000,
       "in": "6",
-      "out": "22.5"
+      "out": "22.5",
+      "cache_read": "0.6"
     }
   },
   {
@@ -132,7 +138,8 @@
     "long_context": {
       "over": 200000,
       "in": "3",
-      "out": "15"
+      "out": "15",
+      "cache_read": "0.3"
     }
   },
   {
@@ -149,7 +156,8 @@
     "long_context": {
       "over": 200000,
       "in": "2",
-      "out": "10"
+      "out": "10",
+      "cache_read": "0.2"
     }
   },
   {
@@ -166,6 +174,7 @@
     "long_context": {
       "over": 200000,
       "in": "0.3",
+      "cache_read": "0.03",
       "out": "2.5"
     }
   },
@@ -183,6 +192,7 @@
     "long_context": {
       "over": 200000,
       "in": "0.1",
+      "cache_read": "0.01",
       "out": "0.4"
     }
   },
@@ -200,6 +210,7 @@
     "long_context": {
       "over": 200000,
       "in": "2.5",
+      "cache_read": "0.25",
       "out": "15"
     }
   },
@@ -217,6 +228,7 @@
     "long_context": {
       "over": 200000,
       "in": "0.25",
+      "cache_read": "0.025",
       "out": "1.5"
     }
   },
@@ -233,8 +245,9 @@
     "temperature": true,
     "long_context": {
       "over": 200000,
-      "in": "2",
-      "out": "12"
+      "in": "4",
+      "cache_read": "0.4",
+      "out": "18"
     }
   },
   {
@@ -251,6 +264,7 @@
     "long_context": {
       "over": 200000,
       "in": "1.5",
+      "cache_read": "0.15",
       "out": "9"
     }
   },
@@ -268,6 +282,7 @@
     "long_context": {
       "over": 200000,
       "in": "0.3",
+      "cache_read": "0.03",
       "out": "2.5"
     }
   },
@@ -276,7 +291,7 @@
     "name": "Gemini 3.6 Flash",
     "in": "0.75",
     "out": "3.75",
-    "cache_read": "0.15",
+    "cache_read": "0.075",
     "context": 1048576,
     "max_output": 65536,
     "reasoning": true,
@@ -285,6 +300,7 @@
     "long_context": {
       "over": 200000,
       "in": "0.75",
+      "cache_read": "0.075",
       "out": "3.75"
     }
   },
@@ -293,7 +309,7 @@
     "name": "Gemini 3.7 Flash",
     "in": "0.75",
     "out": "3.75",
-    "cache_read": "0.15",
+    "cache_read": "0.075",
     "context": 1048576,
     "max_output": 65536,
     "reasoning": true,
@@ -302,6 +318,7 @@
     "long_context": {
       "over": 200000,
       "in": "0.75",
+      "cache_read": "0.075",
       "out": "3.75"
     }
   },
@@ -310,7 +327,7 @@
     "name": "Gemini 3.8 Flash",
     "in": "0.75",
     "out": "3.75",
-    "cache_read": "0.15",
+    "cache_read": "0.075",
     "context": 1048576,
     "max_output": 65536,
     "reasoning": true,
@@ -319,6 +336,7 @@
     "long_context": {
       "over": 200000,
       "in": "0.75",
+      "cache_read": "0.075",
       "out": "3.75"
     }
   },
@@ -330,8 +348,10 @@
     "long_context": {
       "over": 200000,
       "in": "4",
-      "out": "12"
-    }
+      "out": "12",
+      "cache_read": "1"
+    },
+    "cache_read": "0.5"
   },
   {
     "id": "xai/grok-4-3@default",
@@ -341,7 +361,15 @@
     "long_context": {
       "over": 200000,
       "in": "2.5",
-      "out": "5"
-    }
+      "out": "5",
+      "cache_read": "0.4"
+    },
+    "cache_read": "0.2"
+  },
+  {
+    "id": "meta/llama-4-maverick-17b-128e-instruct-fp8@default",
+    "name": "meta/llama-4-maverick-17b-128e-instruct-fp8@default",
+    "in": "0.35",
+    "out": "1.15"
   }
 ]

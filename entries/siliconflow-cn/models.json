@@ -68,18 +68,6 @@
     "temperature": true
   },
   {
-    "id": "Pro/deepseek-ai/DeepSeek-V3.1-Terminus",
-    "name": "Pro/deepseek-ai/DeepSeek-V3.1-Terminus",
-    "in": "4.00",
-    "out": "12.00",
-    "context": 164000,
-    "max_output": 164000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.40"
-  },
-  {
     "id": "Pro/deepseek-ai/DeepSeek-V3.2",
     "name": "Pro/deepseek-ai/DeepSeek-V3.2",
     "in": "4.00",
@@ -267,5 +255,12 @@
     "in": "0.80",
     "out": "2.80",
     "cache_read": "0.23"
+  },
+  {
+    "id": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "name": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "in": "2.00",
+    "out": "8.00",
+    "cache_read": "0.04"
   }
 ]

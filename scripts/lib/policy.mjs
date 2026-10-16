@@ -161,4 +161,5 @@ export const isPriceField = (f) =>
   [
     "in", "out", "cache_read", "cache_creation", "long_context", "off_peak", "peak_hours", "batch", "service_tier",
     "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature",
+    "modalities", "open_weights", "knowledge",
   ].includes(f);

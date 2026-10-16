@@ -122,10 +122,39 @@ const MODEL_KEYS = new Set([
      limit is a whole number of tokens, a capability flag is boolean. Absent
      means the vendor does not say — never write `false` to mean that. */
   "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature",
+  "modalities", "open_weights", "knowledge",
 ]);
 /** The capability fields, for validation and for the dist projection. */
-const CAPABILITY_FIELDS = ["context", "max_output", "reasoning", "tool_call", "structured_output", "temperature"];
+const CAPABILITY_FIELDS = [
+  "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature",
+  "modalities", "open_weights", "knowledge",
+];
 const CAPABILITY_LENGTHS = new Set(["context", "max_output"]);
+/** The capability fields whose value is the vendor's yes or no. `open_weights`
+    joins them: a vendor that publishes its weights says so, and one that does
+    not publish them has said nothing this catalogue can record. */
+const CAPABILITY_FLAGS = new Set(["reasoning", "tool_call", "structured_output", "temperature", "open_weights"]);
+/** What a model takes in and gives back. The vocabulary is closed so two
+    entries cannot disagree about how to spell the same medium, and it is
+    models.dev's because that is where the bulk of this will be read from;
+    OpenRouter's `file` maps onto `pdf` in its adapter, which records the
+    mapping. `pdf` rather than `file` on purpose: it names what the model
+    actually accepts rather than that it accepts "a file". */
+const MODALITIES = new Set(["text", "image", "audio", "video", "pdf"]);
+/** A knowledge cutoff is stated at month or day precision — "2025-04" as often
+    as "2025-04-30" — so both are legal and a real calendar day is required when
+    one is given. Self-contained rather than reusing the news section's `isDate`,
+    which is declared much later in the file. */
+const isKnowledge = (s) => {
+  if (typeof s !== "string") return false;
+  const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(s);
+  if (!m) return false;
+  const [, y, mo, d] = m;
+  if (Number(mo) < 1 || Number(mo) > 12) return false;
+  if (d === undefined) return true;
+  const dt = new Date(Date.UTC(Number(y), Number(mo) - 1, Number(d)));
+  return dt.getUTCFullYear() === Number(y) && dt.getUTCMonth() === Number(mo) - 1 && dt.getUTCDate() === Number(d);
+};
 /** The rate fields a model row may carry, and the ones an `off_peak`, `batch` or
     `long_context` block may. `cache_creation_1h` is the one that is **optional
     everywhere**: a row that states it prices the hour-long cache write apart from
@@ -530,10 +559,33 @@ for (const dir of entryDirs) {
         fail(`${mw}: ${f} must be a positive whole number of tokens`);
       }
     }
-    for (const f of CAPABILITY_FIELDS) {
-      if (m[f] !== undefined && !CAPABILITY_LENGTHS.has(f) && typeof m[f] !== "boolean") {
+    for (const f of CAPABILITY_FLAGS) {
+      if (m[f] !== undefined && typeof m[f] !== "boolean") {
         fail(`${mw}: ${f} must be boolean — omit it when the vendor does not say`);
       }
+    }
+    if (m.modalities !== undefined) {
+      const mo = m.modalities;
+      if (!mo || typeof mo !== "object" || Array.isArray(mo)) {
+        fail(`${mw}: modalities must be an object like {"input":["text"],"output":["text"]}`);
+      } else {
+        for (const k of Object.keys(mo)) {
+          if (k !== "input" && k !== "output") fail(`${mw}: modalities has unknown key "${k}" — only input and output belong there`);
+        }
+        for (const dir of ["input", "output"]) {
+          if (!Array.isArray(mo[dir]) || mo[dir].length === 0) {
+            fail(`${mw}: modalities.${dir} must be a non-empty array of ${[...MODALITIES].join("|")}`);
+          } else {
+            for (const x of mo[dir]) {
+              if (!MODALITIES.has(x)) fail(`${mw}: modalities.${dir} has "${x}" — one of ${[...MODALITIES].join("|")}`);
+            }
+            if (new Set(mo[dir]).size !== mo[dir].length) fail(`${mw}: modalities.${dir} repeats a medium`);
+          }
+        }
+      }
+    }
+    if (m.knowledge !== undefined && !isKnowledge(m.knowledge)) {
+      fail(`${mw}: knowledge must be a "YYYY-MM" or "YYYY-MM-DD" date — a month is as precise as vendors usually get`);
     }
     if (!(hasIn && hasOut) && CAPABILITY_FIELDS.some((f) => m[f] !== undefined)) {
       warn(`${mw}: capability fields on an unpriced row validate but never publish — dist/models.json carries priced rows only`);

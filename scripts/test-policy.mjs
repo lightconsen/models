@@ -86,6 +86,11 @@ check("long_context is a price", isPriceField("long_context"), true);
 check("serves is not", isPriceField("serves"), false);
 check("flagship is not", isPriceField("flagship"), false);
 check("name is not", isPriceField("name"), false);
+// The three added 2026-10-16: an adapter whose source states them must be able
+// to write them, so each is in the list the merge gate reads.
+check("modalities is writable by an adapter", isPriceField("modalities"), true);
+check("open_weights is writable by an adapter", isPriceField("open_weights"), true);
+check("knowledge is writable by an adapter", isPriceField("knowledge"), true);
 
 console.log("summary");
 check("counts what moved", summarise({ created: [1], deleted: [], updated: [1, 2, 3] }), "3 price(s), 1 new");

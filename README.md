@@ -372,7 +372,13 @@ record per model:
     "reasoning": true,         // optional capability flags — boolean, or absent
     "tool_call": true,         //   when the vendor does not say; absent is not false
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "open_weights": true,      // optional: the vendor publishes the weights
+    "knowledge": "2025-04",    // optional: knowledge cutoff, YYYY-MM or YYYY-MM-DD
+    "modalities": {            // optional: what it takes in and gives back
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
   }
 ]
 ```
@@ -383,10 +389,10 @@ valid and means the provider serves no models yet.
 
 ### Capability facts
 
-`context`, `max_output`, `reasoning`, `tool_call`, `structured_output` and
-`temperature` are the model's capabilities as the vendor's own docs state them —
-the same pages that carry the prices, wherever those pages exist. The rules that
-keep them honest:
+`context`, `max_output`, `reasoning`, `tool_call`, `structured_output`,
+`temperature`, `open_weights`, `knowledge` and `modalities` are the model's
+capabilities as the vendor's own docs state them — the same pages that carry the
+prices, wherever those pages exist. The rules that keep them honest:
 
 - **Absent means the vendor does not say.** It is never `false`: a written
   `false` claims the vendor published a no, and most vendor docs simply don't.
@@ -396,6 +402,19 @@ keep them honest:
   MiniMax's `512k` band became `long_context.over: 512000`. Mode-conditional
   exceptions a boolean cannot hold (MiMo forces `temperature` back to its
   default in thinking mode) go to the checklist prose, not into the flag.
+- **`modalities` names both directions and nothing else**, over a closed
+  vocabulary — `text`, `image`, `audio`, `video`, `pdf`. A closed set is what
+  stops two entries disagreeing about how to spell the same medium, and it is
+  models.dev's vocabulary because that is where most of this will be read from;
+  OpenRouter's `file` is mapped to `pdf` in its adapter, which records the
+  mapping. `pdf` rather than `file` on purpose: it names what a model accepts
+  rather than that it accepts "a file". The order is sorted, so an incidental
+  reorder at the source does not read as a change on every sync. This is the one
+  capability that *is* a price fact — Vertex charges Gemini text, image and
+  audio input at three different rates.
+- **`knowledge` is a cutoff at the precision the vendor states it** —
+  `"2025-04"` is as common as `"2025-04-30"`, and both are legal. It is not a
+  release date.
 - **They publish on priced rows only.** `dist/models.json` carries priced rows,
   so capability fields on a token-plan row validate and warn but never reach a
   client — the build says so rather than accepting them silently.

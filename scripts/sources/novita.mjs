@@ -20,11 +20,26 @@ import { drift, MEMBERSHIP } from "../lib/fetch.mjs";
 
 const API = "https://api.novita.ai/v3/openai/models";
 
+/** The model's modalities, spelled the catalogue's way. Novita already uses
+    the same words; it just does not keep them in a stable order — three of its
+    rows list `["text","video","image"]` — so they are sorted, or an incidental
+    reorder would read as a change on every sync. */
+const modalitiesOf = (m) => {
+  const dir = (k) => {
+    const v = m?.[k];
+    if (!Array.isArray(v) || v.length === 0) return null;
+    return [...new Set(v)].sort();
+  };
+  const input = dir("input_modalities");
+  const output = dir("output_modalities");
+  return input && output ? { input, output } : null;
+};
+
 export default {
   ids: ["novita"],
   source: API,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "context", "max_output", "reasoning", "tool_call", "structured_output"],
+  owns: ["in", "out", "cache_read", "context", "max_output", "reasoning", "tool_call", "structured_output", "modalities"],
 
   async read() {
     const res = await fetch(API, { headers: { "user-agent": "Mozilla/5.0 (compatible; kiwano-price-check)" } });
@@ -49,6 +64,7 @@ export default {
         ...(m.features?.includes("function-calling") ? { tool_call: true } : {}),
         ...(m.features?.includes("reasoning") ? { reasoning: true } : {}),
         ...(m.features?.includes("structured-outputs") ? { structured_output: true } : {}),
+        ...(modalitiesOf(m) ? { modalities: modalitiesOf(m) } : {}),
       };
       if (row.in === undefined || row.out === undefined) { skipped++; continue; }
       rows.push(row);

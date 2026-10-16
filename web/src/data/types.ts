@@ -110,7 +110,24 @@ export interface Capabilities {
   tool_call?: boolean;
   structured_output?: boolean;
   temperature?: boolean;
+  /** The vendor publishes the model's weights. True or absent, like the flags
+      above: a vendor that keeps its weights private has said nothing. */
+  open_weights?: boolean;
+  /** Knowledge cutoff, at the precision the vendor states it — "2025-04" is as
+      common as "2025-04-30". Not a release date. */
+  knowledge?: string;
+  /** What the model takes in and gives back, over a closed vocabulary. The one
+      capability that is also a price fact: Vertex bills Gemini text, image and
+      audio input at three different rates. */
+  modalities?: Modalities;
 }
+
+export interface Modalities {
+  input: Modality[];
+  output: Modality[];
+}
+
+export type Modality = "text" | "image" | "audio" | "video" | "pdf";
 
 export interface PriceRow extends RateBand, Capabilities {
   provider_id: string;

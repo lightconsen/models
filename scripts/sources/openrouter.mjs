@@ -64,6 +64,24 @@ const outputsText = (m) => {
   return Array.isArray(out) && out.includes("text") && out.every((x) => x === "text");
 };
 
+/** OpenRouter's modalities, spelled the catalogue's way. The only term that
+    differs is `file` — OpenRouter's name for the document input that the rest
+    of the sources, and models.dev, call `pdf`; the mapping lives here rather
+    than in the vocabulary so the closed set stays closed. Sorted, because
+    OpenRouter's own order is not stable across models and an incidental
+    reorder would read as a change on every sync. */
+const MODALITY = { file: "pdf" };
+const modalitiesOf = (m) => {
+  const dir = (k) => {
+    const v = m?.architecture?.[k];
+    if (!Array.isArray(v) || v.length === 0) return null;
+    return [...new Set(v.map((x) => MODALITY[x] ?? x))].sort();
+  };
+  const input = dir("input_modalities");
+  const output = dir("output_modalities");
+  return input && output ? { input, output } : null;
+};
+
 /** A real price, rather than the negative sentinel for a variable one. */
 const fixed = (v) => v !== undefined && !String(v).startsWith("-");
 
@@ -125,7 +143,7 @@ export default {
   ids: ["openrouter"],
   source: `${MODELS} + /{id}/endpoints`,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "cache_creation", "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature"],
+  owns: ["in", "out", "cache_read", "cache_creation", "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature", "modalities", "knowledge"],
 
   async read() {
     const body = await getJson(MODELS);
@@ -179,6 +197,10 @@ export default {
         if (ctx > 0) row.context = ctx;
         const out = Number(top.max_completion_tokens);
         if (out > 0) row.max_output = out;
+        const mo = modalitiesOf(m);
+        if (mo) row.modalities = mo;
+        // YYYY-MM-DD, or absent — 171 of these models state one.
+        if (typeof m.knowledge_cutoff === "string") row.knowledge = m.knowledge_cutoff;
         if (endpoints && endpoints.length > 0) {
           const rates = modalPrice(endpoints, id.split("/")[0]);
           const distinct = new Set(

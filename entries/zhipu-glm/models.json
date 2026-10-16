@@ -11,7 +11,12 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ]
+    }
   },
   {
     "id": "glm-5.3-flash",
@@ -24,6 +29,14 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ]
+    }
   }
 ]

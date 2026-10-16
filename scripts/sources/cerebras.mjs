@@ -23,6 +23,32 @@
  */
 import { getText, drift, decimal, MEMBERSHIP, readEntry } from "../lib/fetch.mjs";
 
+/** The MODALITY block every model page carries as a prop on its ModelInfo
+    component:
+
+        inputOutput={{
+        inputFormats: ["text", "image"],
+        outputFormats: ["text"]
+        }}
+
+    Both directions, so unlike the sources that only name an input this one is
+    written whole. The words are already this catalogue's (`text`, `image`),
+    and a page that introduced another would fail validation rather than be
+    quietly widened. */
+const modalitiesOf = (md) => {
+  const block = /inputOutput=\{\{([\s\S]*?)\}\}/.exec(md)?.[1];
+  if (!block) return null;
+  const list = (k) => {
+    const m = new RegExp(`${k}:\\s*\\[([^\\]]*)\\]`).exec(block);
+    if (!m) return null;
+    return [...new Set(m[1].split(",").map((x) => x.trim().replace(/^["']|["']$/g, "")).filter(Boolean))].sort();
+  };
+  const input = list("inputFormats");
+  const output = list("outputFormats");
+  if (!input || input.length === 0) return null;
+  return output && output.length > 0 ? { input, output } : { input };
+};
+
 const INDEX = "https://inference-docs.cerebras.ai/llms.txt";
 
 /** The model pages, by their own slug. `overview` and `choose-a-model` are
@@ -36,7 +62,7 @@ export default {
   ids: ["cerebras"],
   source: INDEX,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out"],
+  owns: ["in", "out", "modalities"],
 
   async read() {
     const index = await getText(INDEX);
@@ -79,7 +105,14 @@ export default {
       if (!rates.has("input") || !rates.has("output")) {
         drift(`${url}: names only one of input/output — a half-priced row is not a row`);
       }
-      rows.push({ id, name: title(md), in: rates.get("input"), out: rates.get("output") });
+      const mods = modalitiesOf(md);
+      rows.push({
+        id,
+        name: title(md),
+        in: rates.get("input"),
+        out: rates.get("output"),
+        ...(mods ? { modalities: mods } : {}),
+      });
       seen.add(id);
     }
     if (rows.length === 0) drift("no priced rows — every model page changed shape at once");

@@ -12,7 +12,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "glm-5.3",
@@ -27,7 +35,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "kimi-k3",
@@ -43,7 +59,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax-m3",
@@ -58,7 +83,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen3.7-max",
@@ -72,7 +106,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-oss-120b",
@@ -86,6 +128,14 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   }
 ]

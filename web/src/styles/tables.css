@@ -18,7 +18,10 @@ tbody td { padding: 5px 8px; border-bottom: 1px solid var(--border); white-space
    long-context band, the peak schedule — so it wraps like prose. */
 tbody tr.expand-tr td { white-space: normal; }
 tbody tr:hover, tbody tr.row-open { background: var(--hover); cursor: pointer; }
-.provider-name { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* inline-block, not inline: `max-width` does nothing on an inline box, and on
+   the models page this span has no flex parent to blockify it — the cap only
+   ever held on the home page, where .provider-cell made it a flex item. */
+.provider-name { display: inline-block; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* A provider row: the logo, the name (which is the link), the id, and the rare
    aggregate badge. The logo is smaller than the detail header's — a table row
    is one line tall. */

@@ -32,6 +32,19 @@ const dataDir = path.join(web, "public", "data");
 const outDir = path.join(web, "dist");
 const SITE = "https://models.kiwano.cc";
 
+/** The app's own design tokens, inlined verbatim into the static pages.
+ *
+ * These pages are served to crawlers and to anyone with JS off, and they are
+ * not React — so Tailwind or any build-time CSS would not reach them, and the
+ * tokens have to be carried across by hand. Carried across by hand is what
+ * they used to be: five of the thirteen, copied into this file, with no way to
+ * notice when the other eight moved. Reading the app's file instead means a
+ * colour changes in one place and both surfaces follow. The `[data-theme]`
+ * rules come along inert — there is no theme control here — which is cheaper
+ * than filtering them out and having the reader wonder what else was filtered.
+ */
+const tokensCss = readFileSync(path.join(web, "src", "styles", "tokens.css"), "utf8").trim();
+
 if (!existsSync(path.join(dataDir, "catalog.json"))) {
   console.error("✗ web/public/data/catalog.json is missing — run `node scripts/generate.mjs` in the data repo first.");
   process.exit(1);
@@ -56,8 +69,7 @@ const page = (title, desc, body, canonical) => `<!doctype html>
 <meta name="description" content="${esc(desc)}" />
 <link rel="canonical" href="${SITE}/${canonical}" />
 <style>
-:root { --bg:#fff; --border:#ddd; --fg:#333; --muted:#666; --accent:#fd9527; }
-@media (prefers-color-scheme: dark) { :root { --bg:#1e1e1e; --border:#333; --fg:#fff; --muted:#aaa; } }
+${tokensCss}
 body { margin:0; font:15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--fg); }
 /* The wrapper the app mounts inside, so it has to agree with the app's own
    .page column (layout.css) or it becomes the narrower of the two and the app

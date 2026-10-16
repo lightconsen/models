@@ -51,7 +51,7 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     // No wrapping and no ellipsis: a model id is the thing being looked up, and
     // `accounts/fireworks/models/…` cut off at 220px is not a name anyone can
     // check. The table scrolls sideways if a page's ids really are that long.
-    render: (r) => <span className="mono">{r.model_id}</span>,
+    render: (r) => <span className="mono model-cell" title={r.model_id}>{r.model_id}</span>,
   },
   {
     key: "in",
@@ -247,24 +247,29 @@ export function ProviderDetailPage({
           The catalogue publishes the prices; your deployment URL is the endpoint.
         </p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Protocol</th>
-              <th>Endpoint</th>
-              <th className="num">Models served</th>
-            </tr>
-          </thead>
-          <tbody>
-            {entry.endpoints.map((ep) => (
-              <tr key={ep.protocol}>
-                <td className="mono">{ep.protocol}</td>
-                <td className="mono break">{ep.endpoint}</td>
-                <td className="num">{ep.models.length}</td>
+        // In a table-wrap like the price table: an endpoint URL is long and
+        // cannot wrap, so without a scroll container it pushes the whole page
+        // sideways on a phone instead of scrolling itself.
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Protocol</th>
+                <th>Endpoint</th>
+                <th className="num">Models served</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {entry.endpoints.map((ep) => (
+                <tr key={ep.protocol}>
+                  <td className="mono">{ep.protocol}</td>
+                  <td className="mono break">{ep.endpoint}</td>
+                  <td className="num">{ep.models.length}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <h2 className="section-title">Models ({rows.length})</h2>

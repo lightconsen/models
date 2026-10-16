@@ -71,7 +71,7 @@ const columns = (models: ModelsFile): ColumnDef<Entry>[] => {
       label: <span title="The model the two price columns price — the entry's flagship">Flagship</span>,
       render: (e) =>
         e.price_ref ? (
-          <span className="mono" title={`${e.price_ref.display_name} — the model the price columns price`}>
+          <span className="mono flagship-cell" title={`${e.price_ref.display_name} — the model the price columns price`}>
             {e.price_ref.display_name}
           </span>
         ) : (

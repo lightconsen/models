@@ -34,7 +34,7 @@ const columns = (catalog: Catalog): ColumnDef<ModelsFile["models"][number]>[] =>
         );
       },
     },
-    { key: "model", label: "Model", numeric: false, render: (r) => <span className="mono">{r.model_id}</span> },
+    { key: "model", label: "Model", numeric: false, render: (r) => <span className="mono model-cell" title={r.model_id}>{r.model_id}</span> },
     {
       key: "in",
       label: "In /1M",

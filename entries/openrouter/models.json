@@ -15,7 +15,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek-v4-flash-0731",
@@ -32,7 +43,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek-v4-flash",
@@ -49,7 +68,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-5.6-luna",
@@ -67,7 +94,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "hy3",
@@ -84,7 +122,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "hy4-preview",
@@ -101,7 +147,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "glm-5.3-flash",
@@ -114,11 +168,21 @@
       "anthropic": "z-ai/glm-5.3-flash"
     },
     "context": 1048576,
-    "max_output": 131072,
+    "max_output": 943718,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "glm-5.2",
@@ -135,7 +199,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax-m3",
@@ -152,7 +224,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek-v4-pro",
@@ -169,7 +251,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek-v4.1-flash",
@@ -186,7 +276,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "kimi-k3",
@@ -203,7 +302,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "claude-sonnet-5",
@@ -221,7 +330,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "claude-opus-5",
@@ -239,7 +358,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "step-3.7-flash",
@@ -256,7 +385,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-5.6-sol",
@@ -274,7 +413,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "gemini-3-flash-preview",
@@ -292,7 +442,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "glm-5.3",
@@ -309,7 +471,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gemini-3.7-flash",
@@ -327,7 +497,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gemini-2.5-flash-lite",
@@ -345,7 +527,20 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "gemini-2.5-flash",
@@ -363,7 +558,20 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "gemini-3.6-flash",
@@ -381,7 +589,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "hy3-preview",
@@ -398,7 +618,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-oss-120b",
@@ -415,7 +643,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "gemini-3.1-flash-lite",
@@ -433,7 +670,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "solar-pro4",
@@ -450,7 +699,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek-v4-pro-0813",
@@ -467,7 +724,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gemini-3.8-flash",
@@ -485,7 +750,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mimo-v2.5-pro",
@@ -502,7 +779,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek-v3.2",
@@ -519,7 +804,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-5.6-terra",
@@ -537,7 +830,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "muse-spark-1.3-contributor",
@@ -554,7 +858,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-5.5",
@@ -571,7 +886,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-12-01"
   },
   {
     "id": "gemma-4-31b-it",
@@ -588,7 +914,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gemma-4-26b-a4b-it",
@@ -605,7 +941,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-5.6-luna-pro",
@@ -623,7 +969,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "gpt-4o-mini",
@@ -640,7 +997,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "gpt-6-astra",
@@ -658,7 +1026,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-5.4",
@@ -675,7 +1053,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gemini-3.5-flash",
@@ -693,7 +1081,20 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-01"
   },
   {
     "id": "grok-4.6",
@@ -710,7 +1111,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistral-nemo",
@@ -726,7 +1137,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-04-30"
   },
   {
     "id": "kimi-k2.6",
@@ -743,7 +1163,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gemini-3.1-pro-preview",
@@ -761,7 +1190,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "grok-4.5",
@@ -778,7 +1219,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-oss-20b",
@@ -795,7 +1246,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "minimax-m2.7",
@@ -812,7 +1272,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "glm-5",
@@ -829,7 +1297,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "claude-fable-5.1",
@@ -847,7 +1323,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-5.4-mini",
@@ -864,7 +1350,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-08-31"
   },
   {
     "id": "deepseek-v4-flash-vision-exp",
@@ -881,7 +1378,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen3.7-flash",
@@ -899,7 +1405,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gpt-5.4-nano",
@@ -916,7 +1432,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-08-31"
   },
   {
     "id": "qwen3.7-max",
@@ -934,7 +1461,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen3.8-max-0902",
@@ -952,7 +1487,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen3.8-flash",
@@ -970,7 +1515,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "kimi-k2.7-code",
@@ -987,7 +1542,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gemini-3.5-flash-lite",
@@ -1005,7 +1569,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen3.7-plus",
@@ -1023,7 +1599,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen3.8-27b",
@@ -1040,7 +1625,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gemini-3.1-flash-lite-preview",
@@ -1058,7 +1653,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "glm-5.1",
@@ -1075,7 +1682,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "muse-spark-1.2-contributor",
@@ -1092,7 +1707,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "muse-spark-1.3",
@@ -1109,7 +1735,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "grok-4.3",
@@ -1126,7 +1763,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-luna-pro:batch",
@@ -1140,7 +1787,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "cohere/command-a-plus",
@@ -1153,7 +1810,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-luna-pro",
@@ -1167,7 +1833,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-luna",
@@ -1181,7 +1857,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-luna:batch",
@@ -1195,7 +1881,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-sol-pro",
@@ -1209,7 +1905,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-sol",
@@ -1223,7 +1929,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-sol-pro:batch",
@@ -1237,7 +1953,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-5.5:batch",
@@ -1251,7 +1977,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-sol:batch",
@@ -1265,7 +2001,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "xiaomi/mimo-v2.6-pro-ultraspeed",
@@ -1278,7 +2024,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-5.5",
@@ -1292,7 +2049,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "xiaomi/mimo-v2.6-pro",
@@ -1305,7 +2072,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "x-ai/grok-4.7",
@@ -1315,7 +2093,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "xiaomi/mimo-v2.6-flash",
@@ -1328,7 +2116,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.8-omni-flash",
@@ -1341,7 +2140,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "prism-ml/ternary-bonsai-2-27b",
@@ -1354,7 +2164,16 @@
     "tool_call": true,
     "structured_output": true,
     "temperature": true,
-    "cache_read": "0.0375"
+    "cache_read": "0.0375",
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-5.3-flashx",
@@ -1367,7 +2186,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inference-net/schematron-v2-turbo",
@@ -1380,7 +2209,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "sakana/fugu-ultra-v2",
@@ -1393,7 +2230,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-08-28"
   },
   {
     "id": "sakana/fugu-max",
@@ -1406,7 +2254,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inference-net/schematron-v2-small",
@@ -1419,7 +2277,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inclusionai/ling-3.0-flash-vl",
@@ -1432,7 +2298,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inception/mercury-2.5",
@@ -1445,7 +2321,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4.1-flash:batch",
@@ -1458,7 +2342,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-astra-pro",
@@ -1472,7 +2365,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-astra:batch",
@@ -1486,7 +2389,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6-astra-pro:batch",
@@ -1500,7 +2413,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.8-flash:batch",
@@ -1514,7 +2437,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-fable-5.1:batch",
@@ -1528,7 +2463,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "ibm-granite/granite-4.2-8b",
@@ -1538,7 +2483,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-5.3-flash:batch",
@@ -1551,7 +2504,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "tencent/hy-mt2-1.8b",
@@ -1563,7 +2526,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "tencent/hy-mt2-30b-a3b",
@@ -1575,7 +2546,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "tencent/hy-mt2-7b",
@@ -1587,7 +2566,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-5.3:batch",
@@ -1600,7 +2587,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.7-flash:batch",
@@ -1614,7 +2609,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "bytedance-seed/seed-2-1-turbo",
@@ -1626,7 +2633,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.8-2.4t-a95b",
@@ -1639,7 +2656,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "bytedance-seed/seed-2.0-code",
@@ -1651,7 +2676,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nvidia/nemotron-3.5-lightning",
@@ -1664,7 +2699,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "sakana/sakana-namazu",
@@ -1677,7 +2720,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta/muse-glimmer-30b",
@@ -1690,7 +2743,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta/muse-spark-1.2",
@@ -1703,7 +2765,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "thinkingmachines/inkling-small",
@@ -1716,7 +2789,17 @@
     "temperature": true,
     "in": "0.45",
     "out": "1.2",
-    "cache_read": "0.1"
+    "cache_read": "0.1",
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-5:batch",
@@ -1730,7 +2813,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inclusionai/ling-3.0-flash",
@@ -1740,7 +2833,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "poolside/laguna-s-2.1",
@@ -1753,7 +2854,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.6-flash:batch",
@@ -1767,7 +2876,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.5-flash-lite:batch",
@@ -1780,7 +2901,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meituan/longcat-2.0",
@@ -1793,7 +2926,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "thinkingmachines/inkling",
@@ -1806,7 +2947,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k3:batch",
@@ -1819,7 +2970,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta/muse-spark-1.1",
@@ -1832,7 +2993,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.6-luna-pro:batch",
@@ -1845,7 +3017,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "openai/gpt-5.6-luna:batch",
@@ -1858,7 +3041,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "openai/gpt-5.6-terra-pro",
@@ -1872,7 +3066,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "openai/gpt-5.6-terra-pro:batch",
@@ -1885,7 +3090,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "openai/gpt-5.6-sol-pro",
@@ -1899,7 +3115,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "openai/gpt-5.6-terra:batch",
@@ -1912,7 +3139,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "openai/gpt-5.6-sol-pro:batch",
@@ -1926,7 +3164,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "openai/gpt-5.6-sol:batch",
@@ -1940,7 +3189,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02-16"
   },
   {
     "id": "aion-labs/aion-3.0-mini",
@@ -1953,7 +3213,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "aion-labs/aion-3.0",
@@ -1966,7 +3234,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "poolside/laguna-xs-2.1",
@@ -1979,7 +3255,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-sonnet-5:batch",
@@ -1993,7 +3277,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "sakana/fugu-ultra",
@@ -2006,7 +3300,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openrouter/fusion",
@@ -2015,7 +3318,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-fable-5:batch",
@@ -2029,7 +3340,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-fable-5",
@@ -2043,7 +3364,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nvidia/nemotron-3.5-content-safety",
@@ -2055,7 +3386,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nvidia/nemotron-3-ultra-550b-a55b",
@@ -2068,7 +3408,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4.8",
@@ -2082,7 +3430,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4.8:batch",
@@ -2096,7 +3454,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "x-ai/grok-build-0.1",
@@ -2106,7 +3474,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.5-flash:batch",
@@ -2119,7 +3497,20 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-01"
   },
   {
     "id": "perceptron/perceptron-mk1",
@@ -2131,7 +3522,17 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.1-flash-lite:batch",
@@ -2144,7 +3545,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-chat-latest",
@@ -2157,7 +3570,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "x-ai/grok-4.3:batch",
@@ -2170,7 +3593,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/mistral-medium-3-5",
@@ -2182,7 +3615,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/mistral-medium-3-5:batch",
@@ -2194,7 +3637,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-plus-20260420",
@@ -2207,7 +3660,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.6-flash",
@@ -2220,7 +3683,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.6-35b-a3b",
@@ -2230,7 +3703,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.6-27b",
@@ -2240,7 +3723,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.5-pro",
@@ -2250,7 +3743,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-12-01"
   },
   {
     "id": "openai/gpt-5.5-pro:batch",
@@ -2262,7 +3766,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-12-01"
   },
   {
     "id": "openai/gpt-5.5:batch",
@@ -2275,7 +3790,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-12-01"
   },
   {
     "id": "openrouter/pareto-code",
@@ -2284,7 +3810,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4.7",
@@ -2298,7 +3832,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4.7:batch",
@@ -2312,7 +3856,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.6-plus",
@@ -2325,7 +3879,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-5v-turbo",
@@ -2338,7 +3902,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "arcee-ai/trinity-large-thinking",
@@ -2351,7 +3925,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "x-ai/grok-4.20-multi-agent",
@@ -2361,7 +3943,18 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-09-01"
   },
   {
     "id": "x-ai/grok-4.20",
@@ -2371,7 +3964,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-09-01"
   },
   {
     "id": "rekaai/reka-edge",
@@ -2383,7 +3987,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.4-nano:batch",
@@ -2396,7 +4010,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-08-31"
   },
   {
     "id": "openai/gpt-5.4-mini:batch",
@@ -2409,7 +4034,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-08-31"
   },
   {
     "id": "mistralai/mistral-small-2603",
@@ -2422,7 +4058,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/mistral-small-2603:batch",
@@ -2435,7 +4080,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-5-turbo",
@@ -2448,7 +4102,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nvidia/nemotron-3-super-120b-a12b",
@@ -2458,7 +4120,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "bytedance-seed/seed-2.0-lite",
@@ -2470,7 +4140,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-9b",
@@ -2482,7 +4162,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.4-pro",
@@ -2494,7 +4184,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.4-pro:batch",
@@ -2506,7 +4206,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.4:batch",
@@ -2519,7 +4229,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inception/mercury-2",
@@ -2532,7 +4252,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "bytedance-seed/seed-2.0-mini",
@@ -2544,7 +4272,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-35b-a3b",
@@ -2557,7 +4295,17 @@
     "temperature": true,
     "in": "0.15",
     "out": "1",
-    "cache_read": "0.05"
+    "cache_read": "0.05",
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-27b",
@@ -2567,7 +4315,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-122b-a10b",
@@ -2579,7 +4337,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-flash-02-23",
@@ -2591,7 +4359,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.1-pro-preview-customtools",
@@ -2605,7 +4383,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.3-codex",
@@ -2618,7 +4408,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "aion-labs/aion-2.0",
@@ -2631,7 +4431,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.1-pro-preview:batch",
@@ -2643,7 +4451,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-sonnet-4.6",
@@ -2657,7 +4477,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-sonnet-4.6:batch",
@@ -2671,7 +4501,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-plus-02-15",
@@ -2683,7 +4523,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-397b-a17b",
@@ -2695,7 +4545,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax/minimax-m2.5",
@@ -2708,7 +4568,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4.6",
@@ -2722,7 +4590,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4.6:batch",
@@ -2736,7 +4614,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3-coder-next",
@@ -2749,7 +4637,15 @@
     "temperature": true,
     "in": "0.12",
     "out": "0.8",
-    "cache_read": "0.07"
+    "cache_read": "0.07",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openrouter/free",
@@ -2758,7 +4654,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "stepfun/step-3.5-flash",
@@ -2770,7 +4675,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k2.5",
@@ -2780,7 +4693,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "upstage/solar-pro-3",
@@ -2793,7 +4715,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax/minimax-m2-her",
@@ -2806,7 +4736,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "writer/palmyra-x5",
@@ -2818,7 +4756,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-4.7-flash",
@@ -2828,7 +4774,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.2-codex",
@@ -2841,7 +4795,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "bytedance-seed/seed-1.6-flash",
@@ -2853,7 +4816,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "bytedance-seed/seed-1.6",
@@ -2865,7 +4838,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax/minimax-m2.1",
@@ -2878,7 +4861,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-4.7",
@@ -2891,7 +4882,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-3-flash-preview:batch",
@@ -2903,7 +4902,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nvidia/nemotron-3-nano-30b-a3b",
@@ -2913,7 +4924,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.2-chat",
@@ -2926,7 +4945,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.2-pro",
@@ -2938,7 +4967,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.2-pro:batch",
@@ -2950,7 +4989,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.2",
@@ -2963,7 +5012,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.2:batch",
@@ -2976,7 +5035,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "relace/relace-search",
@@ -2988,7 +5057,15 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-4.6v",
@@ -3001,7 +5078,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openrouter/bodybuilder",
@@ -3010,7 +5097,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.1-codex-max",
@@ -3023,7 +5118,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "amazon/nova-2-lite-v1",
@@ -3035,7 +5139,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/ministral-14b-2512",
@@ -3048,7 +5163,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/ministral-8b-2512",
@@ -3061,7 +5185,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/ministral-8b-2512:batch",
@@ -3074,7 +5207,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/ministral-3b-2512",
@@ -3087,7 +5229,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/mistral-large-2512:batch",
@@ -3100,7 +5251,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4.5",
@@ -3114,7 +5275,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4.5:batch",
@@ -3128,7 +5299,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.1",
@@ -3138,7 +5319,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.1-codex",
@@ -3151,7 +5342,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.1:batch",
@@ -3164,7 +5364,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-5.1-codex-mini",
@@ -3177,7 +5387,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k2-thinking",
@@ -3187,7 +5406,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "perplexity/sonar-pro-search",
@@ -3199,7 +5426,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "amazon/nova-premier-v1",
@@ -3212,7 +5448,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/voxtral-small-24b-2507",
@@ -3225,7 +5470,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-oss-safeguard-20b",
@@ -3238,7 +5493,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "ibm-granite/granite-4.0-h-micro",
@@ -3250,7 +5513,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax/minimax-m2",
@@ -3262,7 +5533,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-haiku-4.5",
@@ -3276,7 +5555,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3-vl-8b-instruct",
@@ -3289,7 +5578,16 @@
     "temperature": true,
     "in": "0.25",
     "out": "0.75",
-    "cache_read": "0.12"
+    "cache_read": "0.12",
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-haiku-4.5:batch",
@@ -3303,7 +5601,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3-vl-30b-a3b-thinking",
@@ -3315,7 +5623,17 @@
     "structured_output": true,
     "temperature": true,
     "in": "0.29",
-    "out": "1"
+    "out": "1",
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "openai/gpt-5-pro",
@@ -3327,7 +5645,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-09-30"
   },
   {
     "id": "qwen/qwen3-vl-30b-a3b-instruct",
@@ -3337,7 +5666,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "openai/gpt-5-pro:batch",
@@ -3349,7 +5688,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-09-30"
   },
   {
     "id": "z-ai/glm-4.6",
@@ -3362,7 +5712,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "anthropic/claude-sonnet-4.5:batch",
@@ -3376,7 +5735,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "anthropic/claude-sonnet-4.5",
@@ -3390,7 +5760,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "deepseek/deepseek-v3.2-exp",
@@ -3402,7 +5783,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-07-31"
   },
   {
     "id": "thedrummer/cydonia-24b-v4.1",
@@ -3415,7 +5805,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-04-30"
   },
   {
     "id": "relace/relace-apply-3",
@@ -3427,7 +5826,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3-vl-235b-a22b-instruct",
@@ -3440,7 +5847,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "deepseek/deepseek-v3.1-terminus",
@@ -3450,7 +5867,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "qwen/qwen3-coder-flash",
@@ -3464,7 +5890,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-06-30"
   },
   {
     "id": "qwen/qwen3-next-80b-a3b-instruct",
@@ -3474,7 +5909,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-09-30"
   },
   {
     "id": "qwen/qwen3-next-80b-a3b-thinking",
@@ -3486,7 +5930,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-09-30"
   },
   {
     "id": "moonshotai/kimi-k2-0905",
@@ -3498,7 +5951,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-12-31"
   },
   {
     "id": "nousresearch/hermes-4-405b",
@@ -3510,7 +5972,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "deepseek/deepseek-chat-v3.1",
@@ -3522,7 +5993,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "mistralai/mistral-medium-3.1",
@@ -3535,7 +6015,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-06-30"
   },
   {
     "id": "mistralai/mistral-medium-3.1:batch",
@@ -3548,7 +6039,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-06-30"
   },
   {
     "id": "openai/gpt-5",
@@ -3561,7 +6063,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-09-30"
   },
   {
     "id": "z-ai/glm-4.5v",
@@ -3574,7 +6087,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-12-31"
   },
   {
     "id": "openai/gpt-5:batch",
@@ -3587,7 +6110,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-09-30"
   },
   {
     "id": "openai/gpt-5-nano",
@@ -3597,7 +6131,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-05-31"
   },
   {
     "id": "openai/gpt-5-mini:batch",
@@ -3610,7 +6155,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-05-31"
   },
   {
     "id": "openai/gpt-5-mini",
@@ -3620,7 +6176,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-05-31"
   },
   {
     "id": "openai/gpt-5-nano:batch",
@@ -3633,7 +6200,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-05-31"
   },
   {
     "id": "openai/gpt-oss-20b:batch",
@@ -3645,7 +6223,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "anthropic/claude-opus-4.1",
@@ -3659,7 +6246,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "anthropic/claude-opus-4.1:batch",
@@ -3673,7 +6271,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "mistralai/codestral-2508:batch",
@@ -3686,7 +6295,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "mistralai/codestral-2508",
@@ -3696,7 +6315,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "qwen/qwen3-coder-30b-a3b-instruct",
@@ -3708,7 +6337,16 @@
     "structured_output": true,
     "temperature": true,
     "in": "0.07",
-    "out": "0.28"
+    "out": "0.28",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-06-30"
   },
   {
     "id": "qwen/qwen3-30b-a3b-instruct-2507",
@@ -3720,7 +6358,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-06-30"
   },
   {
     "id": "z-ai/glm-4.5",
@@ -3733,7 +6380,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-12-31"
   },
   {
     "id": "z-ai/glm-4.5-air",
@@ -3746,7 +6402,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-12-31"
   },
   {
     "id": "qwen/qwen3-235b-a22b-thinking-2507",
@@ -3758,7 +6423,16 @@
     "structured_output": false,
     "temperature": true,
     "in": "0.45",
-    "out": "3.5"
+    "out": "3.5",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-06-30"
   },
   {
     "id": "qwen/qwen3-coder",
@@ -3768,7 +6442,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-06-30"
   },
   {
     "id": "bytedance/ui-tars-1.5-7b",
@@ -3781,7 +6464,17 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "google/gemini-2.5-flash-lite:batch",
@@ -3794,7 +6487,20 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "qwen/qwen3-235b-a22b-2507",
@@ -3804,7 +6510,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-06-30"
   },
   {
     "id": "moonshotai/kimi-k2",
@@ -3816,7 +6531,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-12-31"
   },
   {
     "id": "cognitivecomputations/dolphin-mistral-24b-venice-edition",
@@ -3828,7 +6552,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-04-30"
   },
   {
     "id": "tencent/hunyuan-a13b-instruct",
@@ -3840,7 +6573,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "morph/morph-v3-large",
@@ -3852,7 +6594,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "morph/morph-v3-fast",
@@ -3864,7 +6614,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/mistral-small-3.2-24b-instruct",
@@ -3874,7 +6632,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "minimax/minimax-m1",
@@ -3886,7 +6654,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "google/gemini-2.5-flash:batch",
@@ -3899,7 +6676,20 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "google/gemini-2.5-pro",
@@ -3913,7 +6703,20 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "google/gemini-2.5-pro:batch",
@@ -3926,7 +6729,20 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "openai/o3-pro",
@@ -3938,7 +6754,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "google/gemini-2.5-pro-preview",
@@ -3952,7 +6779,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "deepseek/deepseek-r1-0528",
@@ -3962,7 +6801,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "mistralai/mistral-medium-3",
@@ -3975,7 +6823,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "meta-llama/llama-guard-4-12b",
@@ -3987,7 +6846,17 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "qwen/qwen3-30b-a3b",
@@ -3999,7 +6868,16 @@
     "structured_output": true,
     "temperature": true,
     "in": "0.12",
-    "out": "0.5"
+    "out": "0.5",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "qwen/qwen3-14b",
@@ -4009,7 +6887,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "qwen/qwen3-32b",
@@ -4019,7 +6906,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "openai/o3",
@@ -4032,7 +6928,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/o4-mini-high",
@@ -4045,7 +6952,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/o4-mini",
@@ -4058,7 +6976,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/o3:batch",
@@ -4071,7 +7000,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/gpt-4.1",
@@ -4084,7 +7024,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/o4-mini:batch",
@@ -4097,7 +7048,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/gpt-4.1:batch",
@@ -4110,7 +7072,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/gpt-4.1-mini",
@@ -4123,7 +7096,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/gpt-4.1-mini:batch",
@@ -4136,7 +7120,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/gpt-4.1-nano:batch",
@@ -4149,7 +7144,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/gpt-4.1-nano",
@@ -4162,7 +7168,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "meta-llama/llama-4-maverick",
@@ -4172,7 +7189,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "meta-llama/llama-4-scout",
@@ -4182,7 +7209,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "deepseek/deepseek-chat-v3-0324",
@@ -4192,7 +7229,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-07-31"
   },
   {
     "id": "openai/o1-pro",
@@ -4204,7 +7250,18 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "mistralai/mistral-small-3.1-24b-instruct",
@@ -4216,7 +7273,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "google/gemma-3-4b-it",
@@ -4228,7 +7295,17 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "google/gemma-3-12b-it",
@@ -4240,7 +7317,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "cohere/command-a",
@@ -4252,7 +7339,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "rekaai/reka-flash-3",
@@ -4264,7 +7360,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-01-31"
   },
   {
     "id": "thedrummer/skyfall-36b-v2",
@@ -4277,7 +7382,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "perplexity/sonar-reasoning-pro",
@@ -4289,7 +7403,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemma-3-27b-it",
@@ -4299,7 +7422,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "perplexity/sonar-pro",
@@ -4311,7 +7444,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/mistral-saba",
@@ -4324,7 +7466,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-09-30"
   },
   {
     "id": "openai/o3-mini-high",
@@ -4337,7 +7489,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "aion-labs/aion-rp-llama-3.1-8b",
@@ -4349,7 +7511,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "perplexity/sonar-deep-research",
@@ -4361,7 +7532,15 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen-plus",
@@ -4375,7 +7554,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2025-03-31"
   },
   {
     "id": "qwen/qwen2.5-vl-72b-instruct",
@@ -4388,7 +7576,17 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/o3-mini",
@@ -4401,7 +7599,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "openai/o3-mini:batch",
@@ -4414,7 +7622,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "mistralai/mistral-small-24b-instruct-2501",
@@ -4426,7 +7644,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "perplexity/sonar",
@@ -4438,7 +7665,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-r1",
@@ -4450,7 +7686,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-07-31"
   },
   {
     "id": "minimax/minimax-01",
@@ -4462,7 +7707,17 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-03-31"
   },
   {
     "id": "microsoft/phi-4",
@@ -4474,7 +7729,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "deepseek/deepseek-chat",
@@ -4484,7 +7748,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-07-31"
   },
   {
     "id": "sao10k/l3.3-euryale-70b",
@@ -4496,7 +7769,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "openai/o1",
@@ -4509,7 +7791,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "meta-llama/llama-3.3-70b-instruct",
@@ -4521,7 +7814,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "amazon/nova-lite-v1",
@@ -4533,7 +7835,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-10-31"
   },
   {
     "id": "cohere/command-r7b-12-2024",
@@ -4545,7 +7857,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-08-31"
   },
   {
     "id": "amazon/nova-micro-v1",
@@ -4557,7 +7878,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-10-31"
   },
   {
     "id": "amazon/nova-pro-v1",
@@ -4569,7 +7899,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-10-31"
   },
   {
     "id": "openai/gpt-4o-2024-11-20",
@@ -4582,7 +7922,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "mistralai/mistral-large-2407",
@@ -4595,7 +7946,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-03-31"
   },
   {
     "id": "qwen/qwen-2.5-coder-32b-instruct",
@@ -4607,7 +7968,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "thedrummer/unslopnemo-12b",
@@ -4619,7 +7989,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-04-30"
   },
   {
     "id": "anthracite-org/magnum-v4-72b",
@@ -4631,7 +8010,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "qwen/qwen-2.5-7b-instruct",
@@ -4643,7 +8031,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "meta-llama/llama-3.2-1b-instruct",
@@ -4655,7 +8052,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "qwen/qwen-2.5-72b-instruct",
@@ -4667,7 +8073,16 @@
     "structured_output": true,
     "temperature": true,
     "in": "0.36",
-    "out": "0.4"
+    "out": "0.4",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "cohere/command-r-08-2024",
@@ -4679,7 +8094,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-03-31"
   },
   {
     "id": "cohere/command-r-plus-08-2024",
@@ -4691,7 +8115,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-03-31"
   },
   {
     "id": "meta-llama/llama-3.2-3b-instruct",
@@ -4701,7 +8134,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "sao10k/l3.1-euryale-70b",
@@ -4713,7 +8155,16 @@
     "structured_output": true,
     "temperature": true,
     "in": "0.85",
-    "out": "0.85"
+    "out": "0.85",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "nousresearch/hermes-3-llama-3.1-70b",
@@ -4725,7 +8176,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "sao10k/l3-lunaris-8b",
@@ -4737,7 +8197,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "nousresearch/hermes-3-llama-3.1-405b",
@@ -4749,7 +8218,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "openai/gpt-4o-2024-08-06",
@@ -4762,7 +8240,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "meta-llama/llama-3.1-70b-instruct",
@@ -4772,7 +8261,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "meta-llama/llama-3.1-8b-instruct",
@@ -4782,7 +8280,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "openai/gpt-4o-mini-2024-07-18",
@@ -4795,7 +8302,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "google/gemma-2-27b-it",
@@ -4807,7 +8325,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "openai/gpt-4o-mini:batch",
@@ -4820,7 +8347,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "openai/gpt-4o",
@@ -4833,7 +8371,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "openai/gpt-4o-2024-05-13",
@@ -4845,7 +8394,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "mistralai/mixtral-8x22b-instruct",
@@ -4858,7 +8418,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-01-31"
   },
   {
     "id": "openai/gpt-4o:batch",
@@ -4871,7 +8441,18 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-10-31"
   },
   {
     "id": "microsoft/wizardlm-2-8x22b",
@@ -4883,7 +8464,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-04-30"
   },
   {
     "id": "openai/gpt-4-turbo",
@@ -4895,7 +8485,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "openai/gpt-4-turbo:batch",
@@ -4907,7 +8507,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-12-31"
   },
   {
     "id": "mistralai/mistral-large",
@@ -4917,7 +8527,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-11-30"
   },
   {
     "id": "openai/gpt-3.5-turbo-0613",
@@ -4929,7 +8549,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2021-09-30"
   },
   {
     "id": "openai/gpt-3.5-turbo-16k",
@@ -4941,7 +8570,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2021-09-30"
   },
   {
     "id": "openai/gpt-3.5-turbo-instruct",
@@ -4953,7 +8591,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2021-09-30"
   },
   {
     "id": "mancer/weaver",
@@ -4965,7 +8612,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-06-30"
   },
   {
     "id": "undi95/remm-slerp-l2-13b",
@@ -4975,7 +8631,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-06-30"
   },
   {
     "id": "openai/gpt-3.5-turbo",
@@ -4987,7 +8652,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2021-09-30"
   },
   {
     "id": "gryphe/mythomax-l2-13b",
@@ -4997,7 +8671,16 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2023-06-30"
   },
   {
     "id": "openai/gpt-3.5-turbo:batch",
@@ -5009,7 +8692,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2021-09-30"
   },
   {
     "id": "openai/gpt-4",
@@ -5021,7 +8713,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2021-09-30"
   },
   {
     "id": "aion-labs/aion-3.5-mini",
@@ -5034,7 +8735,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "aion-labs/aion-3.5",
@@ -5047,7 +8756,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "upstage/solar-mini4",
@@ -5060,7 +8777,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "z-ai/glm-5.3-prime",
@@ -5073,7 +8798,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.8-max-prime",
@@ -5086,7 +8819,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-oss-120b:batch",
@@ -5098,7 +8841,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2024-06-30"
   },
   {
     "id": "inclusionai/ling-3.1-flash",
@@ -5110,7 +8862,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6.1-sol-pro",
@@ -5124,7 +8884,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/mistral-large-4-0",
@@ -5137,7 +8907,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-sonnet-5.5:batch",
@@ -5151,7 +8930,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6.1-sol",
@@ -5165,7 +8954,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-sonnet-5.5",
@@ -5179,7 +8978,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "typesafe/jev-router",
@@ -5188,7 +8997,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "perceptron/perceptron-mk1.5",
@@ -5200,7 +9021,18 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "fireworks/ember-1",
@@ -5213,7 +9045,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nvidia/switchyard",
@@ -5222,7 +9063,15 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nex-agi/nex-n2.5-mini",
@@ -5235,7 +9084,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nex-agi/nex-n2.5-pro",
@@ -5248,7 +9106,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/devstral-2512",
@@ -5261,7 +9128,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mistralai/mistral-large-2512",
@@ -5271,7 +9147,17 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moondream/moondream3.1-9b-a2b",
@@ -5283,7 +9169,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moondream/moondream3-preview",
@@ -5295,7 +9190,16 @@
     "reasoning": true,
     "tool_call": false,
     "structured_output": false,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nvidia/nemotron-3.5-super-vl",
@@ -5305,7 +9209,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta/muse-spark-open",
@@ -5318,7 +9232,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-4-argon",
@@ -5328,7 +9254,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "liquid/lfm-2.5-24b-a2b",
@@ -5341,7 +9279,15 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "unbiased/pareto-26.9",
@@ -5354,7 +9300,16 @@
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemini-4-argon:batch",
@@ -5368,7 +9323,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "scaledown/extract",
@@ -5380,7 +9347,17 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "scaledown/summarize",
@@ -5392,7 +9369,17 @@
     "reasoning": false,
     "tool_call": false,
     "structured_output": false,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta/muse-wonder",
@@ -5405,7 +9392,19 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "stepfun/step-5-preview",
@@ -5418,7 +9417,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-haiku-5.5",
@@ -5432,7 +9441,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-haiku-5.5:batch",
@@ -5446,7 +9465,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6.1-sol-pro:batch",
@@ -5460,7 +9489,17 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-6.1-sol:batch",
@@ -5474,6 +9513,16 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   }
 ]

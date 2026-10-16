@@ -6,6 +6,13 @@ export interface ColumnDef<T> {
   numeric?: boolean;
   sortValue?: (t: T) => number | string;
   render: (t: T) => ReactNode;
+  /** Given the rows this table is about to draw, may the column stay? A
+      capability a vendor states for none of its models reads better as an
+      absent column than as a run of em dashes — the provider tables carry
+      fifteen of them, and six dashes-only columns is the difference between
+      a table that fits and one that scrolls sideways. Omit it on the columns
+      a table always has. */
+  showIf?: (rows: T[]) => boolean;
 }
 
 interface DataTableProps<T> {
@@ -30,19 +37,26 @@ export function DataTable<T>({ rows, columns, rowKey, detail, placeholder, toolb
   const [filter, setFilter] = useState("");
   const [open, setOpen] = useState<string | null>(null);
 
+  // The columns this table will actually draw: drop the ones no row fills in.
+  // Computed before the filter so the filter searches what is on screen.
+  const cols = useMemo(
+    () => columns.filter((c) => c.showIf === undefined || c.showIf(rows)),
+    [columns, rows],
+  );
+
   const shown = useMemo(() => {
     let out = rows;
     const q = filter.trim().toLowerCase();
     if (q) {
       out = out.filter((r) =>
-        columns.some((c) => {
+        cols.some((c) => {
           const v = c.sortValue ? c.sortValue(r) : (c.render(r) as ReactNode);
           return String(v).toLowerCase().includes(q);
         }),
       );
     }
     if (sort) {
-      const col = columns.find((c) => c.key === sort.key);
+      const col = cols.find((c) => c.key === sort.key);
       if (col) {
         out = [...out].sort((a, b) => {
           const va = col.sortValue ? col.sortValue(a) : (a as never);
@@ -53,7 +67,7 @@ export function DataTable<T>({ rows, columns, rowKey, detail, placeholder, toolb
       }
     }
     return out;
-  }, [rows, sort, filter, columns]);
+  }, [rows, sort, filter, cols]);
 
   if (rows.length === 0 && placeholder !== undefined) return <div className="empty-state">{placeholder}</div>;
 
@@ -73,7 +87,7 @@ export function DataTable<T>({ rows, columns, rowKey, detail, placeholder, toolb
       <table>
         <thead>
           <tr>
-            {columns.map((c) => (
+            {cols.map((c) => (
               <th
                 key={c.key}
                 className={`sortable${c.numeric ? " num" : ""}`}
@@ -96,7 +110,7 @@ export function DataTable<T>({ rows, columns, rowKey, detail, placeholder, toolb
             const toggle = () => setOpen(expanded ? null : k);
             return [
               <tr key={k} className={expanded ? "row-open" : ""} onClick={toggle}>
-                {columns.map((c) => (
+                {cols.map((c) => (
                   <td key={c.key} className={c.numeric ? "num" : ""}>
                     {c.render(r)}
                   </td>
@@ -104,7 +118,7 @@ export function DataTable<T>({ rows, columns, rowKey, detail, placeholder, toolb
               </tr>,
               detail && expanded ? (
                 <tr key={`${k}-detail`} className="expand-tr">
-                  <td colSpan={columns.length}>{detail(r)}</td>
+                  <td colSpan={cols.length}>{detail(r)}</td>
                 </tr>
               ) : null,
             ];

@@ -30,83 +30,28 @@ function FlagCell({ v, label }: { v: boolean | undefined; label: string }) {
 /** Sort order reads worst to best: unstated < stated-no < stated-yes. */
 const flagSort = (v: boolean | undefined): number => (v === undefined ? 0 : v ? 2 : 1);
 
+/** The provider's models, in the order a reader wants them: what it is, what
+    it costs, how much it takes, what it does, and last the columns most
+    providers do not fill in.
+
+    The split is by how often the catalogue fills a column, measured over the
+    1,338 priced rows — In and Out on every one, Context on 92%, Max out 88%,
+    Tool call 82%, Temp 74%, Reasoning 72%; then JSON 37%, Modalities 34%,
+    Cache write 13%, Knowledge 11%, Tiering 5%, Weights none. Everything after
+    the flags carries a `showIf`, so a provider that states none of it loses
+    the column rather than drawing a run of dashes: azure-foundry fills six of
+    these columns with nothing, and those six columns are the reason its table
+    did not fit. Prices stay together at the front rather than being sorted
+    strictly by frequency — Cache read is 60% and belongs beside the two rates
+    it is an alternative to, not three columns away among the flags. */
 const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile["models"][number]>[] => [
-  { key: "model", label: "Model", render: (r) => <span className="mono">{r.model_id}</span> },
   {
-    key: "modalities",
-    label: "Modalities",
-    // Sorted on the joined string rather than on a count: what a reader scans
-    // this column for is which models take an image, and a "how many" would not
-    // group them.
-    sortValue: (r) => (r.modalities ? `${r.modalities.input.join(",")} ${r.modalities.output.join(",")}` : ""),
-    render: (r) =>
-      r.modalities ? (
-        <span
-          className="mono"
-          title={`Takes ${r.modalities.input.join(", ")}; gives back ${r.modalities.output.join(", ")}`}
-        >
-          {r.modalities.input.join(", ")} → {r.modalities.output.join(", ")}
-        </span>
-      ) : (
-        "—"
-      ),
-  },
-  {
-    key: "context",
-    label: "Context",
-    numeric: true,
-    sortValue: (r) => r.context ?? -1,
-    render: (r) => (r.context !== undefined ? <span className="mono">{formatTokens(r.context)}</span> : "—"),
-  },
-  {
-    key: "max_output",
-    label: "Max out",
-    numeric: true,
-    sortValue: (r) => r.max_output ?? -1,
-    render: (r) => (r.max_output !== undefined ? <span className="mono">{formatTokens(r.max_output)}</span> : "—"),
-  },
-  {
-    key: "knowledge",
-    label: "Knowledge to",
-    // ISO dates sort chronologically as strings, and an unstated cutoff sorts
-    // ahead of every stated one, which is where "we do not know" belongs.
-    sortValue: (r) => r.knowledge ?? "",
-    render: (r) => (r.knowledge ? <span className="mono">{r.knowledge}</span> : "—"),
-  },
-  {
-    key: "reasoning",
-    label: "Reasoning",
-    numeric: true,
-    sortValue: (r) => flagSort(r.reasoning),
-    render: (r) => <FlagCell v={r.reasoning} label="Reasoning" />,
-  },
-  {
-    key: "tool_call",
-    label: "Tool call",
-    numeric: true,
-    sortValue: (r) => flagSort(r.tool_call),
-    render: (r) => <FlagCell v={r.tool_call} label="Tool calling" />,
-  },
-  {
-    key: "structured_output",
-    label: "JSON",
-    numeric: true,
-    sortValue: (r) => flagSort(r.structured_output),
-    render: (r) => <FlagCell v={r.structured_output} label="Structured output" />,
-  },
-  {
-    key: "temperature",
-    label: "Temp",
-    numeric: true,
-    sortValue: (r) => flagSort(r.temperature),
-    render: (r) => <FlagCell v={r.temperature} label="Temperature" />,
-  },
-  {
-    key: "open_weights",
-    label: "Weights",
-    numeric: true,
-    sortValue: (r) => flagSort(r.open_weights),
-    render: (r) => <FlagCell v={r.open_weights} label="Published weights" />,
+    key: "model",
+    label: "Model",
+    // No wrapping and no ellipsis: a model id is the thing being looked up, and
+    // `accounts/fireworks/models/…` cut off at 220px is not a name anyone can
+    // check. The table scrolls sideways if a page's ids really are that long.
+    render: (r) => <span className="mono">{r.model_id}</span>,
   },
   {
     key: "in",
@@ -126,22 +71,111 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "cache_read",
     label: "Cache read /1M",
     numeric: true,
+    showIf: (rows) => rows.some((r) => parsePrice(r.cache_read ?? "0") > 0),
     sortValue: (r) => parsePrice(r.cache_read ?? "0"),
     render: (r) =>
       parsePrice(r.cache_read ?? "0") > 0 ? <PriceCell value={r.cache_read ?? "0"} raw={r.cache_read ?? "0"} currency={r.currency} /> : "—",
   },
   {
+    key: "context",
+    label: "Context",
+    numeric: true,
+    showIf: (rows) => rows.some((r) => r.context !== undefined),
+    sortValue: (r) => r.context ?? -1,
+    render: (r) => (r.context !== undefined ? <span className="mono">{formatTokens(r.context)}</span> : "—"),
+  },
+  {
+    key: "max_output",
+    label: "Max out",
+    numeric: true,
+    showIf: (rows) => rows.some((r) => r.max_output !== undefined),
+    sortValue: (r) => r.max_output ?? -1,
+    render: (r) => (r.max_output !== undefined ? <span className="mono">{formatTokens(r.max_output)}</span> : "—"),
+  },
+  {
+    key: "reasoning",
+    label: "Reasoning",
+    numeric: true,
+    showIf: (rows) => rows.some((r) => r.reasoning !== undefined),
+    sortValue: (r) => flagSort(r.reasoning),
+    render: (r) => <FlagCell v={r.reasoning} label="Reasoning" />,
+  },
+  {
+    key: "tool_call",
+    label: "Tool call",
+    numeric: true,
+    showIf: (rows) => rows.some((r) => r.tool_call !== undefined),
+    sortValue: (r) => flagSort(r.tool_call),
+    render: (r) => <FlagCell v={r.tool_call} label="Tool calling" />,
+  },
+  {
+    key: "temperature",
+    label: "Temp",
+    numeric: true,
+    showIf: (rows) => rows.some((r) => r.temperature !== undefined),
+    sortValue: (r) => flagSort(r.temperature),
+    render: (r) => <FlagCell v={r.temperature} label="Temperature" />,
+  },
+  /* ── from here down, most providers state nothing ── */
+  {
+    key: "structured_output",
+    label: "JSON",
+    numeric: true,
+    showIf: (rows) => rows.some((r) => r.structured_output !== undefined),
+    sortValue: (r) => flagSort(r.structured_output),
+    render: (r) => <FlagCell v={r.structured_output} label="Structured output" />,
+  },
+  {
+    key: "modalities",
+    label: "Modalities",
+    showIf: (rows) => rows.some((r) => r.modalities !== undefined),
+    // Sorted on the joined string rather than on a count: what a reader scans
+    // this column for is which models take an image, and a "how many" would not
+    // group them.
+    sortValue: (r) => (r.modalities ? `${r.modalities.input.join(",")} ${r.modalities.output.join(",")}` : ""),
+    render: (r) =>
+      r.modalities ? (
+        <span
+          className="mono"
+          title={`Takes ${r.modalities.input.join(", ")}; gives back ${r.modalities.output.join(", ")}`}
+        >
+          {r.modalities.input.join(", ")} → {r.modalities.output.join(", ")}
+        </span>
+      ) : (
+        "—"
+      ),
+  },
+  {
     key: "cache_write",
     label: "Cache write /1M",
     numeric: true,
+    showIf: (rows) => rows.some((r) => parsePrice(r.cache_creation ?? "0") > 0),
     sortValue: (r) => parsePrice(r.cache_creation ?? "0"),
     render: (r) =>
       parsePrice(r.cache_creation ?? "0") > 0 ? <PriceCell value={r.cache_creation ?? "0"} raw={r.cache_creation ?? "0"} currency={r.currency} /> : "—",
   },
   {
+    key: "knowledge",
+    label: "Knowledge to",
+    showIf: (rows) => rows.some((r) => r.knowledge !== undefined),
+    // ISO dates sort chronologically as strings, and an unstated cutoff sorts
+    // ahead of every stated one, which is where "we do not know" belongs.
+    sortValue: (r) => r.knowledge ?? "",
+    render: (r) => (r.knowledge ? <span className="mono">{r.knowledge}</span> : "—"),
+  },
+  {
     key: "tier",
     label: "Tiering",
+    showIf: (rows) => rows.some((r) => r.long_context !== undefined || r.peak_hours !== undefined),
     render: (r) => (r.long_context ? `>${r.long_context.over}` : r.peak_hours ? "peak/off-peak" : "—"),
+  },
+  {
+    key: "open_weights",
+    label: "Weights",
+    numeric: true,
+    showIf: (rows) => rows.some((r) => r.open_weights !== undefined),
+    sortValue: (r) => flagSort(r.open_weights),
+    render: (r) => <FlagCell v={r.open_weights} label="Published weights" />,
   },
 ];
 

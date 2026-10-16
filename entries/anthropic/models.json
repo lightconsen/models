@@ -18,7 +18,17 @@
       "in": "5.0",
       "out": "25.0",
       "cache_read": "0.25"
-    }
+    },
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-06"
   },
   {
     "id": "claude-opus-5-5",
@@ -32,7 +42,17 @@
       "in": "2.0",
       "out": "10.0",
       "cache_read": "0.20"
-    }
+    },
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-06"
   },
   {
     "id": "claude-sonnet-5-5",
@@ -41,6 +61,16 @@
     "out": "10",
     "cache_read": "0.10",
     "cache_creation": "2.50",
-    "cache_creation_1h": "4"
+    "cache_creation_1h": "4",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-06"
   }
 ]

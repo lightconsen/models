@@ -168,7 +168,7 @@
       "anthropic": "z-ai/glm-5.3-flash"
     },
     "context": 1048576,
-    "max_output": 943718,
+    "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -3713,7 +3713,10 @@
       "output": [
         "text"
       ]
-    }
+    },
+    "in": "0.25",
+    "out": "1.25",
+    "cache_read": "0.25"
   },
   {
     "id": "qwen/qwen3.6-27b",
@@ -7810,7 +7813,7 @@
     "in": "0.72",
     "out": "0.72",
     "context": 131072,
-    "max_output": 32768,
+    "max_output": 16384,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,

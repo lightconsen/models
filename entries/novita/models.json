@@ -6,7 +6,15 @@
     "out": "0.07",
     "context": 131072,
     "max_output": 131072,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "baidu/ernie-4.5-21B-a3b",
@@ -16,7 +24,15 @@
     "context": 120000,
     "max_output": 8000,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-ocr-2",
@@ -24,7 +40,16 @@
     "in": "0.03",
     "out": "0.03",
     "context": 8192,
-    "max_output": 8192
+    "max_output": 8192,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-r1-0528",
@@ -37,7 +62,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-r1-0528-qwen3-8b",
@@ -47,7 +80,15 @@
     "context": 128000,
     "max_output": 32000,
     "reasoning": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-r1-turbo",
@@ -59,7 +100,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4-pro",
@@ -72,7 +121,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemma-3-12b-it",
@@ -81,7 +138,16 @@
     "out": "0.1",
     "context": 131072,
     "max_output": 8192,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemma-3-27b-it",
@@ -90,7 +156,16 @@
     "out": "0.2",
     "context": 98304,
     "max_output": 16384,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemma-4-26b-a4b-it",
@@ -102,7 +177,16 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemma-4-31b-it",
@@ -114,7 +198,16 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "gryphe/mythomax-l2-13b",
@@ -123,7 +216,15 @@
     "out": "0.09",
     "context": 4096,
     "max_output": 3200,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta-llama/llama-3.1-8b-instruct",
@@ -133,7 +234,15 @@
     "context": 16384,
     "max_output": 16384,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta-llama/llama-3.3-70b-instruct",
@@ -144,7 +253,15 @@
     "max_output": 12288,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta-llama/llama-4-maverick-17b-128e-instruct-fp8",
@@ -154,7 +271,16 @@
     "context": 1048576,
     "max_output": 8192,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "meta-llama/llama-4-scout-17b-16e-instruct",
@@ -163,7 +289,16 @@
     "out": "0.59",
     "context": 131072,
     "max_output": 131072,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "microsoft/wizardlm-2-8x22b",
@@ -173,7 +308,15 @@
     "context": 65535,
     "max_output": 8000,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax/minimax-m2.5",
@@ -186,7 +329,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax/minimax-m2.7",
@@ -199,7 +350,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax/minimax-m2.7-highspeed",
@@ -213,7 +372,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimaxai/minimax-m1-80k",
@@ -225,7 +392,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k2-0905",
@@ -236,7 +411,15 @@
     "max_output": 98304,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k2-instruct",
@@ -246,7 +429,15 @@
     "context": 131072,
     "max_output": 98304,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k2-thinking",
@@ -259,7 +450,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k2.5",
@@ -272,7 +471,17 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k2.6",
@@ -285,7 +494,17 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k2.7-code",
@@ -297,7 +516,17 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k3",
@@ -310,7 +539,17 @@
     "reasoning": true,
     "tool_call": true,
     "flagship": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nousresearch/hermes-2-pro-llama-3-8b",
@@ -320,7 +559,15 @@
     "context": 8192,
     "max_output": 8192,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "openai/gpt-oss-120b",
@@ -332,7 +579,16 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "paddlepaddle/paddleocr-vl",
@@ -341,7 +597,16 @@
     "out": "0.02",
     "context": 16384,
     "max_output": 16384,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen-mt-plus",
@@ -350,7 +615,15 @@
     "out": "0.75",
     "context": 16384,
     "max_output": 8192,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3-omni-30b-a3b-thinking",
@@ -362,7 +635,18 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3-vl-30b-a3b-instruct",
@@ -373,7 +657,17 @@
     "max_output": 32768,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-122b-a10b",
@@ -385,7 +679,17 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-27b",
@@ -397,7 +701,17 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-35b-a3b",
@@ -409,7 +723,17 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.5-397b-a17b",
@@ -421,7 +745,17 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.7-max",
@@ -435,7 +769,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "xiaomimimo/mimo-v2.5-pro",
@@ -448,7 +790,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/autoglm-phone-9b-multilingual",
@@ -457,7 +807,16 @@
     "out": "0.138",
     "context": 65536,
     "max_output": 65536,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-4.5-air",
@@ -469,7 +828,15 @@
     "max_output": 98304,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-4.5v",
@@ -482,7 +849,17 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-4.6",
@@ -495,7 +872,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-4.6v",
@@ -508,7 +893,17 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-4.7",
@@ -521,7 +916,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-4.7-flash",
@@ -534,7 +937,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-5",
@@ -547,7 +958,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-5.1",
@@ -560,7 +979,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-5.2",
@@ -573,7 +1000,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-5.3-flash",
@@ -585,7 +1020,17 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "tencent/hy4-preview",
@@ -597,7 +1042,15 @@
     "max_output": 64000,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-5.3-p",
@@ -609,7 +1062,15 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4.1-flash",
@@ -621,7 +1082,16 @@
     "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-5.3",
@@ -633,7 +1103,15 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4-pro-0813",
@@ -645,7 +1123,15 @@
     "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "tencent/hy3",
@@ -657,7 +1143,15 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.8-flash",
@@ -669,7 +1163,17 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4-flash-0731",
@@ -681,7 +1185,15 @@
     "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mindai/macaron-v1-venti",
@@ -692,7 +1204,15 @@
     "context": 1048576,
     "max_output": 131072,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "minimax/minimax-m3",
@@ -704,7 +1224,17 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.8-27b",
@@ -716,7 +1246,17 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.8-2.4t-a95b",
@@ -728,7 +1268,15 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.8-max",
@@ -740,7 +1288,17 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inclusionai/ling-3.0-flash",
@@ -751,7 +1309,15 @@
     "context": 262144,
     "max_output": 32768,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "mindai/macaron-v1-tall",
@@ -762,7 +1328,15 @@
     "context": 262144,
     "max_output": 32768,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "stepfun/step-3.7-flash",
@@ -774,7 +1348,17 @@
     "max_output": 256000,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "nvidia/nemotron-3-nano-30b-a3b",
@@ -785,7 +1369,15 @@
     "max_output": 32768,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "baidu/cobuddy",
@@ -796,7 +1388,15 @@
     "context": 131072,
     "max_output": 65536,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "xiaomimimo/mimo-v2.5",
@@ -808,7 +1408,17 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.6-27b",
@@ -819,7 +1429,17 @@
     "max_output": 65536,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/glm-4.7-h",
@@ -831,7 +1451,15 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen/qwen3.6-35b-a3b",
@@ -842,7 +1470,17 @@
     "max_output": 65536,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek_v3",
@@ -851,7 +1489,15 @@
     "out": "0.89",
     "context": 64000,
     "max_output": 16000,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "sao10k/l3-70b-euryale-v2.1",
@@ -860,7 +1506,15 @@
     "out": "1.48",
     "context": 8192,
     "max_output": 8192,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-r1/community",
@@ -870,7 +1524,15 @@
     "context": 64000,
     "max_output": 8000,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "Sao10K/L3-8B-Stheno-v3.2",
@@ -878,19 +1540,55 @@
     "in": "0.05",
     "out": "0.05",
     "context": 8192,
-    "max_output": 32000
+    "max_output": 32000,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "ming-image-0.1-design-layer",
     "name": "ming image 0.1 design layer",
     "in": "1",
-    "out": "1"
+    "out": "1",
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ]
+    }
   },
   {
     "id": "ming-image-0.1-design",
     "name": "ming image 0.1 design",
     "in": "1",
-    "out": "1"
+    "out": "1",
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ]
+    }
   },
   {
     "id": "meta-llama/llama-3.2-1b-instruct",
@@ -899,7 +1597,15 @@
     "out": "0.02",
     "context": 131000,
     "max_output": 32000,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inclusionai/ling-3.0-flash-vl",
@@ -910,7 +1616,17 @@
     "context": 262144,
     "max_output": 32768,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4-pro-0813-p",
@@ -922,7 +1638,15 @@
     "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4.1-flash-dst",
@@ -934,7 +1658,16 @@
     "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4.1-flash-p",
@@ -946,7 +1679,16 @@
     "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "xiaomimimo/mimo-v2.6-flash",
@@ -958,7 +1700,18 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "xiaomimimo/mimo-v2.6-pro",
@@ -970,7 +1723,18 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "moonshotai/kimi-k3-p",
@@ -982,7 +1746,17 @@
     "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "deepseek/deepseek-v4-flash-0731-p",
@@ -994,7 +1768,15 @@
     "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inclusionai/ling-3.0-flash-fin",
@@ -1005,7 +1787,15 @@
     "context": 262144,
     "max_output": 32768,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "stepfun/step-5-preview",
@@ -1017,7 +1807,17 @@
     "max_output": 64000,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inclusionai/ling-3.1-flash",
@@ -1028,7 +1828,15 @@
     "context": 262144,
     "max_output": 262144,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "inclusionai/ling-3.0-flash-sante",
@@ -1039,6 +1847,14 @@
     "context": 262144,
     "max_output": 32768,
     "reasoning": true,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   }
 ]

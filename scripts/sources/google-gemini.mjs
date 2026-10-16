@@ -36,6 +36,32 @@
 import { getText, drift, decimal, MEMBERSHIP, readEntry } from "../lib/fetch.mjs";
 
 const URL = "https://aistudio.google.com/docs/pricing.md";
+/** One page per model, whose "Supported data types" cell is the only place the
+    vendor states what a model takes and returns:
+        **Inputs** Text, Image, Video, Audio, and PDF
+        **Output** Text
+    Both directions, and spelled with the words this catalogue already uses. */
+const MODEL_URL = (id) => `https://aistudio.google.com/docs/models/${id}.md`;
+
+/** The five words this catalogue knows, against the page's own spelling. */
+const MEDIA = new Set(["text", "image", "audio", "video", "pdf"]);
+const modalitiesOf = (md) => {
+  const dir = (label) => {
+    const m = new RegExp(`\\*\\*${label}\\*\\*\\s*([^*\\n]+)`).exec(md);
+    if (!m) return null;
+    const words = m[1]
+      .replace(/\band\b/gi, ",")
+      .split(",")
+      .map((w) => w.trim().toLowerCase())
+      .filter(Boolean);
+    if (words.length === 0 || !words.every((w) => MEDIA.has(w))) return null;
+    return [...new Set(words)].sort();
+  };
+  const input = dir("Inputs");
+  if (!input) return null;
+  const output = dir("Output");
+  return output && output.length > 0 ? { input, output } : { input };
+};
 
 const MONTHS = {
   january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
@@ -122,7 +148,7 @@ export default {
   ids: ["google-gemini"],
   source: URL,
   membership: MEMBERSHIP.INTERSECT,
-  owns: ["in", "out", "cache_read", "long_context"],
+  owns: ["in", "out", "cache_read", "long_context", "modalities"],
 
   async read() {
     const md = await getText(URL);
@@ -130,6 +156,20 @@ export default {
     if (found.size === 0) drift("no model sections with a Standard table — the page has changed shape");
 
     const current = readEntry("google-gemini").models;
+    // The model pages, fetched together: one request each, and a page that does
+    // not answer is left alone rather than failing the run — the prices below
+    // come from a different page and are still good.
+    const pages = new Map(
+      await Promise.all(
+        current.map(async (m) => {
+          try {
+            return [m.id, await getText(MODEL_URL(m.id))];
+          } catch {
+            return [m.id, null];
+          }
+        }),
+      ),
+    );
     const rows = [];
     for (const want of current) {
       const table = found.get(want.id);
@@ -143,6 +183,8 @@ export default {
       const row = { id: want.id, in: input.now, out: output.now };
       const cached = ratesIn(byLabel.get("Context caching price") ?? "");
       if (cached) row.cache_read = cached.now;
+      const mods = pages.get(want.id) ? modalitiesOf(pages.get(want.id)) : null;
+      if (mods) row.modalities = mods;
       if (input.over !== undefined && output.above !== undefined) {
         row.long_context = {
           over: input.over,

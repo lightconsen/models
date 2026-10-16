@@ -38,7 +38,47 @@
  */
 import { getText, drift, decimal, MEMBERSHIP, readEntry } from "../lib/fetch.mjs";
 
+
+/** The five media words this catalogue knows. */
+const MEDIA = new Set(["text", "image", "audio", "video", "pdf"]);
+/** `- Input modalities: text, image` and its output twin. Both are listed, so
+    both are written; a page that stops listing one leaves the field absent. */
+const modalitiesOf = (md) => {
+  const dir = (label) => {
+    const m = new RegExp(`^- ${label} modalities:\\s*(.+)$`, "im").exec(md);
+    if (!m) return null;
+    const words = m[1].split(",").map((w) => w.trim().toLowerCase()).filter(Boolean);
+    if (words.length === 0 || !words.every((w) => MEDIA.has(w))) return null;
+    return [...new Set(words)].sort();
+  };
+  const input = dir("Input");
+  if (!input) return null;
+  const output = dir("Output");
+  return output && output.length > 0 ? { input, output } : { input };
+};
+
+/** `- Feb 16, 2026 knowledge cutoff` → "2026-02". The day is dropped: the
+    field records the precision a vendor states, and a cutoff is a month's
+    fact even when the page dates it to a day. */
+const MONTHS = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+const knowledgeOf = (md) => {
+  const m = /^[-*]\s*([A-Z][a-z]{2})[a-z]*\s+\d{1,2},\s*(\d{4})\s+knowledge cutoff/mi.exec(md);
+  if (!m) return null;
+  const mo = MONTHS.indexOf(m[1].toLowerCase());
+  if (mo < 0) return null;
+  return `${m[2]}-${String(mo + 1).padStart(2, "0")}`;
+};
+
 const URL = "https://developers.openai.com/api/docs/pricing.md";
+/** One page per model, carrying what the pricing table does not: a Model
+    details list —
+
+        - Input modalities: text, image
+        - Output modalities: text
+        - Feb 16, 2026 knowledge cutoff
+
+    — with both directions and the cutoff, in the vendor's own words. */
+const MODEL_URL = (id) => `https://developers.openai.com/api/docs/models/${id}.md`;
 
 /** The short/long boundary, as named in the rows that spell it out. */
 const THRESHOLD = 272_000;
@@ -71,7 +111,7 @@ export default {
   ids: ["openai"],
   source: URL,
   membership: MEMBERSHIP.INTERSECT,
-  owns: ["in", "out", "cache_read", "cache_creation", "long_context"],
+  owns: ["in", "out", "cache_read", "cache_creation", "long_context", "modalities", "knowledge"],
 
   async read() {
     const md = await getText(URL);
@@ -131,6 +171,29 @@ export default {
 
     const current = readEntry("openai").models;
     const rows_ = current.map((r) => byId.get(r.id)).filter(Boolean);
+
+    // The model pages, fetched together. A page that does not answer leaves
+    // those fields alone rather than failing the run: the prices came from the
+    // pricing table and are still good.
+    const pages = new Map(
+      await Promise.all(
+        rows_.map(async (r) => {
+          try {
+            return [r.id, await getText(MODEL_URL(r.id))];
+          } catch {
+            return [r.id, null];
+          }
+        }),
+      ),
+    );
+    for (const r of rows_) {
+      const md = pages.get(r.id);
+      if (!md) continue;
+      const mods = modalitiesOf(md);
+      if (mods) r.modalities = mods;
+      const cutoff = knowledgeOf(md);
+      if (cutoff) r.knowledge = cutoff;
+    }
     if (rows_.length === 0) drift("none of the entry's models are in the Standard table — the join is broken");
 
     const missing = current.filter((r) => !byId.has(r.id));

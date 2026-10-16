@@ -24,7 +24,17 @@
       "in": "5",
       "out": "25",
       "cache_read": "0.5"
-    }
+    },
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-04"
   },
   {
     "id": "gpt-5.6-sol",
@@ -50,7 +60,17 @@
       "in": "2",
       "out": "10",
       "cache_read": "0.2"
-    }
+    },
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02"
   },
   {
     "id": "gpt-5.6-terra",
@@ -76,7 +96,17 @@
       "in": "1",
       "out": "6",
       "cache_read": "0.1"
-    }
+    },
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02"
   },
   {
     "id": "gpt-5.6-luna",
@@ -102,6 +132,16 @@
       "in": "0.1",
       "out": "0.6",
       "cache_read": "0.01"
-    }
+    },
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "knowledge": "2026-02"
   }
 ]

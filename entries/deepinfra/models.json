@@ -9,7 +9,13 @@
     "max_output": 256000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "ByteDance/Seed-2.0-mini",
@@ -21,7 +27,13 @@
     "max_output": 256000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "ByteDance/Seed-2.0-pro",
@@ -33,7 +45,13 @@
     "max_output": 256000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "deepseek-ai/DeepSeek-R1-0528",
@@ -115,7 +133,13 @@
     "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "deepseek-ai/DeepSeek-V4-Pro",
@@ -151,7 +175,13 @@
     "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "google/gemma-3-12b-it",
@@ -161,7 +191,13 @@
     "context": 131072,
     "max_output": 131072,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "google/gemma-3-27b-it",
@@ -171,7 +207,13 @@
     "context": 131072,
     "max_output": 131072,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "google/gemma-3-4b-it",
@@ -181,7 +223,13 @@
     "context": 131072,
     "max_output": 131072,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "google/gemma-4-26B-A4B-it",
@@ -192,7 +240,13 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "google/gemma-4-31B-it",
@@ -203,7 +257,15 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
@@ -221,7 +283,13 @@
     "out": "0.3",
     "context": 327680,
     "max_output": 327680,
-    "tool_call": true
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "MiniMaxAI/MiniMax-M3",
@@ -233,7 +301,14 @@
     "max_output": 524288,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "moonshotai/Kimi-K2.6",
@@ -245,7 +320,13 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "moonshotai/Kimi-K3",
@@ -257,7 +338,13 @@
     "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
-    "flagship": true
+    "flagship": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "openai/gpt-oss-120b",
@@ -343,7 +430,13 @@
     "context": 262144,
     "max_output": 262144,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3.5-27B",
@@ -354,7 +447,14 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3.5-35B-A3B",
@@ -366,7 +466,14 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3.5-397B-A17B",
@@ -378,7 +485,14 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3.5-9B",
@@ -389,7 +503,14 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3.6-27B",
@@ -400,7 +521,14 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3.6-35B-A3B",
@@ -412,7 +540,14 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "cache_read": "0.1"
+    "cache_read": "0.1",
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3.7-Max",
@@ -435,7 +570,14 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3.8-Flash",
@@ -468,7 +610,14 @@
     "max_output": 524288,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image"
+      ]
+    }
   },
   {
     "id": "zai-org/GLM-4.6",
@@ -528,7 +677,14 @@
     "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.5-flash",
@@ -536,7 +692,14 @@
     "in": "1.5",
     "out": "9",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image"
+      ]
+    }
   },
   {
     "id": "Sao10K/L3-8B-Lunaris-v1-Turbo",
@@ -568,7 +731,13 @@
     "in": "1",
     "out": "5",
     "context": 200000,
-    "max_output": 200000
+    "max_output": 200000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "meta-models/Muse-Glimmer-30B",
@@ -577,7 +746,13 @@
     "out": "1.2",
     "cache_read": "0.04",
     "context": 131072,
-    "max_output": 131072
+    "max_output": 131072,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "mistralai/Mistral-Nemo-Instruct-2407",
@@ -593,7 +768,13 @@
     "in": "3",
     "out": "15",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "ibm-granite/granite-4.2-8b",
@@ -610,7 +791,14 @@
     "in": "0.75",
     "out": "3.75",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image"
+      ]
+    }
   },
   {
     "id": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B",
@@ -627,7 +815,14 @@
     "out": "0.18",
     "cache_read": "0.012",
     "context": 131072,
-    "max_output": 131072
+    "max_output": 131072,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B",
@@ -662,7 +857,14 @@
     "out": "0.34",
     "cache_read": "0.05",
     "context": 262144,
-    "max_output": 262144
+    "max_output": 262144,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "ByteDance/Seed-1.8",
@@ -671,7 +873,13 @@
     "out": "2",
     "cache_read": "0.05",
     "context": 256000,
-    "max_output": 256000
+    "max_output": 256000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "XiaomiMiMo/MiMo-V2.6-Pro",
@@ -680,7 +888,15 @@
     "out": "0.87",
     "cache_read": "0.0036",
     "context": 1048576,
-    "max_output": 1048576
+    "max_output": 1048576,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "google/gemini-2.5-pro",
@@ -688,7 +904,14 @@
     "in": "1.25",
     "out": "10",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image"
+      ]
+    }
   },
   {
     "id": "microsoft/phi-4",
@@ -704,7 +927,14 @@
     "in": "0.27",
     "out": "0.76",
     "context": 131072,
-    "max_output": 131072
+    "max_output": 131072,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Sao10K/L3.1-70B-Euryale-v2.2",
@@ -738,7 +968,15 @@
     "out": "0.28",
     "cache_read": "0.0028",
     "context": 1048576,
-    "max_output": 1048576
+    "max_output": 1048576,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3-VL-30B-A3B-Instruct",
@@ -746,7 +984,13 @@
     "in": "0.15",
     "out": "0.6",
     "context": 262144,
-    "max_output": 262144
+    "max_output": 262144,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.1-flash-lite",
@@ -754,7 +998,14 @@
     "in": "0.25",
     "out": "1.5",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image"
+      ]
+    }
   },
   {
     "id": "meta-llama/Llama-Guard-4-12B",
@@ -762,7 +1013,13 @@
     "in": "0.18",
     "out": "0.18",
     "context": 163840,
-    "max_output": 163840
+    "max_output": 163840,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-5",
@@ -770,7 +1027,13 @@
     "in": "5",
     "out": "25",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "google/gemini-2.5-flash",
@@ -778,7 +1041,14 @@
     "in": "0.3",
     "out": "2.5",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-opus-4-7",
@@ -786,7 +1056,13 @@
     "in": "5",
     "out": "25",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-fable-5",
@@ -794,7 +1070,13 @@
     "in": "10",
     "out": "50",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "nvidia/Nemotron-Content-Safety-3.5",
@@ -802,7 +1084,13 @@
     "in": "0.2",
     "out": "0.2",
     "context": 131072,
-    "max_output": 131072
+    "max_output": 131072,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "google/gemini-3.1-pro",
@@ -810,7 +1098,14 @@
     "in": "2",
     "out": "12",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "audio",
+        "image"
+      ]
+    }
   },
   {
     "id": "NousResearch/Hermes-3-Llama-3.1-70B",
@@ -826,7 +1121,13 @@
     "in": "3",
     "out": "15",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
@@ -842,7 +1143,13 @@
     "in": "5",
     "out": "25",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
@@ -858,7 +1165,13 @@
     "in": "0.075",
     "out": "0.2",
     "context": 128000,
-    "max_output": 128000
+    "max_output": 128000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "Qwen/Qwen3-14B",
@@ -891,7 +1204,13 @@
     "out": "20",
     "cache_read": "0.2",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "anthropic/claude-sonnet-5-5",
@@ -899,7 +1218,13 @@
     "in": "2",
     "out": "10",
     "context": 1000000,
-    "max_output": 1000000
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   },
   {
     "id": "tencent/Hy4-preview",
@@ -917,7 +1242,14 @@
     "out": "2.7",
     "cache_read": "0.05",
     "context": 1048576,
-    "max_output": 1048576
+    "max_output": 1048576,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   },
   {
     "id": "inclusionAI/Ling-3.1-flash",
@@ -935,6 +1267,13 @@
     "out": "1",
     "cache_read": "0.1",
     "context": 262144,
-    "max_output": 262144
+    "max_output": 262144,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    }
   }
 ]

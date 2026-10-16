@@ -33,6 +33,25 @@ const flagSort = (v: boolean | undefined): number => (v === undefined ? 0 : v ? 
 const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile["models"][number]>[] => [
   { key: "model", label: "Model", render: (r) => <span className="mono">{r.model_id}</span> },
   {
+    key: "modalities",
+    label: "Modalities",
+    // Sorted on the joined string rather than on a count: what a reader scans
+    // this column for is which models take an image, and a "how many" would not
+    // group them.
+    sortValue: (r) => (r.modalities ? `${r.modalities.input.join(",")} ${r.modalities.output.join(",")}` : ""),
+    render: (r) =>
+      r.modalities ? (
+        <span
+          className="mono"
+          title={`Takes ${r.modalities.input.join(", ")}; gives back ${r.modalities.output.join(", ")}`}
+        >
+          {r.modalities.input.join(", ")} → {r.modalities.output.join(", ")}
+        </span>
+      ) : (
+        "—"
+      ),
+  },
+  {
     key: "context",
     label: "Context",
     numeric: true,
@@ -45,6 +64,14 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     numeric: true,
     sortValue: (r) => r.max_output ?? -1,
     render: (r) => (r.max_output !== undefined ? <span className="mono">{formatTokens(r.max_output)}</span> : "—"),
+  },
+  {
+    key: "knowledge",
+    label: "Knowledge to",
+    // ISO dates sort chronologically as strings, and an unstated cutoff sorts
+    // ahead of every stated one, which is where "we do not know" belongs.
+    sortValue: (r) => r.knowledge ?? "",
+    render: (r) => (r.knowledge ? <span className="mono">{r.knowledge}</span> : "—"),
   },
   {
     key: "reasoning",
@@ -73,6 +100,13 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     numeric: true,
     sortValue: (r) => flagSort(r.temperature),
     render: (r) => <FlagCell v={r.temperature} label="Temperature" />,
+  },
+  {
+    key: "open_weights",
+    label: "Weights",
+    numeric: true,
+    sortValue: (r) => flagSort(r.open_weights),
+    render: (r) => <FlagCell v={r.open_weights} label="Published weights" />,
   },
   {
     key: "in",

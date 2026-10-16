@@ -32,6 +32,14 @@ export function ApiPage({ catalog }: { catalog: Catalog }) {
         <a href="https://hub.kiwano.cc" target="_blank" rel="noopener noreferrer" className="mono">hub.kiwano.cc</a>).
       </p>
 
+      <p className="muted">
+        Reading this with a machine, or want it as a file?{" "}
+        <a href="/api.md" className="mono">/api.md</a> is this contract in markdown —
+        the same document the repo carries, served here so one fetch gets it.{" "}
+        <a href="/llms.txt" className="mono">/llms.txt</a> indexes the whole site for
+        a model that would rather be told where things are.
+      </p>
+
       <h2 className="section-title">The four files</h2>
       <Endpoint method="GET" path="/data/manifest.json" />
       <p className="muted">
@@ -113,14 +121,16 @@ export function ApiPage({ catalog }: { catalog: Catalog }) {
         Field-by-field shapes and the edge cases (per-provider price
         divergence is legitimate data; the whole-table-not-a-patch rule; the
         absent-means-the-vendor-does-not-say rule for capability flags):{" "}
+        <a href="/api.md" className="mono">/api.md</a> — the markdown file this
+        page summarises, and the source of truth. It is also{" "}
         <a
           href="https://github.com/lightconsen/models/blob/main/docs/hub-api.md"
           target="_blank"
           rel="noopener noreferrer"
         >
           docs/hub-api.md
-        </a>
-        .
+        </a>{" "}
+        in the repository.
       </p>
     </main>
   );

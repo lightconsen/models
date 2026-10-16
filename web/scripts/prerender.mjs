@@ -259,4 +259,37 @@ writeFileSync(
 );
 writeFileSync(path.join(outDir, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-console.log(`✓ prerendered ${made.length} provider pages, ${modelMade.length} model pages + sitemap.xml + robots.txt`);
+// llms.txt — the convention for telling a model where the machine-readable
+// version of a site lives, so the answer is one fetch rather than a crawl of
+// the rendered HTML. Every line here is generated: the counts come from the
+// staged data, and the file list is the contract's own, so a link cannot
+// outlive what it points at.
+const llms = [
+  "# Kiwano Hub",
+  "",
+  `> Per-token LLM prices across ${catalog.entries.length} providers — vendor APIs, MaaS platforms and inference hosts — checked against the vendors' own published pages and dated.`,
+  "",
+  "The catalogue is plain static JSON. No key, no auth, no rate limit.",
+  "",
+  "## Docs",
+  "",
+  `- [API contract](${SITE}/api.md): the four JSON files, the sync pattern, every field's shape, the MCP server. Markdown, hand-written, the source of truth.`,
+  "",
+  "## Data",
+  "",
+  `- [manifest.json](${SITE}/data/manifest.json): sha256 of each file + the price-table version — fetch first, stop if unchanged`,
+  `- [catalog.json](${SITE}/data/catalog.json): ${catalog.entries.length} providers, identity and endpoints`,
+  `- [models.json](${SITE}/data/models.json): ${models.models.length} price rows, one per (provider, model); prices are decimal strings, never numbers`,
+  `- [news.json](${SITE}/data/news.json): dated notices, keyed (provider_id, model_id)`,
+  "",
+  "## Optional",
+  "",
+  `- [Sitemap](${SITE}/sitemap.xml): the prerendered provider and model pages`,
+  `- [MCP server](https://github.com/lightconsen/models/blob/main/scripts/hub-mcp.mjs): the same data in the tool loop`,
+  "",
+];
+writeFileSync(path.join(outDir, "llms.txt"), llms.join("\n"));
+
+console.log(
+  `✓ prerendered ${made.length} provider pages, ${modelMade.length} model pages + sitemap.xml + robots.txt + llms.txt`,
+);

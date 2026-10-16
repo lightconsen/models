@@ -10,6 +10,11 @@
  * layout that generate.mjs neither writes nor cleans, so it is deliberately not
  * copied and not referenced.
  *
+ * The API contract (`docs/hub-api.md`, hand-written in the data repo) is staged
+ * the same way, to `public/api.md` — so the same words are served at
+ * models.kiwano.cc/api.md that the API page links to on GitHub, rather than a
+ * second copy kept in step by hand. One source file, two readers.
+ *
  * Run automatically by the `predev` / `prebuild` hooks. Fails with a clear
  * message (not a confusing 404 in a fetch) when the data has not been built —
  * that is the normal state of a fresh clone.
@@ -46,4 +51,15 @@ for (const f of readdirSync(path.join(src, "logos"))) {
 if (existsSync(path.join(src, "history"))) {
   cpSync(path.join(src, "history"), path.join(dst, "history"), { recursive: true });
 }
-console.log(`✓ staged ${JSON_FILES.length} data files + logos/ → web/public/data/`);
+
+// The API contract, in the data repo's own words. Committed there, so a missing
+// file is a broken checkout rather than a fresh clone — say so plainly instead
+// of shipping a site whose API page links to a 404.
+const hubDoc = path.join(dataRepo, "docs", "hub-api.md");
+if (!existsSync(hubDoc)) {
+  console.error(`✗ ${hubDoc} is missing — it is committed in the data repo, so this checkout is incomplete.`);
+  process.exit(1);
+}
+cpSync(hubDoc, path.join(web, "public", "api.md"));
+
+console.log(`✓ staged ${JSON_FILES.length} data files + logos/ → web/public/data/, api.md → web/public/`);

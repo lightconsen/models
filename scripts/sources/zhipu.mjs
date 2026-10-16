@@ -33,6 +33,25 @@
  */
 import { getText, decimal, drift, readEntry, MEMBERSHIP } from "../lib/fetch.mjs";
 
+/** Zhipu's 输入模态 cell in this catalogue's vocabulary. The words are the
+    page's own: 文本 text, 图片 image, 视频 video, 音频 audio, 文件 file. `文件`
+    is the document input the rest of the sources call `file` and this
+    catalogue calls `pdf` — the same mapping OpenRouter's adapter makes, and
+    recorded here for the same reason. A word outside the map drops the field
+    rather than failing validation at the other end.
+
+    Only the input direction: the column is literally "input modalities", and
+    the page's other table (支持模态, the generation models) is not read at all
+    because those rows price per request rather than per token. */
+const MODALITY = { 文本: "text", 图片: "image", 音频: "audio", 视频: "video", 文件: "pdf" };
+const modalitiesOf = (cell) => {
+  const words = String(cell ?? "").split(/[、,，/／]/).map((w) => w.trim()).filter(Boolean);
+  if (words.length === 0) return null;
+  const mapped = words.map((w) => MODALITY[w]);
+  if (mapped.some((m) => m === undefined)) return null;
+  return { input: [...new Set(mapped)].sort() };
+};
+
 const CN = "https://docs.bigmodel.cn/cn/guide/start/pricing.md";
 const INTL = "https://docs.z.ai/guides/overview/pricing.md";
 
@@ -73,11 +92,16 @@ const columns = (where, head, wanted) => {
 const cnRows = (md) => {
   const [head, body] = table(section(md, ["最新模型", "旗舰模型"]), CN);
   const at = columns(CN, head, { model: "模型名称", input: "输入单价", output: "输出单价", cache_read: "缓存命中" });
+  // Read when the table carries it, and not through `columns()`: that helper
+  // drifts on a missing column, and this one is not a price — the page could
+  // drop it without making the entry unreadable.
+  const modAt = head.findIndex((h) => h.startsWith("输入模态"));
   return body.map((c) => ({
     id: c[at.model].toLowerCase(),
     in: decimal(c[at.input]),
     out: decimal(c[at.output]),
     cache_read: decimal(c[at.cache_read]),
+    ...(modAt >= 0 && modalitiesOf(c[modAt]) ? { modalities: modalitiesOf(c[modAt]) } : {}),
   }));
 };
 
@@ -105,7 +129,7 @@ export default {
   ids: ["zhipu-glm", "zhipu-glm-intl"],
   source: `${CN} + ${INTL}`,
   membership: MEMBERSHIP.INTERSECT,
-  owns: ["in", "out", "cache_read"],
+  owns: ["in", "out", "cache_read", "modalities"],
 
   async read() {
     const [cn, intl] = await Promise.all([getText(CN), getText(INTL)]);

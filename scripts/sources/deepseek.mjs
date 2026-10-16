@@ -152,9 +152,12 @@ export default {
         ...ordered(m),
         off_peak: ordered(m.off_peak),
         peak_hours: { tz_offset: 480, windows },
+        // The row states image input per model and says nothing about what
+        // comes back. An earlier cut wrote `output: ["text"]` here on the
+        // grounds that every model in this catalogue is text-out — true, and
+        // still this page's reader's inference rather than the page's words.
         modalities: {
           input: takesImages[i] ? ["text", "image"] : ["text"],
-          output: ["text"],
         },
       };
     });

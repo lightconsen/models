@@ -28,6 +28,9 @@ on:
     - cron: "43 6 * * *"
   workflow_dispatch:
 
+# The push and the pull request are done with SYNC_PAT (see the checkout step),
+# so these bounds GITHUB_TOKEN, which this workflow no longer writes with. Kept
+# as the floor for anything added later that reaches for the built-in token.
 permissions:
   contents: write
   pull-requests: write
@@ -40,10 +43,19 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      # The PAT, not the built-in GITHUB_TOKEN, for the push and the PR both.
+      # A PR opened by `github-actions[bot]` through GITHUB_TOKEN has its
+      # `pull_request` runs created but held at `action_required` — GitHub will
+      # not let a GITHUB_TOKEN-authenticated event start a workflow — so
+      # validate.yml and automerge.yml never ran for this runner's PRs, and
+      # "price-only runs merge themselves" held only for the HK box. The same
+      # token authenticates the push, which is what makes the `synchronize`
+      # event fire when an open PR is updated rather than re-opened.
       - uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
+          token: ${{ secrets.SYNC_PAT }}
 
       - uses: actions/setup-node@v7
         with:
@@ -92,7 +104,7 @@ jobs:
       - name: Open or update the pull request
         if: steps.moved.outputs.commits != '0'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.SYNC_PAT }}
           BRANCH: automation/sync
           READ_CODE: ${{ steps.read.outputs.code }}
         run: |

@@ -28,10 +28,26 @@ Node ≥ 24 and a clone are assumed in place (`/root/models` below; adjust
 `.bashrc`, so `scripts/sync-hk.sh` falls back to the newest `~/.nvm` copy when
 `node` is not on the service's PATH.
 
-**1. A fine-grained PAT.** GitHub → Settings → Developer settings → Fine-grained
-personal access tokens. Repository access: only `lightconsen/models`.
-Permissions: **Contents: read and write**, **Pull requests: read and write**.
-Expiry 90 days; calendar the rotation — the timer has no other secret.
+**1. A PAT.** GitHub → Settings → Developer settings → Personal access tokens.
+A **fine-grained** one is what this should be: Repository access → only
+`lightconsen/models`, Permissions → **Contents: read and write**, **Pull
+requests: read and write**. Expiry 90 days; calendar the rotation — the timer
+has no other secret.
+
+**What is deployed is not that.** As of 2026-10-16 the box carries a *classic*
+token (`ghp_…`, 40 chars) with the `repo` scope and **no expiry**, which is
+broader than this document describes in both directions: `repo` is read/write on
+every repository the account can reach, and a token that never expires has to be
+revoked by hand. Replacing it with the fine-grained token above is a
+five-minute job and strictly narrows what a leaked server exposes.
+
+**The same token also drives the US runner.** `.github/workflows/sync.yml` uses
+it as the repository secret `SYNC_PAT` (set 2026-10-16) so its PRs are authored
+by the token's owner rather than `github-actions[bot]` — a bot-authored PR gets
+its `pull_request` runs held at `action_required`, which is why the US runner's
+validate and automerge never ran. Consequence for rotation: **one token now
+gates both observation points**, so revoking or letting it expire stops the HK
+timer and the US runner on the same day. Rotate both places together.
 
 **2. Push credentials.** Nothing to configure: the script pushes with the env
 file's `GH_TOKEN` through a credential helper it installs for itself, and the

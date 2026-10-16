@@ -25,7 +25,8 @@
 # env file:
 #   REPO_DIR  where the clone lives           (/root/models)
 #   BRANCH    the fixed branch to push        (automation/sync-hk)
-#   GH_TOKEN  fine-grained PAT, this repo only (contents + pull-requests)
+#   GH_TOKEN  PAT (contents + pull-requests) — also the repo secret
+#             SYNC_PAT, so rotating it stops both runners; see docs/sync-hk.md
 #   API       override only for a fork        (lightconsen/models)
 
 set -uo pipefail

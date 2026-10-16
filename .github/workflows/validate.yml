@@ -33,6 +33,12 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: web/package-lock.json
+      # The data build first: `npm run build` stages dist/ through its prebuild
+      # hook, and dist/ is gitignored, so without this the stage step exits on a
+      # missing catalog.json and the job fails before it typechecks anything.
+      # This is the same order pages.yml deploys in; it was dropped here, which
+      # is why this job had never passed.
+      - run: node scripts/generate.mjs
       # Typecheck first: a schema drift in src/data/types.ts sailed past build
       # and hit the homepage as zeroed prices. The deploy only runs `build`, so
       # the gate belongs on the PR, before any deploy can happen.

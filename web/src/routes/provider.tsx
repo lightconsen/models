@@ -37,13 +37,14 @@ const flagSort = (v: boolean | undefined): number => (v === undefined ? 0 : v ? 
     The split is by how often the catalogue fills a column, measured over the
     1,338 priced rows — In and Out on every one, Context on 92%, Max out 88%,
     Tool call 82%, Temp 74%, Reasoning 72%; then JSON 37%, Modalities 34%,
-    Cache write 13%, Knowledge 11%, Tiering 5%, Weights none. Everything after
-    the flags carries a `showIf`, so a provider that states none of it loses
-    the column rather than drawing a run of dashes: azure-foundry fills six of
-    these columns with nothing, and those six columns are the reason its table
-    did not fit. Prices stay together at the front rather than being sorted
-    strictly by frequency — Cache read is 60% and belongs beside the two rates
-    it is an alternative to, not three columns away among the flags. */
+    Cache write 13%, Knowledge 11%, Tiering 5%, Weights none. A rare column is
+    still drawn for a provider that states nothing for it, and reads as a run
+    of dashes: a dash is a statement — the vendor does not say — and dropping
+    the column would trade that statement for the reader not being able to tell
+    whether the catalogue has the field at all. Prices stay together at the
+    front rather than being sorted strictly by frequency — Cache read is 60%
+    and belongs beside the two rates it is an alternative to, not three columns
+    away among the flags. */
 const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile["models"][number]>[] => [
   {
     key: "model",
@@ -71,7 +72,6 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "cache_read",
     label: "Cache read /1M",
     numeric: true,
-    showIf: (rows) => rows.some((r) => parsePrice(r.cache_read ?? "0") > 0),
     sortValue: (r) => parsePrice(r.cache_read ?? "0"),
     render: (r) =>
       parsePrice(r.cache_read ?? "0") > 0 ? <PriceCell value={r.cache_read ?? "0"} raw={r.cache_read ?? "0"} currency={r.currency} /> : "—",
@@ -80,7 +80,6 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "context",
     label: "Context",
     numeric: true,
-    showIf: (rows) => rows.some((r) => r.context !== undefined),
     sortValue: (r) => r.context ?? -1,
     render: (r) => (r.context !== undefined ? <span className="mono">{formatTokens(r.context)}</span> : "—"),
   },
@@ -88,7 +87,6 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "max_output",
     label: "Max out",
     numeric: true,
-    showIf: (rows) => rows.some((r) => r.max_output !== undefined),
     sortValue: (r) => r.max_output ?? -1,
     render: (r) => (r.max_output !== undefined ? <span className="mono">{formatTokens(r.max_output)}</span> : "—"),
   },
@@ -96,7 +94,6 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "reasoning",
     label: "Reasoning",
     numeric: true,
-    showIf: (rows) => rows.some((r) => r.reasoning !== undefined),
     sortValue: (r) => flagSort(r.reasoning),
     render: (r) => <FlagCell v={r.reasoning} label="Reasoning" />,
   },
@@ -104,7 +101,6 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "tool_call",
     label: "Tool call",
     numeric: true,
-    showIf: (rows) => rows.some((r) => r.tool_call !== undefined),
     sortValue: (r) => flagSort(r.tool_call),
     render: (r) => <FlagCell v={r.tool_call} label="Tool calling" />,
   },
@@ -112,7 +108,6 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "temperature",
     label: "Temp",
     numeric: true,
-    showIf: (rows) => rows.some((r) => r.temperature !== undefined),
     sortValue: (r) => flagSort(r.temperature),
     render: (r) => <FlagCell v={r.temperature} label="Temperature" />,
   },
@@ -121,14 +116,12 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "structured_output",
     label: "JSON",
     numeric: true,
-    showIf: (rows) => rows.some((r) => r.structured_output !== undefined),
     sortValue: (r) => flagSort(r.structured_output),
     render: (r) => <FlagCell v={r.structured_output} label="Structured output" />,
   },
   {
     key: "modalities",
     label: "Modalities",
-    showIf: (rows) => rows.some((r) => r.modalities !== undefined),
     // Sorted on the joined string rather than on a count: what a reader scans
     // this column for is which models take an image, and a "how many" would not
     // group them.
@@ -149,7 +142,6 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     key: "cache_write",
     label: "Cache write /1M",
     numeric: true,
-    showIf: (rows) => rows.some((r) => parsePrice(r.cache_creation ?? "0") > 0),
     sortValue: (r) => parsePrice(r.cache_creation ?? "0"),
     render: (r) =>
       parsePrice(r.cache_creation ?? "0") > 0 ? <PriceCell value={r.cache_creation ?? "0"} raw={r.cache_creation ?? "0"} currency={r.currency} /> : "—",
@@ -157,7 +149,6 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
   {
     key: "knowledge",
     label: "Knowledge to",
-    showIf: (rows) => rows.some((r) => r.knowledge !== undefined),
     // ISO dates sort chronologically as strings, and an unstated cutoff sorts
     // ahead of every stated one, which is where "we do not know" belongs.
     sortValue: (r) => r.knowledge ?? "",
@@ -166,14 +157,12 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
   {
     key: "tier",
     label: "Tiering",
-    showIf: (rows) => rows.some((r) => r.long_context !== undefined || r.peak_hours !== undefined),
     render: (r) => (r.long_context ? `>${r.long_context.over}` : r.peak_hours ? "peak/off-peak" : "—"),
   },
   {
     key: "open_weights",
     label: "Weights",
     numeric: true,
-    showIf: (rows) => rows.some((r) => r.open_weights !== undefined),
     sortValue: (r) => flagSort(r.open_weights),
     render: (r) => <FlagCell v={r.open_weights} label="Published weights" />,
   },

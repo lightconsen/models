@@ -19,16 +19,6 @@
     "temperature": true
   },
   {
-    "id": "baidu/ernie-4.5-vl-424b-a47b",
-    "name": "ERNIE 4.5 VL 424B A47B",
-    "in": "0.42",
-    "out": "1.25",
-    "context": 123000,
-    "max_output": 16000,
-    "reasoning": true,
-    "temperature": true
-  },
-  {
     "id": "deepseek/deepseek-ocr-2",
     "name": "deepseek/deepseek-ocr-2",
     "in": "0.03",
@@ -66,19 +56,6 @@
     "out": "2.5",
     "context": 64000,
     "max_output": 16000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "deepseek/deepseek-v4-flash",
-    "name": "DeepSeek V4 Flash",
-    "in": "0.14",
-    "out": "0.28",
-    "cache_read": "0.028",
-    "context": 1048576,
-    "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
@@ -199,48 +176,10 @@
     "structured_output": true
   },
   {
-    "id": "minimax/minimax-m2",
-    "name": "MiniMax-M2",
-    "in": "0.3",
-    "out": "1.2",
-    "cache_read": "0.03",
-    "context": 204800,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "minimax/minimax-m2.1",
-    "name": "Minimax M2.1",
-    "in": "0.3",
-    "out": "1.2",
-    "cache_read": "0.03",
-    "context": 204800,
-    "max_output": 131072,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
     "id": "minimax/minimax-m2.5",
     "name": "MiniMax M2.5",
     "in": "0.3",
     "out": "1.2",
-    "cache_read": "0.03",
-    "context": 204800,
-    "max_output": 131100,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "minimax/minimax-m2.5-highspeed",
-    "name": "MiniMax M2.5 Highspeed",
-    "in": "0.6",
-    "out": "2.4",
     "cache_read": "0.03",
     "context": 204800,
     "max_output": 131100,
@@ -285,16 +224,6 @@
     "max_output": 40000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "mistralai/mistral-nemo",
-    "name": "Mistral Nemo",
-    "in": "0.04",
-    "out": "0.17",
-    "context": 60288,
-    "max_output": 16000,
     "temperature": true,
     "structured_output": true
   },
@@ -406,17 +335,6 @@
     "structured_output": true
   },
   {
-    "id": "openai/gpt-oss-20b",
-    "name": "OpenAI: GPT OSS 20B",
-    "in": "0.04",
-    "out": "0.15",
-    "context": 131072,
-    "max_output": 32768,
-    "reasoning": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
     "id": "paddlepaddle/paddleocr-vl",
     "name": "PaddleOCR-VL",
     "in": "0.02",
@@ -426,17 +344,6 @@
     "temperature": true
   },
   {
-    "id": "qwen/qwen-2.5-72b-instruct",
-    "name": "Qwen 2.5 72B Instruct",
-    "in": "0.38",
-    "out": "0.4",
-    "context": 32000,
-    "max_output": 8192,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
     "id": "qwen/qwen-mt-plus",
     "name": "Qwen MT Plus",
     "in": "0.25",
@@ -444,107 +351,6 @@
     "context": 16384,
     "max_output": 8192,
     "temperature": true
-  },
-  {
-    "id": "qwen/qwen3-235b-a22b-fp8",
-    "name": "Qwen3 235B A22B",
-    "in": "0.2",
-    "out": "0.8",
-    "context": 40960,
-    "max_output": 20000,
-    "reasoning": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-235b-a22b-instruct-2507",
-    "name": "Qwen3 235B A22B Instruct 2507",
-    "in": "0.09",
-    "out": "0.58",
-    "context": 131072,
-    "max_output": 16384,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-235b-a22b-thinking-2507",
-    "name": "Qwen3 235B A22b Thinking 2507",
-    "in": "0.3",
-    "out": "3",
-    "context": 131072,
-    "max_output": 32768,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "qwen/qwen3-coder-30b-a3b-instruct",
-    "name": "Qwen3 Coder 30b A3B Instruct",
-    "in": "0.07",
-    "out": "0.27",
-    "context": 160000,
-    "max_output": 32768,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-coder-480b-a35b-instruct",
-    "name": "Qwen3 Coder 480B A35B Instruct",
-    "in": "0.38",
-    "out": "1.55",
-    "context": 262144,
-    "max_output": 65536,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-coder-next",
-    "name": "Qwen3 Coder Next",
-    "in": "0.2",
-    "out": "1.5",
-    "context": 262144,
-    "max_output": 65536,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-max",
-    "name": "Qwen3 Max",
-    "in": "2.11",
-    "out": "8.45",
-    "context": 262144,
-    "max_output": 65536,
-    "tool_call": true,
-    "temperature": true,
-    "reasoning": true,
-    "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-next-80b-a3b-instruct",
-    "name": "Qwen3 Next 80B A3B Instruct",
-    "in": "0.15",
-    "out": "1.5",
-    "context": 131072,
-    "max_output": 32768,
-    "tool_call": true,
-    "temperature": true,
-    "reasoning": true,
-    "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-omni-30b-a3b-instruct",
-    "name": "Qwen3 Omni 30B A3B Instruct",
-    "in": "0.25",
-    "out": "0.97",
-    "context": 65536,
-    "max_output": 16384,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
   },
   {
     "id": "qwen/qwen3-omni-30b-a3b-thinking",
@@ -557,28 +363,6 @@
     "tool_call": true,
     "temperature": true,
     "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-vl-235b-a22b-instruct",
-    "name": "Qwen3 VL 235B A22B Instruct",
-    "in": "0.3",
-    "out": "1.5",
-    "context": 131072,
-    "max_output": 32768,
-    "tool_call": true,
-    "temperature": true,
-    "structured_output": true
-  },
-  {
-    "id": "qwen/qwen3-vl-235b-a22b-thinking",
-    "name": "Qwen3 VL 235B A22B Thinking",
-    "in": "0.98",
-    "out": "3.95",
-    "context": 131072,
-    "max_output": 32768,
-    "reasoning": true,
-    "temperature": true,
-    "tool_call": true
   },
   {
     "id": "qwen/qwen3-vl-30b-a3b-instruct",
@@ -888,18 +672,6 @@
     "structured_output": true
   },
   {
-    "id": "deepseek/deepseek-v4-flash-vision-exp",
-    "name": "DeepSeek V4 Flash Vision Exp",
-    "in": "0.44",
-    "out": "1.32",
-    "cache_read": "0.028",
-    "context": 1048576,
-    "max_output": 393216,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true
-  },
-  {
     "id": "deepseek/deepseek-v4-flash-0731",
     "name": "DeepSeek V4 Flash 0731",
     "in": "0.44",
@@ -1050,30 +822,6 @@
     "structured_output": true
   },
   {
-    "id": "zai-org/glm-5v-turbo",
-    "name": "GLM-5V-Turbo",
-    "in": "1.2",
-    "out": "4",
-    "cache_read": "0.24",
-    "context": 204800,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true
-  },
-  {
-    "id": "zai-org/glm-5-turbo",
-    "name": "GLM-5-Turbo",
-    "in": "1.2",
-    "out": "4",
-    "cache_read": "0.24",
-    "context": 202800,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true
-  },
-  {
     "id": "zai-org/glm-4.7-h",
     "name": "GLM 4.7",
     "in": "0.6",
@@ -1115,15 +863,6 @@
     "tool_call": true
   },
   {
-    "id": "sao10k/l3-8b-lunaris",
-    "name": "Llama 3 8B Lunaris",
-    "in": "0.05",
-    "out": "0.05",
-    "context": 8192,
-    "max_output": 8192,
-    "structured_output": true
-  },
-  {
     "id": "deepseek/deepseek-r1/community",
     "name": "DeepSeek R1",
     "in": "4",
@@ -1154,32 +893,12 @@
     "out": "1"
   },
   {
-    "id": "thudm/glm-4-32b-0414",
-    "name": "GLM-4-32B-0414",
-    "in": "0.55",
-    "out": "1.66",
-    "context": 32000,
-    "max_output": 32000,
-    "tool_call": true,
-    "structured_output": true
-  },
-  {
     "id": "meta-llama/llama-3.2-1b-instruct",
     "name": "Llama 3.2 1B Instruct\t",
     "in": "0.02",
     "out": "0.02",
     "context": 131000,
     "max_output": 32000,
-    "structured_output": true
-  },
-  {
-    "id": "sao10k/l31-70b-euryale-v2.2",
-    "name": "Llama 3.1 70B Euryale V2.2",
-    "in": "1.48",
-    "out": "1.48",
-    "context": 8192,
-    "max_output": 8192,
-    "reasoning": true,
     "structured_output": true
   },
   {
@@ -1280,6 +999,40 @@
   {
     "id": "inclusionai/ling-3.0-flash-fin",
     "name": "Ling 3.0 Flash Fin",
+    "in": "0.075",
+    "out": "0.22",
+    "cache_read": "0.015",
+    "context": 262144,
+    "max_output": 32768,
+    "reasoning": true,
+    "tool_call": true
+  },
+  {
+    "id": "stepfun/step-5-preview",
+    "name": "Step 5 Preview",
+    "in": "1",
+    "out": "2.7",
+    "cache_read": "0.1",
+    "context": 1000000,
+    "max_output": 64000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true
+  },
+  {
+    "id": "inclusionai/ling-3.1-flash",
+    "name": "Ling 3.1 Flash",
+    "in": "0.3",
+    "out": "0.9",
+    "cache_read": "0.06",
+    "context": 262144,
+    "max_output": 262144,
+    "reasoning": true,
+    "tool_call": true
+  },
+  {
+    "id": "inclusionai/ling-3.0-flash-sante",
+    "name": "Ling 3.0 Flash Sante",
     "in": "0.075",
     "out": "0.22",
     "cache_read": "0.015",

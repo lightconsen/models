@@ -60,9 +60,10 @@ const page = (title, desc, body, canonical) => `<!doctype html>
 @media (prefers-color-scheme: dark) { :root { --bg:#1e1e1e; --border:#333; --fg:#fff; --muted:#aaa; } }
 body { margin:0; font:15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--fg); }
 /* The wrapper the app mounts inside, so it has to agree with the app's own
-   `.page` column (layout.css) or it becomes the narrower of the two and the
-   app silently inherits it — which is exactly what happened when only
-   layout.css was widened. Same 1560px, same gutter. */
+   .page column (layout.css) or it becomes the narrower of the two and the app
+   silently inherits it — which is exactly what happened when only layout.css
+   was widened. Same 1560px, same gutter. No backticks in here: this whole
+   block is inside a template literal. */
 main { max-width: 1560px; margin: 0 auto; padding: 24px 16px 64px; }
 h1 { font-size: 26px; letter-spacing: -0.02em; margin: 0 0 4px; }
 .muted { color: var(--muted); }

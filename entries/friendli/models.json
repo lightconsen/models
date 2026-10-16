@@ -9,7 +9,15 @@
     "max_output": 64000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "google/gemma-4-31B-it",
@@ -20,7 +28,16 @@
     "max_output": 32768,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "MiniMaxAI/MiniMax-M2.5",
@@ -32,7 +49,15 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/GLM-5.1",
@@ -45,7 +70,15 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "flagship": true
+    "flagship": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/GLM-5.2",
@@ -57,7 +90,15 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/GLM-5.3",
@@ -69,7 +110,15 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "zai-org/GLM-5.3-Flash",
@@ -81,6 +130,16 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   }
 ]

@@ -12,5 +12,6 @@
       "endpoint": "https://inference.friendli.ai/v1"
     }
   ],
-  "desc": "FriendliAI's serving platform"
+  "desc": "FriendliAI's serving platform",
+  "prices_as_of": "2026-10-16"
 }

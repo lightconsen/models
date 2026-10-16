@@ -70,6 +70,18 @@ const same = (a, b) => {
   if (a === undefined && b === undefined) return true;
   if (a === undefined || b === undefined) return false;
   if (typeof a === "object" || typeof b === "object") return sameValue(a, b);
+  // Two strings are the same when they are both numbers spelled differently —
+  // the entry writes "0.20" where a vendor writes "0.2" — and otherwise only
+  // when they are the same string. The bare `Number(a) === Number(b)` that used
+  // to stand here cannot do the second: `Number("2026-02-16")` is NaN, and NaN
+  // equals nothing, so a date field read as changed on every single run and the
+  // fixed-point check below refused to settle. That check is how this was found
+  // the day `knowledge` became the first non-numeric string field.
+  if (typeof a === "string" && typeof b === "string") {
+    const na = Number(a);
+    const nb = Number(b);
+    return Number.isNaN(na) || Number.isNaN(nb) ? a === b : na === nb;
+  }
   return Number(a) === Number(b);
 };
 

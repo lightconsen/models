@@ -159,15 +159,27 @@ jobs:
           git fetch --no-tags origin "+refs/heads/$BRANCH:refs/remotes/origin/$BRANCH" 2>/dev/null || true
           git push --force-with-lease origin "HEAD:refs/heads/$BRANCH"
 
-          if gh pr list --head "$BRANCH" --base main --json number --jq '.[0].number' | grep -q .; then
-            gh pr edit "$BRANCH" --body-file "$RUNNER_TEMP/pr.md"
+          # REST, not the `gh pr` subcommands. Those go through GraphQL and ask
+          # for fields (`login`, `name`, `slug`) that require the `read:org`
+          # scope, which a repository-scoped token does not carry — with the
+          # PAT in place the push succeeded and this step then died on
+          # "your token has only been granted the: ['repo'] scopes". `gh api`
+          # is a thin REST wrapper and needs only what the docs ask for. (The
+          # HK box reaches the same API with plain curl for the same reason.)
+          # --input rather than -f, so a markdown body is sent as a JSON string
+          # and never re-parsed as JSON.
+          REPO_SLUG="${GITHUB_REPOSITORY:?}"
+          open="$(gh api "repos/$REPO_SLUG/pulls?head=$GITHUB_REPOSITORY_OWNER:$BRANCH&state=open" --jq '.[0].number // empty')"
+          if [ -n "$open" ]; then
+            jq -n --rawfile body "$RUNNER_TEMP/pr.md" '{body: $body}' > "$RUNNER_TEMP/pr.json"
+            gh api -X PATCH "repos/$REPO_SLUG/pulls/$open" --input "$RUNNER_TEMP/pr.json" >/dev/null
             echo "updated the open PR"
           else
-            gh pr create \
-              --base main \
-              --head "$BRANCH" \
-              --title "Sync prices from the vendors' own sources" \
-              --body-file "$RUNNER_TEMP/pr.md"
+            jq -n --rawfile body "$RUNNER_TEMP/pr.md" \
+              --arg head "$BRANCH" \
+              --arg title "Sync prices from the vendors' own sources" \
+              '{title: $title, head: $head, base: "main", body: $body}' > "$RUNNER_TEMP/pr.json"
+            gh api -X POST "repos/$REPO_SLUG/pulls" --input "$RUNNER_TEMP/pr.json" >/dev/null
             echo "opened a PR"
           fi
 

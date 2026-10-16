@@ -46,21 +46,5 @@
     "tool_call": true,
     "structured_output": true,
     "temperature": true
-  },
-  {
-    "id": "nemotron-3-ultra-550b-a55b",
-    "name": "Nemotron 3 Ultra 550B A55B",
-    "in": "0.25",
-    "out": "2.50",
-    "cache_read": "0.25",
-    "cache_creation": "0.25",
-    "serves": {
-      "openai": "perplexity/nemotron-3-ultra-550b-a55b",
-      "anthropic": "perplexity/nemotron-3-ultra-550b-a55b"
-    },
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true
   }
 ]

@@ -125,14 +125,23 @@ const detailColumns = (entry: Catalog["entries"][number]): ColumnDef<ModelsFile[
     // Sorted on the joined string rather than on a count: what a reader scans
     // this column for is which models take an image, and a "how many" would not
     // group them.
-    sortValue: (r) => (r.modalities ? `${r.modalities.input.join(",")} ${r.modalities.output.join(",")}` : ""),
+    sortValue: (r) => (r.modalities ? `${r.modalities.input.join(",")} ${r.modalities.output?.join(",") ?? ""}` : ""),
     render: (r) =>
       r.modalities ? (
+        // The arrow and what follows it appear only when the source names an
+        // output: `text, image` on its own means the vendor said what the
+        // model takes and nothing about what it gives back, and an arrow to
+        // "text" would be this page's guess rather than the vendor's.
         <span
           className="mono"
-          title={`Takes ${r.modalities.input.join(", ")}; gives back ${r.modalities.output.join(", ")}`}
+          title={
+            r.modalities.output
+              ? `Takes ${r.modalities.input.join(", ")}; gives back ${r.modalities.output.join(", ")}`
+              : `Takes ${r.modalities.input.join(", ")}; the vendor does not state an output`
+          }
         >
-          {r.modalities.input.join(", ")} → {r.modalities.output.join(", ")}
+          {r.modalities.input.join(", ")}
+          {r.modalities.output ? ` → ${r.modalities.output.join(", ")}` : ""}
         </span>
       ) : (
         "—"

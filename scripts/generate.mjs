@@ -137,9 +137,10 @@ const CAPABILITY_FLAGS = new Set(["reasoning", "tool_call", "structured_output",
 /** What a model takes in and gives back. The vocabulary is closed so two
     entries cannot disagree about how to spell the same medium, and it is
     models.dev's because that is where the bulk of this will be read from;
-    OpenRouter's `file` maps onto `pdf` in its adapter, which records the
-    mapping. `pdf` rather than `file` on purpose: it names what the model
-    actually accepts rather than that it accepts "a file". */
+    the sources that call the document input `file` — OpenRouter's
+    `input_modalities`, Zhipu's 文件 — map onto `pdf` in their adapters, which
+    record the mapping. `pdf` rather than `file` on purpose: it names what the
+    model actually accepts rather than that it accepts "a file". */
 const MODALITIES = new Set(["text", "image", "audio", "video", "pdf"]);
 /** A knowledge cutoff is stated at month or day precision — "2025-04" as often
     as "2025-04-30" — so both are legal and a real calendar day is required when
@@ -567,12 +568,20 @@ for (const dir of entryDirs) {
     if (m.modalities !== undefined) {
       const mo = m.modalities;
       if (!mo || typeof mo !== "object" || Array.isArray(mo)) {
-        fail(`${mw}: modalities must be an object like {"input":["text"],"output":["text"]}`);
+        fail(`${mw}: modalities must be an object like {"input":["text","image"]}`);
       } else {
         for (const k of Object.keys(mo)) {
           if (k !== "input" && k !== "output") fail(`${mw}: modalities has unknown key "${k}" — only input and output belong there`);
         }
+        // `input` is required and `output` is not, because that is the split
+        // the sources draw: what a model accepts is what a vendor's table
+        // enumerates, and most state nothing about what comes back. Requiring
+        // both would have thrown away Zhipu's 输入模态 column whole.
+        if (mo.input === undefined) {
+          fail(`${mw}: modalities needs input — what a model accepts is the half every source states`);
+        }
         for (const dir of ["input", "output"]) {
+          if (mo[dir] === undefined) continue;
           if (!Array.isArray(mo[dir]) || mo[dir].length === 0) {
             fail(`${mw}: modalities.${dir} must be a non-empty array of ${[...MODALITIES].join("|")}`);
           } else {

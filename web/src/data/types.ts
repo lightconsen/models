@@ -123,8 +123,11 @@ export interface Capabilities {
 }
 
 export interface Modalities {
+  /** What the model accepts. Required: every source states this half. */
   input: Modality[];
-  output: Modality[];
+  /** What it gives back, when the source names it. Often not stated, which is
+      not the same as text — render absent as nothing here too. */
+  output?: Modality[];
 }
 
 export type Modality = "text" | "image" | "audio" | "video" | "pdf";

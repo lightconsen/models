@@ -294,10 +294,28 @@ const CASES = [
     expect: /modalities\.input has "hologram"/,
   },
   {
-    rule: "extra — modalities needs both directions, and neither may be empty",
+    rule: "extra — modalities needs input; output alone is not a statement",
     provider: provider(`${prefix}-modalities-dirs`),
     models: [{ id: "m1", in: "1", out: "1", name: "M1", modalities: { output: ["text"] } }],
+    expect: /modalities needs input/,
+  },
+  {
+    rule: "extra — modalities may state input without output",
+    provider: provider(`${prefix}-modalities-input-only`),
+    models: [{ id: "m1", in: "1", out: "1", name: "M1", modalities: { input: ["text", "image"] } }],
+    expectCode: 0,
+  },
+  {
+    rule: "extra — an input direction may not be empty either",
+    provider: provider(`${prefix}-modalities-empty-input`),
+    models: [{ id: "m1", in: "1", out: "1", name: "M1", modalities: { input: [] } }],
     expect: /modalities\.input must be a non-empty array/,
+  },
+  {
+    rule: "extra — an output direction, when present, may not be empty",
+    provider: provider(`${prefix}-modalities-empty-output`),
+    models: [{ id: "m1", in: "1", out: "1", name: "M1", modalities: { input: ["text"], output: [] } }],
+    expect: /modalities\.output must be a non-empty array/,
   },
   {
     rule: "extra — a month is as precise as a knowledge cutoff usually gets, and is legal",

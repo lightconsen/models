@@ -10,7 +10,15 @@
     "structured_output": true,
     "temperature": true,
     "context": 131000,
-    "max_output": 40000
+    "max_output": 40000,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   },
   {
     "id": "qwen3.8-27b",
@@ -25,6 +33,15 @@
     "structured_output": true,
     "temperature": true,
     "context": 131072,
-    "max_output": 40960
+    "max_output": 40960,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   }
 ]

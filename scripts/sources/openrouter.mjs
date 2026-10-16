@@ -39,10 +39,18 @@
  * of zero beside the priced model is a promo surface, and the owner's call
  * (2026-09-15) was to drop them. Capability facts — context, max output and the
  * parameter flags — come from the same API's per-model fields: `context_length`,
- * `top_provider` (the limit OpenRouter actually routes under; on some rows the
- * conservative choice over the model's nominal `context_length`),
  * `max_completion_tokens`, and the **closed** `supported_parameters` list, where
  * absence from the list is the vendor saying no.
+ *
+ * **Two of them are not equally trustworthy.** `context_length` is the model's
+ * own figure and the row takes it. `max_completion_tokens` exists only inside
+ * `top_provider`, the upstream OpenRouter routes to this minute — so unlike
+ * every other number in this catalogue it can change between runs while the
+ * vendor changes nothing, and it has: consecutive syncs have moved single
+ * `max_output` values by factors of six. It is kept because it is the only
+ * figure of its kind the API publishes and dropping it would delete a real
+ * capability from 368 rows, but a reader comparing two days of this file
+ * should know that a `max_output` move on this entry is not necessarily news.
  *
  * Text-out models only, and input modality is deliberately not a filter — most
  * models take images, files, audio or video and still answer in text, and they
@@ -192,10 +200,22 @@ export default {
         row.tool_call = sp.includes("tools");
         row.structured_output = sp.includes("structured_outputs") || sp.includes("response_format");
         row.temperature = sp.includes("temperature");
-        const top = m.top_provider ?? {};
-        const ctx = Number(top.context_length ?? m.context_length);
+        // The model's own `context_length`, not `top_provider`'s.
+        //
+        // top_provider is whichever upstream OpenRouter happens to be routing
+        // to right now, and its context_length is that upstream's serving
+        // limit. Twenty-nine of the 465 models differ between the two, and
+        // every one of them re-sizes itself whenever the routing moves — which
+        // is how this row's context came to change on runs where nothing about
+        // the model had. The model's own figure is the model's own fact and
+        // does not move.
+        const ctx = Number(m.context_length);
         if (ctx > 0) row.context = ctx;
-        const out = Number(top.max_completion_tokens);
+        // max_output has no such second source: `max_completion_tokens` exists
+        // only on top_provider, and `per_request_limits` is null on all 465
+        // rows. It is read anyway, and it is the one field here that can move
+        // without the vendor moving — see the note in the adapter header.
+        const out = Number(m.top_provider?.max_completion_tokens);
         if (out > 0) row.max_output = out;
         const mo = modalitiesOf(m);
         if (mo) row.modalities = mo;

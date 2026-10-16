@@ -19,6 +19,28 @@
 import { drift, MEMBERSHIP } from "../lib/fetch.mjs";
 
 const API = "https://api.deepinfra.com/v1/openai/models";
+/** The catalogue behind the site, which is where the modality tags live. The
+    price feed above carries rates and limits and nothing about media, so this
+    is a second read of the same vendor rather than a second vendor. */
+const TAGS_API = "https://api.deepinfra.com/models/list";
+
+/** DeepInfra's modality tags in this catalogue's vocabulary.
+ *
+ * They are a mixed list — `b200` is hardware, `priority` and `flex` are service
+ * tiers, `openai` is a protocol — so unlike OpenRouter's `supported_parameters`
+ * this is **not** a closed vocabulary and a model missing a tag is not a vendor
+ * saying no. Only a tag that is present is read: 52 of this entry's 96 rows
+ * carry one and get the field, 44 carry none and keep it absent.
+ *
+ * `ocr` is deliberately not mapped. It says the model can read text out of an
+ * image, which is a capability rather than a medium, and it never appears
+ * without `multimodal` — so dropping it costs nothing here and avoids
+ * inventing a `pdf` the tag does not state. */
+const MODALITY_TAGS = { multimodal: "image", "input-video": "video", "input-audio": "audio" };
+const modalitiesOf = (tags) => {
+  const media = [...new Set((tags ?? []).map((t) => MODALITY_TAGS[t]).filter(Boolean))].sort();
+  return media.length > 0 ? { input: ["text", ...media] } : null;
+};
 
 /** The API's per-token floats arrive with binary artefacts (2.9999999999999996
     where the site shows 3). Six decimals is the vendor's own display precision;
@@ -27,9 +49,9 @@ const clean = (v) => String(Math.round(v * 1_000_000) / 1_000_000);
 
 export default {
   ids: ["deepinfra"],
-  source: API,
+  source: `${API} + ${TAGS_API}`,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "context", "max_output"],
+  owns: ["in", "out", "cache_read", "context", "max_output", "modalities"],
 
   async read() {
     const res = await fetch(API, { headers: { "user-agent": "Mozilla/5.0 (compatible; kiwano-price-check)" } });
@@ -37,6 +59,13 @@ export default {
     const body = await res.json();
     const models = body?.data;
     if (!Array.isArray(models) || models.length === 0) drift("the models API returned no data array");
+
+    const tagRes = await fetch(TAGS_API, { headers: { "user-agent": "Mozilla/5.0 (compatible; kiwano-price-check)" } });
+    if (!tagRes.ok) drift(`${TAGS_API}: HTTP ${tagRes.status}`);
+    const tagBody = await tagRes.json();
+    const tagRows = Array.isArray(tagBody) ? tagBody : (tagBody?.data ?? tagBody?.models);
+    if (!Array.isArray(tagRows) || tagRows.length === 0) drift("the catalogue feed returned no rows — the tags are gone");
+    const tagsOf = new Map(tagRows.map((t) => [String(t?.model_name ?? "").toLowerCase(), t?.tags]));
 
     const rows = [];
     const skipped = new Map();
@@ -48,6 +77,7 @@ export default {
         continue;
       }
       const meta = m.metadata ?? {};
+      const mods = modalitiesOf(tagsOf.get(String(m.id).toLowerCase()));
       rows.push({
         id: m.id,
         name: m.id,
@@ -56,6 +86,7 @@ export default {
         ...(p.cache_read_tokens != null ? { cache_read: clean(p.cache_read_tokens) } : {}),
         ...(Number.isInteger(meta.context_length) && meta.context_length > 0 ? { context: meta.context_length } : {}),
         ...(Number(meta.max_tokens) > 0 ? { max_output: meta.max_tokens } : {}),
+        ...(mods ? { modalities: mods } : {}),
       });
     }
     if (rows.length === 0) drift("no token-billed rows in the models API");

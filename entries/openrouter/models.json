@@ -272,7 +272,7 @@
       "anthropic": "deepseek/deepseek-v4.1-flash"
     },
     "context": 1048576,
-    "max_output": 943718,
+    "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -7207,8 +7207,8 @@
   {
     "id": "meta-llama/llama-4-scout",
     "name": "Meta: Llama 4 Scout",
-    "context": 131072,
-    "max_output": 117964,
+    "context": 327680,
+    "max_output": 16384,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,

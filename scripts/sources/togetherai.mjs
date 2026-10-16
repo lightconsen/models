@@ -16,6 +16,30 @@ import { getText, drift, decimal, MEMBERSHIP, readEntry } from "../lib/fetch.mjs
 
 const URL = "https://docs.together.ai/docs/serverless-models.md";
 
+/** The API model strings under the page's `## Vision models` heading.
+ *
+ * The page classifies every serverless model into one of its capability
+ * sections — Chat, Image, Vision, Video, Audio, Embedding, Rerank, Moderation —
+ * and the vision-capable chat models are listed a second time under Vision.
+ * So the vision table is the positive list, and a model that appears under Chat
+ * and not there is one the vendor does not list as taking images. That reading
+ * is the same one the OpenRouter adapter makes of `supported_parameters`: a
+ * curated index whose omissions are part of what it says.
+ *
+ * (Tripping over this would be easy — `## Image models` is image *generation*,
+ * a different thing from an image going in.) */
+const visionModels = (md) => {
+  const at = md.search(/^## Vision models\s*$/m);
+  if (at < 0) drift("no '## Vision models' heading — the docs restructured");
+  const rest = md.slice(at + 1);
+  const end = rest.search(/^## /m);
+  const body = end < 0 ? rest : rest.slice(0, end);
+  const rows = body.split("\n").filter((l) => l.trimStart().startsWith("|")).slice(2);
+  const ids = new Set(rows.map((l) => l.split("|")[3]?.replace(/`/g, "").trim().toLowerCase()).filter(Boolean));
+  if (ids.size === 0) drift("the Vision models table has no rows");
+  return ids;
+};
+
 const rate = (cell) => {
   const m = /\$\s*([0-9]+(?:\.[0-9]+)?)/.exec(String(cell ?? ""));
   return m ? decimal(m[1]) : undefined;
@@ -25,10 +49,11 @@ export default {
   ids: ["togetherai"],
   source: URL,
   membership: MEMBERSHIP.INTERSECT,
-  owns: ["in", "out", "cache_read"],
+  owns: ["in", "out", "cache_read", "modalities"],
 
   async read() {
     const md = await getText(URL);
+    const vision = visionModels(md);
     // The page carries **two tables** — the full one, and a shorter repeat with
     // three pricing columns instead of four. Flattening both let the second
     // overwrite the first, and a row with no cached column slid the output rate
@@ -87,6 +112,11 @@ export default {
         const v = rate(c[i]);
         if (v !== undefined) out[field] = v;
       }
+      // Both directions: the page's index answers both, since every model here
+      // is a chat model and the only question is what goes in.
+      out.modalities = vision.has(vendorId.toLowerCase())
+        ? { input: ["image", "text"], output: ["text"] }
+        : { input: ["text"], output: ["text"] };
       rows.push(out);
     }
     if (rows.length === 0) drift(`none of the entry's rows appear in the docs table (missed: ${missed.join(", ")})`);

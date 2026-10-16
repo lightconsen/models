@@ -114,7 +114,10 @@ const readTable = (rows, what) => {
 };
 
 const parse = (md, what) => {
-  const m = /^##\s+(?:语言模型|Language Models|LLM)[^\n]*\n([\s\S]*?)(?=\n##\s)/m.exec(md);
+  // The headings are indented on the current page: the pricing overview wraps
+  // each section in an MDX <section> block, so `## 语言模型` sits four spaces
+  // in. Allow leading whitespace on both the heading and the terminator.
+  const m = /^\s*##\s+(?:语言模型|Language Models|LLM)[^\n]*\n([\s\S]*?)(?=\n\s*##\s)/m.exec(md);
   if (!m) drift(`${what}: no language-model section`);
   // 历史模型 / Legacy Models — priced, retired, and not this entry's business.
   const body = m[1].replace(/<Accordion\b[^>]*>[\s\S]*?<\/Accordion>/g, "");

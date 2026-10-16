@@ -94,6 +94,40 @@ const SECTIONS = /^(gemini \d|anthropic[’']s claude models|xai[’']s grok mod
     models. */
 const BASE_TAB = /^(global|standard( model)?|token-based pricing)$/i;
 
+
+/** What the Type cell says the model takes in or gives back, in this
+    catalogue's vocabulary.
+ *
+ *  Vertex writes it three ways, all of them on the same table:
+ *
+ *    Input (text, image, video, audio)   a parenthetical list
+ *    Input: text                         after a colon
+ *    Text output (response and reasoning) the medium leads, and the
+ *                                        parenthetical is prose about the
+ *                                        output rather than a list of media
+ *
+ *  So the parenthetical counts only when every word in it is one we know —
+ *  that rule alone rejects "(response and reasoning)" — and the leading word
+ *  is read only in front of "output". A bare `Input` / `Output`, which the
+ *  partner tables use, states nothing and leaves the field absent; inferring
+ *  a text-only model from a blank cell is what this catalogue refuses to do.
+ */
+const MODALITIES = new Set(["text", "image", "audio", "video", "pdf"]);
+const modalityOf = (type) => {
+  const m = /[(][^)]*[)]|:\s*(.+)$/.exec(type);
+  if (m) {
+    const words = (m[1] ?? m[0])
+      .replace(/^\(|\)$/g, "")
+      .split(/[,/]/)
+      .map((w) => w.trim().toLowerCase())
+      .filter(Boolean);
+    if (words.length > 0 && words.every((w) => MODALITIES.has(w))) return [...new Set(words)].sort();
+  }
+  const lead = /^([a-z]+)\s+output/i.exec(type);
+  if (lead && MODALITIES.has(lead[1].toLowerCase())) return [lead[1].toLowerCase()];
+  return null;
+};
+
 const strip = (s) =>
   s.replace(/<[^>]+>/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
 
@@ -113,7 +147,7 @@ export default {
   ids: ["vertex"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "long_context"],
+  owns: ["in", "out", "cache_read", "long_context", "modalities"],
 
   async read() {
     const html = await getText(URL, { headers: { accept: "text/html" } });
@@ -243,6 +277,14 @@ export default {
         const fmt = (x) => String(Math.round(Number(x) * scale * 1e6) / 1e6);
 
         const row = rows.get(currentModel) ?? { id: currentModel };
+        // Both directions have to be stated before the field means anything,
+        // so they are collected here and dropped at the end if only one is.
+        const mods = modalityOf(type);
+        if (mods && !isCacheHit) {
+          row.modalities ??= {};
+          const dir = isInput ? "input" : "output";
+          if (row.modalities[dir] === undefined) row.modalities[dir] = mods;
+        }
         if (isInput) {
           if (row.in === undefined) row.in = fmt(band !== null ? at(band) : flatFig);
           const lcIn = band !== null ? at(band, { long: true }) : undefined;
@@ -279,6 +321,7 @@ export default {
       // long_context only means something beside a base rate
       .filter((r) => {
         if (r.long_context && (r.long_context.in === undefined || r.long_context.out === undefined)) delete r.long_context;
+        if (r.modalities && (r.modalities.input === undefined || r.modalities.output === undefined)) delete r.modalities;
         return r.in !== undefined && r.out !== undefined;
       });
     if (out.length === 0) drift("no complete rows after the Input/Output join");

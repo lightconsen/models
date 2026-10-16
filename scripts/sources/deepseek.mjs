@@ -28,6 +28,10 @@ const RATE_LABELS = {
   "百万tokens输出": "out",
 };
 const DAY_NAMES = { 周一: "mon", 周二: "tue", 周三: "wed", 周四: "thu", 周五: "fri", 周六: "sat", 周日: "sun" };
+/** The 图像理解 row states image input per model, and it is the whole of what
+    the page says about input: 支持 means text and images, 不支持 means text.
+    (The English page words the same row as "Vision / ✓ / Not supported".) */
+const VISION_ROW = "图像理解";
 const RATE_ORDER = ["in", "out", "cache_read", "cache_creation"];
 const PAGE_PROTOCOL = { "OpenAI 格式": "openai", "Anthropic 格式": "anthropic" };
 
@@ -40,7 +44,7 @@ export default {
   ids: ["deepseek"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "cache_creation", "off_peak", "peak_hours"],
+  owns: ["in", "out", "cache_read", "cache_creation", "off_peak", "peak_hours", "modalities"],
 
   async read() {
     // The response carries a stray NUL byte, which is enough to make `file` call
@@ -125,6 +129,21 @@ export default {
     // a human writing the row would not, and key order is not a price change.
     const ordered = (o) => Object.fromEntries(RATE_ORDER.filter((k) => o[k] !== undefined).map((k) => [k, o[k]]));
 
+    // ── what the model takes in ──
+    // One row, one cell per model, and the only statement the page makes about
+    // input. A missing or short row drifts rather than guessing: inferring a
+    // model's modalities from its name is exactly what this catalogue refuses
+    // to do elsewhere.
+    const vision = rows.find((cells) => cells[0] === VISION_ROW);
+    if (!vision || vision.length !== header.length) {
+      drift(`no "${VISION_ROW}" row with one cell per model (${vision ? vision.length - 1 : 0} of ${modelIds.length})`);
+    }
+    const takesImages = modelIds.map((id, i) => {
+      const cell = vision[i + 1];
+      if (cell !== "支持" && cell !== "不支持") drift(`${VISION_ROW} for "${id}" is neither 支持 nor 不支持: "${cell}"`);
+      return cell === "支持";
+    });
+
     const out = modelIds.map((id, i) => {
       const m = priced.get(id);
       return {
@@ -133,6 +152,10 @@ export default {
         ...ordered(m),
         off_peak: ordered(m.off_peak),
         peak_hours: { tz_offset: 480, windows },
+        modalities: {
+          input: takesImages[i] ? ["text", "image"] : ["text"],
+          output: ["text"],
+        },
       };
     });
 

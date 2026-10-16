@@ -24,6 +24,23 @@ import { drift, MEMBERSHIP } from "../lib/fetch.mjs";
 
 const API = "https://friendli.ai/api/public/model-apis";
 
+/** The feed's modality words in this catalogue's vocabulary. Friendli's are
+    upper case and use the same five names; anything it adds that we do not
+    know is dropped from the row rather than written, because the vocabulary is
+    closed and a word outside it would fail validation at the other end. */
+const MODALITY = { TEXT: "text", IMAGE: "image", AUDIO: "audio", VIDEO: "video", PDF: "pdf" };
+const modalitiesOf = (m) => {
+  const dir = (k) => {
+    const v = m?.[k];
+    if (!Array.isArray(v) || v.length === 0) return null;
+    const out = [...new Set(v.map((x) => MODALITY[x]).filter(Boolean))].sort();
+    return out.length === v.length ? out : null;
+  };
+  const input = dir("inputModals");
+  const output = dir("outputModals");
+  return input && output ? { input, output } : null;
+};
+
 /** The page's own adjustment, reproduced to its rounding. */
 const adjusted = (amount, discountRate) =>
   Math.round(Math.max(0, amount * (1 - (discountRate ?? 0))) * 1_000_000) / 1_000_000;
@@ -32,7 +49,7 @@ export default {
   ids: ["friendli"],
   source: API,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "context"],
+  owns: ["in", "out", "cache_read", "context", "modalities"],
 
   async read() {
     const res = await fetch(API, { headers: { "user-agent": "Mozilla/5.0 (compatible; kiwano-price-check)" } });
@@ -59,6 +76,7 @@ export default {
         out: String(adjusted(r.outputPrice, p.discountRate)),
         ...(r.cachedInputPrice != null ? { cache_read: String(adjusted(r.cachedInputPrice, p.discountRate)) } : {}),
         ...(Number.isInteger(m.contextLength) && m.contextLength > 0 ? { context: m.contextLength } : {}),
+        ...(modalitiesOf(m) ? { modalities: modalitiesOf(m) } : {}),
       };
       rows.push(row);
     }

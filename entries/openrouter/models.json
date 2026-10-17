@@ -800,7 +800,7 @@
       "anthropic": "deepseek/deepseek-v3.2"
     },
     "context": 163840,
-    "max_output": 147456,
+    "max_output": 65536,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,

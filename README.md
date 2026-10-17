@@ -420,6 +420,18 @@ prices, wherever those pages exist. The rules that keep them honest:
 - **`knowledge` is a cutoff at the precision the vendor states it** —
   `"2025-04"` is as common as `"2025-04-30"`, and both are legal. It is not a
   release date.
+- **Two of these fields are sparse, and that is the vendor's answer rather than
+  a gap in the work.** `open_weights` is stated by nobody: no price feed, model
+  page, docs index or catalogue examined for it says whether a model's weights
+  are published, and a vendor that keeps them private has not said so either.
+  `knowledge` is stated by three — OpenAI, Anthropic, and OpenRouter, which
+  relays its upstreams' — plus a single xAI model; Gemini's model pages, Meta's
+  Llama cards, Mistral, Cohere, Zhipu, MiniMax, Kimi, Xiaomi, Alibaba, DeepSeek
+  and Cerebras publish none. Both fields are therefore dashes on most rows, and
+  a dash is the accurate record: the vendor does not say. Filling them from a
+  third-party catalogue was considered and declined — this file's whole claim is
+  that each number traces to a vendor page, and a field with no such page has
+  nothing to trace to.
 - **They publish on priced rows only.** `dist/models.json` carries priced rows,
   so capability fields on a token-plan row validate and warn but never reach a
   client — the build says so rather than accepting them silently.

@@ -1275,5 +1275,20 @@
         "video"
       ]
     }
+  },
+  {
+    "id": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+    "name": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+    "in": "0.2",
+    "out": "0.6",
+    "cache_read": "0.006",
+    "context": 1048576,
+    "max_output": 1048576,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    }
   }
 ]

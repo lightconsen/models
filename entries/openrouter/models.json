@@ -56,9 +56,9 @@
   {
     "id": "deepseek-v4-flash",
     "name": "DeepSeek: DeepSeek V4 Flash 0423",
-    "in": "0.14",
-    "out": "0.28",
-    "cache_read": "0.028",
+    "in": "0.0215",
+    "out": "1.28",
+    "cache_read": "0.0215",
     "serves": {
       "openai": "deepseek/deepseek-v4-flash",
       "anthropic": "deepseek/deepseek-v4-flash"
@@ -168,7 +168,7 @@
       "anthropic": "z-ai/glm-5.3-flash"
     },
     "context": 1048576,
-    "max_output": 943718,
+    "max_output": 943717,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -9564,6 +9564,29 @@
       "input": [
         "image",
         "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "elorian/glimpse",
+    "name": "Elorian: Glimpse",
+    "in": "0.6",
+    "out": "3",
+    "cache_read": "0.06",
+    "context": 262144,
+    "max_output": 256000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
       ],
       "output": [
         "text"

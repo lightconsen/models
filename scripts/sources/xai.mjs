@@ -24,6 +24,23 @@
 import { getText, decimal, drift, MEMBERSHIP } from "../lib/fetch.mjs";
 
 const URL = "https://docs.x.ai/docs/models.md";
+/** One page per model, and the only place xAI states what a model takes:
+        - **Modalities:** text, image → text
+    Both directions on one line, in this catalogue's words. */
+const MODEL_URL = (id) => `https://docs.x.ai/developers/models/${id}.md`;
+const MEDIA = new Set(["text", "image", "audio", "video", "pdf"]);
+const modalitiesOf = (md) => {
+  const m = /^[-*]\s*\*\*Modalities:\*\*\s*(.+?)\s*(?:→|->)\s*(.+)$/mi.exec(md);
+  if (!m) return null;
+  const words = (s) => {
+    const v = s.split(/[,+]/).map((w) => w.trim().toLowerCase()).filter(Boolean);
+    return v.length > 0 && v.every((w) => MEDIA.has(w)) ? [...new Set(v)].sort() : null;
+  };
+  const input = words(m[1]);
+  const output = words(m[2]);
+  if (!input) return null;
+  return output ? { input, output } : { input };
+};
 
 /* `grok-4.6 (< 200k prompt tokens)` — the two halves of one long-context pair.
    The `≥` is written as a Unicode character on the page, not as `>=`. */
@@ -52,7 +69,7 @@ export default {
   ids: ["xai"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "long_context"],
+  owns: ["in", "out", "cache_read", "long_context", "modalities"],
 
   async read() {
     const [head, body] = table(section(await getText(URL), "Text API Pricing"));
@@ -72,12 +89,28 @@ export default {
       pairs.set(id, [...seen, { high: !!high, over: Number(m[2]) * 1000, in: decimal(c[input]), out: decimal(c[output]), cache_read: decimal(c[cached]) }]);
     }
 
+    // The model pages, fetched together. A page that does not answer leaves
+    // the field alone rather than failing the run.
+    const pages = new Map(
+      await Promise.all(
+        [...pairs.keys()].map(async (id) => {
+          try {
+            return [id, await getText(MODEL_URL(id))];
+          } catch {
+            return [id, null];
+          }
+        }),
+      ),
+    );
+
     const rows = [];
     const notes = [];
     for (const [id, pair] of pairs) {
       const [first, second] = pair;
       if (first.high) drift(`${URL}: "${id}" lists its long-context row before its standard one`);
       const row = { id, in: first.in, out: first.out, cache_read: first.cache_read };
+      const mods = pages.get(id) ? modalitiesOf(pages.get(id)) : null;
+      if (mods) row.modalities = mods;
       if (second) {
         if (!second.high || second.over !== first.over) drift(`${URL}: "${id}"'s two rows do not bracket the same threshold`);
         row.long_context = { over: second.over, in: second.in, out: second.out, cache_read: second.cache_read };

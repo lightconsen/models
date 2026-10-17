@@ -16,6 +16,7 @@
  * Usage: node scripts/test-sources.mjs
  */
 import { ratesIn } from "./sources/google-gemini.mjs";
+import { modalPrice } from "./sources/openrouter.mjs";
 
 let failed = 0;
 const check = (name, got, want) => {
@@ -76,6 +77,42 @@ check("a namespaced id meets a bare one", "thinkingmachines/Inkling".split("/").
 check("a snapshot date strips to the alias", String("glm-5.2-04-2026").replace(/(?:-\d{2})?-\d{4}$/, ""), "glm-5.2");
 check("and a plain `command-r` is left alone", String("command-r").replace(/(?:-\d{2})?-\d{4}$/, ""), "command-r");
 check("but `-plus-08-2024` keeps its word", String("command-r-plus-08-2024").replace(/(?:-\d{2})?-\d{4}$/, ""), "command-r-plus");
+
+// ── OpenRouter's choice of price among disagreeing upstreams ──
+//
+// The case that sent this back to the bench: deepseek/deepseek-v4-flash has
+// sixteen upstreams and sixteen prices, and the old rule read "the largest
+// group wins" — two of sixteen — publishing a number nobody was charging in
+// aggregate and re-picking it whenever OpenRouter returned a different list.
+const ep = (prov, prompt, completion, cache) => ({
+  provider_name: prov,
+  pricing: {
+    prompt: (prompt * 1e-6).toFixed(12).replace(/0+$/, "").replace(/\.$/, ""),
+    completion: (completion * 1e-6).toFixed(12).replace(/0+$/, "").replace(/\.$/, ""),
+    ...(cache === undefined
+      ? {}
+      : { input_cache_read: (cache * 1e-6).toFixed(12).replace(/0+$/, "").replace(/\.$/, "") }),
+  },
+});
+const owner = (rates) => (rates && `${rates.in}/${rates.out}/${rates.cache_read ?? "-"}`) ?? "none";
+
+check(
+  "an owner among the upstreams is the price, even as a minority",
+  owner(modalPrice([ep("Reseller", 5, 5), ep("Reseller2", 5, 5), ep("StepFun", 1, 1)], "stepfun")),
+  "1/1/-",
+);
+check(
+  "two of sixteen is not an agreement — the row keeps its number",
+  owner(
+    modalPrice(
+      [...Array.from({ length: 14 }, (_, i) => ep(`r${i}`, 0.1 + i * 0.05, 0.2 + i * 0.05)), ep("A", 0.0171, 1.28), ep("B", 0.0171, 1.28)],
+      "deepseek",
+    ),
+  ),
+  "none",
+);
+check("unanimity is an agreement", owner(modalPrice([ep("X", 1, 2), ep("Y", 1, 2)], "z")), "1/2/-");
+check("a straight split is not", owner(modalPrice([ep("X", 1, 2), ep("Y", 3, 4)], "z")), "none");
 
 console.log(`\n${failed === 0 ? "all source-parsing cases pass" : `${failed} case(s) failed`}`);
 process.exit(failed > 0 ? 1 : 0);

@@ -97,8 +97,21 @@ const fixed = (v) => v !== undefined && !String(v).startsWith("-");
 const alike = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, "");
 
 /**
- * The price the most upstreams charge, as a per-million triple — or nothing,
- * when the upstreams do not agree on one.
+ * The price to carry for a model OpenRouter resells, as a per-million triple —
+ * or nothing, which leaves the row with whatever it already has.
+ *
+ * Two rules, in order:
+ *
+ *   1. **The vendor's own listing wins when it is among the upstreams.** It is
+ *      the vendor's statement about its own model rather than a guess at a
+ *      consensus, and it does not move when OpenRouter's routing does.
+ *   2. **Otherwise the modal group, but only on a strict majority.** A
+ *      plurality is not an agreement. `deepseek/deepseek-v4-flash` has sixteen
+ *      upstreams and sixteen prices; the largest group is two of them, and
+ *      calling that "the price the most upstreams charge" published a number
+ *      nobody was charging in aggregate — it read 0.14/0.28 on main,
+ *      0.0191/0.6992 from the HK run, 0.0171/1.28 from the US run six hours
+ *      later. Under half, the row keeps what it has.
  *
  * Grouped on all three rates at once rather than on input alone: they move
  * together per endpoint, and grouping on one would pick an input rate whose
@@ -106,9 +119,11 @@ const alike = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, "");
  */
 export function modalPrice(endpoints, owner) {
   const groups = new Map();
+  let priced = 0;
   for (const e of endpoints) {
     const p = e?.pricing ?? {};
     if (!fixed(p.prompt) || !fixed(p.completion)) continue;
+    priced++;
     const rates = {
       in: perMillion(p.prompt),
       out: perMillion(p.completion),
@@ -121,10 +136,14 @@ export function modalPrice(endpoints, owner) {
     g.owned ||= alike(e?.provider_name) === alike(owner);
     groups.set(key, g);
   }
-  const ranked = [...groups.values()].sort((a, b) => b.count - a.count || Number(b.owned) - Number(a.owned));
-  const [best, next] = ranked;
+  // The vendor's own listing, if it has one among the upstreams.
+  const own = [...groups.values()].find((g) => g.owned);
+  if (own) return own.rates;
+
+  const best = [...groups.values()].sort((a, b) => b.count - a.count)[0];
   if (!best) return undefined;
-  if (next && next.count === best.count && next.owned === best.owned) return undefined;
+  // Strictly more than half of the priced upstreams, or no agreed price.
+  if (best.count * 2 <= priced) return undefined;
   return best.rates;
 }
 

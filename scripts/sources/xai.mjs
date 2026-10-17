@@ -23,6 +23,24 @@
  */
 import { getText, decimal, drift, MEMBERSHIP } from "../lib/fetch.mjs";
 
+
+/** The one knowledge cutoff this page states, as a note:
+        The knowledge cut-off date of Grok 4.7 is May 2026.
+    A single model, named in prose rather than in a column — and written here
+    because it is the vendor saying it, not because a parser can do it in
+    general. If the note goes, the field goes with it; no other row on the page
+    ever carried one. */
+const MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+const knowledgeNotes = (md) => {
+  const out = new Map();
+  for (const m of md.matchAll(/knowledge cut-?off date of (.+?) is ([A-Za-z]+) (\d{4})/gi)) {
+    const mo = MONTHS.indexOf(m[2].toLowerCase());
+    if (mo < 0) continue;
+    out.set(m[1].trim().toLowerCase().replace(/\s+/g, "-"), `${m[3]}-${String(mo + 1).padStart(2, "0")}`);
+  }
+  return out;
+};
+
 const URL = "https://docs.x.ai/docs/models.md";
 /** One page per model, and the only place xAI states what a model takes:
         - **Modalities:** text, image → text
@@ -69,10 +87,12 @@ export default {
   ids: ["xai"],
   source: URL,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "long_context", "modalities"],
+  owns: ["in", "out", "cache_read", "long_context", "modalities", "knowledge"],
 
   async read() {
-    const [head, body] = table(section(await getText(URL), "Text API Pricing"));
+    const md = await getText(URL);
+    const knowledge = knowledgeNotes(md);
+    const [head, body] = table(section(md, "Text API Pricing"));
     const col = (name) => head.findIndex((h) => h.toLowerCase() === name);
     const [model, input, cached, output] = ["model", "input / 1m tokens", "cached input / 1m tokens", "output / 1m tokens"].map(col);
     if ([model, input, cached, output].some((i) => i < 0)) drift(`${URL}: the text price table's columns changed (${head.join(" | ")})`);
@@ -111,6 +131,8 @@ export default {
       const row = { id, in: first.in, out: first.out, cache_read: first.cache_read };
       const mods = pages.get(id) ? modalitiesOf(pages.get(id)) : null;
       if (mods) row.modalities = mods;
+      const cutoff = knowledge.get(id);
+      if (cutoff) row.knowledge = cutoff;
       if (second) {
         if (!second.high || second.over !== first.over) drift(`${URL}: "${id}"'s two rows do not bracket the same threshold`);
         row.long_context = { over: second.over, in: second.in, out: second.out, cache_read: second.cache_read };

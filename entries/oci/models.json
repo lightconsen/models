@@ -57,7 +57,13 @@
     "context": 1000000,
     "max_output": 30000,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "long_context": {
+      "over": 200000,
+      "in": "2.5",
+      "out": "5",
+      "cache_read": "0.4"
+    }
   },
   {
     "id": "xai.grok-4.20-reasoning",
@@ -69,7 +75,13 @@
     "max_output": 30000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "long_context": {
+      "over": 200000,
+      "in": "2.5",
+      "out": "5",
+      "cache_read": "0.4"
+    }
   },
   {
     "id": "xai.grok-4.3",
@@ -81,7 +93,13 @@
     "max_output": 30000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "long_context": {
+      "over": 200000,
+      "in": "2.5",
+      "out": "5",
+      "cache_read": "0.4"
+    }
   },
   {
     "id": "xai.grok-4.6",

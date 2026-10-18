@@ -12,6 +12,5 @@
       "endpoint": "https://api.sakana.ai/v1"
     }
   ],
-  "desc": "Sakana AI's own API, serving the models it trains",
-  "seeded": true
+  "desc": "Sakana AI's own API, serving the models it trains"
 }

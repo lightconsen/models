@@ -75,6 +75,10 @@ const PROVIDERS = [
   { id: "siliconflow", src: "siliconflow", name: "SiliconFlow", website: "https://siliconflow.com/", desc: "SiliconFlow's inference platform (international)", endpoints: [{ protocol: "openai", endpoint: "https://api.siliconflow.com/v1" }] },
   { id: "siliconflow-cn", src: "siliconflow-cn", name: "SiliconFlow (China)", website: "https://siliconflow.cn/", desc: "SiliconFlow's inference platform (China)", endpoints: [{ protocol: "openai", endpoint: "https://api.siliconflow.cn/v1" }] },
   { id: "meta", src: "meta", name: "Meta", website: "https://ai.meta.com/", desc: "Meta's own API, serving its Muse models", endpoints: [{ protocol: "openai", endpoint: "https://api.meta.ai/v1" }] },
+  /* The international address of the platform `qianwenai` prices domestically —
+     dashscope-intl rather than dashscope, USD rather than CNY — the same pair
+     the catalogue already carries for MiniMax and SiliconFlow. */
+  { id: "alibaba", src: "alibaba", name: "Alibaba Cloud (Intl)", website: "https://www.alibabacloud.com/", desc: "Alibaba Cloud's own model platform (international)", endpoints: [{ protocol: "openai", endpoint: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1" }] },
   { id: "sakana", src: "sakana", name: "Sakana AI", website: "https://sakana.ai/", desc: "Sakana AI's own API, serving the models it trains", endpoints: [{ protocol: "openai", endpoint: "https://api.sakana.ai/v1" }] },
 ];
 

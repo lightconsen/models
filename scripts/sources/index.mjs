@@ -18,6 +18,7 @@ import vertex from "./vertex.mjs";
 import baiduQianfan from "./baidu-qianfan.mjs";
 import bedrock from "./bedrock.mjs";
 import cerebras from "./cerebras.mjs";
+import cloudflareWorkersAi from "./cloudflare-workers-ai.mjs";
 import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
 import friendli from "./friendli.mjs";
@@ -46,6 +47,7 @@ export default [
   baiduQianfan,
   bedrock,
   cerebras,
+  cloudflareWorkersAi,
   deepinfra,
   deepseek,
   friendli,

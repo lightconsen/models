@@ -13,5 +13,6 @@
     }
   ],
   "desc": "Baseten's model inference platform",
-  "seeded": true
+  "seeded": true,
+  "prices_as_of": "2026-10-18"
 }

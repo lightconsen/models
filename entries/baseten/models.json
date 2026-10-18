@@ -8,7 +8,8 @@
     "max_output": 131000,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.25"
   },
   {
     "id": "deepseek-ai/DeepSeek-V4-Flash-0731",
@@ -31,14 +32,15 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.132"
   },
   {
     "id": "deepseek-ai/DeepSeek-V4.1-Flash",
     "name": "DeepSeek V4.1 Flash",
     "in": "0.3",
     "out": "1.2",
-    "cache_read": "0.03",
+    "cache_read": "0.007",
     "context": 1048576,
     "max_output": 32768,
     "reasoning": true,
@@ -55,7 +57,8 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "flagship": true
+    "flagship": true,
+    "cache_read": "0.3"
   },
   {
     "id": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B",
@@ -89,7 +92,8 @@
     "max_output": 32768,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.17"
   },
   {
     "id": "thinkingmachines/inkling-small",
@@ -120,7 +124,7 @@
     "name": "GLM 5.2",
     "in": "1.4",
     "out": "4.4",
-    "cache_read": "0.3",
+    "cache_read": "0.14",
     "context": 1048576,
     "max_output": 262144,
     "reasoning": true,
@@ -160,7 +164,8 @@
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.21"
   },
   {
     "id": "zai-org/GLM-5.3-Flash",
@@ -171,6 +176,7 @@
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.03"
   }
 ]

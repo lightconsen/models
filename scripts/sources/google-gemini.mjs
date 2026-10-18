@@ -43,6 +43,21 @@ const URL = "https://aistudio.google.com/docs/pricing.md";
     Both directions, and spelled with the words this catalogue already uses. */
 const MODEL_URL = (id) => `https://aistudio.google.com/docs/models/${id}.md`;
 
+
+/** The model page's capability badge for structured output:
+        **Structured outputs**
+        {% badge type="supported" /%}
+    A badge is the vendor's yes or no, so `not-supported` is written as false —
+    unlike the fields above, this one has an explicit negation to record. A
+    page that does not carry the row leaves the field absent. */
+const structuredOutputOf = (md) => {
+  const m = /\*\*Structured outputs\*\*\s*\n+\s*\{% badge(?:[^%]*?)type="([a-z-]+)"/i.exec(md);
+  if (!m) return undefined;
+  if (m[1] === "supported") return true;
+  if (m[1] === "not-supported") return false;
+  return undefined;
+};
+
 /** The five words this catalogue knows, against the page's own spelling. */
 const MEDIA = new Set(["text", "image", "audio", "video", "pdf"]);
 const modalitiesOf = (md) => {
@@ -148,7 +163,7 @@ export default {
   ids: ["google-gemini"],
   source: URL,
   membership: MEMBERSHIP.INTERSECT,
-  owns: ["in", "out", "cache_read", "long_context", "modalities"],
+  owns: ["in", "out", "cache_read", "long_context", "modalities", "structured_output"],
 
   async read() {
     const md = await getText(URL);
@@ -183,8 +198,11 @@ export default {
       const row = { id: want.id, in: input.now, out: output.now };
       const cached = ratesIn(byLabel.get("Context caching price") ?? "");
       if (cached) row.cache_read = cached.now;
-      const mods = pages.get(want.id) ? modalitiesOf(pages.get(want.id)) : null;
+      const page = pages.get(want.id);
+      const mods = page ? modalitiesOf(page) : null;
       if (mods) row.modalities = mods;
+      const so = page ? structuredOutputOf(page) : undefined;
+      if (so !== undefined) row.structured_output = so;
       if (input.over !== undefined && output.above !== undefined) {
         row.long_context = {
           over: input.over,

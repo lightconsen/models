@@ -12,10 +12,9 @@
  * from its text: the text ends with the id but "Enterprise" is glued to it
  * (`Enterprisellama-3.1-8b-instant`), and a text match takes all of it.
  *
- * **`ContactSales` is not a price and is not carried.** Two models this entry
- * used to price — llama-3.1-8b-instant and llama-3.3-70b-versatile — are now
- * in the page's Enterprise row with no published rate, and the entry followed
- * the vendor rather than keeping a number the vendor no longer states.
+ * `ContactSales` is not a price, so those rows are named in the notes and not
+ * returned — the entry keeps what it has for them, by the decision dated in
+ * the checklist on 2026-09-23.
  */
 import { getText, drift, decimal, MEMBERSHIP } from "../lib/fetch.mjs";
 
@@ -24,7 +23,13 @@ const URL = "https://console.groq.com/docs/models.md";
 export default {
   ids: ["groq"],
   source: URL,
-  membership: MEMBERSHIP.FOLLOW,
+  // intersect, not follow: the entry carries three rows this table does not
+  // price, and that is a decision already taken and dated in the checklist —
+  // the llama pair kept at the last rates the vendor published when it moved
+  // them to Contact Sales, on the grounds that unpricing a live model hides a
+  // real cost. This adapter re-prices the six it can read and leaves the rest
+  // where the entry has them.
+  membership: MEMBERSHIP.INTERSECT,
   owns: ["in", "out"],
 
   async read() {

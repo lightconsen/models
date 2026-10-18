@@ -23,6 +23,7 @@ import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
 import friendli from "./friendli.mjs";
 import googleGemini from "./google-gemini.mjs";
+import groq from "./groq.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
 import novita from "./novita.mjs";
@@ -52,6 +53,7 @@ export default [
   deepseek,
   friendli,
   googleGemini,
+  groq,
   kimi,
   minimax,
   novita,

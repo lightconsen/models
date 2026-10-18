@@ -32,6 +32,7 @@ import minimax from "./minimax.mjs";
 import nebius from "./nebius.mjs";
 import novita from "./novita.mjs";
 import perplexity from "./perplexity.mjs";
+import sakana from "./sakana.mjs";
 import siliconflow from "./siliconflow.mjs";
 import stepfun from "./stepfun.mjs";
 import togetherai from "./togetherai.mjs";
@@ -66,6 +67,7 @@ export default [
   nebius,
   novita,
   perplexity,
+  sakana,
   siliconflow,
   ...stepfun,
   togetherai,

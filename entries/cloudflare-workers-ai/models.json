@@ -76,7 +76,7 @@
   {
     "id": "@cf/meta/llama-3.2-11b-vision-instruct",
     "name": "Llama 3.2 11B Vision Instruct",
-    "in": "0.0485",
+    "in": "0.049",
     "out": "0.676",
     "context": 128000,
     "max_output": 128000,
@@ -94,7 +94,7 @@
   {
     "id": "@cf/meta/llama-3.2-3b-instruct",
     "name": "Llama 3.2 3B Instruct",
-    "in": "0.0509",
+    "in": "0.051",
     "out": "0.335",
     "context": 80000,
     "max_output": 80000,
@@ -208,7 +208,7 @@
   {
     "id": "@cf/qwen/qwen3-30b-a3b-fp8",
     "name": "Qwen3 30B A3b fp8",
-    "in": "0.0509",
+    "in": "0.051",
     "out": "0.335",
     "context": 32768,
     "max_output": 32768,
@@ -241,7 +241,7 @@
   {
     "id": "@cf/zai-org/glm-4.7-flash",
     "name": "GLM-4.7-Flash",
-    "in": "0.0605",
+    "in": "0.060",
     "out": "0.4",
     "context": 131072,
     "max_output": 131072,
@@ -284,5 +284,72 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true
+  },
+  {
+    "id": "@cf/meta/llama-3.1-8b-instruct-fp8-fast",
+    "name": "@cf/meta/llama-3.1-8b-instruct-fp8-fast",
+    "in": "0.045",
+    "out": "0.384"
+  },
+  {
+    "id": "@cf/meta/llama-3.1-70b-instruct-fp8-fast",
+    "name": "@cf/meta/llama-3.1-70b-instruct-fp8-fast",
+    "in": "0.293",
+    "out": "2.253"
+  },
+  {
+    "id": "@cf/mistral/mistral-7b-instruct-v0.1",
+    "name": "@cf/mistral/mistral-7b-instruct-v0.1",
+    "in": "0.110",
+    "out": "0.190"
+  },
+  {
+    "id": "@cf/meta/llama-3.1-8b-instruct",
+    "name": "@cf/meta/llama-3.1-8b-instruct",
+    "in": "0.282",
+    "out": "0.827"
+  },
+  {
+    "id": "@cf/meta/llama-3.1-8b-instruct-awq",
+    "name": "@cf/meta/llama-3.1-8b-instruct-awq",
+    "in": "0.123",
+    "out": "0.266"
+  },
+  {
+    "id": "@cf/meta/llama-3-8b-instruct",
+    "name": "@cf/meta/llama-3-8b-instruct",
+    "in": "0.282",
+    "out": "0.827"
+  },
+  {
+    "id": "@cf/meta/llama-3-8b-instruct-awq",
+    "name": "@cf/meta/llama-3-8b-instruct-awq",
+    "in": "0.123",
+    "out": "0.266"
+  },
+  {
+    "id": "@cf/meta/llama-2-7b-chat-fp16",
+    "name": "@cf/meta/llama-2-7b-chat-fp16",
+    "in": "0.556",
+    "out": "6.667"
+  },
+  {
+    "id": "@cf/google/gemma-3-12b-it",
+    "name": "@cf/google/gemma-3-12b-it",
+    "in": "0.345",
+    "out": "0.556"
+  },
+  {
+    "id": "@cf/moonshotai/kimi-k2.5",
+    "name": "@cf/moonshotai/kimi-k2.5",
+    "in": "0.600",
+    "out": "3.000",
+    "cache_read": "0.100"
+  },
+  {
+    "id": "@cf/daily-co/phonellm-mini-alpha-2",
+    "name": "@cf/daily-co/phonellm-mini-alpha-2",
+    "in": "0.060",
+    "out": "0.240"
   }
 ]

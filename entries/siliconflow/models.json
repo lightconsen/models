@@ -136,6 +136,14 @@
     "temperature": true
   },
   {
+    "id": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "name": "DeepSeek V4.1 Flash",
+    "in": "0.15",
+    "out": "0.6",
+    "cache_read": "0.003",
+    "context": 1049000
+  },
+  {
     "id": "google/gemma-4-12B-it",
     "name": "Gemma 4 12B IT",
     "in": "0.1",

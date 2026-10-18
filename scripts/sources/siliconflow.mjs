@@ -11,9 +11,9 @@
  *   cached-input and output prices per row — parsed by splitting the grid on
  *   its row-height class and reading the ¥ figures. Accelerated tiers are
  *   real API ids with a `Pro/` prefix and are kept as their own rows.
- * - the intl page server-renders exactly one model row and renders the rest
- *   client-side, so `siliconflow` stays seeded; only the row the page itself
- *   states is verified against it.
+ * - the intl page server-renders a subset per vendor and loads the rest behind
+ *   a client-side "Load More"; it has its own intersect adapter,
+ *   `siliconflow-intl.mjs`, and is not read here.
  *
  * Rows without two prices are skipped: embedding and reranker models price
  * input alone (half a rate is not a rate), and image/audio models price by

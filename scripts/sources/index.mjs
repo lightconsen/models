@@ -35,6 +35,7 @@ import oci from "./oci.mjs";
 import perplexity from "./perplexity.mjs";
 import sakana from "./sakana.mjs";
 import siliconflow from "./siliconflow.mjs";
+import siliconflowIntl from "./siliconflow-intl.mjs";
 import stepfun from "./stepfun.mjs";
 import togetherai from "./togetherai.mjs";
 import watsonx from "./watsonx.mjs";
@@ -71,6 +72,7 @@ export default [
   perplexity,
   sakana,
   siliconflow,
+  siliconflowIntl,
   ...stepfun,
   togetherai,
   watsonx,

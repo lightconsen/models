@@ -83,6 +83,10 @@ check("a run ceiling names the run", /over the run limit/.test(judge(wide(6)).ru
 console.log("field classification");
 check("in is a price", isPriceField("in"), true);
 check("long_context is a price", isPriceField("long_context"), true);
+// Added 2026-10-18: DigitalOcean prices a 5-minute and a 1-hour cache write
+// separately, and the schema has carried `cache_creation_1h` since well before
+// this. An adapter cannot write a field the merge gate does not classify.
+check("cache_creation_1h is writable by an adapter", isPriceField("cache_creation_1h"), true);
 check("serves is not", isPriceField("serves"), false);
 check("flagship is not", isPriceField("flagship"), false);
 check("name is not", isPriceField("name"), false);

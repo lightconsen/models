@@ -17,6 +17,12 @@
  * The row carries the cheaper band, as the schema asks, and the band above the
  * threshold goes to `long_context` with the threshold as `over`.
  *
+ * **The page is two catalogues.** The serverless tables price the LLMs; the
+ * Knowledge Bases section prices the embedding and reranking models in plain
+ * `Model | Price` tables ("$0.02 per 1,000,000 tokens"). Both are read: the page
+ * pricing a model is the vendor saying it is for sale, so the rebuild does not
+ * drop the embedding rows merely because they sit outside the LLM table.
+ *
  * **The join is a hand-written name map, and that is the honest shape here.**
  * The page states no API ids — the links on its model names go to the upstream
  * vendor's docs (Anthropic, OpenAI, Hugging Face), not to DO's — and both
@@ -26,22 +32,28 @@
  * than guessed by normalisation. A name the map does not carry is reported in
  * the notes and skipped; it cannot invent a row.
  *
- * **Membership is `intersect`, deliberately.** The seed and the page have
- * drifted apart: the page prices 66 models, the seeded entry carries 84 rows,
- * and the ones outside the map are mostly retired (Claude 3.x, GPT-5.1 Codex
- * Max, the embedding rows) rather than mispriced. Rebuilding the catalogue from
- * this page — dropping the retired rows and adding the 20-odd new ones — is a
- * separate, reviewed piece of work. This adapter pins the rows the two lists
- * agree on and leaves the rest where the seed put them, by the decision dated
- * 2026-10-18. `seeded` stays until that rebuild.
+ * **Membership is `follow`.** The page is the vendor's own statement of what it
+ * sells serverless, and it enumerates the lineup, so the page is the list. The
+ * first pass over it was `intersect` by the decision dated 2026-10-18, to pin
+ * the rows the seed and the page agreed on while the rest was reviewed; this is
+ * the rebuild that decision deferred. The seed carried 84 rows; 66 of them are
+ * still on the page and 18 are not — Claude 3.x/3.7/4.1, Opus 4, Sonnet 4,
+ * GPT-5.1 Codex Max, GPT Image 2, GLM-5/5.1, Kimi K2.5, three Llama/Mistral
+ * rows — mostly retired rather than mispriced. Seven models are new to the
+ * entry.
  *
- * Cache writes are not owned. Anthropic's rows price two windows
- * (`Cache write (5m)` beside `Cache write (1h)`) and some OpenAI rows price a
- * plain `Cache write`; the seeded `cache_creation` values already carry the
- * five-minute rate, and `cache_creation_1h` is not a field an adapter may write
- * yet (policy's writable list does not name it). Recording half of a two-window
- * price would state that the other window costs the same, so both are left to
- * the rebuild.
+ * **Seven of the new ids are inferred, not stated.** The page carries no API
+ * ids and both id endpoints answer 401 without a key, so `IDS` is the join and
+ * the new names follow the entry's own convention (`anthropic-claude-haiku-5.5`,
+ * `openai-gpt-6.1-sol`, …). The convention is consistent across the seed's 84
+ * rows, but it is an inference: the first run with a key should confirm those
+ * seven.
+ *
+ * Cache writes are owned in both windows. Anthropic's rows price
+ * `Cache write (5m)` beside `Cache write (1h)` — the schema's `cache_creation`
+ * and `cache_creation_1h` — and the GPT-6/5.6 rows price a plain `Cache write`,
+ * which is the five-minute field. Recording only one window for the Anthropic
+ * rows would claim the other costs the same, which the page explicitly denies.
  */
 import { getText, drift, decimal, MEMBERSHIP } from "../lib/fetch.mjs";
 
@@ -52,21 +64,23 @@ const URL = "https://docs.digitalocean.com/products/inference/details/pricing/";
  *
  * Most names map one-to-one. `Claude Haiku 4.5` maps to two ids because the
  * seed carries the same model twice (`anthropic-claude-4.5-haiku` and
- * `anthropic-claude-haiku-4.5`, the latter at the right cache-read rate and the
- * former at 1). One page row prices both; leaving the duplicate's wrong cache
- * rate in place because the rebuild will delete one of them would be the wrong
- * trade.
+ * `anthropic-claude-haiku-4.5`). One page row prices both. Which of the two the
+ * API accepts is not stated anywhere without a key, so the rebuild keeps both;
+ * the duplicate is recorded for the first keyed check rather than guessed away.
  */
 const IDS = {
   // Anthropic Models
   "Claude Fable 5.1": ["anthropic-claude-fable-5.1"],
   "Claude Fable 5": ["anthropic-claude-fable-5"],
+  "Claude Haiku 5.5": ["anthropic-claude-haiku-5.5"],
   "Claude Haiku 4.5": ["anthropic-claude-4.5-haiku", "anthropic-claude-haiku-4.5"],
+  "Claude Opus 5.5": ["anthropic-claude-opus-5.5"],
   "Claude Opus 5": ["anthropic-claude-opus-5"],
   "Claude Opus 4.8": ["anthropic-claude-opus-4.8"],
   "Claude Opus 4.7": ["anthropic-claude-opus-4.7"],
   "Claude Opus 4.6": ["anthropic-claude-opus-4.6"],
   "Claude Opus 4.5": ["anthropic-claude-opus-4.5"],
+  "Claude Sonnet 5.5": ["anthropic-claude-sonnet-5.5"],
   "Claude Sonnet 5": ["anthropic-claude-5-sonnet"],
   "Claude Sonnet 4.6": ["anthropic-claude-4.6-sonnet"],
   "Claude Sonnet 4.5": ["anthropic-claude-4.5-sonnet"],
@@ -79,7 +93,10 @@ const IDS = {
   // OpenAI Models
   "gpt-oss-120b": ["openai-gpt-oss-120b"],
   "gpt-oss-20b": ["openai-gpt-oss-20b"],
+  "GPT-6.1 Sol": ["openai-gpt-6.1-sol"],
   "GPT-6 Astra": ["openai-gpt-6-astra"],
+  "GPT-6 Sol": ["openai-gpt-6-sol"],
+  "GPT-6 Luna": ["openai-gpt-6-luna"],
   "GPT-5.6 Sol": ["openai-gpt-5.6-sol"],
   "GPT-5.6 Terra": ["openai-gpt-5.6-terra"],
   "GPT-5.6 Luna": ["openai-gpt-5.6-luna"],
@@ -100,6 +117,7 @@ const IDS = {
   "o1": ["openai-o1"],
   "o3": ["openai-o3"],
   "o3-mini": ["openai-o3-mini"],
+  "GPT-image-1": ["openai-gpt-image-1"],
   "GPT Image 1.5": ["openai-gpt-image-1.5"],
 
   // DigitalOcean-Hosted Models
@@ -125,6 +143,25 @@ const IDS = {
   "GLM-5.3": ["glm-5.3"],
   "GLM-5.3 Flash": ["glm-5.3-flash"],
   "GLM-5.2": ["glm-5.2"],
+};
+
+/**
+ * Knowledge Bases display name -> entry id. These rows are not in the
+ * serverless LLM tables; the same page prices them in the section that bills
+ * indexing and retrieval, as "Model | Price" tables. An embedding row bills
+ * input only, and the catalogue carries that as `out: "0"`, the shape these
+ * rows already had in the seed. `BGE Reranker v2 m3` is billed per reranking
+ * token; the entry has always carried that in `in`, and the vendor bills it on
+ * the tokens it reranks, so the field is the same one.
+ */
+const EMBEDDING_IDS = {
+  "all-mini-lm-l6-v2": "all-mini-lm-l6-v2",
+  "multi-qa-mpnet-base-dot-v1": "multi-qa-mpnet-base-dot-v1",
+  "gte-large-en-v1.5": "gte-large-en-v1.5",
+  "Qwen3 Embedding 0.6B": "qwen3-embedding-0.6b",
+  "BGE-M3": "bge-m3",
+  "E5 Large V2": "e5-large-v2",
+  "BGE Reranker v2 m3": "bge-reranker-v2-m3",
 };
 
 const strip = (s) =>
@@ -157,8 +194,8 @@ const bandOf = (label) => {
 export default {
   ids: ["digitalocean"],
   source: URL,
-  membership: MEMBERSHIP.INTERSECT,
-  owns: ["in", "out", "cache_read", "long_context"],
+  membership: MEMBERSHIP.FOLLOW,
+  owns: ["in", "out", "cache_read", "cache_creation", "cache_creation_1h", "long_context"],
 
   async read() {
     const html = await getText(URL, { headers: { accept: "text/html" } });
@@ -218,9 +255,22 @@ export default {
         continue;
       }
 
+      /** The cache-write columns, whichever pair this row carries. Anthropic's
+          rows say `Cache write (5m)` / `Cache write (1h)`; the GPT-6/5.6 rows
+          say a plain `Cache write`, which is the five-minute rate. */
+      const writes = (cells) => {
+        const five = money(cells["Cache write (5m)"] ?? cells["Cache write"]);
+        const one = money(cells["Cache write (1h)"]);
+        return {
+          ...(five !== undefined ? { cache_creation: five } : {}),
+          ...(one !== undefined ? { cache_creation_1h: one } : {}),
+        };
+      };
+
       const row = { id: null, name, in: input, out };
       const cache = rate(base.cells, "Cache read");
       if (cache !== undefined) row.cache_read = cache;
+      Object.assign(row, writes(base.cells));
 
       if (long) {
         const lcIn = rate(long.cells, "Input");
@@ -231,18 +281,52 @@ export default {
         row.long_context = { over: long.band.over, in: lcIn, out: lcOut };
         const lcCache = rate(long.cells, "Cache read");
         if (lcCache !== undefined) row.long_context.cache_read = lcCache;
+        Object.assign(row.long_context, writes(long.cells));
       }
 
       for (const id of IDS[name]) rows.push({ ...row, id });
     }
 
+    // ── embeddings and reranking, from the Knowledge Bases section ──
+    // Their tables are `Model | Price` with a per-token sentence; the LLM
+    // tables above have a "Serverless Inference" column instead, so the header
+    // is what tells the two shapes apart.
+    let simple = 0;
+    for (const table of html.match(/<table[\s\S]*?<\/table>/g) ?? []) {
+      const trs = (table.match(/<tr[\s\S]*?<\/tr>/g) ?? []).map((r) =>
+        (r.match(/<t[dh][^>]*>[\s\S]*?<\/t[dh]>/g) ?? []).map(strip),
+      );
+      const head = trs[0] ?? [];
+      if (!/^model$/i.test(head[0] ?? "") || !/^price$/i.test(head[1] ?? "")) continue;
+      for (const cells of trs.slice(1)) {
+        const name = cells[0];
+        // "per 1M input tokens", "per 1,000,000 tokens", "per 1M reranking
+        // tokens" — the wording varies within the one section.
+        const m = /^\$([0-9.]+)\s+per\s+(?:1M|1,000,000)\s+(?:(?:input|reranking)\s+)?tokens$/i.exec(
+          cells[1] ?? "",
+        );
+        if (!m) continue;
+        const id = EMBEDDING_IDS[name];
+        if (!id) {
+          unmapped.push(name);
+          continue;
+        }
+        rows.push({ id, name, in: money(m[1]), out: "0" });
+        simple++;
+      }
+    }
+    if (simple === 0) drift("no embedding/reranking pricing table — the Knowledge Bases section restructured");
+
     if (priced === 0) drift("the page yielded no pricing matrices — the page restructured");
     if (rows.length === 0) drift("none of the page's model names matched the entry's id map");
 
     const notes = [
-      `${priced} priced models on the page; ${rows.length} entry row(s) matched by name and re-priced`,
+      `${priced} priced serverless models and ${simple} embedding/reranking rows on the page; ${rows.length} entry row(s) after the name join`,
       "the page states no API ids (both id endpoints answer 401), so the join is the adapter's hand-written name map",
-      "cache writes are not owned: the page prices 5m and 1h windows (or a plain cache write), and the seeded values are left alone until the rebuild",
+      "seven new ids (Claude Haiku/Opus/Sonnet 5.5, GPT-6 Sol/Luna/6.1 Sol, GPT-image-1) follow the entry's own naming convention and are inferred, not vendor-stated",
+      "cache writes: `Cache write (5m)` -> cache_creation, `Cache write (1h)` -> cache_creation_1h; a plain `Cache write` is the five-minute rate",
+      "Claude Haiku 4.5 is one page row and two seeded ids; both are kept because which id the API accepts is not stated without a key",
+      "embedding and reranking rows are priced in the Knowledge Bases section, not the serverless table, and carry `out: \"0\"`",
     ];
     if (unmapped.length) notes.push(`no entry id for: ${unmapped.sort().join(", ")}`);
     return { rows: { digitalocean: rows }, notes: { digitalocean: notes } };

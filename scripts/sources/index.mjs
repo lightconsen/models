@@ -16,6 +16,7 @@ import azureFoundry from "./azure-foundry.mjs";
 import azureOpenai from "./azure-openai.mjs";
 import vertex from "./vertex.mjs";
 import baiduQianfan from "./baidu-qianfan.mjs";
+import baseten from "./baseten.mjs";
 import bedrock from "./bedrock.mjs";
 import cerebras from "./cerebras.mjs";
 import cloudflareWorkersAi from "./cloudflare-workers-ai.mjs";
@@ -48,6 +49,7 @@ export default [
   azureOpenai,
   vertex,
   baiduQianfan,
+  baseten,
   bedrock,
   cerebras,
   cloudflareWorkersAi,

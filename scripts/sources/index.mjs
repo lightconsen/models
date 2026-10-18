@@ -21,6 +21,7 @@ import cerebras from "./cerebras.mjs";
 import cloudflareWorkersAi from "./cloudflare-workers-ai.mjs";
 import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
+import digitalocean from "./digitalocean.mjs";
 import friendli from "./friendli.mjs";
 import googleGemini from "./google-gemini.mjs";
 import groq from "./groq.mjs";
@@ -51,6 +52,7 @@ export default [
   cloudflareWorkersAi,
   deepinfra,
   deepseek,
+  digitalocean,
   friendli,
   googleGemini,
   groq,

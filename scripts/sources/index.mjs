@@ -31,6 +31,7 @@ import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
 import nebius from "./nebius.mjs";
 import novita from "./novita.mjs";
+import oci from "./oci.mjs";
 import perplexity from "./perplexity.mjs";
 import sakana from "./sakana.mjs";
 import siliconflow from "./siliconflow.mjs";
@@ -66,6 +67,7 @@ export default [
   minimax,
   nebius,
   novita,
+  oci,
   perplexity,
   sakana,
   siliconflow,

@@ -80,7 +80,7 @@
     "name": "Kimi K3",
     "in": "3",
     "out": "15",
-    "context": 1048576,
+    "context": 1024000,
     "max_output": 8000,
     "reasoning": true,
     "tool_call": true,
@@ -215,5 +215,61 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true
+  },
+  {
+    "id": "meta-models/muse-spark-open",
+    "name": "Muse Spark Open",
+    "in": "1.25",
+    "out": "4.25",
+    "context": 1048576
+  },
+  {
+    "id": "moonshotai/Kimi-K2.6",
+    "name": "Kimi-K2.6",
+    "in": "0.95",
+    "out": "4",
+    "context": 262144
+  },
+  {
+    "id": "nvidia/Nemotron-3.5-Super-VL",
+    "name": "Nemotron 3.5 Super VL",
+    "in": "0.3",
+    "out": "0.9",
+    "context": 1048576
+  },
+  {
+    "id": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "name": "Nemotron-3-Nano-30B-A3B",
+    "in": "0.06",
+    "out": "0.24",
+    "context": 262144
+  },
+  {
+    "id": "openbmb/MiniCPM-V-4_5",
+    "name": "openbmb/MiniCPM-V-4_5",
+    "in": "0.658",
+    "out": "1.11",
+    "context": 32000
+  },
+  {
+    "id": "Qwen/Qwen3.8-27B",
+    "name": "Qwen3.8-27B",
+    "in": "0.45",
+    "out": "3",
+    "context": 262144
+  },
+  {
+    "id": "reflection/beam",
+    "name": "Reflection Beam 1.0",
+    "in": "0.25",
+    "out": "1",
+    "context": 1048576
+  },
+  {
+    "id": "zai-org/GLM-5.1",
+    "name": "GLM-5.1",
+    "in": "1.4",
+    "out": "4.4",
+    "context": 202752
   }
 ]

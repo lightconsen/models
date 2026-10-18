@@ -29,6 +29,7 @@ import googleGemini from "./google-gemini.mjs";
 import groq from "./groq.mjs";
 import kimi from "./kimi.mjs";
 import minimax from "./minimax.mjs";
+import nebius from "./nebius.mjs";
 import novita from "./novita.mjs";
 import perplexity from "./perplexity.mjs";
 import siliconflow from "./siliconflow.mjs";
@@ -62,6 +63,7 @@ export default [
   groq,
   kimi,
   minimax,
+  nebius,
   novita,
   perplexity,
   siliconflow,

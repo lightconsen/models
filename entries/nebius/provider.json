@@ -9,9 +9,9 @@
   "endpoints": [
     {
       "protocol": "openai",
-      "endpoint": "https://studio.nebius.com/v1"
+      "endpoint": "https://api.tokenfactory.nebius.com/v1"
     }
   ],
-  "desc": "Nebius's AI inference service",
-  "seeded": true
+  "desc": "Nebius Token Factory (formerly AI Studio)",
+  "prices_as_of": "2026-10-18"
 }

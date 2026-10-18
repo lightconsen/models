@@ -51,7 +51,7 @@ export default {
   ids: ["deepinfra"],
   source: `${API} + ${TAGS_API}`,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "context", "max_output", "modalities"],
+  owns: ["in", "out", "cache_read", "context", "max_output", "modalities", "structured_output"],
 
   async read() {
     const res = await fetch(API, { headers: { "user-agent": "Mozilla/5.0 (compatible; kiwano-price-check)" } });
@@ -77,7 +77,8 @@ export default {
         continue;
       }
       const meta = m.metadata ?? {};
-      const mods = modalitiesOf(tagsOf.get(String(m.id).toLowerCase()));
+      const tags = tagsOf.get(String(m.id).toLowerCase()) ?? [];
+      const mods = modalitiesOf(tags);
       rows.push({
         id: m.id,
         name: m.id,
@@ -87,6 +88,11 @@ export default {
         ...(Number.isInteger(meta.context_length) && meta.context_length > 0 ? { context: meta.context_length } : {}),
         ...(Number(meta.max_tokens) > 0 ? { max_output: meta.max_tokens } : {}),
         ...(mods ? { modalities: mods } : {}),
+        // The tag set's own name for it, and its docs' "Structured Outputs"
+        // page is what `response_format` points at. True only: the tag list is
+        // mixed, so its absence is not the vendor saying no — 7 of these rows
+        // carry the broader `json` tag without this one.
+        ...(tags.includes("structured-output") ? { structured_output: true } : {}),
       });
     }
     if (rows.length === 0) drift("no token-billed rows in the models API");

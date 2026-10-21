@@ -1,42 +1,50 @@
 /**
  * Read MiniMax's published rates, for both of its entries.
  *
- * One vendor, two hosts, one page shape: `platform.minimaxi.com` prices in yuan
+ * One vendor, two hosts, one page shape: `platform.minimax.cn` prices in yuan
  * and `platform.minimax.io` in dollars, and the two pages carry the same table
- * with each figure worked out twice — the intl numbers are the vendor's own round
- * ones, not a conversion. So there is one parser here and two fetches.
+ * with each figure worked out twice — the intl numbers are the vendor's own
+ * round ones, not a conversion. So there is one parser here and two fetches.
  *
- * The LLM section is harder to read than it looks, and every row this drops is a
- * decision worth recording:
+ * **The page moved in October 2026.** `docs/guides/pricing-paygo.md` now
+ * redirects to `docs/pricing/overview.md`, and the LLM section is plain
+ * Markdown tables rather than the MDX `<Tabs>`/`<Accordion>` blocks this
+ * adapter used to walk. The reading below is of the new page; the old one is
+ * no longer served.
  *
- * - The models sit in a `<Tabs>` block whose second tab is the *priority* tier:
- *   1.5x standard, the same model names, and the schema has nowhere to put a
- *   multiplier (checklist.md:43). Only the Standard tab is read — a parser that
- *   took the block whole would see every name twice and as often as not pick the
- *   priority number.
- * - M3 is tiered by input length and appears twice inside that tab, once for
- *   `≤ 512k` and once for `> 512k`. The first band becomes the row and the second
- *   becomes its `long_context`, which is exactly what that field is for.
- * - M2.5/M2.1/M2 live in an `<Accordion title="历史模型">`, priced but retired.
- *   They must not reach the entry, so the accordion goes before any table is read.
+ * The section holds three tables:
+ *
+ * - a flat table for `MiniMax-M3.1-Flash`, the new Flash tier;
+ * - `标准` / `Standard`, where M3 is priced once for `≤ 512k` input tokens and
+ *   once for `> 512k`. The first becomes the row and the second its
+ *   `long_context`, which is what that field is for;
+ * - `优先` / `Priority`: 1.5x standard, the same names and bands. The schema
+ *   records the multiplier on the row (`service_tier`) rather than a second
+ *   set of prices, so the section is cut before the priority table and only
+ *   the standard prices are read.
+ *
+ * **Membership follows the vendor's model list**, not this page alone. As of
+ * 2026-10-21 `docs/faq/models.md` lists exactly two current language models,
+ * `MiniMax-M3.1-Flash` and `MiniMax-M3`; **M2.7 and M2.7-highspeed are retired**
+ * (new-user calls stopped 2026-10-19, final shutdown 2026-11-18, and plan
+ * requests route to M3.1 Flash in the meantime). The entry's two M2.7 rows
+ * therefore leave and M3.1-Flash joins.
  *
  * Two spellings the page uses that this undoes. Prices are shown as
- * `~~4.20~~ 2.10` — list price, then current price — and only the second is what
- * anyone pays. And the intl page writes `\$0.30 / M tokens`, unit in the cell and
- * the dollar sign escaped, so only the number in front is taken.
+ * `~~4.20~~ 2.10` — list price, then current price — and only the second is
+ * what anyone pays. And the intl page writes `\$0.30`, the dollar sign
+ * escaped, so the escape is removed before the number is taken.
  */
 import { decimal, drift, getText, MEMBERSHIP } from "../lib/fetch.mjs";
 
-const CN = "https://platform.minimaxi.com/docs/guides/pricing-paygo.md";
-const INTL = "https://platform.minimax.io/docs/guides/pricing-paygo.md";
+const CN = "https://platform.minimax.cn/docs/pricing/overview.md";
+const INTL = "https://platform.minimax.io/docs/pricing/overview.md";
 
 /** The page's inline HTML and markdown emphasis, minus the words they wrap. */
 const text = (s) =>
   s.replace(/<br\s*\/?>/gi, " ").replace(/<[^>]*>/g, "").replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
 
-/** Which rate a column holds, read off its header rather than its position: the
-    M2.7 table carries a cache-write column the M3 tab does not, and a page that
-    reorders the two cache columns should move the numbers, not the labels. */
+/** Which rate a column holds, read off its header rather than its position. */
 const COLUMNS = [
   [/输入|input/i, "in"],
   [/输出|output/i, "out"],
@@ -44,8 +52,8 @@ const COLUMNS = [
   [/写入|caching\s*write/i, "cache_creation"],
 ];
 
-/** `~~4.20~~ 2.10` is list price then current price, and the struck figure is not
-    what anyone pays. On the intl page the unit rides in the same cell. */
+/** `~~4.20~~ 2.10` is list price then current price, and the struck figure is
+    not what anyone pays. On the intl page the dollar sign is escaped. */
 const rate = (cell, what) => {
   const now = cell.split("~~").pop().replace(/\\\$/g, "$");
   const m = /(\d+(?:\.\d+)?)/.exec(now);
@@ -114,34 +122,37 @@ const readTable = (rows, what) => {
 };
 
 const parse = (md, what) => {
-  // The headings are indented on the current page: the pricing overview wraps
-  // each section in an MDX <section> block, so `## 语言模型` sits four spaces
-  // in. Allow leading whitespace on both the heading and the terminator.
   const m = /^\s*##\s+(?:语言模型|Language Models|LLM)[^\n]*\n([\s\S]*?)(?=\n\s*##\s)/m.exec(md);
   if (!m) drift(`${what}: no language-model section`);
-  // 历史模型 / Legacy Models — priced, retired, and not this entry's business.
-  const body = m[1].replace(/<Accordion\b[^>]*>[\s\S]*?<\/Accordion>/g, "");
-  const tabs = /<Tabs\b[^>]*>([\s\S]*?)<\/Tabs>/.exec(body);
-  if (!tabs) drift(`${what}: the language-model section has no <Tabs> block`);
-  const std = /<Tab\b[^>]*title="(?:标准|Standard)"[^>]*>([\s\S]*?)<\/Tab>/.exec(tabs[1]);
-  if (!std) drift(`${what}: no Standard tab`);
+  // The priority tier is a multiplier on the same rows, not a second price set.
+  // Cut it off before any table is read.
+  const body = m[1].split(/\*\*(?:优先|Priority)\*\*/)[0];
+  if (!/MiniMax-M3\.1-Flash|MiniMax-M3/.test(body)) drift(`${what}: the LLM section names no M3 model`);
+
+  const byVendor = new Map();
+  for (const table of tables(body)) {
+    for (const r of readTable(table, what)) {
+      byVendor.set(r.vendor, [...(byVendor.get(r.vendor) ?? []), r]);
+    }
+  }
 
   const rows = [];
-  for (const r of tables(body.replace(/<Tabs\b[^>]*>[\s\S]*?<\/Tabs>/g, "")).flatMap((t) => readTable(t, what))) {
-    if (r.band) drift(`${what}: "${r.vendor}" is banded outside the tabs, where this reads one band per model`);
-    rows.push({ id: idOf(r.vendor, what), name: nameOf(r.vendor), ...r.rates });
-  }
-
-  const tiered = new Map();
-  for (const t of tables(std[1])) {
-    for (const r of readTable(t, `${what} standard tab`)) tiered.set(r.vendor, [...(tiered.get(r.vendor) ?? []), r]);
-  }
-  for (const [vendor, bands] of tiered) {
+  for (const [vendor, bands] of byVendor) {
+    const row = { id: idOf(vendor, what), name: nameOf(vendor) };
+    if (bands.length === 1 && !bands[0].band) {
+      row.in = bands[0].rates.in;
+      row.out = bands[0].rates.out;
+      if (bands[0].rates.cache_read !== undefined) row.cache_read = bands[0].rates.cache_read;
+      rows.push(row);
+      continue;
+    }
     const base = bands.filter((b) => !b.band?.above);
     const over = bands.filter((b) => b.band?.above);
     if (base.length !== 1) drift(`${what}: "${vendor}" has ${base.length} bands at its base price, expected one`);
     if (over.length > 1) drift(`${what}: "${vendor}" is banded ${over.length} times above the base and the field holds one`);
-    const row = { id: idOf(vendor, what), name: nameOf(vendor), ...base[0].rates };
+    row.in = base[0].rates.in;
+    row.out = base[0].rates.out;
+    if (base[0].rates.cache_read !== undefined) row.cache_read = base[0].rates.cache_read;
     if (over.length === 1) row.long_context = { over: over[0].band.over, ...over[0].rates };
     rows.push(row);
   }
@@ -164,6 +175,6 @@ export default {
   owns: ["in", "out", "cache_read", "cache_creation", "long_context"],
   async read() {
     const [cn, intl] = await Promise.all([getText(CN), getText(INTL)]);
-    return { rows: { minimax: parse(cn, "minimaxi.com"), "minimax-intl": parse(intl, "minimax.io") } };
+    return { rows: { minimax: parse(cn, "minimax.cn"), "minimax-intl": parse(intl, "minimax.io") } };
   },
 };

@@ -31,6 +31,13 @@
     "name": "MiniMax M3.1 Flash",
     "in": "1.00",
     "out": "4.00",
-    "cache_read": "0.10"
+    "cache_read": "0.10",
+    "serves": {
+      "openai": "MiniMax-M3.1-Flash",
+      "anthropic": "MiniMax-M3.1-Flash"
+    },
+    "context": 1000000,
+    "reasoning": true,
+    "tool_call": true
   }
 ]

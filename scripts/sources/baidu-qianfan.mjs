@@ -136,7 +136,15 @@ export default {
       // name cell spans, second) cell. A band may ride in the block row.
       if (firstIsId || secondIsId) {
         if (block) blocks.push(block);
-        const versions = (cells.length >= 7 ? cells[1] : cells[0]).split(/\s+/).filter(Boolean);
+        // A version cell can carry a stray trailing parenthesis: the page's
+        // bare DeepSeek-V4-Pro row is `DeepSeek-V4-Pro）` in the version cell
+        // (2026-10-21), which would publish a phantom id and read as the real
+        // model being retired. The closing bracket is the vendor's typo, not
+        // part of any API id, so it is stripped before the id is used.
+        const versions = (cells.length >= 7 ? cells[1] : cells[0])
+          .split(/\s+/)
+          .map((v) => v.replace(/[）)]+$/, "").trim())
+          .filter(Boolean);
         const name = cells.length >= 7 ? cells[0] : blocks.at(-1)?.name ?? versions[0];
         block = { ids: versions, name, groups: new Map() };
         band = /输入Token数/.test(joined) ? bandOf(joined) : "";

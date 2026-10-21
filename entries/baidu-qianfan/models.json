@@ -266,13 +266,6 @@
     }
   },
   {
-    "id": "DeepSeek-V4-Pro）",
-    "name": "DeepSeek-V4-Pro",
-    "in": "12",
-    "out": "24",
-    "cache_read": "1"
-  },
-  {
     "id": "GLM-5.2-Fast",
     "name": "GLM-5.2-Fast",
     "in": "16",

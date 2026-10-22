@@ -1,0 +1,24 @@
+{
+  "id": "opencode",
+  "name": "OpenCode",
+  "website": "https://opencode.ai/",
+  "tag": "aggregate",
+  "rating": 4,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://opencode.ai/inference/openai/v1"
+    },
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://opencode.ai/inference/anthropic"
+    },
+    {
+      "protocol": "gemini",
+      "endpoint": "https://opencode.ai/inference/google"
+    }
+  ],
+  "desc": "OpenCode Console's curated model gateway, priced at the upstream rates"
+}

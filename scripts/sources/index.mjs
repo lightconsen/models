@@ -20,6 +20,7 @@ import baseten from "./baseten.mjs";
 import bedrock from "./bedrock.mjs";
 import cerebras from "./cerebras.mjs";
 import cloudflareWorkersAi from "./cloudflare-workers-ai.mjs";
+import commandcode from "./commandcode.mjs";
 import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
 import digitalocean from "./digitalocean.mjs";
@@ -32,6 +33,8 @@ import minimax from "./minimax.mjs";
 import nebius from "./nebius.mjs";
 import novita from "./novita.mjs";
 import oci from "./oci.mjs";
+import opencode from "./opencode.mjs";
+import opencodeGo from "./opencode-go.mjs";
 import perplexity from "./perplexity.mjs";
 import sakana from "./sakana.mjs";
 import siliconflow from "./siliconflow.mjs";
@@ -57,6 +60,7 @@ export default [
   bedrock,
   cerebras,
   cloudflareWorkersAi,
+  commandcode,
   deepinfra,
   deepseek,
   digitalocean,
@@ -69,6 +73,8 @@ export default [
   nebius,
   novita,
   oci,
+  opencode,
+  opencodeGo,
   perplexity,
   sakana,
   siliconflow,

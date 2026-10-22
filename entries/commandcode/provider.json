@@ -1,0 +1,20 @@
+{
+  "id": "commandcode",
+  "name": "Command Code",
+  "website": "https://commandcode.ai/",
+  "tag": "aggregate",
+  "rating": 3.8,
+  "billing": "both",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://api.commandcode.ai/provider/v1"
+    },
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://api.commandcode.ai/provider"
+    }
+  ],
+  "desc": "Command Code's Provider API, billing the underlying models at cost"
+}

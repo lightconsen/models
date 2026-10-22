@@ -5,7 +5,10 @@
     "in": "0.834",
     "out": "2.501",
     "cache_read": "0.042",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "tencent/hy4-preview"
+    }
   },
   {
     "id": "tencent/hy3-paid",
@@ -13,7 +16,10 @@
     "in": "0.14",
     "out": "0.58",
     "cache_read": "0.035",
-    "context": 262144
+    "context": 262144,
+    "serves": {
+      "openai": "tencent/hy3-paid"
+    }
   },
   {
     "id": "moonshotai/Kimi-K3",
@@ -21,7 +27,10 @@
     "in": "3",
     "out": "15",
     "cache_read": "0.3",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "moonshotai/Kimi-K3"
+    }
   },
   {
     "id": "moonshotai/Kimi-K2.7-Code",
@@ -29,7 +38,10 @@
     "in": "0.95",
     "out": "4",
     "cache_read": "0.19",
-    "context": 256000
+    "context": 256000,
+    "serves": {
+      "openai": "moonshotai/Kimi-K2.7-Code"
+    }
   },
   {
     "id": "moonshotai/Kimi-K2.7-Code-Highspeed",
@@ -37,7 +49,10 @@
     "in": "1.9",
     "out": "8",
     "cache_read": "0.38",
-    "context": 262000
+    "context": 262000,
+    "serves": {
+      "openai": "moonshotai/Kimi-K2.7-Code-Highspeed"
+    }
   },
   {
     "id": "moonshotai/Kimi-K2.6",
@@ -45,7 +60,10 @@
     "in": "0.95",
     "out": "4",
     "cache_read": "0.16",
-    "context": 256000
+    "context": 256000,
+    "serves": {
+      "openai": "moonshotai/Kimi-K2.6"
+    }
   },
   {
     "id": "moonshotai/Kimi-K2.5",
@@ -53,7 +71,10 @@
     "in": "0.6",
     "out": "3",
     "cache_read": "0.1",
-    "context": 256000
+    "context": 256000,
+    "serves": {
+      "openai": "moonshotai/Kimi-K2.5"
+    }
   },
   {
     "id": "z-ai/glm-5.3-flash",
@@ -61,7 +82,10 @@
     "in": "0.15",
     "out": "0.5",
     "cache_read": "0.03",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "z-ai/glm-5.3-flash"
+    }
   },
   {
     "id": "z-ai/glm-5.3-flashx",
@@ -69,7 +93,10 @@
     "in": "0.37",
     "out": "1.25",
     "cache_read": "0.075",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "z-ai/glm-5.3-flashx"
+    }
   },
   {
     "id": "zai-org/GLM-5.3",
@@ -77,7 +104,10 @@
     "in": "1.4",
     "out": "4.4",
     "cache_read": "0.26",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "zai-org/GLM-5.3"
+    }
   },
   {
     "id": "zai-org/GLM-5.2",
@@ -85,7 +115,10 @@
     "in": "1.4",
     "out": "4.4",
     "cache_read": "0.26",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "zai-org/GLM-5.2"
+    }
   },
   {
     "id": "zai-org/GLM-5.2-Fast",
@@ -93,7 +126,10 @@
     "in": "3",
     "out": "10.25",
     "cache_read": "0.5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "zai-org/GLM-5.2-Fast"
+    }
   },
   {
     "id": "zai-org/GLM-5.1",
@@ -101,7 +137,10 @@
     "in": "1.4",
     "out": "4.4",
     "cache_read": "0.26",
-    "context": 200000
+    "context": 200000,
+    "serves": {
+      "openai": "zai-org/GLM-5.1"
+    }
   },
   {
     "id": "zai-org/GLM-5",
@@ -109,7 +148,10 @@
     "in": "1",
     "out": "3.2",
     "cache_read": "0.2",
-    "context": 200000
+    "context": 200000,
+    "serves": {
+      "openai": "zai-org/GLM-5"
+    }
   },
   {
     "id": "minimax/minimax-m3.1-flash",
@@ -117,7 +159,10 @@
     "in": "0.15",
     "out": "0.6",
     "cache_read": "0.015",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "minimax/minimax-m3.1-flash"
+    }
   },
   {
     "id": "MiniMaxAI/MiniMax-M3",
@@ -125,7 +170,10 @@
     "in": "0.3",
     "out": "1.2",
     "cache_read": "0.06",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "MiniMaxAI/MiniMax-M3"
+    }
   },
   {
     "id": "MiniMaxAI/MiniMax-M2.7",
@@ -133,7 +181,10 @@
     "in": "0.3",
     "out": "1.2",
     "cache_read": "0.06",
-    "context": 200000
+    "context": 200000,
+    "serves": {
+      "openai": "MiniMaxAI/MiniMax-M2.7"
+    }
   },
   {
     "id": "MiniMaxAI/MiniMax-M2.5",
@@ -141,7 +192,10 @@
     "in": "0.3",
     "out": "1.2",
     "cache_read": "0.03",
-    "context": 200000
+    "context": 200000,
+    "serves": {
+      "openai": "MiniMaxAI/MiniMax-M2.5"
+    }
   },
   {
     "id": "ornith/ornith-1.5-122b",
@@ -149,7 +203,10 @@
     "in": "0.16",
     "out": "0.64",
     "cache_read": "0.02",
-    "context": 262144
+    "context": 262144,
+    "serves": {
+      "openai": "ornith/ornith-1.5-122b"
+    }
   },
   {
     "id": "deepseek/deepseek-v4-pro",
@@ -157,7 +214,10 @@
     "in": "0.66",
     "out": "1.98",
     "cache_read": "0.022",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "deepseek/deepseek-v4-pro"
+    }
   },
   {
     "id": "deepseek/deepseek-v4-flash",
@@ -165,7 +225,10 @@
     "in": "0.15",
     "out": "0.6",
     "cache_read": "0.003",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "deepseek/deepseek-v4-flash"
+    }
   },
   {
     "id": "deepseek/deepseek-v4-flash-vision-exp",
@@ -173,7 +236,10 @@
     "in": "0.15",
     "out": "0.6",
     "cache_read": "0.003",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "deepseek/deepseek-v4-flash-vision-exp"
+    }
   },
   {
     "id": "deepseek/deepseek-v4-flash-fast",
@@ -181,7 +247,10 @@
     "in": "0.28",
     "out": "0.56",
     "cache_read": "0.07",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "deepseek/deepseek-v4-flash-fast"
+    }
   },
   {
     "id": "deepseek/deepseek-v4.1-flash",
@@ -189,7 +258,10 @@
     "in": "0.15",
     "out": "0.6",
     "cache_read": "0.003",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "deepseek/deepseek-v4.1-flash"
+    }
   },
   {
     "id": "deepseek/deepseek-v4.1-flash-fast",
@@ -197,7 +269,10 @@
     "in": "0.16",
     "out": "0.58",
     "cache_read": "0.016",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "deepseek/deepseek-v4.1-flash-fast"
+    }
   },
   {
     "id": "Qwen/Qwen3.8-Omni-Flash",
@@ -205,7 +280,10 @@
     "in": "0.15",
     "out": "0.47",
     "cache_read": "0.016",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "Qwen/Qwen3.8-Omni-Flash"
+    }
   },
   {
     "id": "Qwen/Qwen3.8-Max-Prime",
@@ -214,7 +292,10 @@
     "out": "12",
     "cache_read": "0.5",
     "cache_creation": "5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "Qwen/Qwen3.8-Max-Prime"
+    }
   },
   {
     "id": "Qwen/Qwen3.8-Max-0902",
@@ -222,7 +303,10 @@
     "in": "2",
     "out": "6",
     "cache_read": "0.25",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "Qwen/Qwen3.8-Max-0902"
+    }
   },
   {
     "id": "Qwen/Qwen3.8-Max",
@@ -231,7 +315,10 @@
     "out": "6",
     "cache_read": "0.25",
     "cache_creation": "2.5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "Qwen/Qwen3.8-Max"
+    }
   },
   {
     "id": "Qwen/Qwen3.8-27B",
@@ -239,7 +326,10 @@
     "in": "0.4",
     "out": "3",
     "cache_read": "0.04",
-    "context": 262144
+    "context": 262144,
+    "serves": {
+      "openai": "Qwen/Qwen3.8-27B"
+    }
   },
   {
     "id": "Qwen/Qwen3.6-Max-Preview",
@@ -248,7 +338,10 @@
     "out": "7.8",
     "cache_read": "0.26",
     "cache_creation": "1.63",
-    "context": 200000
+    "context": 200000,
+    "serves": {
+      "openai": "Qwen/Qwen3.6-Max-Preview"
+    }
   },
   {
     "id": "Qwen/Qwen3.6-Plus",
@@ -256,7 +349,10 @@
     "in": "0.5",
     "out": "3",
     "cache_read": "0.1",
-    "context": 200000
+    "context": 200000,
+    "serves": {
+      "openai": "Qwen/Qwen3.6-Plus"
+    }
   },
   {
     "id": "Qwen/Qwen3.7-Max",
@@ -265,7 +361,10 @@
     "out": "7.5",
     "cache_read": "0.5",
     "cache_creation": "3.13",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "Qwen/Qwen3.7-Max"
+    }
   },
   {
     "id": "Qwen/Qwen3.7-Plus",
@@ -274,7 +373,10 @@
     "out": "1.6",
     "cache_read": "0.08",
     "cache_creation": "0.5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "Qwen/Qwen3.7-Plus"
+    }
   },
   {
     "id": "Qwen/Qwen3.8-Flash",
@@ -282,7 +384,10 @@
     "in": "0.16",
     "out": "0.47",
     "cache_read": "0.016",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "Qwen/Qwen3.8-Flash"
+    }
   },
   {
     "id": "Qwen/Qwen3.7-Flash",
@@ -291,7 +396,10 @@
     "out": "0.13",
     "cache_read": "0.006",
     "cache_creation": "0.038",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "Qwen/Qwen3.7-Flash"
+    }
   },
   {
     "id": "meituan/LongCat-2.0",
@@ -299,7 +407,10 @@
     "in": "0.3",
     "out": "1.2",
     "cache_read": "0.006",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "meituan/LongCat-2.0"
+    }
   },
   {
     "id": "inclusionai/ling-3.1-flash",
@@ -307,7 +418,10 @@
     "in": "0.3",
     "out": "0.9",
     "cache_read": "0.06",
-    "context": 262144
+    "context": 262144,
+    "serves": {
+      "openai": "inclusionai/ling-3.1-flash"
+    }
   },
   {
     "id": "stepfun/Step-5-Preview",
@@ -315,7 +429,10 @@
     "in": "1",
     "out": "2.7",
     "cache_read": "0.05",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "stepfun/Step-5-Preview"
+    }
   },
   {
     "id": "stepfun/Step-3.7-Flash",
@@ -323,7 +440,10 @@
     "in": "0.2",
     "out": "1.15",
     "cache_read": "0.04",
-    "context": 256000
+    "context": 256000,
+    "serves": {
+      "openai": "stepfun/Step-3.7-Flash"
+    }
   },
   {
     "id": "stepfun/Step-3.5-Flash",
@@ -331,7 +451,10 @@
     "in": "0.09",
     "out": "0.3",
     "cache_read": "0.02",
-    "context": 262144
+    "context": 262144,
+    "serves": {
+      "openai": "stepfun/Step-3.5-Flash"
+    }
   },
   {
     "id": "xiaomi/mimo-v2.6-pro",
@@ -339,7 +462,10 @@
     "in": "0.435",
     "out": "0.87",
     "cache_read": "0.0036",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "xiaomi/mimo-v2.6-pro"
+    }
   },
   {
     "id": "xiaomi/mimo-v2.6-pro-ultraspeed",
@@ -347,7 +473,10 @@
     "in": "4.35",
     "out": "8.7",
     "cache_read": "0.036",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "xiaomi/mimo-v2.6-pro-ultraspeed"
+    }
   },
   {
     "id": "xiaomi/mimo-v2.6-flash",
@@ -355,7 +484,10 @@
     "in": "0.14",
     "out": "0.28",
     "cache_read": "0.0028",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "xiaomi/mimo-v2.6-flash"
+    }
   },
   {
     "id": "xiaomi/mimo-v2.5-pro",
@@ -363,7 +495,10 @@
     "in": "0.435",
     "out": "0.87",
     "cache_read": "0.0036",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "xiaomi/mimo-v2.5-pro"
+    }
   },
   {
     "id": "xiaomi/mimo-v2.5",
@@ -371,7 +506,10 @@
     "in": "0.14",
     "out": "0.28",
     "cache_read": "0.0028",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "xiaomi/mimo-v2.5"
+    }
   },
   {
     "id": "nvidia/nemotron-3-ultra-550b-a55b",
@@ -379,7 +517,10 @@
     "in": "0.6",
     "out": "2.4",
     "cache_read": "0.12",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "nvidia/nemotron-3-ultra-550b-a55b"
+    }
   },
   {
     "id": "nvidia/nemotron-3.5-super-vl",
@@ -387,7 +528,10 @@
     "in": "0.2",
     "out": "0.5",
     "cache_read": "0.04",
-    "context": 262144
+    "context": 262144,
+    "serves": {
+      "openai": "nvidia/nemotron-3.5-super-vl"
+    }
   },
   {
     "id": "claude-fable-5-1",
@@ -396,7 +540,10 @@
     "out": "50",
     "cache_read": "0.25",
     "cache_creation": "12.5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-fable-5-1"
+    }
   },
   {
     "id": "claude-fable-5",
@@ -405,7 +552,10 @@
     "out": "50",
     "cache_read": "1",
     "cache_creation": "12.5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-fable-5"
+    }
   },
   {
     "id": "claude-opus-5-5",
@@ -414,7 +564,10 @@
     "out": "20",
     "cache_read": "0.2",
     "cache_creation": "5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-opus-5-5"
+    }
   },
   {
     "id": "claude-opus-5",
@@ -423,7 +576,10 @@
     "out": "25",
     "cache_read": "0.5",
     "cache_creation": "6.25",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-opus-5"
+    }
   },
   {
     "id": "claude-opus-4-8",
@@ -433,7 +589,10 @@
     "cache_read": "0.5",
     "cache_creation": "6.25",
     "flagship": true,
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-opus-4-8"
+    }
   },
   {
     "id": "claude-opus-4-7",
@@ -442,7 +601,10 @@
     "out": "25",
     "cache_read": "0.5",
     "cache_creation": "6.25",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-opus-4-7"
+    }
   },
   {
     "id": "claude-opus-4-6",
@@ -450,7 +612,10 @@
     "in": "5",
     "out": "25",
     "cache_read": "0.5",
-    "cache_creation": "6.25"
+    "cache_creation": "6.25",
+    "serves": {
+      "anthropic": "claude-opus-4-6"
+    }
   },
   {
     "id": "claude-sonnet-5-5",
@@ -459,7 +624,10 @@
     "out": "10",
     "cache_read": "0.1",
     "cache_creation": "2.5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-sonnet-5-5"
+    }
   },
   {
     "id": "claude-sonnet-5",
@@ -468,7 +636,10 @@
     "out": "10",
     "cache_read": "0.2",
     "cache_creation": "2.5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-sonnet-5"
+    }
   },
   {
     "id": "claude-sonnet-4-6",
@@ -477,7 +648,10 @@
     "out": "15",
     "cache_read": "0.3",
     "cache_creation": "3.75",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-sonnet-4-6"
+    }
   },
   {
     "id": "claude-haiku-5-5",
@@ -486,7 +660,10 @@
     "out": "0.5",
     "cache_read": "0.01",
     "cache_creation": "0.125",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "anthropic": "claude-haiku-5-5"
+    }
   },
   {
     "id": "claude-haiku-4-5-20251001",
@@ -495,7 +672,10 @@
     "out": "5",
     "cache_read": "0.1",
     "cache_creation": "1.25",
-    "context": 200000
+    "context": 200000,
+    "serves": {
+      "anthropic": "claude-haiku-4-5-20251001"
+    }
   },
   {
     "id": "gpt-6-astra",
@@ -504,7 +684,10 @@
     "out": "50",
     "cache_read": "1",
     "cache_creation": "12.5",
-    "context": 1050000
+    "context": 1050000,
+    "serves": {
+      "openai": "gpt-6-astra"
+    }
   },
   {
     "id": "gpt-6.1-sol",
@@ -513,7 +696,10 @@
     "out": "10",
     "cache_read": "0.1",
     "cache_creation": "2.5",
-    "context": 1050000
+    "context": 1050000,
+    "serves": {
+      "openai": "gpt-6.1-sol"
+    }
   },
   {
     "id": "gpt-6-sol",
@@ -522,7 +708,10 @@
     "out": "10",
     "cache_read": "0.2",
     "cache_creation": "2.5",
-    "context": 1050000
+    "context": 1050000,
+    "serves": {
+      "openai": "gpt-6-sol"
+    }
   },
   {
     "id": "gpt-6-luna",
@@ -531,7 +720,10 @@
     "out": "0.5",
     "cache_read": "0.01",
     "cache_creation": "0.125",
-    "context": 1050000
+    "context": 1050000,
+    "serves": {
+      "openai": "gpt-6-luna"
+    }
   },
   {
     "id": "gpt-5.6-sol",
@@ -540,7 +732,10 @@
     "out": "30",
     "cache_read": "0.5",
     "cache_creation": "6.25",
-    "context": 1050000
+    "context": 1050000,
+    "serves": {
+      "openai": "gpt-5.6-sol"
+    }
   },
   {
     "id": "gpt-5.6-terra",
@@ -549,7 +744,10 @@
     "out": "12",
     "cache_read": "0.2",
     "cache_creation": "2.5",
-    "context": 1050000
+    "context": 1050000,
+    "serves": {
+      "openai": "gpt-5.6-terra"
+    }
   },
   {
     "id": "gpt-5.6-luna",
@@ -558,7 +756,10 @@
     "out": "1.2",
     "cache_read": "0.02",
     "cache_creation": "0.25",
-    "context": 1050000
+    "context": 1050000,
+    "serves": {
+      "openai": "gpt-5.6-luna"
+    }
   },
   {
     "id": "gpt-5.5",
@@ -566,7 +767,10 @@
     "in": "5",
     "out": "30",
     "cache_read": "0.5",
-    "context": 400000
+    "context": 400000,
+    "serves": {
+      "openai": "gpt-5.5"
+    }
   },
   {
     "id": "gpt-5.4",
@@ -574,7 +778,10 @@
     "in": "2.5",
     "out": "15",
     "cache_read": "0.25",
-    "context": 400000
+    "context": 400000,
+    "serves": {
+      "openai": "gpt-5.4"
+    }
   },
   {
     "id": "gpt-5.4-mini",
@@ -582,7 +789,10 @@
     "in": "0.75",
     "out": "4.5",
     "cache_read": "0.075",
-    "context": 400000
+    "context": 400000,
+    "serves": {
+      "openai": "gpt-5.4-mini"
+    }
   },
   {
     "id": "gpt-5.3-codex",
@@ -590,7 +800,10 @@
     "in": "2",
     "out": "8",
     "cache_read": "0.5",
-    "context": 400000
+    "context": 400000,
+    "serves": {
+      "openai": "gpt-5.3-codex"
+    }
   },
   {
     "id": "google/gemini-4-argon",
@@ -598,7 +811,10 @@
     "in": "2",
     "out": "10",
     "cache_read": "0.1",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "google/gemini-4-argon"
+    }
   },
   {
     "id": "google/gemini-3.8-flash",
@@ -606,7 +822,10 @@
     "in": "1.5",
     "out": "7.5",
     "cache_read": "0.15",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "google/gemini-3.8-flash"
+    }
   },
   {
     "id": "google/gemini-3.7-flash",
@@ -615,7 +834,10 @@
     "out": "7.5",
     "cache_read": "0.15",
     "cache_creation": "0.08334",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "google/gemini-3.7-flash"
+    }
   },
   {
     "id": "google/gemini-3.6-flash",
@@ -623,7 +845,10 @@
     "in": "1.5",
     "out": "7.5",
     "cache_read": "0.15",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "google/gemini-3.6-flash"
+    }
   },
   {
     "id": "google/gemini-3.5-flash",
@@ -631,7 +856,10 @@
     "in": "1.5",
     "out": "9",
     "cache_read": "0.15",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "google/gemini-3.5-flash"
+    }
   },
   {
     "id": "google/gemini-3.5-flash-lite",
@@ -639,7 +867,10 @@
     "in": "0.3",
     "out": "2.5",
     "cache_read": "0.03",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "google/gemini-3.5-flash-lite"
+    }
   },
   {
     "id": "google/gemini-3.1-flash-lite",
@@ -647,7 +878,10 @@
     "in": "0.25",
     "out": "1.5",
     "cache_read": "0.03",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "google/gemini-3.1-flash-lite"
+    }
   },
   {
     "id": "sakana/fugu-ultra",
@@ -655,7 +889,10 @@
     "in": "5",
     "out": "30",
     "cache_read": "0.5",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "sakana/fugu-ultra"
+    }
   },
   {
     "id": "meta/muse-wonder-1.0",
@@ -663,7 +900,10 @@
     "in": "4",
     "out": "20",
     "cache_read": "0.2",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "meta/muse-wonder-1.0"
+    }
   },
   {
     "id": "meta/muse-spark-1.3",
@@ -671,7 +911,10 @@
     "in": "1.25",
     "out": "4.25",
     "cache_read": "0.15",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "meta/muse-spark-1.3"
+    }
   },
   {
     "id": "meta/muse-spark-1.3-contributor",
@@ -679,7 +922,10 @@
     "in": "0.1",
     "out": "0.2",
     "cache_read": "0.002",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "meta/muse-spark-1.3-contributor"
+    }
   },
   {
     "id": "meta/muse-spark-open",
@@ -687,7 +933,10 @@
     "in": "1.25",
     "out": "4.25",
     "cache_read": "0.15",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "meta/muse-spark-open"
+    }
   },
   {
     "id": "meta/muse-spark-1.2",
@@ -695,7 +944,10 @@
     "in": "1.25",
     "out": "4.25",
     "cache_read": "0.15",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "meta/muse-spark-1.2"
+    }
   },
   {
     "id": "meta/muse-spark-1.2-contributor",
@@ -703,7 +955,10 @@
     "in": "0.1",
     "out": "0.2",
     "cache_read": "0.002",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "meta/muse-spark-1.2-contributor"
+    }
   },
   {
     "id": "meta/muse-spark-1.1",
@@ -711,7 +966,10 @@
     "in": "1.25",
     "out": "4.25",
     "cache_read": "0.15",
-    "context": 1048576
+    "context": 1048576,
+    "serves": {
+      "openai": "meta/muse-spark-1.1"
+    }
   },
   {
     "id": "xai/grok-4.7",
@@ -719,7 +977,10 @@
     "in": "2",
     "out": "6",
     "cache_read": "0.5",
-    "context": 500000
+    "context": 500000,
+    "serves": {
+      "openai": "xai/grok-4.7"
+    }
   },
   {
     "id": "xai/grok-4.6",
@@ -727,7 +988,10 @@
     "in": "2",
     "out": "6",
     "cache_read": "0.5",
-    "context": 500000
+    "context": 500000,
+    "serves": {
+      "openai": "xai/grok-4.6"
+    }
   },
   {
     "id": "xai/grok-4.5",
@@ -735,7 +999,10 @@
     "in": "2",
     "out": "6",
     "cache_read": "0.5",
-    "context": 500000
+    "context": 500000,
+    "serves": {
+      "openai": "xai/grok-4.5"
+    }
   },
   {
     "id": "mistral/mistral-large-4",
@@ -743,7 +1010,10 @@
     "in": "1.36",
     "out": "4.18",
     "cache_read": "0.14",
-    "context": 524288
+    "context": 524288,
+    "serves": {
+      "openai": "mistral/mistral-large-4"
+    }
   },
   {
     "id": "thinkingmachines/inkling",
@@ -751,7 +1021,10 @@
     "in": "1",
     "out": "4.05",
     "cache_read": "0.17",
-    "context": 256000
+    "context": 256000,
+    "serves": {
+      "openai": "thinkingmachines/inkling"
+    }
   },
   {
     "id": "thinkingmachines/inkling-small",
@@ -759,7 +1032,10 @@
     "in": "0.5",
     "out": "1.2",
     "cache_read": "0.1",
-    "context": 1000000
+    "context": 1000000,
+    "serves": {
+      "openai": "thinkingmachines/inkling-small"
+    }
   },
   {
     "id": "claude-sonnet-4-5",
@@ -767,6 +1043,9 @@
     "in": "3",
     "out": "15",
     "cache_read": "0.3",
-    "cache_creation": "3.75"
+    "cache_creation": "3.75",
+    "serves": {
+      "anthropic": "claude-sonnet-4-5"
+    }
   }
 ]

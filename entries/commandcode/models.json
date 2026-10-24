@@ -490,28 +490,6 @@
     }
   },
   {
-    "id": "xiaomi/mimo-v2.5-pro",
-    "name": "MiMo V2.5 Pro",
-    "in": "0.435",
-    "out": "0.87",
-    "cache_read": "0.0036",
-    "context": 1000000,
-    "serves": {
-      "openai": "xiaomi/mimo-v2.5-pro"
-    }
-  },
-  {
-    "id": "xiaomi/mimo-v2.5",
-    "name": "MiMo V2.5",
-    "in": "0.14",
-    "out": "0.28",
-    "cache_read": "0.0028",
-    "context": 1000000,
-    "serves": {
-      "openai": "xiaomi/mimo-v2.5"
-    }
-  },
-  {
     "id": "nvidia/nemotron-3-ultra-550b-a55b",
     "name": "Nemotron 3 Ultra",
     "in": "0.6",
@@ -1047,5 +1025,13 @@
     "serves": {
       "anthropic": "claude-sonnet-4-5"
     }
+  },
+  {
+    "id": "moonshotai/Kimi-K3.1-Pro",
+    "name": "Kimi K3.1 Pro",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "context": 1048576
   }
 ]

@@ -1,0 +1,9 @@
+{
+  "versions": {
+    "104": {
+      "sha256": "279491377c8e2af3855b5d79aa7714ba20481de1f006ef5e032c5ed6ea7d77af",
+      "generated_at": "2026-10-24"
+    }
+  },
+  "merge_hint": "publish.yml merges this one-entry index into the R2 copy of history/archive.json — this file is one build's increment, not the archive"
+}

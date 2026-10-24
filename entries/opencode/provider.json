@@ -20,5 +20,6 @@
       "endpoint": "https://opencode.ai/inference/google"
     }
   ],
-  "desc": "OpenCode Console's curated model gateway, priced at the upstream rates"
+  "desc": "OpenCode Console's curated model gateway, priced at the upstream rates",
+  "prices_as_of": "2026-10-24"
 }

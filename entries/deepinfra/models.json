@@ -98,8 +98,8 @@
     "in": "0.26",
     "out": "0.38",
     "cache_read": "0.13",
-    "context": 163840,
-    "max_output": 163840,
+    "context": 16384,
+    "max_output": 16384,
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
@@ -758,15 +758,6 @@
     "structured_output": true
   },
   {
-    "id": "NousResearch/Hermes-3-Llama-3.1-405B",
-    "name": "NousResearch/Hermes-3-Llama-3.1-405B",
-    "in": "1",
-    "out": "1",
-    "context": 131072,
-    "max_output": 131072,
-    "structured_output": true
-  },
-  {
     "id": "openai/gpt-oss-120b-Ultra",
     "name": "openai/gpt-oss-120b-Ultra",
     "in": "0.2",
@@ -1010,15 +1001,6 @@
     "structured_output": true
   },
   {
-    "id": "Gryphe/MythoMax-L2-13b",
-    "name": "Gryphe/MythoMax-L2-13b",
-    "in": "0.4",
-    "out": "0.4",
-    "context": 4096,
-    "max_output": 4096,
-    "structured_output": true
-  },
-  {
     "id": "inclusionAI/Ling-3.0-flash",
     "name": "inclusionAI/Ling-3.0-flash",
     "in": "0.06",
@@ -1183,15 +1165,6 @@
     "structured_output": true
   },
   {
-    "id": "NousResearch/Hermes-3-Llama-3.1-70B",
-    "name": "NousResearch/Hermes-3-Llama-3.1-70B",
-    "in": "0.7",
-    "out": "0.7",
-    "context": 131072,
-    "max_output": 131072,
-    "structured_output": true
-  },
-  {
     "id": "anthropic/claude-sonnet-5",
     "name": "anthropic/claude-sonnet-5",
     "in": "3",
@@ -1342,9 +1315,9 @@
   {
     "id": "nvidia/NVIDIA-Nemotron-3.5-Super-VL",
     "name": "nvidia/NVIDIA-Nemotron-3.5-Super-VL",
-    "in": "0.1",
-    "out": "0.4",
-    "cache_read": "0.08",
+    "in": "0.15",
+    "out": "0.5",
+    "cache_read": "0.02",
     "context": 262144,
     "max_output": 262144,
     "modalities": {

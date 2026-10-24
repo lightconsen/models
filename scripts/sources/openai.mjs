@@ -92,7 +92,13 @@ const money = (cell) => {
 const standardTable = (md) => {
   const section = md.split(/^### Standard pricing data\s*$/m)[1]?.split(/^### /m)[0];
   if (section === undefined) drift("the page has no '### Standard pricing data' section");
-  const rows = section
+  // The section holds more than one markdown table — the model rates first, then
+  // an embeddings/transcription table whose header is `Model | Input | Output |
+  // Cached input`. They are separated by a blank line, so the first block is the
+  // one this reads; concatenating them put "Input" where a price belongs.
+  const block = section.split(/\n\s*\n/).find((b) => b.trimStart().startsWith("|"));
+  if (!block) drift("the Standard section has no markdown table");
+  const rows = block
     .split("\n")
     .filter((l) => l.trimStart().startsWith("|"))
     .map((l) => l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim()));
@@ -101,10 +107,12 @@ const standardTable = (md) => {
   return { header: rows[0], rows: rows.slice(2) };
 };
 
-const columnOf = (header, name) => {
-  const i = header.findIndex((c) => c.toLowerCase() === name);
-  if (i < 0) drift(`the Standard table has no "${name}" column — the page has changed shape`);
-  return i;
+const columnOf = (header, ...names) => {
+  for (const name of names) {
+    const i = header.findIndex((c) => c.toLowerCase() === name);
+    if (i >= 0) return i;
+  }
+  drift(`the Standard table has none of "${names.join('", "')}" — the page has changed shape`);
 };
 
 export default {
@@ -121,11 +129,15 @@ export default {
       model: columnOf(header, "model"),
       shortIn: columnOf(header, "short context input"),
       shortCached: columnOf(header, "short context cached input"),
-      shortWrite: columnOf(header, "short context cache writes"),
+      // Renamed in October 2026: the one `cache writes` column became two
+      // windows, `30m write` and `12h write`. The catalogue has fields for one
+      // default write and one hour-long write, so the 30m rate is the row's
+      // `cache_creation`; the 12h window is reported below and not carried.
+      shortWrite: columnOf(header, "short context 30m write", "short context cache writes"),
       shortOut: columnOf(header, "short context output"),
       longIn: columnOf(header, "long context input"),
       longCached: columnOf(header, "long context cached input"),
-      longWrite: columnOf(header, "long context cache writes"),
+      longWrite: columnOf(header, "long context 30m write", "long context cache writes"),
       longOut: columnOf(header, "long context output"),
     };
 
@@ -198,6 +210,11 @@ export default {
 
     const missing = current.filter((r) => !byId.has(r.id));
     const notes = [`${byId.size} priced models in the Standard table, ${rows_.length} of them in the entry`];
+    if (header.some((c) => /12h write/i.test(c))) {
+      notes.push(
+        "the table now prices two cache-write windows (30m and 12h): cache_creation records the 30m rate, and the 12h rate has no field",
+      );
+    }
     if (missing.length) {
       notes.push(
         `not in the vendor's table: ${missing.map((r) => r.id).join(", ")} — a model the catalogue carries and OpenAI does not list`,

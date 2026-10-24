@@ -1,71 +1,144 @@
 /**
- * Kimi's published per-token prices, from a markdown page carrying a JS array.
+ * Kimi's published per-token prices, from the page the docs site serves.
  *
- * Their docs are kinder than most: every page is served as markdown too
- * (`/docs/llms.txt` lists them), and the price table is a literal JS array inside
- * a `<DocTable>` element. So this needs no HTML parsing and no browser.
+ * The pricing page is a Mintlify page whose table is a `<DocTable>` component:
+ * on 2026-10-22 the markdown rendering (`…/pricing/chat.md`) began emitting an
+ * **empty** `<table>` — the rows live in the component's props, which only the
+ * HTML carries. So this reads the served HTML and takes the props out of the
+ * React payload:
  *
- * Columns are matched by their wording rather than their position, so a reworded
- * header still lands — and a header that stops matching aborts the read instead of
- * shifting every number one column left.
+ *   children:_jsx(DocTable,{ className:`doc-table-bordered`, …
+ *     columns:[{title:`模型`},{title:`输入`},…,{title:`缓存写入（5min）`},…],
+ *     rows:[[_jsx(_components.a,{href:`/guide/…`,children:`kimi-k3.1-pro`}),
+ *            `¥13.00 / MTok`,`¥68.00 / MTok`,…]] })
+ *
+ * Two tables (K3 series, K2 series) are read and their rows merged.
+ *
+ * Columns are matched by their wording rather than position, so a reworded
+ * header still lands — and a header that stops matching aborts the read instead
+ * of shifting every number one column left. The two cache-write windows map to
+ * the schema's `cache_creation` (5min, the default) and `cache_creation_1h`.
  *
  * The model list is read as well, purely to tell apart the two reasons a row can
  * be absent from the price table: the page says the model was retired, or it just
- * does not price it. Two were found retired this way, unnoticed.
+ * does not price it.
  */
 import { getText, drift, decimal, MEMBERSHIP } from "../lib/fetch.mjs";
 
-const PRICING_MD = "https://platform.kimi.com/docs/pricing/chat.md";
+const PRICING_HTML = "https://platform.kimi.com/docs/pricing/chat";
 const MODELS_MD = "https://platform.kimi.com/docs/models.md";
 
 /** Column title -> our field. Matched loosely so a reworded header still lands. */
 const columnField = (title) => {
-  if (/缓存命中/.test(title)) return "cache_read";
-  if (/缓存未命中|输入/.test(title)) return "in";
-  if (/输出/.test(title)) return "out";
+  if (/缓存命中|cached input/i.test(title)) return "cache_read";
+  if (/缓存写入.*1h|1h writes/i.test(title)) return "cache_creation_1h";
+  if (/缓存写入|writes/i.test(title)) return "cache_creation";
+  if (/缓存未命中|输入|input/i.test(title)) return "in";
+  if (/输出|output/i.test(title)) return "out";
   return null;
+};
+
+/** The object literal of each `DocTable` component in the served page, by brace
+    depth with backtick strings skipped (their text may contain braces). */
+const docTables = (html) => {
+  const out = [];
+  for (const m of html.matchAll(/children:_jsx\(DocTable,\{/g)) {
+    const start = m.index + m[0].length - 1;
+    let depth = 0;
+    let inTick = false;
+    let i = start;
+    for (; i < html.length; i++) {
+      const ch = html[i];
+      if (ch === "`") {
+        inTick = !inTick;
+        continue;
+      }
+      if (inTick) continue;
+      if (ch === "{") depth++;
+      else if (ch === "}" && --depth === 0) {
+        i++;
+        break;
+      }
+    }
+    out.push(html.slice(start, i));
+  }
+  return out;
+};
+
+/** Column labels, in order. A label may be plain (`title:\`模型\``) or wrapped in
+    a Tooltip, where the label is the tooltip's `children`. */
+const columnsOf = (payload) => {
+  const a = payload.indexOf("columns:[");
+  const b = payload.indexOf("],rows:");
+  if (a < 0 || b < 0) return null;
+  return payload
+    .slice(a + "columns:[".length, b)
+    .split("{title:")
+    .slice(1)
+    .map((seg) => {
+      const child = /children:`([^`]*)`/.exec(seg);
+      if (child) return child[1].trim();
+      const plain = /^`([^`]*)`/.exec(seg.trim());
+      return plain ? plain[1].trim() : "";
+    });
+};
+
+/** Each row as `{ id, values }`, the values in column order. */
+const rowsOf = (payload) => {
+  const rows = [];
+  for (const m of payload.matchAll(
+    /\[_jsx\(_components\.a,[^\]]*?children:`([^`]+)`\}\)((?:,`[^`]*`)*)\]/g,
+  )) {
+    rows.push({ id: m[1].trim(), values: [...m[2].matchAll(/`([^`]*)`/g)].map((x) => x[1]) });
+  }
+  return rows;
+};
+
+/** `¥13.00 / MTok` -> `13.00`; a missing cell is left absent. */
+const money = (cell) => {
+  const m = /[¥$]\s*([0-9]+(?:\.[0-9]+)?)/.exec(cell ?? "");
+  return m ? decimal(m[1]) : undefined;
 };
 
 export default {
   ids: ["kimi"],
-  source: PRICING_MD,
+  source: PRICING_HTML,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read"],
+  owns: ["in", "out", "cache_read", "cache_creation", "cache_creation_1h"],
 
   async read() {
-    const md = await getText(PRICING_MD);
-    // The page carries **more than one** <DocTable> — the current models in one,
-    // the rest of the catalogue in another — and reading only the first made the
-    // older models look retired the day the split landed. Every table is read and
-    // their rows merged; a model listed twice prices identically or the first row
-    // wins, which the compare below would catch as a diff.
-    const tables = [...md.matchAll(/<DocTable[\s\S]*?\/>/g)].map((m) => m[0]);
-    if (tables.length === 0) drift("no <DocTable> element in the pricing markdown");
+    const html = await getText(PRICING_HTML, { headers: { accept: "text/html" } });
+    const tables = docTables(html);
+    if (tables.length === 0) drift("no DocTable payload in the pricing page");
 
     const out = [];
-    for (const table of tables) {
-      const titles = [...table.matchAll(/\{\s*title:\s*"([^"]+)"/g)].map((m) => m[1]);
-      const rowBlocks = [...table.matchAll(/\[([^\][]*)\]/g)].map((m) => m[1]);
-      if (titles.length === 0 || rowBlocks.length === 0) drift("could not read the table's columns or rows");
-      const rows = rowBlocks
-        .map((b) => {
-          try {
-            return JSON.parse(`[${b.replace(/,\s*$/, "")}]`);
-          } catch {
-            return null;
-          }
-        })
-        .filter((r) => Array.isArray(r) && r.every((c) => typeof c === "string"));
+    const seen = new Set();
+    for (const payload of tables) {
+      const titles = columnsOf(payload);
+      const rows = rowsOf(payload);
+      // The page also carries `<DocTable>` boundary stubs whose props are only
+      // the heading groups — no columns, no rows. They are not tables.
+      if (!titles || titles.length === 0 || rows.length === 0) continue;
 
-      const cols = titles.map((t, i) => [columnField(t), i, t]).filter(([f]) => f);
-      if (cols.length < 3) drift(`could not map the columns: ${titles.join(" | ")}`);
-      const modelAt = titles.findIndex((t) => t === "模型");
-      if (modelAt < 0) drift(`no "模型" column among: ${titles.join(" | ")}`);
+      // The price cells start after the model cell.
+      const cols = [];
+      for (let i = 0; i < titles.length; i++) {
+        const field = columnField(titles[i]);
+        if (field) cols.push([field, i - 1, titles[i]]);
+      }
+      if (!cols.some(([f]) => f === "in") || !cols.some(([f]) => f === "out")) {
+        drift(`could not map the columns: ${titles.join(" | ")}`);
+      }
 
       for (const r of rows) {
-        const row = { id: String(r[modelAt]).trim() };
-        if (row.id === "" || out.some((x) => x.id === row.id)) continue;
-        for (const [field, i] of cols) row[field] = decimal(r[i]);
+        if (!r.id || seen.has(r.id)) continue;
+        const row = { id: r.id };
+        for (const [field, at, title] of cols) {
+          const v = money(r.values[at]);
+          if (v === undefined) drift(`${r.id}: column "${title}" holds no price`);
+          row[field] = v;
+        }
+        seen.add(r.id);
         out.push(row);
       }
     }

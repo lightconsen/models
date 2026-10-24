@@ -4,22 +4,27 @@
  * Fireworks does not put per-token rates on one table. The pricing page
  * (`docs.fireworks.ai/serverless/pricing`) prices the headline models and says
  * everything else in the serverless catalogue is billed by parameter count and
- * architecture; each model's own page carries the actual rate in a
- * server-rendered display —
+ * architecture; each model's own page carries the actual rate under its
+ * "Available Serverless" heading —
  *
- *   <div class="text-display-sm font-medium text-black">$3.00 / $0.30 / $15.00</div>
- *   Per 1M Tokens (input/cached input/output)
+ *   Available Serverless
+ *   $3.00 / $0.30 / $15.00
+ *
+ * (input / cached input / output; a page with no serverless offering has no
+ * such heading at all).
  *
  * — and the router aliases (`glm-latest`, `kimi-fast-latest`, …) are a table in
  * `docs.fireworks.ai/nexus/open-models` that says which model each alias
  * currently points at and in which tier. So the adapter reads:
  *
  *   models    `fireworks.ai/models?modelTypes=Serverless` — the vendor's own
- *             filtered catalogue, which is the live statement of what Fireworks
- *             sells serverless. Each listed model page must carry a price
- *             display; one that does not is a drift, not a row to drop, because
- *             a follow source would otherwise delete a live model's row.
- *   prices    the display on each of those model pages.
+ *             filtered catalogue. Its served links are only the first few
+ *             cards, so membership comes from the RSC payload the page ships,
+ *             which is the full list with `serverless` and `pricingInput` /
+ *             `pricingOutput` on every entry.
+ *   prices    the display on each model's own page, which is the only place the
+ *             cached-input rate is stated; the payload's input/output are the
+ *             fallback for a page that stopped displaying them.
  *   fast      the Standard column of the pricing page's "Text and vision models"
  *             table, which is the only place the Fast tier (`kimi-k3-fast`,
  *             `glm-5p3-fast`) is priced.
@@ -50,7 +55,7 @@
  * be live needs an API key — so the adapter follows it and reports the counts,
  * rather than pretending it is as current as the model filter.
  */
-import { getText, drift, decimal, MEMBERSHIP } from "../lib/fetch.mjs";
+import { getText, drift, decimal, MEMBERSHIP, readEntry } from "../lib/fetch.mjs";
 
 const MODELS_URL = "https://fireworks.ai/models?modelTypes=Serverless";
 const PRICING_URL = "https://docs.fireworks.ai/serverless/pricing";
@@ -79,6 +84,25 @@ const displayRates = (text) => {
   return null;
 };
 
+/**
+ * The price beside the page's "Available Serverless" heading.
+ *
+ * The server-rendered display is `$3.00 / $0.30 / $15.00` (input / cached input
+ * / output). It used to sit in a `text-display-sm` div; the October 2026 redesign
+ * moved it into a right-aligned paragraph under the heading, so the heading is
+ * what the reader anchors on — a page with no serverless offering has no such
+ * heading, which is also how the catalogue's occasional stale listing is told
+ * apart from a page that merely changed markup.
+ */
+const serverlessRates = (html) => {
+  const h = html.replace(/<!-- -->/g, "");
+  const at = h.indexOf("Available Serverless");
+  if (at < 0) return null;
+  // One figure for an embedding/reranker (input only), three for a text model.
+  const m = /\$[0-9]+(?:\.[0-9]+)?(?:\s*\/\s*\$[0-9]+(?:\.[0-9]+)?){0,2}/.exec(h.slice(at, at + 2000));
+  return m ? displayRates(m[0]) : null;
+};
+
 /** `<title>Kimi K3 API & Playground | Fireworks</title>` -> `Kimi K3`. */
 const titleOf = (html) => {
   const t = /<title>([\s\S]*?)<\/title>/i.exec(html);
@@ -97,6 +121,57 @@ const rowsAfter = (html, id, what) => {
   );
 };
 
+/**
+ * The catalogue page's own data, from the RSC payload it ships.
+ *
+ * The served HTML lists only the first few cards as links — on 2026-10-24 that
+ * was 9 of the page's own 329 models — so the links are not the catalogue. The
+ * page's React payload carries the whole list as JSON:
+ *
+ *   {"_id":"kimi-k3", …, "pricingInput":3,"pricingOutput":15,
+ *    "serverless":true, "slug":"fireworks/kimi-k3", …}
+ *
+ * which is where membership and the model names come from. Prices still come
+ * from each model page's display, because that is the only place the cached
+ * input rate is stated.
+ */
+const catalogueOf = (html) => {
+  const payload = [...html.matchAll(/self\.__next_f\.push\(\[1,("(?:[^"\\]|\\.)*")\]\)/g)]
+    .map((m) => {
+      try {
+        return JSON.parse(m[1]);
+      } catch {
+        return "";
+      }
+    })
+    .join("");
+  const at = payload.indexOf('"models":[');
+  if (at < 0) return null;
+  const start = payload.indexOf("[", at);
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+  for (let i = start; i < payload.length; i++) {
+    const c = payload[i];
+    if (inStr) {
+      if (esc) esc = false;
+      else if (c === "\\") esc = true;
+      else if (c === '"') inStr = false;
+      continue;
+    }
+    if (c === '"') inStr = true;
+    else if (c === "[") depth++;
+    else if (c === "]" && --depth === 0) {
+      try {
+        return JSON.parse(payload.slice(start, i + 1));
+      } catch {
+        return null;
+      }
+    }
+  }
+  return null;
+};
+
 export default {
   ids: ["fireworks"],
   source: MODELS_URL,
@@ -106,21 +181,37 @@ export default {
   async read() {
     // ── the live serverless catalogue ──
     const library = await getText(MODELS_URL, { headers: { accept: "text/html" } });
-    const links = [...new Set([...library.matchAll(/href="(\/models\/[^"]+)"/g)].map((m) => m[1]))];
-    if (links.length === 0) drift("the serverless catalogue lists no models — the page restructured");
+    const catalogue = catalogueOf(library);
+    if (!catalogue) drift("the catalogue page carries no models payload — the page restructured");
+    const serverless = catalogue.filter((m) => m?.serverless === true && m.slug);
+    if (serverless.length === 0) drift("the payload lists no serverless models");
 
     const rows = [];
-    const priced = new Map(); // slug -> {in, cache_read?, out}
-    for (const link of links) {
-      const slug = link.slice(link.lastIndexOf("/") + 1);
-      const html = await getText(`https://fireworks.ai${link}`, { headers: { accept: "text/html" } });
-      const display = /class="text-display-sm font-medium text-black">([^<]*)<\/div>/.exec(
-        html.replace(/<!-- -->/g, ""),
-      );
-      const rates = display ? displayRates(strip(display[1])) : null;
-      if (!rates) drift(`${link} is in the serverless catalogue but states no price display`);
+    const priced = new Map(); // model slug (last segment) -> {in, cache_read?, out}
+    const unpriced = [];
+    const existing = new Set(readEntry("fireworks").models.map((r) => r.id));
+    for (const model of serverless) {
+      const slug = model.slug.slice(model.slug.lastIndexOf("/") + 1);
+      // A router (`firerouter/opus`) is listed serverless and prices no tokens
+      // of its own: it routes to other models. Not a row.
+      if (model.pricingInput === null || model.pricingOutput === null) {
+        unpriced.push(slug);
+        continue;
+      }
+      const html = await getText(`https://fireworks.ai/models/${model.slug}`, { headers: { accept: "text/html" } });
+      const rates = serverlessRates(html);
+      const id = `accounts/fireworks/models/${slug}`;
+      if (!rates) {
+        // The payload prices it but the page does not display it: a model the
+        // entry already carries losing its display is a change to look at; a
+        // new one is priced from the payload, without a cached-input rate.
+        if (existing.has(id)) drift(`/models/${model.slug} is in the entry but its page no longer states a price`);
+        priced.set(slug, { in: String(model.pricingInput), out: String(model.pricingOutput) });
+        rows.push({ id, name: model.modelName ?? slug, in: String(model.pricingInput), out: String(model.pricingOutput) });
+        continue;
+      }
       priced.set(slug, rates);
-      rows.push({ id: `accounts/fireworks/models/${slug}`, name: titleOf(html) ?? slug, ...rates });
+      rows.push({ id, name: model.modelName ?? slug, ...rates });
     }
 
     // ── the Fast tier, which only the pricing table states ──
@@ -173,9 +264,12 @@ export default {
       rows: { fireworks: rows },
       notes: {
         fireworks: [
-          `${links.length} live serverless models on the filtered catalogue, ${aliases.length} aliases in the open-models snapshot`,
+          `${serverless.length} live serverless models in the page payload, ${aliases.length} aliases in the open-models snapshot`,
           "the alias table is labelled a snapshot (2026-09-27); the live alias source needs an API key, so it is followed as published",
           "Fast-tier ids are the pricing table's `Fast` rows, suffixed with -fast as the vendor's own family table spells them",
+          ...(unpriced.length
+            ? [`listed serverless but with no price line (routers, not base models): ${unpriced.join(", ")}`]
+            : []),
         ],
       },
     };

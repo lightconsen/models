@@ -351,5 +351,12 @@
     "name": "@cf/daily-co/phonellm-mini-alpha-2",
     "in": "0.060",
     "out": "0.240"
+  },
+  {
+    "id": "@cf/deepseek-ai/deepseek-v4.1-flash-1017",
+    "name": "@cf/deepseek-ai/deepseek-v4.1-flash-1017",
+    "in": "0.300",
+    "out": "1.200",
+    "cache_read": "0.006"
   }
 ]

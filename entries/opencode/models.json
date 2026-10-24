@@ -67,7 +67,8 @@
     "name": "Kimi K3",
     "in": "3",
     "out": "15",
-    "cache_read": "0.3"
+    "cache_read": "0.3",
+    "cache_creation": "3"
   },
   {
     "id": "kimi-k2.6",
@@ -105,22 +106,6 @@
     "out": "0.47",
     "cache_read": "0.016",
     "cache_creation": "0.2"
-  },
-  {
-    "id": "qwen3.7-max",
-    "name": "Qwen3.7 Max",
-    "in": "2.5",
-    "out": "7.5",
-    "cache_read": "0.5",
-    "cache_creation": "3.125"
-  },
-  {
-    "id": "qwen3.7-plus",
-    "name": "Qwen3.7 Plus",
-    "in": "0.4",
-    "out": "1.6",
-    "cache_read": "0.04",
-    "cache_creation": "0.5"
   },
   {
     "id": "qwen3.6-plus",
@@ -443,13 +428,13 @@
     "name": "GPT 6.1 Sol",
     "in": "2",
     "out": "10",
-    "cache_read": "0.2",
+    "cache_read": "0.1",
     "cache_creation": "2.5",
     "long_context": {
       "over": 272000,
       "in": "4",
       "out": "15",
-      "cache_read": "0.4",
+      "cache_read": "0.2",
       "cache_creation": "5"
     }
   },

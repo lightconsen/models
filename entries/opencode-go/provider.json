@@ -23,5 +23,6 @@
   "desc": "OpenCode Go's subscription plan for coding models",
   "plan_query": {
     "template": "opencode_go"
-  }
+  },
+  "prices_as_of": "2026-10-24"
 }

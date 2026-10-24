@@ -54,5 +54,9 @@
   {
     "id": "deepseek-v4.1-flash",
     "name": "DeepSeek-V4.1-Flash"
+  },
+  {
+    "id": "deepseek-v4.1-flash-economy",
+    "name": "DeepSeek-V4.1-Flash-Economy"
   }
 ]

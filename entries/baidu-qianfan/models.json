@@ -271,5 +271,35 @@
     "in": "16",
     "out": "56",
     "cache_read": "4"
+  },
+  {
+    "id": "DeepSeek-V4.1-Flash-1017",
+    "name": "DeepSeek-V4.1-Flash",
+    "in": "2",
+    "out": "8",
+    "cache_read": "0.04",
+    "off_peak": {
+      "in": "2",
+      "out": "4",
+      "cache_read": "0.02"
+    },
+    "peak_hours": {
+      "tz_offset": 480,
+      "windows": [
+        {
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat",
+            "sun"
+          ],
+          "start": "08:00",
+          "end": "22:00"
+        }
+      ]
+    }
   }
 ]

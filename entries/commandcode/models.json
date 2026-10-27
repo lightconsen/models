@@ -1033,5 +1033,14 @@
     "out": "10",
     "cache_read": "0.2",
     "context": 1048576
+  },
+  {
+    "id": "gpt-6.1-terra",
+    "name": "GPT-6.1 Terra",
+    "in": "1",
+    "out": "5",
+    "cache_read": "0.05",
+    "cache_creation": "1.25",
+    "context": 1050000
   }
 ]

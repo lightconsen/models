@@ -268,5 +268,19 @@
     "name": "Qwen3 Embedding 8B",
     "in": "0.1",
     "out": "0"
+  },
+  {
+    "id": "accounts/fireworks/models/minimax-m3p1-flash",
+    "name": "MiniMax M3.1 Flash",
+    "in": "0.15",
+    "out": "0.6",
+    "cache_read": "0.015"
+  },
+  {
+    "id": "accounts/fireworks/models/rune",
+    "name": "Rune 26B-A4B",
+    "in": "0.042",
+    "out": "0",
+    "cache_read": "0.008"
   }
 ]

@@ -11,7 +11,7 @@
     },
     "flagship": true,
     "context": 1050000,
-    "max_output": 945000,
+    "max_output": 65536,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -39,7 +39,7 @@
       "anthropic": "deepseek/deepseek-v4-flash-0731"
     },
     "context": 1048576,
-    "max_output": 131072,
+    "max_output": 943718,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -64,7 +64,7 @@
       "anthropic": "deepseek/deepseek-v4-flash"
     },
     "context": 1048576,
-    "max_output": 943717,
+    "max_output": 943718,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -272,7 +272,7 @@
       "anthropic": "deepseek/deepseek-v4.1-flash"
     },
     "context": 1048576,
-    "max_output": 943718,
+    "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -775,7 +775,7 @@
       "anthropic": "xiaomi/mimo-v2.5-pro"
     },
     "context": 1050000,
-    "max_output": 945000,
+    "max_output": 235929,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -1678,7 +1678,7 @@
       "anthropic": "z-ai/glm-5.1"
     },
     "context": 204800,
-    "max_output": 131072,
+    "max_output": 128000,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -3728,7 +3728,7 @@
     "id": "qwen/qwen3.6-27b",
     "name": "Qwen: Qwen3.6 27B",
     "context": 262144,
-    "max_output": 65536,
+    "max_output": 81920,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -3926,27 +3926,6 @@
     }
   },
   {
-    "id": "arcee-ai/trinity-large-thinking",
-    "name": "Arcee AI: Trinity Large Thinking",
-    "in": "0.25",
-    "out": "0.8",
-    "cache_read": "0.06",
-    "context": 262144,
-    "max_output": 80000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "x-ai/grok-4.20-multi-agent",
     "name": "SpaceXAI: Grok 4.20 Multi-Agent",
     "context": 2000000,
@@ -4070,28 +4049,6 @@
     "in": "0.15",
     "out": "0.6",
     "cache_read": "0.015",
-    "context": 262144,
-    "max_output": 209715,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "mistralai/mistral-small-2603:batch",
-    "name": "Mistral: Mistral Small 4 (batch)",
-    "in": "0.075",
-    "out": "0.3",
-    "cache_read": "0.0075",
     "context": 262144,
     "max_output": 209715,
     "reasoning": true,
@@ -4328,7 +4285,7 @@
     "id": "qwen/qwen3.5-27b",
     "name": "Qwen: Qwen3.5-27B",
     "context": 262144,
-    "max_output": 65536,
+    "max_output": 81920,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -4581,7 +4538,7 @@
     "out": "1.2",
     "cache_read": "0.03",
     "context": 204800,
-    "max_output": 32768,
+    "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -5214,28 +5171,6 @@
     }
   },
   {
-    "id": "mistralai/ministral-8b-2512:batch",
-    "name": "Mistral: Ministral 3 8B 2512 (batch)",
-    "in": "0.075",
-    "out": "0.075",
-    "cache_read": "0.0075",
-    "context": 262144,
-    "max_output": 209715,
-    "reasoning": false,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "mistralai/ministral-3b-2512",
     "name": "Mistral: Ministral 3 3B 2512",
     "in": "0.1",
@@ -5250,29 +5185,6 @@
     "modalities": {
       "input": [
         "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "mistralai/mistral-large-2512:batch",
-    "name": "Mistral: Mistral Large 3 2512 (batch)",
-    "in": "0.25",
-    "out": "0.75",
-    "cache_read": "0.025",
-    "context": 262144,
-    "max_output": 209715,
-    "reasoning": false,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
         "text"
       ],
       "output": [
@@ -5512,26 +5424,6 @@
     "max_output": 65536,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "ibm-granite/granite-4.0-h-micro",
-    "name": "IBM: Granite 4.0 Micro",
-    "in": "0.017",
-    "out": "0.112",
-    "context": 131000,
-    "max_output": 117900,
-    "reasoning": false,
-    "tool_call": false,
     "structured_output": true,
     "temperature": true,
     "modalities": {
@@ -6049,30 +5941,6 @@
     "knowledge": "2025-06-30"
   },
   {
-    "id": "mistralai/mistral-medium-3.1:batch",
-    "name": "Mistral: Mistral Medium 3.1 (batch)",
-    "in": "0.2",
-    "out": "1",
-    "cache_read": "0.02",
-    "context": 131072,
-    "max_output": 104857,
-    "reasoning": false,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2025-06-30"
-  },
-  {
     "id": "openai/gpt-5",
     "name": "OpenAI: GPT-5",
     "in": "1.25",
@@ -6309,29 +6177,6 @@
       ]
     },
     "knowledge": "2025-01-31"
-  },
-  {
-    "id": "mistralai/codestral-2508:batch",
-    "name": "Mistral: Codestral 2508 (batch)",
-    "in": "0.15",
-    "out": "0.45",
-    "cache_read": "0.015",
-    "context": 256000,
-    "max_output": 204800,
-    "reasoning": false,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2025-03-31"
   },
   {
     "id": "mistralai/codestral-2508",
@@ -7112,7 +6957,7 @@
     "out": "0.4",
     "cache_read": "0.025",
     "context": 1047576,
-    "max_output": 32768,
+    "max_output": 942818,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
@@ -7239,7 +7084,7 @@
     "in": "0.05",
     "out": "0.1",
     "context": 131072,
-    "max_output": 117964,
+    "max_output": 16384,
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
@@ -8036,7 +7881,7 @@
     "id": "meta-llama/llama-3.2-3b-instruct",
     "name": "Meta: Llama 3.2 3B Instruct",
     "context": 131072,
-    "max_output": 72000,
+    "max_output": 117964,
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
@@ -8467,27 +8312,6 @@
     "knowledge": "2021-09-30"
   },
   {
-    "id": "openai/gpt-3.5-turbo-instruct",
-    "name": "OpenAI: GPT-3.5 Turbo Instruct",
-    "in": "1.5",
-    "out": "2",
-    "context": 4095,
-    "max_output": 3685,
-    "reasoning": false,
-    "tool_call": false,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2021-09-30"
-  },
-  {
     "id": "mancer/weaver",
     "name": "Mancer: Weaver (alpha)",
     "in": "0.4",
@@ -8530,27 +8354,6 @@
     "out": "0.65"
   },
   {
-    "id": "openai/gpt-3.5-turbo",
-    "name": "OpenAI: GPT-3.5 Turbo",
-    "in": "0.5",
-    "out": "1.5",
-    "context": 16385,
-    "max_output": 4096,
-    "reasoning": false,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2021-09-30"
-  },
-  {
     "id": "gryphe/mythomax-l2-13b",
     "name": "MythoMax 13B",
     "context": 8192,
@@ -8568,27 +8371,6 @@
       ]
     },
     "knowledge": "2023-06-30"
-  },
-  {
-    "id": "openai/gpt-3.5-turbo:batch",
-    "name": "OpenAI: GPT-3.5 Turbo (batch)",
-    "in": "0.25",
-    "out": "0.75",
-    "context": 16385,
-    "max_output": 4096,
-    "reasoning": false,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2021-09-30"
   },
   {
     "id": "openai/gpt-4",
@@ -9421,8 +9203,8 @@
   {
     "id": "reflection/beam-1.0-501b-a23b",
     "name": "Reflection: Beam 1.0 501B A23B",
-    "in": "0.25",
-    "out": "1",
+    "in": "0.4",
+    "out": "1.2",
     "context": 1048576,
     "max_output": 131072,
     "reasoning": true,
@@ -9437,7 +9219,8 @@
         "text"
       ]
     },
-    "knowledge": "2026-06-30"
+    "knowledge": "2026-06-30",
+    "cache_read": "0.04"
   },
   {
     "id": "qwen/qwen3.7-plus:batch",
@@ -9581,6 +9364,123 @@
     "cache_read": "0.01",
     "context": 1000000,
     "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openai/gpt-6.1-terra-pro",
+    "name": "OpenAI: GPT-6.1 Terra Pro",
+    "in": "0.5",
+    "out": "2.5",
+    "cache_read": "0.025",
+    "cache_creation": "0.625",
+    "context": 1050000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openai/gpt-6.1-terra-pro:batch",
+    "name": "OpenAI: GPT-6.1 Terra Pro (batch)",
+    "in": "0.5",
+    "out": "2.5",
+    "cache_read": "0.025",
+    "cache_creation": "0.625",
+    "context": 1050000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openai/gpt-6.1-terra:batch",
+    "name": "OpenAI: GPT-6.1 Terra (batch)",
+    "in": "0.5",
+    "out": "2.5",
+    "cache_read": "0.025",
+    "cache_creation": "0.625",
+    "context": 1050000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openai/gpt-6.1-terra",
+    "name": "OpenAI: GPT-6.1 Terra",
+    "in": "0.5",
+    "out": "2.5",
+    "cache_read": "0.025",
+    "cache_creation": "0.625",
+    "context": 1050000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "liquid/lfm-2.5-2.6b",
+    "name": "LiquidAI: LFM2.5-2.6B",
+    "in": "0.35",
+    "out": "0.5",
+    "cache_read": "0.04",
+    "context": 128000,
+    "max_output": 8192,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,

@@ -739,33 +739,11 @@
     "temperature": true
   },
   {
-    "id": "openai-o1",
-    "name": "OpenAI o1",
-    "in": "15",
-    "out": "60",
-    "cache_read": "7.5",
-    "context": 200000,
-    "max_output": 100000,
-    "reasoning": true,
-    "tool_call": true
-  },
-  {
     "id": "openai-o3",
     "name": "OpenAI o3",
     "in": "2",
     "out": "8",
     "cache_read": "0.5",
-    "context": 200000,
-    "max_output": 100000,
-    "reasoning": true,
-    "tool_call": true
-  },
-  {
-    "id": "openai-o3-mini",
-    "name": "OpenAI o3 mini",
-    "in": "1.1",
-    "out": "4.4",
-    "cache_read": "0.55",
     "context": 200000,
     "max_output": 100000,
     "reasoning": true,
@@ -882,12 +860,5 @@
       "cache_read": "0.02",
       "cache_creation": "0.25"
     }
-  },
-  {
-    "id": "openai-gpt-image-1",
-    "name": "GPT-image-1",
-    "in": "5",
-    "out": "40",
-    "cache_read": "1.25"
   }
 ]

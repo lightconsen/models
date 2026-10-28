@@ -50,5 +50,23 @@
     "tool_call": true,
     "structured_output": true,
     "temperature": false
+  },
+  {
+    "id": "kimi-k3.1-pro",
+    "name": "kimi-k3.1-pro",
+    "in": "13.00",
+    "out": "68.00",
+    "cache_read": "1.30",
+    "cache_creation": "13.00",
+    "cache_creation_1h": "26.00"
+  },
+  {
+    "id": "kimi-k3.1-pro-highspeed",
+    "name": "kimi-k3.1-pro-highspeed",
+    "in": "26.00",
+    "out": "136.00",
+    "cache_read": "1.30",
+    "cache_creation": "26.00",
+    "cache_creation_1h": "52.00"
   }
 ]

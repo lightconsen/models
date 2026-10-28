@@ -56,10 +56,19 @@ export default {
 
     const rows = [];
     const skipped = [];
+    // A status this adapter may act on by dropping a row. Anything else —
+    // `error` is the one observed (2026-10-27, GLM-5.2 for a few minutes) — is a
+    // serving glitch, not a retirement: dropping the row would delete a live
+    // model because the vendor's status field hiccuped, and the next run would
+    // add it back. So an unknown status drifts and the entry waits.
+    const RETIRED = /^(deprecated|retired|inactive|disabled|offline|sunset|eol)$/i;
     for (const model of data) {
       if (model.status !== "active") {
-        skipped.push(`${model.name ?? "?"} (${model.status})`);
-        continue;
+        if (RETIRED.test(model.status ?? "")) {
+          skipped.push(`${model.name ?? "?"} (${model.status})`);
+          continue;
+        }
+        drift(`${model.name ?? "?"} reports status "${model.status}" — not a retirement, so not a row to drop`);
       }
       const flavors = model.flavors ?? [];
       if (flavors.length !== 1) {
@@ -91,7 +100,12 @@ export default {
 
     const notes = [
       `${data.length} public models in the catalog, ${rows.length} priced rows`,
-      "the catalog publishes no cached-input rate on any model, so cache_read is absent (the seeded values were removed)",
+      (() => {
+        const cached = rows.filter((r) => r.cache_read !== undefined).length;
+        return cached === 0
+          ? "the catalog publishes no cached-input rate on any model, so cache_read is absent"
+          : `the catalog publishes a cached-input rate on ${cached} of ${rows.length} rows`;
+      })(),
     ];
     if (skipped.length) notes.push(`skipped: ${skipped.join(", ")}`);
     return { rows: { nebius: rows }, notes: { nebius: notes } };

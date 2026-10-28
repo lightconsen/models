@@ -1,0 +1,21 @@
+# Kiwano Hub
+
+> Per-token LLM prices across 62 providers — vendor APIs, MaaS platforms and inference hosts — checked against the vendors' own published pages and dated.
+
+The catalogue is plain static JSON. No key, no auth, no rate limit.
+
+## Docs
+
+- [API contract](https://models.kiwano.cc/api.md): the four JSON files, the sync pattern, every field's shape, the MCP server. Markdown, hand-written, the source of truth.
+
+## Data
+
+- [manifest.json](https://models.kiwano.cc/data/manifest.json): sha256 of each file + the price-table version — fetch first, stop if unchanged
+- [catalog.json](https://models.kiwano.cc/data/catalog.json): 62 providers, identity and endpoints
+- [models.json](https://models.kiwano.cc/data/models.json): 1540 price rows, one per (provider, model); prices are decimal strings, never numbers
+- [news.json](https://models.kiwano.cc/data/news.json): dated notices, keyed (provider_id, model_id)
+
+## Optional
+
+- [Sitemap](https://models.kiwano.cc/sitemap.xml): the prerendered provider and model pages
+- [MCP server](https://github.com/lightconsen/models/blob/main/scripts/hub-mcp.mjs): the same data in the tool loop

@@ -282,5 +282,12 @@
     "in": "0.042",
     "out": "0",
     "cache_read": "0.008"
+  },
+  {
+    "id": "accounts/fireworks/models/ultramarine-1-flash-us",
+    "name": "Ultramarine 1 Flash",
+    "in": "0.225",
+    "out": "0.75",
+    "cache_read": "0.045"
   }
 ]

@@ -11,85 +11,6 @@
     }
   },
   {
-    "id": "ERNIE-5.0",
-    "name": "ERNIE 5.0",
-    "in": "6",
-    "out": "24",
-    "long_context": {
-      "over": 32000,
-      "in": "10",
-      "out": "40"
-    }
-  },
-  {
-    "id": "ERNIE-5.0-Thinking-Preview",
-    "name": "ERNIE 5.0",
-    "in": "6",
-    "out": "24",
-    "long_context": {
-      "over": 32000,
-      "in": "10",
-      "out": "40"
-    }
-  },
-  {
-    "id": "ERNIE-5.0-Thinking-Latest",
-    "name": "ERNIE 5.0",
-    "in": "6",
-    "out": "24",
-    "long_context": {
-      "over": 32000,
-      "in": "10",
-      "out": "40"
-    }
-  },
-  {
-    "id": "ERNIE-5.0-Thinking-Exp",
-    "name": "ERNIE 5.0",
-    "in": "6",
-    "out": "24",
-    "long_context": {
-      "over": 32000,
-      "in": "10",
-      "out": "40"
-    }
-  },
-  {
-    "id": "ERNIE-4.5-Turbo-128K-Preview",
-    "name": "ERNIE 4.5 Turbo",
-    "in": "0.8",
-    "out": "3.2",
-    "cache_read": "0.2"
-  },
-  {
-    "id": "ERNIE-4.5-Turbo-32K",
-    "name": "ERNIE 4.5 Turbo",
-    "in": "0.8",
-    "out": "3.2",
-    "cache_read": "0.2"
-  },
-  {
-    "id": "ERNIE-4.5-Turbo-20260402",
-    "name": "ERNIE 4.5 Turbo",
-    "in": "0.8",
-    "out": "3.2",
-    "cache_read": "0.2"
-  },
-  {
-    "id": "ERNIE-4.5-Turbo-VL",
-    "name": "ERNIE 4.5 Turbo VL",
-    "in": "3",
-    "out": "9",
-    "cache_read": "0.75"
-  },
-  {
-    "id": "ERNIE-4.5-Turbo-VL-32K",
-    "name": "ERNIE 4.5 Turbo VL",
-    "in": "3",
-    "out": "9",
-    "cache_read": "0.75"
-  },
-  {
     "id": "DeepSeek-V4.1-Flash",
     "name": "DeepSeek-V4.1-Flash",
     "in": "2",
@@ -178,12 +99,6 @@
         }
       ]
     }
-  },
-  {
-    "id": "InternVL3-38B",
-    "name": "InternVL3",
-    "in": "8",
-    "out": "24"
   },
   {
     "id": "DeepSeek-V4-Pro",

@@ -17,24 +17,6 @@
     }
   },
   {
-    "id": "baidu/ernie-4.5-21B-a3b",
-    "name": "ERNIE 4.5 21B A3B",
-    "in": "0.07",
-    "out": "0.28",
-    "context": 120000,
-    "max_output": 8000,
-    "tool_call": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "deepseek/deepseek-ocr-2",
     "name": "deepseek/deepseek-ocr-2",
     "in": "0.03",
@@ -1782,7 +1764,7 @@
     "in": "0.3",
     "out": "0.9",
     "cache_read": "0.06",
-    "context": 262144,
+    "context": 1000000,
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,

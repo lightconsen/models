@@ -1277,23 +1277,6 @@
     "structured_output": true
   },
   {
-    "id": "stepfun-ai/Step-5-Preview",
-    "name": "stepfun-ai/Step-5-Preview",
-    "in": "1",
-    "out": "2.7",
-    "cache_read": "0.1",
-    "context": 1048576,
-    "max_output": 1048576,
-    "modalities": {
-      "input": [
-        "text",
-        "image",
-        "video"
-      ]
-    },
-    "structured_output": true
-  },
-  {
     "id": "inclusionAI/Ling-3.1-flash",
     "name": "inclusionAI/Ling-3.1-flash",
     "in": "0.3",

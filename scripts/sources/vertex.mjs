@@ -1,12 +1,16 @@
 /**
- * Google Vertex AI's generative-ai prices, from the vendor's own pricing page
- * (`cloud.google.com/vertex-ai/generative-ai/pricing` — renamed "Agent Platform
- * pricing" in the October 2026 redesign) — server-rendered tables (~3.5MB,
- * no key) covering Gemini, Claude, Llama, Mistral, Qwen, Grok, DeepSeek and
- * the embeddings, plus Google's own extras (grounding, image generation).
+ * Google Vertex AI's generative-ai prices, from the vendor's own pricing pages
+ * — two of them since the October 2026 redesign settled in. The main page
+ * (`cloud.google.com/vertex-ai/generative-ai/pricing`, renamed "Agent Platform
+ * pricing") now covers Google's own models only; on 2026-10-29 it dropped the
+ * partner tables and its "Partner models on Agent Platform" section became a
+ * pointer. The partner models — Claude, Grok, Llama, MiniMax, Moonshot, Qwen,
+ * GLM, OpenAI, Mistral — moved to `cloud.google.com/model-garden/partner-models/pricing`.
+ * Both are server-rendered tables (~3MB, no key) in the same shape, so one
+ * reader walks both and the rows merge. A model priced on both pages would be
+ * a vendor restructuring, not a price, and drifts rather than picking one.
  *
- * The redesign tripled the table count and wrapped most of them in tab
- * groups, so the walk is three filters deep:
+ * The walk is three filters deep:
  *
  *   sections    a token table is read only under a heading that names a
  *               model family (Gemini N, Anthropic's Claude models, xAI's
@@ -50,6 +54,7 @@
 import { drift, getText, MEMBERSHIP } from "../lib/fetch.mjs";
 
 const URL = "https://cloud.google.com/vertex-ai/generative-ai/pricing";
+const PARTNER_URL = "https://cloud.google.com/model-garden/partner-models/pricing";
 
 /** Page row label → entry id. The labels are the page's display names; the
     ids are the seed's Vertex deployment ids. Dated suffixes are handled by
@@ -145,178 +150,189 @@ const dateOf = (label, kind) => {
 
 export default {
   ids: ["vertex"],
-  source: URL,
+  source: `${URL} + ${PARTNER_URL}`,
   membership: MEMBERSHIP.FOLLOW,
   owns: ["in", "out", "cache_read", "long_context", "modalities"],
 
   async read() {
-    const html = await getText(URL, { headers: { accept: "text/html" } });
-
-    /** Tab id → the tab's own name, from the button's tracking attribute. */
-    const tabLabel = {};
-    for (const m of html.matchAll(/<button[^>]*id="(tab-[^"]+)"[^>]*>/g))
-      tabLabel[m[1]] = /track-metadata-eventdetail="([^"]*)"/.exec(m[0])?.[1] ?? null;
-
     /** (modelId) → {in, out, cache_read?, long_context?} — the base rate
         (Standard/Global tab), with the long band in long_context. */
     const rows = new Map();
+    /** Which page a row came from. The two pages are disjoint families today;
+        a model priced on both would be a restructuring to look at, not a
+        price to pick between. */
+    const origin = new Map();
     const skipped = new Map();
     const skip = (why, label) => skipped.set(why, [...(skipped.get(why) ?? []), label]);
     const now = new Date();
-
-    // Walk headings and tables in document order, so each token table knows
-    // the section it sits in.
-    let section = "";
-    const walk = [...html.matchAll(/<h[1-6][^>]*>[\s\S]*?<\/h[1-6]>|<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
     let tables = 0;
-    for (const node of walk) {
-      if (node.startsWith("<h")) { section = strip(node); continue; }
-      tables++;
-      const tb = node;
 
-      // tab filter: a panel that answers to a non-base tab prices another SKU
-      const pre = html.slice(Math.max(0, html.indexOf(tb) - 2500), html.indexOf(tb));
-      const tabM = [...pre.matchAll(/role="tabpanel" aria-labelledby="([^"]+)"/g)].pop();
-      if (tabM) {
-        const label = tabLabel[tabM[1]];
-        if (label === null || label === undefined) { skip("a tab whose button does not name itself", section); continue; }
-        if (!BASE_TAB.test(label)) { skip(`the "${label}" tab`, section); continue; }
-      }
+    for (const url of [URL, PARTNER_URL]) {
+      const html = await getText(url, { headers: { accept: "text/html" } });
 
-      if (!SECTIONS.test(section)) continue;
+      /** Tab id → the tab's own name, from the button's tracking attribute. */
+      const tabLabel = {};
+      for (const m of html.matchAll(/<button[^>]*id="(tab-[^"]+)"[^>]*>/g))
+        tabLabel[m[1]] = /track-metadata-eventdetail="([^"]*)"/.exec(m[0])?.[1] ?? null;
 
-      const rowsAll = [...tb.matchAll(/<tr[\s\S]*?<\/tr>/g)].map((m) => m[0]);
-      const headRow = rowsAll.find((r) => /<th[\s>]/.test(r));
-      if (!headRow) continue;
-      const cols = [...headRow.matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g)].map((c) => strip(c[1]));
-      // this table prices tokens if a header names a token price
-      // this table prices tokens if a header says so — either in words
-      // ("Price (/1M tokens) …") or in units (the partner tables' bare
-      // "Price /1M (USD)")
-      const isTokenTable = cols.some((c) => /price/i.test(c) && (/token/i.test(c) || /\/\s*1M/i.test(c)));
-      if (!isTokenTable) continue;
+      // Walk headings and tables in document order, so each token table knows
+      // the section it sits in.
+      let section = "";
+      const walk = [...html.matchAll(/<h[1-6][^>]*>[\s\S]*?<\/h[1-6]>|<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
+      for (const node of walk) {
+        if (node.startsWith("<h")) { section = strip(node); continue; }
+        tables++;
+        const tb = node;
 
-      /** The price columns' roles, from the header: base band vs long band
-          vs the cached pair, and the threshold (200K, 100K) the band turns
-          at. A column with no band marker is a flat price. */
-      const priceCols = [];
-      cols.forEach((c, i) => {
-        if (!/price/i.test(c)) return;
-        const long = />\s*(\d+)\s*K/i.test(c);
-        const band = /(?:<=|=<|≤|>)\s*(\d+)\s*K/i.test(c) ? Number(/(\d+)\s*K/i.exec(c)[1]) * 1000 : null;
-        const cache = /cache/i.test(c);
-        priceCols.push({ i, band, cache, long });
-      });
-      if (priceCols.length === 0) continue;
-      const typeIdx = cols.findIndex((c) => /^type$/i.test(c));
-      const regionIdx = cols.findIndex((c) => /^region$/i.test(c));
-
-      let currentModel = null;
-      let currentLabel = null;
-
-      for (const tr of rowsAll) {
-        if (tr === headRow) continue;
-        const cells = [...tr.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((c) => strip(c[1]));
-        if (cells.length < 2) continue;
-
-        const label = cells[0];
-        if (label) {
-          // the dated rows spell the model name plus the window ("Gemini 3.8
-          // Flash*  through December 31, 2026") — strip the window and retry
-          // the map, so the in-force introductory row prices the same model
-          // the plain row does
-          const bare = label.replace(/\*{0,2}\s*(through\s+\w+\s+\d{1,2},?\s+\d{4}|starting\s+\w+\s+\d{1,2},?\s+\d{4})\s*$/i, "").trim();
-          currentModel = MODELS[label] ?? MODELS[bare] ?? null;
-          currentLabel = label;
-          if (!currentModel) skip("a model the id table lacks", label);
-        }
-        if (!currentModel) continue;
-
-        // the type cell — the page itself typos "Inpur"/"Outpur" on the
-        // newest Claude rows, so the match is on the prefix
-        const type = cells[typeIdx >= 0 ? typeIdx : 1] ?? "";
-        if (/^batch/i.test(type)) continue; // the batch SKU, at half price
-        const isInput = /^inp/i.test(type);
-        const isOutput = /^(out|text output)/i.test(type);
-        const isCacheHit = /^cache hit/i.test(type);
-        if (!isInput && !isOutput && !isCacheHit) continue;
-
-        // the Region cell, where the table carries one (the Gemini tables):
-        // Global is the direct-API rate; Non-global is the region premium
-        if (regionIdx >= 0) {
-          const regionCell = cells[regionIdx] ?? "";
-          if (regionCell && !/^global$/i.test(regionCell)) continue;
+        // tab filter: a panel that answers to a non-base tab prices another SKU
+        const pre = html.slice(Math.max(0, html.indexOf(tb) - 2500), html.indexOf(tb));
+        const tabM = [...pre.matchAll(/role="tabpanel" aria-labelledby="([^"]+)"/g)].pop();
+        if (tabM) {
+          const label = tabLabel[tabM[1]];
+          if (label === null || label === undefined) { skip("a tab whose button does not name itself", section); continue; }
+          if (!BASE_TAB.test(label)) { skip(`the "${label}" tab`, section); continue; }
         }
 
-        // the date windows: the introductory row is in force until its date;
-        // the future row from its date. A row in neither window (no date in
-        // the label) is always in force. Today decides.
-        const untilDate = dateOf(currentLabel ?? "", "until");
-        const fromDate = dateOf(currentLabel ?? "", "from");
-        if (fromDate && now < fromDate) { skip("a future-dated rate", currentLabel ?? "?"); continue; }
-        if (untilDate && now >= untilDate) { skip("an expired introductory rate", currentLabel ?? "?"); continue; }
+        if (!SECTIONS.test(section)) continue;
 
-        // the figures. Rows are ragged — a model fills only its own band's
-        // columns — so every cell read is optional. The band that carries a
-        // base figure on this row is this model's band.
-        const fig = (col) => /\$([\d.]+)/.exec(cells[col.i] ?? "")?.[1];
-        const at = (band, { cache = false, long = false } = {}) => {
-          const col = priceCols.find((c) => c.band === band && c.cache === cache && c.long === long);
-          return col ? fig(col) : undefined;
-        };
-        const bands = [...new Set(priceCols.filter((c) => c.band).map((c) => c.band))];
-        const band = bands.find((b) => at(b) !== undefined) ?? null;
-        const flat = priceCols.find((c) => !c.band && !c.cache);
-        const flatFig = flat ? fig(flat) : undefined;
+        const rowsAll = [...tb.matchAll(/<tr[\s\S]*?<\/tr>/g)].map((m) => m[0]);
+        const headRow = rowsAll.find((r) => /<th[\s>]/.test(r));
+        if (!headRow) continue;
+        const cols = [...headRow.matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g)].map((c) => strip(c[1]));
+        // this table prices tokens if a header names a token price
+        // this table prices tokens if a header says so — either in words
+        // ("Price (/1M tokens) …") or in units (the partner tables' bare
+        // "Price /1M (USD)")
+        const isTokenTable = cols.some((c) => /price/i.test(c) && (/token/i.test(c) || /\/\s*1M/i.test(c)));
+        if (!isTokenTable) continue;
 
-        const figures = [band !== null ? at(band) : flatFig].filter((v) => v !== undefined);
-        if (figures.length === 0) continue;
-        const scale = figures.some((f) => Number(f) < 0.001) ? 1_000_000 : 1;
-        // 6dp, not 2: the cache columns carry real sub-cent figures ($0.075,
-        // $0.125) and rounding to cents repriced them
-        const fmt = (x) => String(Math.round(Number(x) * scale * 1e6) / 1e6);
+        /** The price columns' roles, from the header: base band vs long band
+            vs the cached pair, and the threshold (200K, 100K) the band turns
+            at. A column with no band marker is a flat price. */
+        const priceCols = [];
+        cols.forEach((c, i) => {
+          if (!/price/i.test(c)) return;
+          const long = />\s*(\d+)\s*K/i.test(c);
+          const band = /(?:<=|=<|≤|>)\s*(\d+)\s*K/i.test(c) ? Number(/(\d+)\s*K/i.exec(c)[1]) * 1000 : null;
+          const cache = /cache/i.test(c);
+          priceCols.push({ i, band, cache, long });
+        });
+        if (priceCols.length === 0) continue;
+        const typeIdx = cols.findIndex((c) => /^type$/i.test(c));
+        const regionIdx = cols.findIndex((c) => /^region$/i.test(c));
 
-        const row = rows.get(currentModel) ?? { id: currentModel };
-        // Both directions have to be stated before the field means anything,
-        // so they are collected here and dropped at the end if only one is.
-        const mods = modalityOf(type);
-        if (mods && !isCacheHit) {
-          row.modalities ??= {};
-          const dir = isInput ? "input" : "output";
-          if (row.modalities[dir] === undefined) row.modalities[dir] = mods;
-        }
-        if (isInput) {
-          if (row.in === undefined) row.in = fmt(band !== null ? at(band) : flatFig);
-          const lcIn = band !== null ? at(band, { long: true }) : undefined;
-          if (lcIn !== undefined) {
-            row.long_context ??= { over: band };
-            if (row.long_context.in === undefined) row.long_context.in = fmt(lcIn);
-            const lcCache = at(band, { long: true, cache: true });
-            if (lcCache !== undefined && row.long_context.cache_read === undefined) row.long_context.cache_read = fmt(lcCache);
+        let currentModel = null;
+        let currentLabel = null;
+
+        for (const tr of rowsAll) {
+          if (tr === headRow) continue;
+          const cells = [...tr.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((c) => strip(c[1]));
+          if (cells.length < 2) continue;
+
+          const label = cells[0];
+          if (label) {
+            // the dated rows spell the model name plus the window ("Gemini 3.8
+            // Flash*  through December 31, 2026") — strip the window and retry
+            // the map, so the in-force introductory row prices the same model
+            // the plain row does
+            const bare = label.replace(/\*{0,2}\s*(through\s+\w+\s+\d{1,2},?\s+\d{4}|starting\s+\w+\s+\d{1,2},?\s+\d{4})\s*$/i, "").trim();
+            currentModel = MODELS[label] ?? MODELS[bare] ?? null;
+            currentLabel = label;
+            if (!currentModel) skip("a model the id table lacks", label);
           }
-          const cache = band !== null ? at(band, { cache: true }) : undefined;
-          if (cache !== undefined && row.cache_read === undefined) row.cache_read = fmt(cache);
-        } else if (isOutput) {
-          if (row.out === undefined) row.out = fmt(band !== null ? at(band) : flatFig);
-          const lcOut = band !== null ? at(band, { long: true }) : undefined;
-          if (lcOut !== undefined) {
-            row.long_context ??= { over: band };
-            if (row.long_context.out === undefined) row.long_context.out = fmt(lcOut);
+          if (!currentModel) continue;
+
+          // the type cell — the page itself typos "Inpur"/"Outpur" on the
+          // newest Claude rows, so the match is on the prefix
+          const type = cells[typeIdx >= 0 ? typeIdx : 1] ?? "";
+          if (/^batch/i.test(type)) continue; // the batch SKU, at half price
+          const isInput = /^inp/i.test(type);
+          const isOutput = /^(out|text output)/i.test(type);
+          const isCacheHit = /^cache hit/i.test(type);
+          if (!isInput && !isOutput && !isCacheHit) continue;
+
+          // the Region cell, where the table carries one (the Gemini tables):
+          // Global is the direct-API rate; Non-global is the region premium
+          if (regionIdx >= 0) {
+            const regionCell = cells[regionIdx] ?? "";
+            if (regionCell && !/^global$/i.test(regionCell)) continue;
           }
-        } else if (isCacheHit) {
-          if (row.cache_read === undefined) row.cache_read = fmt(band !== null ? at(band) : flatFig);
-          const lcCache = band !== null ? at(band, { long: true }) : undefined;
-          if (lcCache !== undefined) {
-            row.long_context ??= { over: band };
-            if (row.long_context.cache_read === undefined) row.long_context.cache_read = fmt(lcCache);
+
+          // the date windows: the introductory row is in force until its date;
+          // the future row from its date. A row in neither window (no date in
+          // the label) is always in force. Today decides.
+          const untilDate = dateOf(currentLabel ?? "", "until");
+          const fromDate = dateOf(currentLabel ?? "", "from");
+          if (fromDate && now < fromDate) { skip("a future-dated rate", currentLabel ?? "?"); continue; }
+          if (untilDate && now >= untilDate) { skip("an expired introductory rate", currentLabel ?? "?"); continue; }
+
+          // the figures. Rows are ragged — a model fills only its own band's
+          // columns — so every cell read is optional. The band that carries a
+          // base figure on this row is this model's band.
+          const fig = (col) => /\$([\d.]+)/.exec(cells[col.i] ?? "")?.[1];
+          const at = (band, { cache = false, long = false } = {}) => {
+            const col = priceCols.find((c) => c.band === band && c.cache === cache && c.long === long);
+            return col ? fig(col) : undefined;
+          };
+          const bands = [...new Set(priceCols.filter((c) => c.band).map((c) => c.band))];
+          const band = bands.find((b) => at(b) !== undefined) ?? null;
+          const flat = priceCols.find((c) => !c.band && !c.cache);
+          const flatFig = flat ? fig(flat) : undefined;
+
+          const figures = [band !== null ? at(band) : flatFig].filter((v) => v !== undefined);
+          if (figures.length === 0) continue;
+          const scale = figures.some((f) => Number(f) < 0.001) ? 1_000_000 : 1;
+          // 6dp, not 2: the cache columns carry real sub-cent figures ($0.075,
+          // $0.125) and rounding to cents repriced them
+          const fmt = (x) => String(Math.round(Number(x) * scale * 1e6) / 1e6);
+
+          const row = rows.get(currentModel) ?? { id: currentModel };
+          // Both directions have to be stated before the field means anything,
+          // so they are collected here and dropped at the end if only one is.
+          const mods = modalityOf(type);
+          if (mods && !isCacheHit) {
+            row.modalities ??= {};
+            const dir = isInput ? "input" : "output";
+            if (row.modalities[dir] === undefined) row.modalities[dir] = mods;
           }
+          if (isInput) {
+            if (row.in === undefined) row.in = fmt(band !== null ? at(band) : flatFig);
+            const lcIn = band !== null ? at(band, { long: true }) : undefined;
+            if (lcIn !== undefined) {
+              row.long_context ??= { over: band };
+              if (row.long_context.in === undefined) row.long_context.in = fmt(lcIn);
+              const lcCache = at(band, { long: true, cache: true });
+              if (lcCache !== undefined && row.long_context.cache_read === undefined) row.long_context.cache_read = fmt(lcCache);
+            }
+            const cache = band !== null ? at(band, { cache: true }) : undefined;
+            if (cache !== undefined && row.cache_read === undefined) row.cache_read = fmt(cache);
+          } else if (isOutput) {
+            if (row.out === undefined) row.out = fmt(band !== null ? at(band) : flatFig);
+            const lcOut = band !== null ? at(band, { long: true }) : undefined;
+            if (lcOut !== undefined) {
+              row.long_context ??= { over: band };
+              if (row.long_context.out === undefined) row.long_context.out = fmt(lcOut);
+            }
+          } else if (isCacheHit) {
+            if (row.cache_read === undefined) row.cache_read = fmt(band !== null ? at(band) : flatFig);
+            const lcCache = band !== null ? at(band, { long: true }) : undefined;
+            if (lcCache !== undefined) {
+              row.long_context ??= { over: band };
+              if (row.long_context.cache_read === undefined) row.long_context.cache_read = fmt(lcCache);
+            }
+          }
+          rows.set(currentModel, row);
+          if (origin.has(currentModel) && origin.get(currentModel) !== url)
+            drift(`${currentModel} is priced on both pricing pages — the vendor duplicated it`);
+          origin.set(currentModel, url);
         }
-        rows.set(currentModel, row);
       }
     }
 
     if (tables === 0) drift("no tables — the page has been restructured");
     if (rows.size === 0) drift("no rows after mapping");
+    if (![...rows.keys()].some((id) => /^(claude-|xai\/|meta\/)/.test(id)))
+      drift("no partner-model rows — the partner pricing page moved again");
     const out = [...rows.values()]
       // long_context only means something beside a base rate
       .filter((r) => {

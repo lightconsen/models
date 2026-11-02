@@ -87,6 +87,13 @@ const idOf = (vendor, what) => {
 };
 const nameOf = (vendor) => vendor.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
 
+/** The page's tables arrive block-quoted (`> | … |`) — that is how the docs
+    renderer emits a tab's body. The quote marker is line-leading only, so a
+    `> 512k` comparator inside a cell is untouched. Without this the Standard
+    table is invisible to the line-by-line reader below, which is what cost
+    both entries their M3 row on 2026-10-31 and stranded the flagship. */
+const dequote = (md) => md.replace(/^[ \t]*>[ \t]?/gm, "");
+
 /** Every markdown table in `md`, as rows of cells. The `| :-- | :-- |` alignment
     row under each header is not data. */
 const tables = (md) => {
@@ -122,11 +129,13 @@ const readTable = (rows, what) => {
 };
 
 const parse = (md, what) => {
+  md = dequote(md);
   const m = /^\s*##\s+(?:语言模型|Language Models|LLM)[^\n]*\n([\s\S]*?)(?=\n\s*##\s)/m.exec(md);
   if (!m) drift(`${what}: no language-model section`);
   // The priority tier is a multiplier on the same rows, not a second price set.
-  // Cut it off before any table is read.
-  const body = m[1].split(/\*\*(?:优先|Priority)\*\*/)[0];
+  // Cut it off before any table is read. It opens either as a bold heading
+  // (**优先** / **Priority**) or as a docs tab (`[tab] 优先` / `[tab] Priority`).
+  const body = m[1].split(/\[tab\]\s*(?:优先|Priority)|\*\*(?:优先|Priority)\*\*/)[0];
   if (!/MiniMax-M3\.1-Flash|MiniMax-M3/.test(body)) drift(`${what}: the LLM section names no M3 model`);
 
   const byVendor = new Map();

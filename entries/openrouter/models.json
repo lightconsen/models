@@ -712,9 +712,9 @@
   {
     "id": "deepseek-v4-pro-0813",
     "name": "DeepSeek: DeepSeek V4 Pro 0813",
-    "in": "1.32",
-    "out": "3.96",
-    "cache_read": "0.044",
+    "in": "0.66",
+    "out": "1.98",
+    "cache_read": "0.022",
     "serves": {
       "openai": "deepseek/deepseek-v4-pro-0813",
       "anthropic": "deepseek/deepseek-v4-pro-0813"
@@ -1242,7 +1242,7 @@
       "anthropic": "openai/gpt-oss-20b"
     },
     "context": 131072,
-    "max_output": 32768,
+    "max_output": 117964,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -9008,9 +9008,9 @@
   {
     "id": "deepseek/deepseek-v4.1-flash-1017",
     "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
-    "in": "0.3",
-    "out": "1.2",
-    "cache_read": "0.006",
+    "in": "0.15",
+    "out": "0.6",
+    "cache_read": "0.003",
     "context": 1048576,
     "max_output": 393216,
     "reasoning": true,

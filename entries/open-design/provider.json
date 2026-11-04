@@ -1,0 +1,20 @@
+{
+  "id": "open-design",
+  "name": "OpenDesign",
+  "website": "https://open-design.ai/",
+  "tag": "aggregate",
+  "rating": 4,
+  "billing": "both",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://amr-link.open-design.ai/v1"
+    },
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://amr-link.open-design.ai"
+    }
+  ],
+  "desc": "OpenDesign's CoRouter gateway, metering plan credits and pay-as-you-go top-ups at the same per-token rates"
+}

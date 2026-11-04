@@ -33,6 +33,7 @@ import minimax from "./minimax.mjs";
 import nebius from "./nebius.mjs";
 import novita from "./novita.mjs";
 import oci from "./oci.mjs";
+import openDesign from "./open-design.mjs";
 import opencode from "./opencode.mjs";
 import opencodeGo from "./opencode-go.mjs";
 import perplexity from "./perplexity.mjs";
@@ -73,6 +74,7 @@ export default [
   nebius,
   novita,
   oci,
+  openDesign,
   opencode,
   opencodeGo,
   perplexity,

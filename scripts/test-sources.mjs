@@ -17,6 +17,7 @@
  */
 import { ratesIn } from "./sources/google-gemini.mjs";
 import { modalPrice } from "./sources/openrouter.mjs";
+import { tierOf, idOf } from "./sources/open-design.mjs";
 
 let failed = 0;
 const check = (name, got, want) => {
@@ -113,6 +114,27 @@ check(
 );
 check("unanimity is an agreement", owner(modalPrice([ep("X", 1, 2), ep("Y", 1, 2)], "z")), "1/2/-");
 check("a straight split is not", owner(modalPrice([ep("X", 1, 2), ep("Y", 3, 4)], "z")), "none");
+
+// ── OpenDesign CoRouter's tier headings ──
+//
+// The heading is where the `long_context` threshold comes from, so reading it
+// wrong turns a two-tier model into a one-tier one and the entry reports no
+// change while half the row is missing. The page writes it three ways, and the
+// count is comma-grouped, which `Number()` takes as NaN.
+check("a base tier says up to", tierOf("Up to 272,000 tokens", "x"), { base: true });
+check("a long tier carries its threshold", tierOf("Over 272,000 tokens", "x"), { over: 272000 });
+check("the 100K boundary reads the same way", tierOf("Over 100,000 tokens", "x"), { over: 100000 });
+check("a flat model says so", tierOf("No input-length tiers", "x"), { base: true });
+let threw = false;
+try { tierOf("Above a million tokens", "x"); } catch { threw = true; }
+check("an unknown heading drifts rather than guessing", threw, true);
+
+// The vendor's `claude-opus-4.8` is this catalogue's `claude-opus-5-5` spelling
+// of the same thing; every other family is already the canonical id, dots and
+// all (`glm-5.3-flashx`, `deepseek-v4.1-flash`).
+check("a Claude id drops its dots", idOf("claude-opus-4.8", "x"), "claude-opus-4-8");
+check("and a non-Claude id keeps them", idOf("deepseek-v4.1-flash", "x"), "deepseek-v4.1-flash");
+check("including the hyphenated vendor spelling", idOf("glm-5.3-flashx", "x"), "glm-5.3-flashx");
 
 console.log(`\n${failed === 0 ? "all source-parsing cases pass" : `${failed} case(s) failed`}`);
 process.exit(failed > 0 ? 1 : 0);

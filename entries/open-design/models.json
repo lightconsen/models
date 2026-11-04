@@ -1,0 +1,327 @@
+[
+  {
+    "id": "gpt-6.1-sol",
+    "name": "GPT-6.1 Sol",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.1",
+    "cache_creation": "2.5",
+    "long_context": {
+      "over": 272000,
+      "in": "4",
+      "out": "15",
+      "cache_read": "0.2",
+      "cache_creation": "5"
+    }
+  },
+  {
+    "id": "deepseek-v4.1-flash",
+    "name": "DeepSeek V4.1 Flash",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.006"
+  },
+  {
+    "id": "mimo-v2.6-pro",
+    "name": "MiMo V2.6 Pro",
+    "in": "0.435",
+    "out": "0.87",
+    "cache_read": "0.0036"
+  },
+  {
+    "id": "hy4-preview",
+    "name": "Hunyuan H4 Preview",
+    "in": "0.834",
+    "out": "2.501",
+    "cache_read": "0.042"
+  },
+  {
+    "id": "claude-fable-5-1",
+    "name": "Claude Fable 5.1",
+    "in": "10",
+    "out": "50",
+    "cache_read": "0.25",
+    "cache_creation": "12.5",
+    "serves": {
+      "openai": "claude-fable-5.1",
+      "anthropic": "claude-fable-5.1"
+    }
+  },
+  {
+    "id": "claude-opus-5-5",
+    "name": "Claude Opus 5.5",
+    "in": "4",
+    "out": "20",
+    "cache_read": "0.2",
+    "cache_creation": "5",
+    "serves": {
+      "openai": "claude-opus-5.5",
+      "anthropic": "claude-opus-5.5"
+    }
+  },
+  {
+    "id": "claude-sonnet-5-5",
+    "name": "Claude Sonnet 5.5",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "cache_creation": "2.5",
+    "serves": {
+      "openai": "claude-sonnet-5.5",
+      "anthropic": "claude-sonnet-5.5"
+    }
+  },
+  {
+    "id": "gpt-6-sol",
+    "name": "GPT-6 Sol",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "cache_creation": "2.5",
+    "long_context": {
+      "over": 272000,
+      "in": "4",
+      "out": "15",
+      "cache_read": "0.4",
+      "cache_creation": "5"
+    }
+  },
+  {
+    "id": "kimi-k3",
+    "name": "Kimi K3",
+    "in": "3",
+    "out": "15",
+    "cache_read": "0.3"
+  },
+  {
+    "id": "gemini-3.8-flash",
+    "name": "Gemini 3.8 Flash",
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075",
+    "cache_creation": "0.08333"
+  },
+  {
+    "id": "grok-4.7",
+    "name": "Grok 4.7",
+    "in": "2",
+    "out": "6",
+    "cache_read": "0.5"
+  },
+  {
+    "id": "gpt-6-luna",
+    "name": "GPT-6 Luna",
+    "in": "0.1",
+    "out": "0.5",
+    "cache_read": "0.01",
+    "cache_creation": "0.125",
+    "long_context": {
+      "over": 272000,
+      "in": "0.2",
+      "out": "0.75",
+      "cache_read": "0.02",
+      "cache_creation": "0.25"
+    }
+  },
+  {
+    "id": "claude-haiku-5-5",
+    "name": "Claude Haiku 5.5",
+    "in": "0.1",
+    "out": "0.5",
+    "cache_read": "0.01",
+    "cache_creation": "0.125",
+    "long_context": {
+      "over": 100000,
+      "in": "0.5",
+      "out": "2.5",
+      "cache_read": "0.05",
+      "cache_creation": "0.625"
+    },
+    "serves": {
+      "openai": "claude-haiku-5.5",
+      "anthropic": "claude-haiku-5.5"
+    }
+  },
+  {
+    "id": "glm-5.3-flashx",
+    "name": "GLM-5.3 Flash-X",
+    "in": "0.37",
+    "out": "1.25",
+    "cache_read": "0.075"
+  },
+  {
+    "id": "mimo-v2.6-flash",
+    "name": "MiMo V2.6 Flash",
+    "in": "0.14",
+    "out": "0.28",
+    "cache_read": "0.0028"
+  },
+  {
+    "id": "deepseek-v4-pro",
+    "name": "DeepSeek V4 Pro",
+    "in": "1.32",
+    "out": "3.96",
+    "cache_read": "0.044"
+  },
+  {
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek V4 Flash",
+    "in": "0.44",
+    "out": "1.32",
+    "cache_read": "0.014"
+  },
+  {
+    "id": "qwen3.7-max",
+    "name": "Qwen3.7 Max",
+    "in": "2.5",
+    "out": "7.5",
+    "cache_read": "0.5",
+    "cache_creation": "3.125"
+  },
+  {
+    "id": "gpt-6-astra",
+    "name": "GPT-6 Astra",
+    "in": "10",
+    "out": "50",
+    "cache_read": "1",
+    "cache_creation": "12.5",
+    "long_context": {
+      "over": 272000,
+      "in": "20",
+      "out": "75",
+      "cache_read": "2",
+      "cache_creation": "25"
+    },
+    "flagship": true
+  },
+  {
+    "id": "glm-5.3-flash",
+    "name": "GLM-5.3 Flash",
+    "in": "0.075",
+    "out": "0.25",
+    "cache_read": "0.015"
+  },
+  {
+    "id": "kimi-k2.7-code",
+    "name": "Kimi K2.7 Code",
+    "in": "0.95",
+    "out": "4",
+    "cache_read": "0.19"
+  },
+  {
+    "id": "deepseek-v4-flash-vision-exp",
+    "name": "DeepSeek V4 Flash Vision Exp",
+    "in": "0.44",
+    "out": "1.32",
+    "cache_read": "0.014"
+  },
+  {
+    "id": "gpt-5.6-sol",
+    "name": "GPT-5.6 Sol",
+    "in": "4",
+    "out": "20",
+    "cache_read": "0.4",
+    "cache_creation": "5",
+    "long_context": {
+      "over": 272000,
+      "in": "8",
+      "out": "30",
+      "cache_read": "0.8",
+      "cache_creation": "10"
+    }
+  },
+  {
+    "id": "gpt-5.6-terra",
+    "name": "GPT-5.6 Terra",
+    "in": "2",
+    "out": "12",
+    "cache_read": "0.2",
+    "cache_creation": "2.5",
+    "long_context": {
+      "over": 272000,
+      "in": "4",
+      "out": "18",
+      "cache_read": "0.4",
+      "cache_creation": "5"
+    }
+  },
+  {
+    "id": "gpt-5.6-luna",
+    "name": "GPT-5.6 Luna",
+    "in": "0.2",
+    "out": "1.2",
+    "cache_read": "0.02",
+    "cache_creation": "0.25",
+    "long_context": {
+      "over": 272000,
+      "in": "0.4",
+      "out": "1.8",
+      "cache_read": "0.04",
+      "cache_creation": "0.5"
+    }
+  },
+  {
+    "id": "claude-fable-5",
+    "name": "Claude Fable 5",
+    "in": "10",
+    "out": "50",
+    "cache_read": "1",
+    "cache_creation": "12.5"
+  },
+  {
+    "id": "claude-opus-5",
+    "name": "Claude Opus 5",
+    "in": "5",
+    "out": "25",
+    "cache_read": "0.5",
+    "cache_creation": "6.25"
+  },
+  {
+    "id": "claude-sonnet-5",
+    "name": "Claude Sonnet 5",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "cache_creation": "2.5"
+  },
+  {
+    "id": "claude-opus-4-8",
+    "name": "Claude Opus 4.8",
+    "in": "5",
+    "out": "25",
+    "cache_read": "0.5",
+    "cache_creation": "6.25",
+    "serves": {
+      "openai": "claude-opus-4.8",
+      "anthropic": "claude-opus-4.8"
+    }
+  },
+  {
+    "id": "gemini-3.7-flash",
+    "name": "Gemini 3.7 Flash",
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075"
+  },
+  {
+    "id": "glm-5.2",
+    "name": "GLM-5.2",
+    "in": "1.4",
+    "out": "4.4",
+    "cache_read": "0.26"
+  },
+  {
+    "id": "grok-4.6",
+    "name": "Grok 4.6",
+    "in": "2",
+    "out": "6",
+    "cache_read": "0.5"
+  },
+  {
+    "id": "grok-4.5",
+    "name": "Grok 4.5",
+    "in": "2",
+    "out": "6",
+    "cache_read": "0.5"
+  }
+]

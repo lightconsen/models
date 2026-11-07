@@ -4,7 +4,7 @@
     "name": "DeepSeek V4 Flash 0731",
     "in": "0.14",
     "out": "0.28",
-    "context": 1024000,
+    "context": 1048576,
     "max_output": 1024000,
     "reasoning": true,
     "tool_call": true,
@@ -20,14 +20,15 @@
     "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.14"
   },
   {
     "id": "deepseek-ai/DeepSeek-V4-Pro-0813",
     "name": "DeepSeek V4 Pro 0813",
     "in": "1.32",
     "out": "3.96",
-    "context": 979000,
+    "context": 1048576,
     "max_output": 979000,
     "reasoning": true,
     "tool_call": true,
@@ -39,7 +40,7 @@
     "name": "DeepSeek V4.1 Flash",
     "in": "0.3",
     "out": "1.2",
-    "context": 1048000,
+    "context": 1048576,
     "max_output": 1048000,
     "reasoning": true,
     "tool_call": true,
@@ -55,7 +56,8 @@
     "context": 110000,
     "max_output": 8192,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.04"
   },
   {
     "id": "MiniMaxAI/MiniMax-M3",
@@ -85,7 +87,7 @@
     "name": "Kimi K3",
     "in": "3",
     "out": "15",
-    "context": 1024000,
+    "context": 1048576,
     "max_output": 8000,
     "reasoning": true,
     "tool_call": true,
@@ -102,7 +104,8 @@
     "max_output": 8192,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.2"
   },
   {
     "id": "nvidia/Nemotron-3_5-Lightning",
@@ -113,7 +116,8 @@
     "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.03"
   },
   {
     "id": "nvidia/nemotron-3-super-120b-a12b",
@@ -149,7 +153,8 @@
     "max_output": 8192,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.1"
   },
   {
     "id": "Qwen/Qwen3-235B-A22B-Instruct-2507",
@@ -159,7 +164,8 @@
     "context": 262144,
     "max_output": 8192,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.05"
   },
   {
     "id": "Qwen/Qwen3-30B-A3B-Instruct-2507",
@@ -170,7 +176,8 @@
     "context": 262144,
     "max_output": 8192,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.1"
   },
   {
     "id": "Qwen/Qwen3-Embedding-8B",
@@ -209,7 +216,7 @@
     "name": "GLM-5.3",
     "in": "1.4",
     "out": "4.4",
-    "context": 1024000,
+    "context": 1048576,
     "max_output": 1024000,
     "reasoning": true,
     "tool_call": true,
@@ -221,7 +228,7 @@
     "name": "GLM-5.3-Flash",
     "in": "0.15",
     "out": "0.5",
-    "context": 1024000,
+    "context": 1048576,
     "max_output": 1024000,
     "reasoning": true,
     "tool_call": true,
@@ -257,21 +264,23 @@
     "name": "Nemotron-3-Nano-30B-A3B",
     "in": "0.06",
     "out": "0.24",
-    "context": 262144
+    "context": 262144,
+    "cache_read": "0.012"
   },
   {
     "id": "openbmb/MiniCPM-V-4_5",
     "name": "openbmb/MiniCPM-V-4_5",
     "in": "0.658",
     "out": "1.11",
-    "context": 32000
+    "context": 32000,
+    "cache_read": "0.13"
   },
   {
     "id": "Qwen/Qwen3.8-27B",
     "name": "Qwen3.8-27B",
     "in": "0.45",
     "out": "3",
-    "context": 262144,
+    "context": 1000000,
     "cache_read": "0.1"
   },
   {
@@ -287,7 +296,8 @@
     "name": "GLM-5.1",
     "in": "1.4",
     "out": "4.4",
-    "context": 202752
+    "context": 202752,
+    "cache_read": "0.26"
   },
   {
     "id": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
@@ -303,6 +313,14 @@
     "in": "0.15",
     "out": "0.6",
     "cache_read": "0.015",
+    "context": 1048576
+  },
+  {
+    "id": "moonshotai/Kimi-K3.1-Pro",
+    "name": "Kimi-K3.1-Pro",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
     "context": 1048576
   }
 ]

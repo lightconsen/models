@@ -1042,5 +1042,21 @@
     "cache_read": "0.05",
     "cache_creation": "1.25",
     "context": 1050000
+  },
+  {
+    "id": "deepseek/deepseek-v4.1-flash-ultrafast",
+    "name": "DeepSeek V4.1 Flash Ultrafast",
+    "in": "2.4",
+    "out": "9.6",
+    "cache_read": "0.048",
+    "context": 1048576
+  },
+  {
+    "id": "inclusionai/ling-3.1-flash-1019",
+    "name": "Ling 3.1 Flash 1019",
+    "in": "0.3",
+    "out": "0.9",
+    "cache_read": "0.06",
+    "context": 1000000
   }
 ]

@@ -206,7 +206,7 @@
     "name": "Claude Sonnet 5.5",
     "in": "2",
     "out": "10",
-    "cache_read": "0.2",
+    "cache_read": "0.1",
     "cache_creation": "2.5",
     "flagship": true
   },
@@ -274,23 +274,23 @@
   {
     "id": "gemini-3.8-flash",
     "name": "Gemini 3.8 Flash",
-    "in": "1.5",
-    "out": "7.5",
-    "cache_read": "0.15"
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075"
   },
   {
     "id": "gemini-3.7-flash",
     "name": "Gemini 3.7 Flash",
-    "in": "1.5",
-    "out": "7.5",
-    "cache_read": "0.15"
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075"
   },
   {
     "id": "gemini-3.6-flash",
     "name": "Gemini 3.6 Flash",
-    "in": "1.5",
-    "out": "7.5",
-    "cache_read": "0.15"
+    "in": "0.75",
+    "out": "3.75",
+    "cache_read": "0.075"
   },
   {
     "id": "gemini-3.5-flash",
@@ -628,5 +628,40 @@
     "in": "0.05",
     "out": "0.4",
     "cache_read": "0.005"
+  },
+  {
+    "id": "claude-fable-5-2",
+    "name": "Claude Fable 5.2",
+    "in": "8",
+    "out": "40",
+    "cache_read": "0.2",
+    "cache_creation": "10"
+  },
+  {
+    "id": "gemini-4-carbon",
+    "name": "Gemini 4 Carbon",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.1"
+  },
+  {
+    "id": "gemini-4-hydrogen",
+    "name": "Gemini 4 Hydrogen",
+    "in": "1.5",
+    "out": "7.5",
+    "cache_read": "0.075"
+  },
+  {
+    "id": "muse-ember-1.0",
+    "name": "Muse Ember 1.0",
+    "in": "0.1",
+    "out": "0.5",
+    "cache_read": "0.004",
+    "long_context": {
+      "over": 200000,
+      "in": "0.3",
+      "out": "1.5",
+      "cache_read": "0.012"
+    }
   }
 ]

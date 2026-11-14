@@ -216,17 +216,6 @@
     "temperature": true
   },
   {
-    "id": "deepseek-4-flash",
-    "name": "Deepseek V4 Flash",
-    "in": "0.14",
-    "out": "0.28",
-    "cache_read": "0.028",
-    "context": 1048576,
-    "max_output": 384000,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "deepseek-v4-flash-0731",
     "name": "DeepSeek V4 Flash 0731",
     "in": "0.14",
@@ -281,17 +270,6 @@
     "out": "0",
     "context": 512,
     "max_output": 1024
-  },
-  {
-    "id": "gemma-4-31B-it",
-    "name": "Gemma 4",
-    "in": "0.18",
-    "out": "0.5",
-    "cache_read": "0.036",
-    "context": 256000,
-    "max_output": 8192,
-    "tool_call": true,
-    "temperature": true
   },
   {
     "id": "glm-5.2",
@@ -360,17 +338,6 @@
     "tool_call": true
   },
   {
-    "id": "llama-4-maverick",
-    "name": "Llama 4 Maverick",
-    "in": "0.25",
-    "out": "0.87",
-    "context": 128000,
-    "max_output": 16384,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.05"
-  },
-  {
     "id": "mimo-v2.5-pro",
     "name": "MiMo V2.5 Pro",
     "in": "0.8",
@@ -412,41 +379,6 @@
     "out": "0",
     "context": 512,
     "max_output": 768
-  },
-  {
-    "id": "nemotron-3-nano-omni",
-    "name": "Nemotron 3 Nano Omni",
-    "in": "0.5",
-    "out": "0.9",
-    "context": 65536,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.1"
-  },
-  {
-    "id": "nemotron-3-ultra-550b",
-    "name": "Nemotron 3 Ultra",
-    "in": "0.9",
-    "out": "1.7",
-    "context": 131072,
-    "max_output": 131072,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.18"
-  },
-  {
-    "id": "nemotron-nano-12b-v2-vl",
-    "name": "Nemotron-nano 12b v2-vl",
-    "in": "0.2",
-    "out": "0.6",
-    "context": 128000,
-    "max_output": 16384,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.04"
   },
   {
     "id": "nvidia-nemotron-3-super-120b",
@@ -728,17 +660,6 @@
     "temperature": true
   },
   {
-    "id": "openai-gpt-oss-20b",
-    "name": "OpenAI GPT-oss-20b",
-    "in": "0.05",
-    "out": "0.45",
-    "context": 128000,
-    "max_output": 4096,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "openai-o3",
     "name": "OpenAI o3",
     "in": "2",
@@ -756,18 +677,6 @@
     "out": "0",
     "context": 8000,
     "max_output": 1024
-  },
-  {
-    "id": "qwen3.5-397b-a17b",
-    "name": "Qwen 3.5 397B A17B",
-    "in": "0.55",
-    "out": "3.5",
-    "cache_read": "0.111",
-    "context": 131072,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
   },
   {
     "id": "qwen3.8-max",

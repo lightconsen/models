@@ -472,11 +472,5 @@
       "cache_read": "0.4"
     },
     "cache_read": "0.2"
-  },
-  {
-    "id": "meta/llama-4-maverick-17b-128e-instruct-fp8@default",
-    "name": "meta/llama-4-maverick-17b-128e-instruct-fp8@default",
-    "in": "0.35",
-    "out": "1.15"
   }
 ]

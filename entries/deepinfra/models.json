@@ -848,7 +848,7 @@
   {
     "id": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B",
     "name": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B",
-    "in": "0.085",
+    "in": "0.075",
     "out": "0.4",
     "context": 262144,
     "max_output": 262144,
@@ -1277,16 +1277,6 @@
     "structured_output": true
   },
   {
-    "id": "inclusionAI/Ling-3.1-flash",
-    "name": "inclusionAI/Ling-3.1-flash",
-    "in": "0.3",
-    "out": "0.9",
-    "cache_read": "0.06",
-    "context": 262144,
-    "max_output": 262144,
-    "structured_output": true
-  },
-  {
     "id": "nvidia/NVIDIA-Nemotron-3.5-Super-VL",
     "name": "nvidia/NVIDIA-Nemotron-3.5-Super-VL",
     "in": "0.15",
@@ -1309,6 +1299,38 @@
     "in": "0.2",
     "out": "0.6",
     "cache_read": "0.006",
+    "context": 1048576,
+    "max_output": 1048576,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    },
+    "structured_output": true
+  },
+  {
+    "id": "thinkingmachines/Inkling-2-Small",
+    "name": "thinkingmachines/Inkling-2-Small",
+    "in": "0.3",
+    "out": "1",
+    "cache_read": "0.03",
+    "context": 1048576,
+    "max_output": 1048576,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    },
+    "structured_output": true
+  },
+  {
+    "id": "moonshotai/Kimi-K3.1-Pro",
+    "name": "moonshotai/Kimi-K3.1-Pro",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
     "context": 1048576,
     "max_output": 1048576,
     "modalities": {

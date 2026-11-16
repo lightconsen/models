@@ -216,5 +216,42 @@
         }
       ]
     }
+  },
+  {
+    "id": "ERNIE-5.5-Flash-Preview",
+    "name": "ERNIE-5.5-Flash",
+    "in": "1",
+    "out": "4",
+    "cache_read": "0.1",
+    "off_peak": {
+      "in": "1",
+      "out": "4",
+      "cache_read": "0.1"
+    },
+    "peak_hours": {
+      "tz_offset": 480,
+      "windows": [
+        {
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat",
+            "sun"
+          ],
+          "start": "08:00",
+          "end": "22:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ERNIE-Light-DT-1.0",
+    "name": "ERNIE-Light-DT",
+    "in": "8",
+    "out": "28",
+    "cache_read": "0.8"
   }
 ]

@@ -1,50 +1,15 @@
 [
   {
-    "id": "deepseek-ai/DeepSeek-V4-Flash-0731",
-    "name": "DeepSeek V4 Flash 0731",
-    "in": "0.14",
-    "out": "0.28",
-    "context": 1024000,
-    "max_output": 1024000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.01"
-  },
-  {
-    "id": "deepseek-ai/DeepSeek-V4-Pro",
-    "name": "DeepSeek V4 Pro",
-    "in": "1.75",
-    "out": "3.5",
-    "context": 1048576,
-    "max_output": 1048576,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "deepseek-ai/DeepSeek-V4-Pro-0813",
     "name": "DeepSeek V4 Pro 0813",
     "in": "1.32",
     "out": "3.96",
-    "context": 979000,
+    "context": 1048576,
     "max_output": 979000,
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
     "cache_read": "0.04"
-  },
-  {
-    "id": "deepseek-ai/DeepSeek-V4.1-Flash",
-    "name": "DeepSeek V4.1 Flash",
-    "in": "0.3",
-    "out": "1.2",
-    "context": 1048000,
-    "max_output": 1048000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.01"
   },
   {
     "id": "google/gemma-3-27b-it",
@@ -55,7 +20,8 @@
     "context": 110000,
     "max_output": 8192,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.04"
   },
   {
     "id": "MiniMaxAI/MiniMax-M3",
@@ -70,22 +36,11 @@
     "cache_read": "0.06"
   },
   {
-    "id": "moonshotai/Kimi-K2.7-Code",
-    "name": "Kimi K2.7 Code",
-    "in": "0.95",
-    "out": "4",
-    "context": 262144,
-    "max_output": 8000,
-    "reasoning": true,
-    "tool_call": true,
-    "cache_read": "0.15"
-  },
-  {
     "id": "moonshotai/Kimi-K3",
     "name": "Kimi K3",
     "in": "3",
     "out": "15",
-    "context": 1024000,
+    "context": 1048576,
     "max_output": 8000,
     "reasoning": true,
     "tool_call": true,
@@ -102,7 +57,8 @@
     "max_output": 8192,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.2"
   },
   {
     "id": "nvidia/Nemotron-3_5-Lightning",
@@ -113,7 +69,8 @@
     "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.03"
   },
   {
     "id": "nvidia/nemotron-3-super-120b-a12b",
@@ -149,7 +106,8 @@
     "max_output": 8192,
     "reasoning": true,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.1"
   },
   {
     "id": "Qwen/Qwen3-235B-A22B-Instruct-2507",
@@ -159,7 +117,8 @@
     "context": 262144,
     "max_output": 8192,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.05"
   },
   {
     "id": "Qwen/Qwen3-30B-A3B-Instruct-2507",
@@ -170,7 +129,8 @@
     "context": 262144,
     "max_output": 8192,
     "tool_call": true,
-    "temperature": true
+    "temperature": true,
+    "cache_read": "0.1"
   },
   {
     "id": "Qwen/Qwen3-Embedding-8B",
@@ -178,19 +138,6 @@
     "in": "0.01",
     "out": "0",
     "context": 40960
-  },
-  {
-    "id": "Qwen/Qwen3.5-397B-A17B",
-    "name": "Qwen3.5-397B-A17B",
-    "in": "0.6",
-    "out": "3.6",
-    "cache_creation": "0.75",
-    "context": 262144,
-    "max_output": 8192,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.12"
   },
   {
     "id": "zai-org/GLM-5.2",
@@ -209,7 +156,7 @@
     "name": "GLM-5.3",
     "in": "1.4",
     "out": "4.4",
-    "context": 1024000,
+    "context": 1048576,
     "max_output": 1024000,
     "reasoning": true,
     "tool_call": true,
@@ -221,7 +168,7 @@
     "name": "GLM-5.3-Flash",
     "in": "0.15",
     "out": "0.5",
-    "context": 1024000,
+    "context": 1048576,
     "max_output": 1024000,
     "reasoning": true,
     "tool_call": true,
@@ -237,14 +184,6 @@
     "cache_read": "0.15"
   },
   {
-    "id": "moonshotai/Kimi-K2.6",
-    "name": "Kimi-K2.6",
-    "in": "0.95",
-    "out": "4",
-    "context": 262144,
-    "cache_read": "0.16"
-  },
-  {
     "id": "nvidia/Nemotron-3.5-Super-VL",
     "name": "Nemotron 3.5 Super VL",
     "in": "0.3",
@@ -257,21 +196,15 @@
     "name": "Nemotron-3-Nano-30B-A3B",
     "in": "0.06",
     "out": "0.24",
-    "context": 262144
-  },
-  {
-    "id": "openbmb/MiniCPM-V-4_5",
-    "name": "openbmb/MiniCPM-V-4_5",
-    "in": "0.658",
-    "out": "1.11",
-    "context": 32000
+    "context": 262144,
+    "cache_read": "0.012"
   },
   {
     "id": "Qwen/Qwen3.8-27B",
     "name": "Qwen3.8-27B",
     "in": "0.45",
     "out": "3",
-    "context": 262144,
+    "context": 1000000,
     "cache_read": "0.1"
   },
   {
@@ -281,13 +214,6 @@
     "out": "1",
     "context": 1048576,
     "cache_read": "0.05"
-  },
-  {
-    "id": "zai-org/GLM-5.1",
-    "name": "GLM-5.1",
-    "in": "1.4",
-    "out": "4.4",
-    "context": 202752
   },
   {
     "id": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
@@ -303,6 +229,22 @@
     "in": "0.15",
     "out": "0.6",
     "cache_read": "0.015",
+    "context": 1048576
+  },
+  {
+    "id": "moonshotai/Kimi-K3.1-Pro",
+    "name": "Kimi-K3.1-Pro",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "context": 1048576
+  },
+  {
+    "id": "thinkingmachines/Inkling-2-Small",
+    "name": "Inkling-2-Small",
+    "in": "0.3",
+    "out": "1",
+    "cache_read": "0.06",
     "context": 1048576
   }
 ]

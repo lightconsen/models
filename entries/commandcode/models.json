@@ -1042,5 +1042,46 @@
     "cache_read": "0.05",
     "cache_creation": "1.25",
     "context": 1050000
+  },
+  {
+    "id": "deepseek/deepseek-v4.1-flash-ultrafast",
+    "name": "DeepSeek V4.1 Flash Ultrafast",
+    "in": "2.4",
+    "out": "9.6",
+    "cache_read": "0.048",
+    "context": 1048576
+  },
+  {
+    "id": "inclusionai/ling-3.1-flash-1019",
+    "name": "Ling 3.1 Flash 1019",
+    "in": "0.3",
+    "out": "0.9",
+    "cache_read": "0.06",
+    "context": 1000000
+  },
+  {
+    "id": "claude-fable-5-2",
+    "name": "Claude Fable 5.2",
+    "in": "8",
+    "out": "40",
+    "cache_read": "0.2",
+    "cache_creation": "10",
+    "context": 1000000
+  },
+  {
+    "id": "google/gemini-4-carbon",
+    "name": "Gemini 4 Carbon",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.1",
+    "context": 1000000
+  },
+  {
+    "id": "meta/muse-ember",
+    "name": "Muse Ember",
+    "in": "0.1",
+    "out": "0.5",
+    "cache_read": "0.004",
+    "context": 1048576
   }
 ]

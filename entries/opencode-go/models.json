@@ -118,5 +118,17 @@
   {
     "id": "iceman-contributor-free",
     "name": "Iceman Contributor Free"
+  },
+  {
+    "id": "qwen4-max",
+    "name": "Qwen4 Max"
+  },
+  {
+    "id": "hy4",
+    "name": "Hy4"
+  },
+  {
+    "id": "longcat-2.5-free",
+    "name": "LongCat 2.5 Free"
   }
 ]

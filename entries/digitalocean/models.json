@@ -176,18 +176,6 @@
     "cache_creation_1h": "10"
   },
   {
-    "id": "arcee-trinity-large-thinking",
-    "name": "Arcee Trinity Large Thinking (Public Preview)",
-    "in": "0.25",
-    "out": "0.9",
-    "cache_read": "0.06",
-    "context": 128000,
-    "max_output": 32000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "bge-m3",
     "name": "BGE M3",
     "in": "0.02",

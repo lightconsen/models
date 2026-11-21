@@ -378,7 +378,8 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "cache_read": "0.0185"
   },
   {
     "id": "openai/gpt-oss-20b",
@@ -390,7 +391,8 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
-    "structured_output": true
+    "structured_output": true,
+    "cache_read": "0.015"
   },
   {
     "id": "Qwen/Qwen3-235B-A22B-Instruct-2507",
@@ -1337,6 +1339,39 @@
       "input": [
         "text",
         "image"
+      ]
+    },
+    "structured_output": true
+  },
+  {
+    "id": "RadixArk/DaisyRose-27B",
+    "name": "RadixArk/DaisyRose-27B",
+    "in": "0.2",
+    "out": "2.5",
+    "cache_read": "0.05",
+    "context": 262144,
+    "max_output": 262144,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    },
+    "structured_output": true
+  },
+  {
+    "id": "Qwen/Qwen4-Max",
+    "name": "Qwen/Qwen4-Max",
+    "in": "1.413",
+    "out": "4.24",
+    "cache_read": "0.071",
+    "context": 1000000,
+    "max_output": 1000000,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
       ]
     },
     "structured_output": true

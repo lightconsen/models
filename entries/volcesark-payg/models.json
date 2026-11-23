@@ -113,31 +113,5 @@
     "reasoning": true,
     "tool_call": true,
     "temperature": true
-  },
-  {
-    "id": "deepseek-v4-pro",
-    "name": "DeepSeek V4 Pro",
-    "in": "9.00",
-    "out": "27.00",
-    "cache_read": "0.30",
-    "context": 1024000,
-    "max_output": 384000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true
-  },
-  {
-    "id": "deepseek-v4-flash",
-    "name": "DeepSeek V4 Flash",
-    "in": "3.00",
-    "out": "9.00",
-    "cache_read": "0.10",
-    "context": 1024000,
-    "max_output": 384000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true
   }
 ]

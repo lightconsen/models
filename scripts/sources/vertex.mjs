@@ -89,8 +89,13 @@ const MODELS = {
 /** A token table counts only under a heading that names a model family —
     the CodeMender / AlphaEvolve / tuning / storage sections price something
     else under a model's name. Extend this when the map gains a family. The
-    apostrophes are the page's own curly ones. */
-const SECTIONS = /^(gemini \d|anthropic[’']s claude models|xai[’']s grok models|meta[’']s llama models)/i;
+    apostrophes are the page's own curly ones.
+ *
+ *  The partner page's Meta section was renamed from "Meta's Llama models" to
+ *  "Meta's models" — the old pattern matched neither, so every Meta row fell
+ *  to the section filter and the entry reported the family as gone. The
+ *  optional `(llama )?` accepts both spellings. */
+const SECTIONS = /^(gemini \d|anthropic[’']s claude models|xai[’']s grok models|meta[’']s (llama )?models)/i;
 
 /** In a tab group, only the base tab is this entry's price: the direct-API
     rate. Priority and Flex/Batch are other billing SKUs; the regional tabs

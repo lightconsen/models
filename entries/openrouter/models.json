@@ -2,15 +2,15 @@
   {
     "id": "mimo-v2.5",
     "name": "Xiaomi: MiMo-V2.5",
-    "in": "0.14",
-    "out": "0.28",
-    "cache_read": "0.0028",
+    "in": "0.4",
+    "out": "2",
+    "cache_read": "0.08",
     "serves": {
       "openai": "xiaomi/mimo-v2.5",
       "anthropic": "xiaomi/mimo-v2.5"
     },
     "flagship": true,
-    "context": 1050000,
+    "context": 1000000,
     "max_output": 65536,
     "reasoning": true,
     "tool_call": true,
@@ -51,6 +51,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.048",
+      "out": "0.144",
+      "cache_read": "0.012"
     }
   },
   {
@@ -64,7 +69,7 @@
       "anthropic": "deepseek/deepseek-v4-flash"
     },
     "context": 1048576,
-    "max_output": 943717,
+    "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -105,7 +110,12 @@
         "text"
       ]
     },
-    "knowledge": "2026-02-16"
+    "knowledge": "2026-02-16",
+    "batch": {
+      "in": "0.1",
+      "out": "0.6",
+      "cache_read": "0.01"
+    }
   },
   {
     "id": "hy3",
@@ -207,6 +217,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.322",
+      "out": "0.989",
+      "cache_read": "0.109"
     }
   },
   {
@@ -234,6 +249,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.224",
+      "out": "0.88",
+      "cache_read": "0.0448"
     }
   },
   {
@@ -272,7 +292,7 @@
       "anthropic": "deepseek/deepseek-v4.1-flash"
     },
     "context": 1048576,
-    "max_output": 943718,
+    "max_output": 393216,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -312,6 +332,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "2.28",
+      "out": "11.4",
+      "cache_read": "0.228"
     }
   },
   {
@@ -368,6 +393,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "2.5",
+      "out": "12.5",
+      "cache_read": "0.25"
     }
   },
   {
@@ -380,7 +410,7 @@
       "openai": "stepfun/step-3.7-flash",
       "anthropic": "stepfun/step-3.7-flash"
     },
-    "context": 262144,
+    "context": 256000,
     "max_output": 230400,
     "reasoning": true,
     "tool_call": true,
@@ -424,7 +454,12 @@
         "text"
       ]
     },
-    "knowledge": "2026-02-16"
+    "knowledge": "2026-02-16",
+    "batch": {
+      "in": "2",
+      "out": "10",
+      "cache_read": "0.2"
+    }
   },
   {
     "id": "gemini-3-flash-preview",
@@ -454,6 +489,10 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.25",
+      "out": "1.5"
     }
   },
   {
@@ -509,6 +548,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.375",
+      "out": "1.875",
+      "cache_read": "0.0375"
     }
   },
   {
@@ -601,31 +645,11 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "hy3-preview",
-    "name": "Tencent: Hy3 preview",
-    "in": "0.18",
-    "out": "0.6",
-    "cache_read": "0.06",
-    "serves": {
-      "openai": "tencent/hy3-preview",
-      "anthropic": "tencent/hy3-preview"
     },
-    "context": 262144,
-    "max_output": 235929,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    "batch": {
+      "in": "0.375",
+      "out": "1.875",
+      "cache_read": "0.0375"
     }
   },
   {
@@ -639,7 +663,7 @@
       "anthropic": "openai/gpt-oss-120b"
     },
     "context": 131072,
-    "max_output": 65536,
+    "max_output": 117964,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -652,7 +676,11 @@
         "text"
       ]
     },
-    "knowledge": "2024-06-30"
+    "knowledge": "2024-06-30",
+    "batch": {
+      "in": "0.0296",
+      "out": "0.136"
+    }
   },
   {
     "id": "gemini-3.1-flash-lite",
@@ -682,6 +710,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.125",
+      "out": "0.75",
+      "cache_read": "0.0125"
     }
   },
   {
@@ -712,9 +745,9 @@
   {
     "id": "deepseek-v4-pro-0813",
     "name": "DeepSeek: DeepSeek V4 Pro 0813",
-    "in": "0.66",
-    "out": "1.98",
-    "cache_read": "0.022",
+    "in": "1.32",
+    "out": "3.96",
+    "cache_read": "0.044",
     "serves": {
       "openai": "deepseek/deepseek-v4-pro-0813",
       "anthropic": "deepseek/deepseek-v4-pro-0813"
@@ -762,31 +795,11 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "mimo-v2.5-pro",
-    "name": "Xiaomi: MiMo-V2.5-Pro",
-    "in": "0.435",
-    "out": "0.87",
-    "cache_read": "0.0036",
-    "serves": {
-      "openai": "xiaomi/mimo-v2.5-pro",
-      "anthropic": "xiaomi/mimo-v2.5-pro"
     },
-    "context": 1050000,
-    "max_output": 235929,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    "batch": {
+      "in": "0.375",
+      "out": "1.875",
+      "cache_read": "0.0375"
     }
   },
   {
@@ -841,7 +854,12 @@
         "text"
       ]
     },
-    "knowledge": "2026-02-16"
+    "knowledge": "2026-02-16",
+    "batch": {
+      "in": "1",
+      "out": "6",
+      "cache_read": "0.1"
+    }
   },
   {
     "id": "muse-spark-1.3-contributor",
@@ -937,7 +955,7 @@
       "anthropic": "google/gemma-4-26b-a4b-it"
     },
     "context": 262144,
-    "max_output": 32768,
+    "max_output": 235929,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -980,7 +998,12 @@
         "text"
       ]
     },
-    "knowledge": "2026-02-16"
+    "knowledge": "2026-02-16",
+    "batch": {
+      "in": "0.1",
+      "out": "0.6",
+      "cache_read": "0.01"
+    }
   },
   {
     "id": "gpt-4o-mini",
@@ -1036,6 +1059,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "5",
+      "out": "25",
+      "cache_read": "0.5"
     }
   },
   {
@@ -1094,7 +1122,12 @@
         "text"
       ]
     },
-    "knowledge": "2025-01-01"
+    "knowledge": "2025-01-01",
+    "batch": {
+      "in": "0.75",
+      "out": "4.5",
+      "cache_read": "0.075"
+    }
   },
   {
     "id": "grok-4.6",
@@ -1121,6 +1154,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "1.6",
+      "out": "4.8",
+      "cache_read": "0.4"
     }
   },
   {
@@ -1202,6 +1240,10 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "1",
+      "out": "6"
     }
   },
   {
@@ -1255,23 +1297,27 @@
         "text"
       ]
     },
-    "knowledge": "2024-06-30"
+    "knowledge": "2024-06-30",
+    "batch": {
+      "in": "0.024",
+      "out": "0.112"
+    }
   },
   {
     "id": "minimax-m2.7",
     "name": "MiniMax: MiniMax M2.7",
-    "in": "0.3",
-    "out": "1.2",
+    "in": "0.6",
+    "out": "1.8",
     "cache_read": "0.06",
     "serves": {
       "openai": "minimax/minimax-m2.7",
       "anthropic": "minimax/minimax-m2.7"
     },
-    "context": 204800,
+    "context": 196608,
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
-    "structured_output": true,
+    "structured_output": false,
     "temperature": true,
     "modalities": {
       "input": [
@@ -1333,6 +1379,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "5",
+      "out": "25",
+      "cache_read": "0.125"
     }
   },
   {
@@ -1497,6 +1548,10 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "1.15",
+      "out": "3.45"
     }
   },
   {
@@ -1581,6 +1636,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.15",
+      "out": "1.25",
+      "cache_read": "0.015"
     }
   },
   {
@@ -1608,6 +1668,10 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.23",
+      "out": "0.92"
     }
   },
   {
@@ -1620,8 +1684,8 @@
       "openai": "qwen/qwen3.8-27b",
       "anthropic": "qwen/qwen3.8-27b"
     },
-    "context": 1000000,
-    "max_output": 235929,
+    "context": 1024000,
+    "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -1635,6 +1699,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.16",
+      "out": "2",
+      "cache_read": "0.04"
     }
   },
   {
@@ -1773,30 +1842,11 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "openai/gpt-6-luna-pro:batch",
-    "name": "OpenAI: GPT-6 Luna Pro (batch)",
-    "in": "0.05",
-    "out": "0.25",
-    "cache_read": "0.005",
-    "cache_creation": "0.0625",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "1",
+      "out": "2",
+      "cache_read": "0.16"
     }
   },
   {
@@ -1843,6 +1893,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.05",
+      "out": "0.25",
+      "cache_read": "0.005"
     }
   },
   {
@@ -1867,30 +1922,11 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "openai/gpt-6-luna:batch",
-    "name": "OpenAI: GPT-6 Luna (batch)",
-    "in": "0.05",
-    "out": "0.25",
-    "cache_read": "0.005",
-    "cache_creation": "0.0625",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "0.05",
+      "out": "0.25",
+      "cache_read": "0.005"
     }
   },
   {
@@ -1915,6 +1951,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.1"
     }
   },
   {
@@ -1939,78 +1980,11 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "openai/gpt-6-sol-pro:batch",
-    "name": "OpenAI: GPT-6 Sol Pro (batch)",
-    "in": "1",
-    "out": "5",
-    "cache_read": "0.1",
-    "cache_creation": "1.25",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "anthropic/claude-opus-5.5:batch",
-    "name": "Anthropic: Claude Opus 5.5 (batch)",
-    "in": "2",
-    "out": "10",
-    "cache_read": "0.1",
-    "cache_creation": "2.5",
-    "context": 1000000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "openai/gpt-6-sol:batch",
-    "name": "OpenAI: GPT-6 Sol (batch)",
-    "in": "1",
-    "out": "5",
-    "cache_read": "0.1",
-    "cache_creation": "1.25",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.1"
     }
   },
   {
@@ -2059,6 +2033,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "2",
+      "out": "10",
+      "cache_read": "0.1"
     }
   },
   {
@@ -2067,7 +2046,7 @@
     "in": "0.435",
     "out": "0.87",
     "cache_read": "0.0036",
-    "context": 1050000,
+    "context": 1048576,
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
@@ -2106,7 +2085,12 @@
     },
     "in": "2",
     "out": "6",
-    "cache_read": "0.5"
+    "cache_read": "0.5",
+    "batch": {
+      "in": "1.6",
+      "out": "4.8",
+      "cache_read": "0.4"
+    }
   },
   {
     "id": "xiaomi/mimo-v2.6-flash",
@@ -2114,7 +2098,7 @@
     "in": "0.14",
     "out": "0.28",
     "cache_read": "0.0028",
-    "context": 1050000,
+    "context": 1048576,
     "max_output": 131072,
     "reasoning": true,
     "tool_call": true,
@@ -2183,7 +2167,7 @@
     "name": "Z.ai: GLM 5.3 FlashX",
     "in": "0.37",
     "out": "1.25",
-    "cache_read": "0.09",
+    "cache_read": "0.075",
     "context": 1048576,
     "max_output": 131072,
     "reasoning": true,
@@ -2276,7 +2260,7 @@
     "out": "0.23",
     "cache_read": "0.05",
     "context": 128000,
-    "max_output": 4096,
+    "max_output": 8192,
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
@@ -2307,27 +2291,6 @@
         "image",
         "text",
         "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "inception/mercury-2.5",
-    "name": "Inception: Mercury 2.5",
-    "in": "0.04",
-    "out": "0.15",
-    "cache_read": "0.004",
-    "context": 260000,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
       ],
       "output": [
         "text"
@@ -2378,104 +2341,11 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "openai/gpt-6-astra:batch",
-    "name": "OpenAI: GPT-6 Astra (batch)",
-    "in": "5",
-    "out": "25",
-    "cache_read": "0.5",
-    "cache_creation": "6.25",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "openai/gpt-6-astra-pro:batch",
-    "name": "OpenAI: GPT-6 Astra Pro (batch)",
-    "in": "5",
-    "out": "25",
-    "cache_read": "0.5",
-    "cache_creation": "6.25",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "google/gemini-3.8-flash:batch",
-    "name": "Google: Gemini 3.8 Flash (batch)",
-    "in": "0.375",
-    "out": "1.875",
-    "cache_read": "0.0375",
-    "cache_creation": "0.0416666666666667",
-    "context": 1048576,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "anthropic/claude-fable-5.1:batch",
-    "name": "Anthropic: Claude Fable 5.1 (batch)",
-    "in": "5",
-    "out": "25",
-    "cache_read": "0.125",
-    "cache_creation": "6.25",
-    "context": 1000000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "5",
+      "out": "25",
+      "cache_read": "0.5"
     }
   },
   {
@@ -2601,32 +2471,6 @@
     }
   },
   {
-    "id": "google/gemini-3.7-flash:batch",
-    "name": "Google: Gemini 3.7 Flash (batch)",
-    "in": "0.375",
-    "out": "1.875",
-    "cache_read": "0.0375",
-    "cache_creation": "0.0416666666666667",
-    "context": 1048576,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "bytedance-seed/seed-2-1-turbo",
     "name": "ByteDance Seed: Seed 2.1 Turbo",
     "in": "0.5",
@@ -2655,7 +2499,7 @@
     "out": "6",
     "cache_read": "0.25",
     "context": 1048576,
-    "max_output": 131072,
+    "max_output": 65536,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -2663,28 +2507,6 @@
     "modalities": {
       "input": [
         "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "bytedance-seed/seed-2.0-code",
-    "name": "ByteDance Seed: Seed-2.0-Code",
-    "in": "0.5",
-    "out": "3",
-    "context": 262144,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "text",
-        "video"
       ],
       "output": [
         "text"
@@ -2697,7 +2519,7 @@
     "in": "0.07",
     "out": "0.2",
     "cache_read": "0.04",
-    "context": 262144,
+    "context": 1048576,
     "max_output": 235929,
     "reasoning": true,
     "tool_call": true,
@@ -2742,7 +2564,7 @@
     "out": "1.2",
     "cache_read": "0.04",
     "context": 131072,
-    "max_output": 16384,
+    "max_output": 117964,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -2755,6 +2577,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.24",
+      "out": "0.96",
+      "cache_read": "0.032"
     }
   },
   {
@@ -2802,36 +2629,17 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "anthropic/claude-opus-5:batch",
-    "name": "Anthropic: Claude Opus 5 (batch)",
-    "in": "2.5",
-    "out": "12.5",
-    "cache_read": "0.25",
-    "cache_creation": "3.125",
-    "context": 1000000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "0.36",
+      "out": "0.96",
+      "cache_read": "0.08"
     }
   },
   {
     "id": "inclusionai/ling-3.0-flash",
     "name": "inclusionAI: Ling 3.0 Flash",
-    "context": 262144,
+    "context": 131072,
     "max_output": 32768,
     "reasoning": true,
     "tool_call": true,
@@ -2844,79 +2652,10 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "google/gemini-3.6-flash:batch",
-    "name": "Google: Gemini 3.6 Flash (batch)",
-    "in": "0.375",
-    "out": "1.875",
-    "cache_read": "0.0375",
-    "cache_creation": "0.0416666666666667",
-    "context": 1048576,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "google/gemini-3.5-flash-lite:batch",
-    "name": "Google: Gemini 3.5 Flash Lite (batch)",
-    "in": "0.15",
-    "out": "1.25",
-    "cache_read": "0.015",
-    "context": 1048576,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "meituan/longcat-2.0",
-    "name": "Meituan: LongCat 2.0",
-    "in": "0.3",
-    "out": "1.2",
-    "cache_read": "0.006",
-    "context": 1048756,
-    "max_output": 262144,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
+    },
+    "in": "0.06",
+    "out": "0.18",
+    "cache_read": "0.012"
   },
   {
     "id": "thinkingmachines/inkling",
@@ -2924,7 +2663,7 @@
     "in": "1",
     "out": "4.05",
     "cache_read": "0.17",
-    "context": 524288,
+    "context": 1048576,
     "max_output": 471859,
     "reasoning": true,
     "tool_call": true,
@@ -2935,29 +2674,6 @@
         "audio",
         "image",
         "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "moonshotai/kimi-k3:batch",
-    "name": "MoonshotAI: Kimi K3 (batch)",
-    "in": "2.28",
-    "out": "11.4",
-    "cache_read": "0.228",
-    "context": 1048576,
-    "max_output": 16384,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "text",
-        "video"
       ],
       "output": [
         "text"
@@ -2989,54 +2705,6 @@
     }
   },
   {
-    "id": "openai/gpt-5.6-luna-pro:batch",
-    "name": "OpenAI: GPT-5.6 Luna Pro (batch)",
-    "in": "0.1",
-    "out": "0.6",
-    "cache_read": "0.01",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2026-02-16"
-  },
-  {
-    "id": "openai/gpt-5.6-luna:batch",
-    "name": "OpenAI: GPT-5.6 Luna (batch)",
-    "in": "0.1",
-    "out": "0.6",
-    "cache_read": "0.01",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2026-02-16"
-  },
-  {
     "id": "openai/gpt-5.6-terra-pro",
     "name": "OpenAI: GPT-5.6 Terra Pro",
     "in": "1",
@@ -3059,31 +2727,12 @@
         "text"
       ]
     },
-    "knowledge": "2026-02-16"
-  },
-  {
-    "id": "openai/gpt-5.6-terra-pro:batch",
-    "name": "OpenAI: GPT-5.6 Terra Pro (batch)",
-    "in": "1",
-    "out": "6",
-    "cache_read": "0.1",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2026-02-16"
+    "knowledge": "2026-02-16",
+    "batch": {
+      "in": "1",
+      "out": "6",
+      "cache_read": "0.1"
+    }
   },
   {
     "id": "openai/gpt-5.6-sol-pro",
@@ -3108,81 +2757,12 @@
         "text"
       ]
     },
-    "knowledge": "2026-02-16"
-  },
-  {
-    "id": "openai/gpt-5.6-terra:batch",
-    "name": "OpenAI: GPT-5.6 Terra (batch)",
-    "in": "1",
-    "out": "6",
-    "cache_read": "0.1",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2026-02-16"
-  },
-  {
-    "id": "openai/gpt-5.6-sol-pro:batch",
-    "name": "OpenAI: GPT-5.6 Sol Pro (batch)",
-    "in": "2",
-    "out": "10",
-    "cache_read": "0.2",
-    "cache_creation": "2.5",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2026-02-16"
-  },
-  {
-    "id": "openai/gpt-5.6-sol:batch",
-    "name": "OpenAI: GPT-5.6 Sol (batch)",
-    "in": "2",
-    "out": "10",
-    "cache_read": "0.2",
-    "cache_creation": "2.5",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2026-02-16"
+    "knowledge": "2026-02-16",
+    "batch": {
+      "in": "2",
+      "out": "10",
+      "cache_read": "0.2"
+    }
   },
   {
     "id": "aion-labs/aion-3.0-mini",
@@ -3365,7 +2945,7 @@
     "out": "2.4",
     "cache_read": "0.12",
     "context": 262144,
-    "max_output": 182520,
+    "max_output": 16384,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -3428,55 +3008,6 @@
     }
   },
   {
-    "id": "x-ai/grok-build-0.1",
-    "name": "SpaceXAI: Grok Build 0.1",
-    "context": 256000,
-    "max_output": 230400,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "in": "1",
-    "out": "2",
-    "cache_read": "0.2"
-  },
-  {
-    "id": "google/gemini-3.5-flash:batch",
-    "name": "Google: Gemini 3.5 Flash (batch)",
-    "in": "0.75",
-    "out": "4.5",
-    "cache_read": "0.075",
-    "context": 1048576,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2025-01-01"
-  },
-  {
     "id": "perceptron/perceptron-mk1",
     "name": "Perceptron: Perceptron Mk1",
     "in": "0.15",
@@ -3490,31 +3021,6 @@
     "modalities": {
       "input": [
         "image",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "google/gemini-3.1-flash-lite:batch",
-    "name": "Google: Gemini 3.1 Flash Lite (batch)",
-    "in": "0.125",
-    "out": "0.75",
-    "cache_read": "0.0125",
-    "context": 1048576,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
         "text",
         "video"
       ],
@@ -3547,29 +3053,6 @@
     }
   },
   {
-    "id": "x-ai/grok-4.3:batch",
-    "name": "SpaceXAI: Grok 4.3 (batch)",
-    "in": "1",
-    "out": "2",
-    "cache_read": "0.16",
-    "context": 1000000,
-    "max_output": 900000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "mistralai/mistral-medium-3-5",
     "name": "Mistral: Mistral Medium 3.5",
     "in": "1.5",
@@ -3589,28 +3072,10 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "mistralai/mistral-medium-3-5:batch",
-    "name": "Mistral: Mistral Medium 3.5 (batch)",
-    "in": "0.75",
-    "out": "3.75",
-    "context": 262144,
-    "max_output": 209715,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "0.75",
+      "out": "3.75"
     }
   },
   {
@@ -3686,7 +3151,7 @@
     "id": "qwen/qwen3.6-27b",
     "name": "Qwen: Qwen3.6 27B",
     "context": 262144,
-    "max_output": 65536,
+    "max_output": 81920,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -3722,8 +3187,8 @@
       ]
     },
     "knowledge": "2025-12-01",
-    "in": "15",
-    "out": "90"
+    "in": "30",
+    "out": "180"
   },
   {
     "id": "openai/gpt-5.5-pro:batch",
@@ -4004,9 +3469,9 @@
   {
     "id": "mistralai/mistral-small-2603",
     "name": "Mistral: Mistral Small 4",
-    "in": "0.15",
-    "out": "0.6",
-    "cache_read": "0.015",
+    "in": "0.165",
+    "out": "0.66",
+    "cache_read": "0.0165",
     "context": 262144,
     "max_output": 209715,
     "reasoning": true,
@@ -4047,8 +3512,8 @@
   {
     "id": "nvidia/nemotron-3-super-120b-a12b",
     "name": "NVIDIA: Nemotron 3 Super",
-    "context": 1048576,
-    "max_output": 262144,
+    "context": 262144,
+    "max_output": 16384,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -4109,8 +3574,8 @@
   {
     "id": "openai/gpt-5.4-pro",
     "name": "OpenAI: GPT-5.4 Pro",
-    "in": "15",
-    "out": "90",
+    "in": "30",
+    "out": "180",
     "context": 1050000,
     "max_output": 128000,
     "reasoning": true,
@@ -4166,27 +3631,6 @@
       "input": [
         "image",
         "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "inception/mercury-2",
-    "name": "Inception: Mercury 2",
-    "in": "0.25",
-    "out": "0.75",
-    "cache_read": "0.025",
-    "context": 128000,
-    "max_output": 50000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
         "text"
       ],
       "output": [
@@ -4374,30 +3818,6 @@
     }
   },
   {
-    "id": "google/gemini-3.1-pro-preview:batch",
-    "name": "Google: Gemini 3.1 Pro Preview (batch)",
-    "in": "1",
-    "out": "6",
-    "context": 1048576,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "anthropic/claude-sonnet-4.6",
     "name": "Anthropic: Claude Sonnet 4.6",
     "in": "3",
@@ -4473,7 +3893,7 @@
     "in": "0.6",
     "out": "3.6",
     "context": 262144,
-    "max_output": 235929,
+    "max_output": 81920,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -4495,7 +3915,7 @@
     "in": "0.3",
     "out": "1.2",
     "cache_read": "0.03",
-    "context": 204800,
+    "context": 198000,
     "max_output": 32768,
     "reasoning": true,
     "tool_call": true,
@@ -4598,26 +4018,6 @@
     }
   },
   {
-    "id": "stepfun/step-3.5-flash",
-    "name": "StepFun: Step 3.5 Flash",
-    "in": "0.1",
-    "out": "0.3",
-    "context": 262144,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "moonshotai/kimi-k2.5",
     "name": "MoonshotAI: Kimi K2.5",
     "context": 262144,
@@ -4629,27 +4029,6 @@
     "modalities": {
       "input": [
         "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "minimax/minimax-m2-her",
-    "name": "MiniMax: MiniMax M2-her",
-    "in": "0.3",
-    "out": "1.2",
-    "cache_read": "0.03",
-    "context": 65536,
-    "max_output": 2048,
-    "reasoning": false,
-    "tool_call": false,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
         "text"
       ],
       "output": [
@@ -4718,71 +4097,6 @@
     }
   },
   {
-    "id": "bytedance-seed/seed-1.6-flash",
-    "name": "ByteDance Seed: Seed 1.6 Flash",
-    "in": "0.075",
-    "out": "0.3",
-    "context": 262144,
-    "max_output": 32768,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "bytedance-seed/seed-1.6",
-    "name": "ByteDance Seed: Seed 1.6",
-    "in": "0.25",
-    "out": "2",
-    "context": 262144,
-    "max_output": 32768,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "text",
-        "video"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "minimax/minimax-m2.1",
-    "name": "MiniMax: MiniMax M2.1",
-    "in": "0.3",
-    "out": "1.2",
-    "cache_read": "0.03",
-    "context": 204800,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "z-ai/glm-4.7",
     "name": "Z.ai: GLM 4.7",
     "in": "0.6",
@@ -4797,30 +4111,6 @@
     "modalities": {
       "input": [
         "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "google/gemini-3-flash-preview:batch",
-    "name": "Google: Gemini 3 Flash Preview (batch)",
-    "in": "0.25",
-    "out": "1.5",
-    "context": 1048576,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
-        "text",
-        "video"
       ],
       "output": [
         "text"
@@ -4843,7 +4133,10 @@
       "output": [
         "text"
       ]
-    }
+    },
+    "in": "0.06",
+    "out": "0.24",
+    "cache_read": "0.012"
   },
   {
     "id": "openai/gpt-5.2-chat",
@@ -5268,27 +4561,6 @@
     }
   },
   {
-    "id": "moonshotai/kimi-k2-thinking",
-    "name": "MoonshotAI: Kimi K2 Thinking",
-    "context": 262144,
-    "max_output": 98304,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "in": "0.6",
-    "out": "2.5",
-    "cache_read": "0.15"
-  },
-  {
     "id": "perplexity/sonar-pro-search",
     "name": "Perplexity: Sonar Pro Search",
     "in": "3",
@@ -5376,26 +4648,6 @@
     }
   },
   {
-    "id": "minimax/minimax-m2",
-    "name": "MiniMax: MiniMax M2",
-    "in": "0.255",
-    "out": "1.02",
-    "context": 204800,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "anthropic/claude-haiku-4.5",
     "name": "Anthropic: Claude Haiku 4.5",
     "in": "1",
@@ -5464,28 +4716,6 @@
         "text"
       ]
     }
-  },
-  {
-    "id": "qwen/qwen3-vl-30b-a3b-thinking",
-    "name": "Qwen: Qwen3 VL 30B A3B Thinking",
-    "context": 262144,
-    "max_output": 235929,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "in": "0.29",
-    "out": "1",
-    "modalities": {
-      "input": [
-        "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2025-03-31"
   },
   {
     "id": "openai/gpt-5-pro",
@@ -5759,7 +4989,7 @@
     "id": "qwen/qwen3-next-80b-a3b-instruct",
     "name": "Qwen: Qwen3 Next 80B A3B Instruct",
     "context": 262144,
-    "max_output": 16384,
+    "max_output": 235929,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
@@ -5841,9 +5071,9 @@
   {
     "id": "mistralai/mistral-medium-3.1",
     "name": "Mistral: Mistral Medium 3.1",
-    "in": "0.4",
-    "out": "2",
-    "cache_read": "0.04",
+    "in": "0.44",
+    "out": "2.2",
+    "cache_read": "0.044",
     "context": 131072,
     "max_output": 104857,
     "reasoning": false,
@@ -5955,7 +5185,12 @@
     "knowledge": "2024-05-31",
     "in": "0.025",
     "out": "0.2",
-    "cache_read": "0.0025"
+    "cache_read": "0.0025",
+    "batch": {
+      "in": "0.025",
+      "out": "0.2",
+      "cache_read": "0.0025"
+    }
   },
   {
     "id": "openai/gpt-5-mini:batch",
@@ -6004,51 +5239,6 @@
     "in": "0.125",
     "out": "1",
     "cache_read": "0.0125"
-  },
-  {
-    "id": "openai/gpt-5-nano:batch",
-    "name": "OpenAI: GPT-5 Nano (batch)",
-    "in": "0.025",
-    "out": "0.2",
-    "cache_read": "0.0025",
-    "context": 400000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2024-05-31"
-  },
-  {
-    "id": "openai/gpt-oss-20b:batch",
-    "name": "OpenAI: gpt-oss-20b (batch)",
-    "in": "0.024",
-    "out": "0.112",
-    "context": 131072,
-    "max_output": 117964,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2024-06-30"
   },
   {
     "id": "anthropic/claude-opus-4.1",
@@ -6118,7 +5308,10 @@
         "text"
       ]
     },
-    "knowledge": "2025-03-31"
+    "knowledge": "2025-03-31",
+    "in": "0.3",
+    "out": "0.9",
+    "cache_read": "0.03"
   },
   {
     "id": "qwen/qwen3-coder-30b-a3b-instruct",
@@ -6273,7 +5466,7 @@
     "id": "qwen/qwen3-235b-a22b-2507",
     "name": "Qwen: Qwen3 235B A22B Instruct 2507",
     "context": 262144,
-    "max_output": 16384,
+    "max_output": 117964,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
@@ -6287,27 +5480,6 @@
       ]
     },
     "knowledge": "2025-06-30"
-  },
-  {
-    "id": "moonshotai/kimi-k2",
-    "name": "MoonshotAI: Kimi K2 0711",
-    "in": "0.57",
-    "out": "2.3",
-    "context": 131072,
-    "max_output": 98304,
-    "reasoning": false,
-    "tool_call": true,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2024-12-31"
   },
   {
     "id": "cognitivecomputations/dolphin-mistral-24b-venice-edition",
@@ -6331,27 +5503,6 @@
     "knowledge": "2024-04-30"
   },
   {
-    "id": "tencent/hunyuan-a13b-instruct",
-    "name": "Tencent: Hunyuan A13B Instruct",
-    "in": "0.14",
-    "out": "0.57",
-    "context": 131072,
-    "max_output": 117964,
-    "reasoning": true,
-    "tool_call": false,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2025-03-31"
-  },
-  {
     "id": "morph/morph-v3-large",
     "name": "Morph: Morph V3 Large",
     "in": "0.9",
@@ -6369,6 +5520,10 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.45",
+      "out": "0.95"
     }
   },
   {
@@ -6389,6 +5544,10 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "0.4",
+      "out": "0.6"
     }
   },
   {
@@ -6410,27 +5569,6 @@
       ]
     },
     "knowledge": "2023-10-31"
-  },
-  {
-    "id": "minimax/minimax-m1",
-    "name": "MiniMax: MiniMax M1",
-    "in": "0.4",
-    "out": "2.2",
-    "context": 1000000,
-    "max_output": 40000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2024-06-30"
   },
   {
     "id": "google/gemini-2.5-pro",
@@ -6512,7 +5650,7 @@
     "id": "deepseek/deepseek-r1-0528",
     "name": "DeepSeek: R1 0528",
     "context": 163840,
-    "max_output": 32768,
+    "max_output": 32000,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -6530,9 +5668,9 @@
   {
     "id": "mistralai/mistral-medium-3",
     "name": "Mistral: Mistral Medium 3",
-    "in": "0.4",
-    "out": "2",
-    "cache_read": "0.04",
+    "in": "0.44",
+    "out": "2.2",
+    "cache_read": "0.044",
     "context": 131072,
     "max_output": 104857,
     "reasoning": false,
@@ -6829,7 +5967,7 @@
     "name": "OpenAI: GPT-4.1 Nano",
     "in": "0.1",
     "out": "0.4",
-    "cache_read": "0.025",
+    "cache_read": "0.03",
     "context": 1047576,
     "max_output": 942818,
     "reasoning": false,
@@ -6852,7 +5990,7 @@
     "id": "meta-llama/llama-4-maverick",
     "name": "Meta: Llama 4 Maverick",
     "context": 524288,
-    "max_output": 16384,
+    "max_output": 32768,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
@@ -6866,7 +6004,10 @@
         "text"
       ]
     },
-    "knowledge": "2024-08-31"
+    "knowledge": "2024-08-31",
+    "in": "0.35",
+    "out": "1",
+    "cache_read": "0.17"
   },
   {
     "id": "meta-llama/llama-4-scout",
@@ -6892,7 +6033,7 @@
     "id": "deepseek/deepseek-chat-v3-0324",
     "name": "DeepSeek: DeepSeek V3 0324",
     "context": 163840,
-    "max_output": 115200,
+    "max_output": 147456,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
@@ -6905,7 +6046,9 @@
         "text"
       ]
     },
-    "knowledge": "2024-07-31"
+    "knowledge": "2024-07-31",
+    "in": "0.25",
+    "out": "1"
   },
   {
     "id": "mistralai/mistral-small-3.1-24b-instruct",
@@ -6935,7 +6078,7 @@
     "in": "0.05",
     "out": "0.1",
     "context": 131072,
-    "max_output": 16384,
+    "max_output": 117964,
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
@@ -6981,7 +6124,7 @@
     "context": 256000,
     "max_output": 8192,
     "reasoning": false,
-    "tool_call": false,
+    "tool_call": true,
     "structured_output": true,
     "temperature": true,
     "modalities": {
@@ -7062,7 +6205,7 @@
     "id": "google/gemma-3-27b-it",
     "name": "Google: Gemma 3 27B",
     "context": 131072,
-    "max_output": 117964,
+    "max_output": 16384,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
@@ -7275,28 +6418,6 @@
     }
   },
   {
-    "id": "minimax/minimax-01",
-    "name": "MiniMax: MiniMax-01",
-    "in": "0.2",
-    "out": "1.1",
-    "context": 1000192,
-    "max_output": 900172,
-    "reasoning": false,
-    "tool_call": false,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2024-03-31"
-  },
-  {
     "id": "microsoft/phi-4",
     "name": "Microsoft: Phi 4",
     "in": "0.07",
@@ -7342,7 +6463,7 @@
     "in": "0.72",
     "out": "0.72",
     "context": 131072,
-    "max_output": 16384,
+    "max_output": 115200,
     "reasoning": false,
     "tool_call": true,
     "structured_output": true,
@@ -7387,7 +6508,7 @@
     "context": 128000,
     "max_output": 4000,
     "reasoning": false,
-    "tool_call": false,
+    "tool_call": true,
     "structured_output": true,
     "temperature": true,
     "modalities": {
@@ -7551,49 +6672,8 @@
         "text"
       ]
     },
-    "knowledge": "2024-06-30"
-  },
-  {
-    "id": "qwen/qwen-2.5-7b-instruct",
-    "name": "Qwen: Qwen2.5 7B Instruct",
-    "in": "0.1",
-    "out": "0.2",
-    "context": 32768,
-    "max_output": 29491,
-    "reasoning": false,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2024-06-30"
-  },
-  {
-    "id": "meta-llama/llama-3.2-1b-instruct",
-    "name": "Meta: Llama 3.2 1B Instruct",
-    "in": "0.027",
-    "out": "0.201",
-    "context": 60000,
-    "max_output": 54000,
-    "reasoning": false,
-    "tool_call": false,
-    "structured_output": false,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2023-12-31"
+    "knowledge": "2024-06-30",
+    "cache_read": "2.5"
   },
   {
     "id": "qwen/qwen-2.5-72b-instruct",
@@ -7662,7 +6742,7 @@
     "id": "meta-llama/llama-3.2-3b-instruct",
     "name": "Meta: Llama 3.2 3B Instruct",
     "context": 131072,
-    "max_output": 72000,
+    "max_output": 117964,
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
@@ -7675,7 +6755,9 @@
         "text"
       ]
     },
-    "knowledge": "2023-12-31"
+    "knowledge": "2023-12-31",
+    "in": "0.05",
+    "out": "0.33"
   },
   {
     "id": "sao10k/l3.1-euryale-70b",
@@ -7699,54 +6781,12 @@
     "knowledge": "2023-12-31"
   },
   {
-    "id": "nousresearch/hermes-3-llama-3.1-70b",
-    "name": "Nous: Hermes 3 70B Instruct",
-    "in": "0.7",
-    "out": "0.7",
-    "context": 131072,
-    "max_output": 16384,
-    "reasoning": false,
-    "tool_call": false,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2023-12-31"
-  },
-  {
     "id": "sao10k/l3-lunaris-8b",
     "name": "Sao10K: Llama 3 8B Lunaris",
     "in": "0.04",
     "out": "0.05",
     "context": 8192,
     "max_output": 7372,
-    "reasoning": false,
-    "tool_call": false,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2023-12-31"
-  },
-  {
-    "id": "nousresearch/hermes-3-llama-3.1-405b",
-    "name": "Nous: Hermes 3 405B Instruct",
-    "in": "1",
-    "out": "1",
-    "context": 131072,
-    "max_output": 16384,
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
@@ -7789,10 +6829,10 @@
     "id": "meta-llama/llama-3.1-70b-instruct",
     "name": "Meta: Llama 3.1 70B Instruct",
     "context": 131072,
-    "max_output": 16384,
+    "max_output": 8192,
     "reasoning": false,
     "tool_call": true,
-    "structured_output": true,
+    "structured_output": false,
     "temperature": true,
     "modalities": {
       "input": [
@@ -7802,7 +6842,9 @@
         "text"
       ]
     },
-    "knowledge": "2023-12-31"
+    "knowledge": "2023-12-31",
+    "in": "0.72",
+    "out": "0.72"
   },
   {
     "id": "meta-llama/llama-3.1-8b-instruct",
@@ -8026,7 +7068,10 @@
         "text"
       ]
     },
-    "knowledge": "2024-11-30"
+    "knowledge": "2024-11-30",
+    "in": "2",
+    "out": "6",
+    "cache_read": "0.2"
   },
   {
     "id": "openai/gpt-3.5-turbo-0613",
@@ -8073,8 +7118,8 @@
   {
     "id": "mancer/weaver",
     "name": "Mancer: Weaver (alpha)",
-    "in": "0.4",
-    "out": "0.75",
+    "in": "0.3",
+    "out": "0.5",
     "context": 8000,
     "max_output": 6000,
     "reasoning": false,
@@ -8089,7 +7134,8 @@
         "text"
       ]
     },
-    "knowledge": "2023-06-30"
+    "knowledge": "2023-06-30",
+    "cache_read": "0.3"
   },
   {
     "id": "undi95/remm-slerp-l2-13b",
@@ -8109,14 +7155,15 @@
       ]
     },
     "knowledge": "2023-06-30",
-    "in": "0.35",
-    "out": "0.65"
+    "in": "0.3",
+    "out": "0.5",
+    "cache_read": "0.2"
   },
   {
     "id": "gryphe/mythomax-l2-13b",
     "name": "MythoMax 13B",
     "context": 8192,
-    "max_output": 3686,
+    "max_output": 7372,
     "reasoning": false,
     "tool_call": false,
     "structured_output": true,
@@ -8218,9 +7265,9 @@
   {
     "id": "z-ai/glm-5.3-prime",
     "name": "Z.ai: GLM 5.3 Prime",
-    "in": "2.8",
-    "out": "8.8",
-    "cache_read": "0.56",
+    "in": "1.68",
+    "out": "5.28",
+    "cache_read": "0.336",
     "context": 1000000,
     "max_output": 131072,
     "reasoning": true,
@@ -8260,32 +7307,11 @@
     }
   },
   {
-    "id": "openai/gpt-oss-120b:batch",
-    "name": "OpenAI: gpt-oss-120b (batch)",
-    "in": "0.0296",
-    "out": "0.136",
-    "context": 131072,
-    "max_output": 117964,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2024-06-30"
-  },
-  {
     "id": "inclusionai/ling-3.1-flash",
     "name": "inclusionAI: Ling 3.1 Flash",
     "in": "0.075",
     "out": "0.225",
-    "context": 1000000,
+    "context": 1048576,
     "max_output": 262144,
     "reasoning": true,
     "tool_call": true,
@@ -8323,6 +7349,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.05"
     }
   },
   {
@@ -8340,30 +7371,6 @@
     "modalities": {
       "input": [
         "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "anthropic/claude-sonnet-5.5:batch",
-    "name": "Anthropic: Claude Sonnet 5.5 (batch)",
-    "in": "1",
-    "out": "5",
-    "cache_read": "0.05",
-    "cache_creation": "1.25",
-    "context": 1000000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
         "text"
       ],
       "output": [
@@ -8393,6 +7400,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.05"
     }
   },
   {
@@ -8417,6 +7429,11 @@
       "output": [
         "text"
       ]
+    },
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.05"
     }
   },
   {
@@ -8439,7 +7456,7 @@
         "text"
       ]
     },
-    "max_output": 65536
+    "max_output": 128000
   },
   {
     "id": "perceptron/perceptron-mk1.5",
@@ -8635,7 +7652,7 @@
     "id": "nvidia/nemotron-3.5-super-vl",
     "name": "NVIDIA: Nemotron 3.5 Super VL",
     "context": 1048576,
-    "max_output": 235929,
+    "max_output": 943718,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -8661,7 +7678,7 @@
     "out": "4.25",
     "cache_read": "0.15",
     "context": 1048576,
-    "max_output": 131072,
+    "max_output": 943718,
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
@@ -8703,7 +7720,12 @@
     "in": "2",
     "out": "10",
     "cache_read": "0.1",
-    "cache_creation": "0.1875"
+    "cache_creation": "0.1875",
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.05"
+    }
   },
   {
     "id": "liquid/lfm-2.5-24b-a2b",
@@ -8742,32 +7764,6 @@
       "input": [
         "image",
         "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "google/gemini-4-argon:batch",
-    "name": "Google: Gemini 4 Argon (batch)",
-    "in": "1",
-    "out": "5",
-    "cache_read": "0.05",
-    "cache_creation": "0.1875",
-    "context": 1048576,
-    "max_output": 943718,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "audio",
-        "image",
-        "pdf",
-        "text",
-        "video"
       ],
       "output": [
         "text"
@@ -8849,7 +7845,7 @@
     "in": "1",
     "out": "2.7",
     "cache_read": "0.1",
-    "context": 1048576,
+    "context": 1000000,
     "max_output": 64000,
     "reasoning": true,
     "tool_call": true,
@@ -8888,78 +7884,11 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "anthropic/claude-haiku-5.5:batch",
-    "name": "Anthropic: Claude Haiku 5.5 (batch)",
-    "in": "0.05",
-    "out": "0.25",
-    "cache_read": "0.005",
-    "cache_creation": "0.0625",
-    "context": 1000000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "openai/gpt-6.1-sol-pro:batch",
-    "name": "OpenAI: GPT-6.1 Sol Pro (batch)",
-    "in": "1",
-    "out": "5",
-    "cache_read": "0.05",
-    "cache_creation": "1.25",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "openai/gpt-6.1-sol:batch",
-    "name": "OpenAI: GPT-6.1 Sol (batch)",
-    "in": "1",
-    "out": "5",
-    "cache_read": "0.05",
-    "cache_creation": "1.25",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "0.05",
+      "out": "0.25",
+      "cache_read": "0.005"
     }
   },
   {
@@ -8985,32 +7914,11 @@
     "cache_read": "0.04"
   },
   {
-    "id": "qwen/qwen3.7-plus:batch",
-    "name": "Qwen: Qwen3.7 Plus (batch)",
-    "in": "0.23",
-    "out": "0.92",
-    "context": 262144,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "deepseek/deepseek-v4.1-flash-1017",
     "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
-    "in": "0.15",
-    "out": "0.6",
-    "cache_read": "0.003",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.006",
     "context": 1048576,
     "max_output": 393216,
     "reasoning": true,
@@ -9083,7 +7991,7 @@
     "reasoning": true,
     "tool_call": true,
     "structured_output": true,
-    "temperature": false,
+    "temperature": true,
     "modalities": {
       "input": [
         "image",
@@ -9119,27 +8027,6 @@
     }
   },
   {
-    "id": "inception/mercury-3",
-    "name": "Inception: Mercury 3",
-    "in": "0.1",
-    "out": "0.35",
-    "cache_read": "0.01",
-    "context": 1000000,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "openai/gpt-6.1-terra-pro",
     "name": "OpenAI: GPT-6.1 Terra Pro",
     "in": "0.5",
@@ -9161,54 +8048,11 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "openai/gpt-6.1-terra-pro:batch",
-    "name": "OpenAI: GPT-6.1 Terra Pro (batch)",
-    "in": "0.5",
-    "out": "2.5",
-    "cache_read": "0.025",
-    "cache_creation": "0.625",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "openai/gpt-6.1-terra:batch",
-    "name": "OpenAI: GPT-6.1 Terra (batch)",
-    "in": "0.5",
-    "out": "2.5",
-    "cache_read": "0.025",
-    "cache_creation": "0.625",
-    "context": 1050000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "modalities": {
-      "input": [
-        "image",
-        "pdf",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "0.5",
+      "out": "2.5",
+      "cache_read": "0.025"
     }
   },
   {
@@ -9233,35 +8077,19 @@
       "output": [
         "text"
       ]
-    }
-  },
-  {
-    "id": "liquid/lfm-2.5-2.6b",
-    "name": "LiquidAI: LFM2.5-2.6B",
-    "in": "0.35",
-    "out": "0.5",
-    "cache_read": "0.04",
-    "context": 128000,
-    "max_output": 8192,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
+    },
+    "batch": {
+      "in": "0.5",
+      "out": "2.5",
+      "cache_read": "0.025"
     }
   },
   {
     "id": "particle-ai/particle-1",
     "name": "Particle AI: Particle-1",
-    "in": "0.05",
-    "out": "0.5",
-    "cache_read": "0.003",
+    "in": "0.035",
+    "out": "0.25",
+    "cache_read": "0.015",
     "context": 1048576,
     "max_output": 131072,
     "reasoning": true,
@@ -9293,6 +8121,617 @@
     "modalities": {
       "input": [
         "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "mistralai/pixtral-large-2502",
+    "name": "Mistral: Pixtral Large 2502",
+    "in": "2",
+    "out": "6",
+    "context": 128000,
+    "max_output": 102400,
+    "reasoning": false,
+    "tool_call": false,
+    "structured_output": false,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "thinkingmachines/inkling-2-mini",
+    "name": "Thinking Machines: Inkling 2 Mini",
+    "context": 1048576,
+    "max_output": 65536,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "radixark/daisyrose-27b",
+    "name": "RadixArk: DaisyRose 27B",
+    "in": "0.15",
+    "out": "1.875",
+    "cache_read": "0.0375",
+    "context": 262144,
+    "max_output": 235929,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "google/gemini-4-neon",
+    "name": "Google: Gemini 4 Neon",
+    "in": "3",
+    "out": "15",
+    "cache_read": "0.15",
+    "cache_creation": "0.0833333333333333",
+    "batch": {
+      "in": "1.5",
+      "out": "7.5",
+      "cache_read": "0.075"
+    },
+    "context": 1048576,
+    "max_output": 943718,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-astra-pro",
+    "name": "OpenAI: GPT-6.2 Astra Pro",
+    "in": "8",
+    "out": "40",
+    "cache_read": "0.4",
+    "cache_creation": "10",
+    "batch": {
+      "in": "4",
+      "out": "20",
+      "cache_read": "0.2"
+    },
+    "context": 1050000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-astra",
+    "name": "OpenAI: GPT-6.2 Astra",
+    "in": "8",
+    "out": "40",
+    "cache_read": "0.4",
+    "cache_creation": "10",
+    "batch": {
+      "in": "4",
+      "out": "20",
+      "cache_read": "0.2"
+    },
+    "context": 1050000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-sol-pro",
+    "name": "OpenAI: GPT-6.2 Sol Pro",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.1",
+    "cache_creation": "2.5",
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.05"
+    },
+    "context": 1050000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-sol",
+    "name": "OpenAI: GPT-6.2 Sol",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.1",
+    "cache_creation": "2.5",
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.05"
+    },
+    "context": 1050000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "tencent/hy4-flash",
+    "name": "Tencent: Hy4 flash",
+    "in": "0.035",
+    "out": "0.1405",
+    "cache_read": "0.0015",
+    "context": 1048576,
+    "max_output": 65536,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "qwen/qwen4-max",
+    "name": "Qwen: Qwen4 Max",
+    "in": "1.425",
+    "out": "4.275",
+    "cache_read": "0.07125",
+    "cache_creation": "1.78125",
+    "context": 1000000,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "baidu/ernie-light-dt-1.0-intl",
+    "name": "Baidu: ERNIE-Light-DT-1.0",
+    "in": "1.13",
+    "out": "3.94",
+    "cache_read": "0.113",
+    "context": 1024000,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "nex-agi/nex-n2.6",
+    "name": "Nex AGI: Nex-N2.6",
+    "in": "0.12",
+    "out": "0.4",
+    "cache_read": "0.024",
+    "context": 262144,
+    "max_output": 235929,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "thinkingmachines/inkling-2-small",
+    "name": "Thinking Machines: Inkling 2 Small",
+    "context": 1048576,
+    "max_output": 943718,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "meta/muse-ember",
+    "name": "Meta: Muse Ember",
+    "in": "0.1",
+    "out": "0.5",
+    "cache_read": "0.004",
+    "cache_creation": "0.125",
+    "context": 1048576,
+    "max_output": 943718,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "liquid/lfm-3-1.7b",
+    "name": "LiquidAI: LFM3-1.7B",
+    "in": "0.08",
+    "out": "0.2",
+    "cache_read": "0.02",
+    "context": 262144,
+    "max_output": 8192,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "anthropic/claude-fable-5.2",
+    "name": "Anthropic: Claude Fable 5.2",
+    "in": "8",
+    "out": "40",
+    "cache_read": "0.2",
+    "cache_creation": "10",
+    "batch": {
+      "in": "4",
+      "out": "20",
+      "cache_read": "0.1"
+    },
+    "context": 1000000,
+    "max_output": 128000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": false,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "google/gemini-4-hydrogen",
+    "name": "Google: Gemini 4 Hydrogen",
+    "in": "1.5",
+    "out": "7.5",
+    "cache_read": "0.075",
+    "cache_creation": "0.0833333333333333",
+    "batch": {
+      "in": "0.75",
+      "out": "3.75",
+      "cache_read": "0.0375"
+    },
+    "context": 1048576,
+    "max_output": 943718,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "google/gemini-4-carbon",
+    "name": "Google: Gemini 4 Carbon",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.1",
+    "cache_creation": "0.1875",
+    "batch": {
+      "in": "1",
+      "out": "5",
+      "cache_read": "0.05"
+    },
+    "context": 1048576,
+    "max_output": 943718,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "audio",
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "kt/midm-k-3.0-pro",
+    "name": "KT: Mi:dm K 3.0 Pro",
+    "in": "0.2",
+    "out": "0.8",
+    "cache_read": "0.04",
+    "context": 261795,
+    "max_output": 235615,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "ricursiveai/ripple-65b-preview",
+    "name": "Ricursive: Ripple 65B Preview",
+    "context": 1048576,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "motif-technologies/motif-3",
+    "name": "Motif Technologies: Motif 3",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.06",
+    "context": 262144,
+    "max_output": 235929,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "tencent/hy4",
+    "name": "Tencent: Hy4",
+    "in": "0.417",
+    "out": "1.2505",
+    "cache_read": "0.021",
+    "context": 1048576,
+    "max_output": 65536,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "z-ai/glm-5.3-flashx-legal",
+    "name": "Z.ai: GLM 5.3 FlashX Legal",
+    "in": "0.37",
+    "out": "1.25",
+    "cache_read": "0.075",
+    "context": 1048576,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "moonshotai/kimi-k3.1-pro:batch",
+    "name": "MoonshotAI: Kimi K3.1 Pro (batch)"
+  },
+  {
+    "id": "deepseek/deepseek-v4.1-flash-1017:batch",
+    "name": "DeepSeek: DeepSeek V4.1 Flash 1017 (batch)"
+  },
+  {
+    "id": "unbiased/pareto-26.10-preview",
+    "name": "Pareto 26.10 Preview",
+    "in": "0.8",
+    "out": "3.2",
+    "cache_read": "0.03",
+    "context": 1048576,
+    "max_output": 131072,
+    "reasoning": false,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "inclusionai/ling-3.0-tiny",
+    "name": "inclusionAI: Ling 3.0 Tiny",
+    "in": "0.015",
+    "out": "0.045",
+    "cache_read": "0.003",
+    "context": 262144,
+    "max_output": 250000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
         "text"
       ],
       "output": [

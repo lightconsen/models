@@ -1,36 +1,5 @@
 [
   {
-    "id": "claude-fable-5-1",
-    "name": "Claude Fable 5.1",
-    "in": "10",
-    "out": "50",
-    "cache_read": "0.25",
-    "cache_creation": "12.50",
-    "cache_creation_1h": "20",
-    "flagship": true,
-    "context": 1000000,
-    "max_output": 128000,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": false,
-    "batch": {
-      "in": "5.0",
-      "out": "25.0",
-      "cache_read": "0.25"
-    },
-    "modalities": {
-      "input": [
-        "text",
-        "image"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "knowledge": "2026-06"
-  },
-  {
     "id": "claude-opus-5-5",
     "name": "claude-opus-5-5",
     "in": "4",
@@ -72,5 +41,29 @@
       ]
     },
     "knowledge": "2026-06"
+  },
+  {
+    "id": "claude-fable-5-2",
+    "name": "Claude Fable 5.2",
+    "in": "8",
+    "out": "40",
+    "cache_read": "0.20",
+    "cache_creation": "10",
+    "flagship": true
+  },
+  {
+    "id": "claude-haiku-5-5",
+    "name": "Claude Haiku 5.5",
+    "in": "0.10",
+    "out": "0.50",
+    "cache_read": "0.01",
+    "cache_creation": "0.125",
+    "long_context": {
+      "over": 100000,
+      "in": "0.50",
+      "out": "2.50",
+      "cache_read": "0.05",
+      "cache_creation": "0.625"
+    }
   }
 ]

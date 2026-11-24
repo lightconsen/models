@@ -2,36 +2,47 @@
  * Perplexity's Router prices, from the vendor's own rate card.
  *
  * `docs.perplexity.ai/docs/router/models.md` is a Mintlify page serving markdown
- * for free, and its "Perplexity-Hosted Models" table is the whole catalogue the
- * router serves — the API reference says the same list is the allowlist, so a
- * model missing from it cannot be requested. That is what makes this source
- * *follow* rather than *intersect*: it is not a selection from a longer price
- * list, it is the endpoint's own contents.
+ * for free. Its tables are the router's catalogue; the API reference says the
+ * same list is the allowlist, so a model missing from it cannot be requested.
  *
- * Three things about the page are easy to get wrong.
+ * **The rate card moved into blockquotes.** Until 2026-11 the page had one
+ * plain `| Model | … | Cache read |` table. It is now seven tabbed tables —
+ * `> [tab] Anthropic`, `> [tab] OpenAI`, `> [tab] Google`, `> [tab] xAI`,
+ * `> [tab] Z.AI`, `> [tab] DeepSeek`, `> [tab] Moonshot AI` — each a markdown
+ * blockquote whose header still ends `Cache read (\$/1M)`. The old reader
+ * looked for a line *starting* with `|`, which a `> |` line does not, so it
+ * found no rate card at all and the entry stopped syncing. The reader now
+ * strips the quote marker and treats a run of quoted table lines as one table.
  *
- * **The currency is escaped in the header and not in the cells.** Column labels
- * read `Input (\$/1M)` — a backslash before the dollar, which is markdown being
- * told not to start maths — while the rows carry a bare `3.00`. A parser that
- * expects the escape everywhere sees no rate in either place.
+ * **The list grew from four models to forty-seven, and that is a membership
+ * decision, not a price.** The seven tables carry Anthropic, OpenAI, Google and
+ * xAI models the router resells at those vendors' own rates, alongside the four
+ * open-weight models Perplexity hosts itself (`perplexity/kimi-k3`,
+ * `perplexity/glm-5.3`, `perplexity/glm-5.3-flash`,
+ * `perplexity/deepseek-v4-pro-0813`). This entry carries the hosted four — the
+ * selection that made it a distinct vendor rather than a mirror of four other
+ * entries. So membership is `intersect`: re-price the rows it carries, and
+ * report the rest in the notes for a human to decide rather than adding 43
+ * resale rows whose `serves` mapping no adapter can author (see below).
  *
- * **Cache writes are priced by a sentence, not a column.** The table gives input,
- * output and cache read; the note under it says cache writes bill "at the rate
- * shown (or at the input rate where no dedicated write rate is listed)". There is
- * no dedicated write rate in the table, so every row that supports writes bills
- * them at its own input rate — and one row is excepted from writes entirely. That
- * exception is a sentence too, so it is read as one, and the rule sentence is
- * **required**: a page that stopped saying it would be a page where the rates
- * below may no longer be input, which is a change no diff in the table would show.
+ * **A new row would need `serves` and cannot be written by an adapter.** The
+ * router's own string for a model is `anthropic/claude-fable-5-2`; this
+ * catalogue's id would be `claude-fable-5-2`, and the API accepts only the
+ * former. `serves` carries that mapping, and `fetch-all` refuses a field an
+ * adapter emits without owning — `serves` is authored by hand, deliberately.
+ * That is a second reason the un-carried models are reported and not added.
  *
- * **The three APIs at this host are not three entries.** The Sonar models are on
- * the path being retired (Perplexity's own notice: supported until 2026-09-27),
- * and the Agent API answers `POST /v1/agent`, which is not the path the catalog's
- * `openai` protocol composes. The Router speaks both — `/router/v1` for OpenAI
- * clients and `/router` for the Anthropic SDK, which appends `/v1/messages` — and
- * those are the two URLs this entry carries. `GET /router/v1/models` returns the
- * same catalogue with the same prices for a key-holder; this reads the published
- * table so the run needs no credential.
+ * **Cache writes are no longer "the input rate".** The old note said writes
+ * bill "at the rate shown (or at the input rate where no dedicated write rate
+ * is listed)", and `cache_creation` was each row's input rate because of it.
+ * The page now states the premium instead: writes "are billed once, at 1.25
+ * times the input rate, on Anthropic models and on the `openai/gpt-6.2-*`,
+ * `openai/gpt-6.1-*`, `openai/gpt-6-*`, and `openai/gpt-5.6-*` models", with
+ * one-hour writes at 2 times the input rate on Anthropic models. None of the
+ * four hosted rows is in that list. Rather than zero a price on that reading,
+ * the adapter does not own `cache_creation`: the rows keep what they have, and
+ * the change in the vendor's statement is reported every run so the decision
+ * stays visible.
  *
  * From this machine the host needs the proxy (`node scripts/probe-sources.mjs`);
  * from GitHub's US runners it does not.
@@ -40,33 +51,54 @@ import { getText, drift, decimal, MEMBERSHIP, readEntry } from "../lib/fetch.mjs
 
 const URL = "https://docs.perplexity.ai/docs/router/models.md";
 
-/** The write-rate rule, quoted. Its disappearance is the one change the table
-    itself cannot show — see the header. */
-const WRITE_RULE = /cache writes at the rate shown \(or at the input rate where no dedicated write rate is listed\)/;
+/** The page's statement of how cache writes bill, quoted by its opening. Its
+    shape changed on 2026-11 (see the header) — a page that stopped stating the
+    premium entirely would be a page where the write rate is unknown again. */
+const WRITE_RULE = /cache writes[\s\S]{0,120}?are billed once, at 1\.25 times the input rate/i;
+
+/** Every markdown table on the page, with the `>` quote markers stripped.
+ *
+ *  The rate card is a blockquote now, so a table's lines read `> | Model | …`
+ *  — and the old reader, which wanted a line starting with `|`, found none of
+ *  them. A run of quoted (or unquoted) table lines is one table; the `| - | - |`
+ *  alignment rule (with optional `:` for alignment) is not a row. Exported for
+ *  the test suite. */
+export const tablesIn = (md) => {
+  const tables = [];
+  let table = null;
+  for (const raw of md.split("\n")) {
+    const line = raw.replace(/^\s*>\s?/, "").trim();
+    if (!line.startsWith("|")) {
+      table = null;
+      continue;
+    }
+    const cells = line.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+    if (cells.every((c) => /^:?-+:?$/.test(c))) continue; // the alignment rule
+    if (!table) tables.push((table = []));
+    table.push(cells);
+  }
+  return tables;
+};
 
 export default {
   ids: ["perplexity"],
   source: URL,
-  membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "cache_creation"],
+  membership: MEMBERSHIP.INTERSECT,
+  owns: ["in", "out", "cache_read"],
 
   async read() {
     const md = await getText(URL);
 
-    const lines = md.split("\n");
-    const start = lines.findIndex((l) => /^\|\s*Model\s*\|.*Cache read/i.test(l));
-    if (start < 0) drift("no Model/…/Cache-read header — the rate card moved or was restructured");
-    const table = [lines[start]];
-    for (const l of lines.slice(start + 1)) {
-      if (!l.trimStart().startsWith("|")) break;
-      table.push(l);
-    }
-    if (table.length < 3) drift("the rate card has no rows");
+    const tables = tablesIn(md);
 
-    // The escape belongs to the header only, so it is stripped from the cells we
-    // read as labels and never required in the cells we read as numbers.
-    const cells = (l) =>
-      l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+    const rateCards = tables.filter(
+      (t) => /^model$/i.test(t[0]?.[0] ?? "") && t[0].some((c) => /cache read/i.test(c)),
+    );
+    if (rateCards.length === 0) drift("no Model/…/Cache-read table — the rate card moved or was restructured");
+
+    if (!WRITE_RULE.test(md)) {
+      drift("the cache-write premium is no longer stated — the write rate is unknown for every row");
+    }
 
     const current = readEntry("perplexity").models;
     // The join the README describes: our id is canonical, the router's string
@@ -76,48 +108,62 @@ export default {
       for (const upstream of Object.values(m.serves ?? {})) canonical.set(upstream, m.id);
       canonical.set(m.id, m.id);
     }
-
-    const exempted = new Set(
-      [...md.matchAll(/`([A-Za-z0-9/._-]+)`\s+supports cache reads but not cache writes/g)].map(
-        (m) => m[1],
-      ),
-    );
-    if (!WRITE_RULE.test(md)) {
-      drift("the cache-write note is gone — the write rate may no longer be the input rate");
-    }
+    const carried = new Set(current.map((m) => m.id));
 
     const rows = [];
     const seen = new Set();
-    for (const line of table.slice(2)) {
-      const c = cells(line);
-      const upstream = /\*\*`([^`]+)`\*\*/.exec(c[0])?.[1] ?? c[0].replace(/[`*\s]/g, "");
-      if (!upstream || !/^[a-z0-9-]+\/[a-z0-9.-]+$/i.test(upstream)) {
-        drift(`a row names "${c[0]}" where a \`creator/model\` id belongs`);
+    const uncarried = [];
+    for (const table of rateCards) {
+      const head = table[0].map((c) => c.toLowerCase());
+      const [iIn, iOut, iCache] = [
+        head.findIndex((c) => /^input\b/.test(c)),
+        head.findIndex((c) => /^output\b/.test(c)),
+        head.findIndex((c) => /^cache read\b/.test(c)),
+      ];
+      if (iIn < 0 || iOut < 0 || iCache < 0) drift(`a rate card's columns changed (${table[0].join(" | ")})`);
+
+      for (const c of table.slice(1)) {
+        const upstream = /`([^`]+)`/.exec(c[0] ?? "")?.[1];
+        if (!upstream) drift(`a row names "${c[0]}" where a \`creator/model\` id belongs`);
+        if (seen.has(upstream)) drift(`${upstream} is priced twice across the rate cards`);
+        seen.add(upstream);
+
+        const id = canonical.get(upstream) ?? upstream.split("/").slice(1).join("/");
+        if (!carried.has(id)) {
+          uncarried.push(upstream);
+          continue;
+        }
+        // A carried row whose cell gained a second figure is a length band this
+        // entry has nowhere to put (it carries no `long_context` for these).
+        // Reading the base and dropping the band would understate the price.
+        // The band is written `0.10 (≤100k) 0.50 (>100k)` — two decimals, where
+        // a single rate is one.
+        for (const [cell, what] of [[c[iIn], "input"], [c[iOut], "output"], [c[iCache], "cache read"]]) {
+          const figures = (cell ?? "").match(/[0-9]+(?:\.[0-9]+)?/g) ?? [];
+          if (figures.length > 1) {
+            drift(`${upstream}: the ${what} cell "${cell}" states more than one rate — this entry has no length band to put it in`);
+          }
+        }
+        rows.push({
+          id,
+          in: rate(c[iIn], "input", upstream),
+          out: rate(c[iOut], "output", upstream),
+          cache_read: rate(c[iCache], "cache read", upstream),
+        });
       }
-      const id = canonical.get(upstream) ?? upstream.split("/").slice(1).join("/");
-      const row = { id, name: linkText(c[4]) };
-      const read = {
-        in: rate(c[1], "input", upstream),
-        out: rate(c[2], "output", upstream),
-        cache_read: rate(c[3], "cache read", upstream),
-      };
-      Object.assign(row, read);
-      if (!exempted.has(upstream)) row.cache_creation = read.in;
-      rows.push(row);
-      seen.add(upstream);
     }
-    if (rows.length === 0) drift("no rows parsed — the rate card shape changed");
-    if (new Set(rows.map((r) => r.id)).size !== rows.length) {
-      drift("two rows translate to one of this entry's ids — the join is ambiguous");
+    if (rows.length === 0) drift("none of the entry's rows is on the rate card");
+    if (rows.length < carried.size) {
+      const lost = [...carried].filter((id) => !rows.some((r) => r.id === id));
+      drift(`the rate card no longer prices ${lost.join(", ")} — this entry cannot be re-priced from it`);
     }
 
     const notes = [
-      `${rows.length} rows from the vendor's own rate card`,
-      "cache writes billed at each row's input rate (the page lists no dedicated write rate)",
+      `${rateCards.length} rate-card tables read; ${rows.length} of the entry's rows priced`,
+      `the page prices ${uncarried.length + rows.length} models: ${uncarried.length} are resold from other vendors and are not this entry's rows — a membership decision`,
+      "cache writes now bill at 1.25x the input rate on Anthropic and the listed OpenAI models only; this entry's rows are none of those, so `cache_creation` is left as authored",
     ];
-    if (exempted.size) notes.push(`except ${[...exempted].join(", ")}, which supports no cache writes`);
-    const lost = current.filter((m) => !(m.serves?.openai && seen.has(m.serves.openai))).map((m) => m.id);
-    if (lost.length) notes.push(`not in the rate card: ${lost.join(", ")} (removed from the entry)`);
+    if (uncarried.length) notes.push(`not carried: ${uncarried.join(", ")}`);
     return { rows: { perplexity: rows }, notes: { perplexity: notes } };
   },
 };
@@ -127,7 +173,3 @@ const rate = (cell, what, upstream) => {
   if (!m) drift(`${upstream}: no ${what} rate in "${cell}"`);
   return decimal(m[1]);
 };
-
-/** The Docs column's link text — "Kimi K3", "GLM-5.3 Flash". Only ever names a
-    row that has none: the entry's own spelling wins wherever it has one. */
-const linkText = (cell) => /\[([^\]]+)\]\(/.exec(String(cell ?? ""))?.[1]?.trim() || undefined;

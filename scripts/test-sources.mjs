@@ -19,6 +19,7 @@ import { ratesIn } from "./sources/google-gemini.mjs";
 import { modalPrice } from "./sources/openrouter.mjs";
 import { tierOf, idOf } from "./sources/open-design.mjs";
 import { paygId } from "./sources/volcesark.mjs";
+import { tablesIn } from "./sources/perplexity.mjs";
 
 let failed = 0;
 const check = (name, got, want) => {
@@ -148,6 +149,29 @@ check("a payg GA marker leaves no trailing space", paygId("deepseek-v4-pro 正�
 check("and a flash row reads the same way", paygId("deepseek-v4-flash 正式版"), "deepseek-v4-flash");
 check("a row with no marker lowercases", paygId("GLM-5.2"), "glm-5.2");
 check("the going-offline badge still comes off first", paygId("glm-5.3-flash 即将下线"), "glm-5.3-flash");
+
+// ── Perplexity's rate card, which moved into blockquotes ──
+//
+// The page was one plain table; in November each vendor's models became its own
+// tab, rendered as a markdown blockquote. A reader that wanted a line starting
+// with `|` found no table at all — the lines start with `> |` — and the entry
+// stopped syncing without a word. Verbatim from the live page.
+const px = [
+  "> [tab] Z.AI",
+  ">",
+  "> | Model | Usage tier | Context window | Max output | Input (\\$/1M) | Output (\\$/1M) | Cache read (\\$/1M) |",
+  "> | - | - | -: | -: | -: | -: | -: |",
+  "> | `perplexity/glm-5.3` | Tier 0 | 1,000,000 | 131,072 | 1.40 | 4.40 | 0.26 |",
+  "> | `perplexity/glm-5.3-flash` | Tier 0 | 1,000,000 | 131,072 | 0.15 | 0.50 | 0.03 |",
+  "",
+  "## Access by Usage Tier",
+].join("\n");
+const pxTables = tablesIn(px);
+check("a quoted rate card is one table", pxTables.length, 1);
+check("its header survives the quote marker", pxTables[0][0][0], "Model");
+check("the alignment rule is not a row", pxTables[0].length, 3);
+check("and a data row keeps its cells", pxTables[0][1], ["`perplexity/glm-5.3`", "Tier 0", "1,000,000", "131,072", "1.40", "4.40", "0.26"]);
+check("a second tab is a second table", tablesIn(`${px}\n\n> [tab] xAI\n>\n> | Model | Cache read |\n> | - | - |\n> | \`xai/grok-4.7\` | 0.30 |`).length, 2);
 
 console.log(`\n${failed === 0 ? "all source-parsing cases pass" : `${failed} case(s) failed`}`);
 process.exit(failed > 0 ? 1 : 0);

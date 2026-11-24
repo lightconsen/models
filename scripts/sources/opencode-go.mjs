@@ -1,11 +1,12 @@
 /**
- * OpenCode Go's catalogue, from the plan's own docs page.
+ * OpenCode Go's catalogue, from the plan's own models endpoint.
  *
- * Go is the subscription arm of OpenCode Console: two monthly plans (Go at
- * $10, Go Plus at $40) that include usage across a smaller, coding-focused
- * model list. It has its own base URL — `https://opencode.ai/inference/go/…` —
- * which is why it is a separate entry from the pay-as-you-go `opencode`, and
- * why the two do not collide in the app's endpoint-based `catalog_id_for`.
+ * Go is the subscription arm of OpenCode Console: monthly plans (Go at $10,
+ * Go Plus at $40, Go Teams at $20/member) that include usage across a smaller,
+ * coding-focused model list. It has its own base URL —
+ * `https://opencode.ai/inference/go/…` — which is why it is a separate entry
+ * from the pay-as-you-go `opencode`, and why the two do not collide in the
+ * app's endpoint-based `catalog_id_for`.
  *
  * The plan publishes no per-token rate of its own: usage is drawn from the
  * plan's included allowance, and the page's own table is a request-count
@@ -13,22 +14,25 @@
  * show the plan's models and no prices — the same shape as `kimi-for-coding`
  * and the other `billing: plan` entries.
  *
+ * The membership used to come from a "Model / Model ID" table on the Go docs
+ * page. On 2026-11 that table was gone — the page keeps five tables, none of
+ * them the model list — and the docs now say to read
+ * `https://opencode.ai/inference/go/v1/models`, which answers 200 without a
+ * key. That endpoint is the better source anyway: it is the list the API
+ * actually accepts, so an id it carries is the id a client may send, and the
+ * old table's `longcat-2.5-free` (the model before it left the free tier) is
+ * exactly the kind of spelling a doc table can drift into.
+ *
+ * `type` splits the response: `chat` rows are the coding models this entry
+ * lists; `embedding` and `decision` rows are other products on the same
+ * endpoint and are reported, not carried.
+ *
  * The app already ships the `opencode_go` plan-quota template (it is in
  * `PLAN_QUERY_TEMPLATES`), so the entry declares it.
  */
-import { getText, drift, MEMBERSHIP } from "../lib/fetch.mjs";
+import { getJson, drift, MEMBERSHIP } from "../lib/fetch.mjs";
 
-const URL = "https://opencode.ai/v2/docs/console/go/";
-
-const strip = (s) =>
-  s
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&nbsp;/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+const URL = "https://opencode.ai/inference/go/v1/models";
 
 export default {
   ids: ["opencode-go"],
@@ -37,28 +41,30 @@ export default {
   owns: [],
 
   async read() {
-    const html = await getText(URL, { headers: { accept: "text/html" } });
-    const tables = (html.match(/<table[\s\S]*?<\/table>/g) ?? []).map((t) =>
-      (t.match(/<tr[\s\S]*?<\/tr>/g) ?? []).map((r) =>
-        (r.match(/<t[dh][^>]*>[\s\S]*?<\/t[dh]>/g) ?? []).map(strip),
-      ),
-    );
-    const table = tables.find(
-      (t) => /^model$/i.test(t[0]?.[0] ?? "") && /^model id$/i.test(t[0]?.[1] ?? ""),
-    );
-    if (!table) drift("no Model / Model ID table — the Go docs restructured");
-
-    const rows = [];
-    for (const cells of table.slice(1)) {
-      const [name, id] = cells;
-      if (!name || !id) continue;
-      rows.push({ id, name });
+    const body = await getJson(URL);
+    const models = body?.data;
+    if (!Array.isArray(models) || models.length === 0) {
+      drift("the models endpoint returned no data — the response shape has changed");
     }
-    if (rows.length === 0) drift("the Go model table is empty");
+    // The id is the model's own string; it is not derived from the display
+    // name (`gpt-6-luna` is "GPT-6 Luna", `longcat-2.5` is "LongCat-2.5").
+    for (const m of models) {
+      if (typeof m?.id !== "string" || m.id === "") drift("a model in the response carries no id");
+    }
+    const chat = models.filter((m) => m.type === "chat");
+    if (chat.length === 0) drift("the endpoint lists no chat models — the plan may have been restructured");
+    const rows = chat.map((m) => ({ id: m.id, name: m.name ?? m.id }));
 
+    const other = {};
+    for (const m of models) if (m.type !== "chat") other[m.type ?? "untyped"] = (other[m.type ?? "untyped"] ?? 0) + 1;
     return {
       rows: { "opencode-go": rows },
-      notes: { "opencode-go": [`${rows.length} models in the Go plan's list; the plan publishes no per-token rate`] },
+      notes: {
+        "opencode-go": [
+          `${rows.length} chat models from the plan's own models endpoint; the plan publishes no per-token rate`,
+          ...Object.entries(other).map(([t, n]) => `${n} non-chat ${t} model(s) on the same endpoint, not part of this entry`),
+        ],
+      },
     };
   },
 };

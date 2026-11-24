@@ -92,32 +92,6 @@
     "temperature": true
   },
   {
-    "id": "Pro/zai-org/GLM-5.1",
-    "name": "Pro/zai-org/GLM-5.1",
-    "in": "6.00",
-    "out": "24.00",
-    "cache_read": "1.30",
-    "cache_creation": "0",
-    "context": 205000,
-    "max_output": 205000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "flagship": true
-  },
-  {
-    "id": "Qwen/Qwen3.5-122B-A10B",
-    "name": "Qwen/Qwen3.5-122B-A10B",
-    "in": "0.80",
-    "out": "6.40",
-    "context": 262144,
-    "max_output": 65536,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "2.00"
-  },
-  {
     "id": "Qwen/Qwen3.5-27B",
     "name": "Qwen/Qwen3.5-27B",
     "in": "0.60",
@@ -150,29 +124,6 @@
     "max_output": 65536,
     "tool_call": true,
     "temperature": true
-  },
-  {
-    "id": "stepfun-ai/Step-3.5-Flash",
-    "name": "stepfun-ai/Step-3.5-Flash",
-    "in": "0.70",
-    "out": "2.10",
-    "context": 262000,
-    "max_output": 262000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "tencent/Hunyuan-A13B-Instruct",
-    "name": "tencent/Hunyuan-A13B-Instruct",
-    "in": "1.00",
-    "out": "4.00",
-    "context": 131000,
-    "max_output": 131000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.80"
   },
   {
     "id": "zai-org/GLM-4.5-Air",
@@ -209,13 +160,8 @@
     "name": "zai-org/GLM-5.3",
     "in": "8.00",
     "out": "28.00",
-    "cache_read": "2.00"
-  },
-  {
-    "id": "zai-org/GLM-4.5V",
-    "name": "zai-org/GLM-4.5V",
-    "in": "1.00",
-    "out": "6.00"
+    "cache_read": "2.00",
+    "flagship": true
   },
   {
     "id": "meituan-longcat/LongCat-2.0",
@@ -244,12 +190,6 @@
     "out": "18.00"
   },
   {
-    "id": "inclusionAI/Ling-mini-2.0",
-    "name": "inclusionAI/Ling-mini-2.0",
-    "in": "0.50",
-    "out": "2.00"
-  },
-  {
     "id": "zai-org/GLM-5.3-Flash",
     "name": "zai-org/GLM-5.3-Flash",
     "in": "0.80",
@@ -262,5 +202,18 @@
     "in": "2.00",
     "out": "8.00",
     "cache_read": "0.04"
+  },
+  {
+    "id": "THUDM/GLM-4-32B-0414",
+    "name": "THUDM/GLM-4-32B-0414",
+    "in": "1.89",
+    "out": "1.89"
+  },
+  {
+    "id": "Qwen/Qwen3.5-9B",
+    "name": "Qwen/Qwen3.5-9B",
+    "in": "0.50",
+    "out": "4.00",
+    "cache_read": "1.50"
   }
 ]

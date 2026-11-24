@@ -20,27 +20,6 @@
     }
   },
   {
-    "id": "zai-org/GLM-5.1",
-    "name": "GLM-5.1",
-    "in": "1.4",
-    "out": "4.4",
-    "cache_read": "0.26",
-    "context": 202752,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "flagship": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "zai-org/GLM-5.2",
     "name": "GLM-5.2",
     "in": "1.4",
@@ -78,7 +57,8 @@
       "output": [
         "text"
       ]
-    }
+    },
+    "flagship": true
   },
   {
     "id": "zai-org/GLM-5.3-Flash",

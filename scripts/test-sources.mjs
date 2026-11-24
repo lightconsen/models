@@ -18,6 +18,7 @@
 import { ratesIn } from "./sources/google-gemini.mjs";
 import { modalPrice } from "./sources/openrouter.mjs";
 import { tierOf, idOf } from "./sources/open-design.mjs";
+import { paygId } from "./sources/volcesark.mjs";
 
 let failed = 0;
 const check = (name, got, want) => {
@@ -135,6 +136,18 @@ check("an unknown heading drifts rather than guessing", threw, true);
 check("a Claude id drops its dots", idOf("claude-opus-4.8", "x"), "claude-opus-4-8");
 check("and a non-Claude id keeps them", idOf("deepseek-v4.1-flash", "x"), "deepseek-v4.1-flash");
 check("including the hyphenated vendor spelling", idOf("glm-5.3-flashx", "x"), "glm-5.3-flashx");
+
+// ── Volcengine payg model cells ──
+//
+// The page writes the GA marker after a space (`deepseek\-v4\-pro 正式版`); the
+// cell reader has already dropped the backslashes by the time this sees it. A
+// strip that removes only the word leaves the space, the id misses CARRIED, and
+// a FOLLOW run reports both carried DeepSeek models as gone — deleting rows the
+// page still prices. Verbatim from DocumentID=1544106.
+check("a payg GA marker leaves no trailing space", paygId("deepseek-v4-pro 正式版"), "deepseek-v4-pro");
+check("and a flash row reads the same way", paygId("deepseek-v4-flash 正式版"), "deepseek-v4-flash");
+check("a row with no marker lowercases", paygId("GLM-5.2"), "glm-5.2");
+check("the going-offline badge still comes off first", paygId("glm-5.3-flash 即将下线"), "glm-5.3-flash");
 
 console.log(`\n${failed === 0 ? "all source-parsing cases pass" : `${failed} case(s) failed`}`);
 process.exit(failed > 0 ? 1 : 0);

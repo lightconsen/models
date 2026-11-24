@@ -103,6 +103,23 @@ const line1 = (text) => String(text ?? "").split("\n")[0].trim();
     table, which the ordinary removal flow handles. */
 const stripRetiring = (s) => String(s).replace(/\s*`?即将下线`?\s*$/, "").trim();
 
+/** A payg model cell → this entry's id. The `正式版` suffix is the vendor's
+    "GA" marker, not part of the id, and the page writes it after a space
+    (`deepseek\-v4\-pro 正式版`). Stripping the word alone leaves the space, and
+    an id with a trailing space matches nothing in CARRIED — the row is then
+    skipped and the FOLLOW membership reports every carried model as gone,
+    which would delete the entry's CNY rows from a page that still prices
+    them. So the space goes with the word, and both badges are stripped in
+    whichever order the page writes them. */
+export const paygId = (written) => {
+  let s = String(written);
+  for (;;) {
+    const next = s.replace(/\s*(正式版|`?即将下线`?)\s*$/, "").trim();
+    if (next === s) return next.toLowerCase();
+    s = next;
+  }
+};
+
 /** A header cell's label, without the unit on the line below it. */
 const label = (c) => line1(cell(c));
 
@@ -178,7 +195,7 @@ const paygRows = (md) => {
     const raw = line[at.model];
     const written = line1(raw);
     if (!written || /调整前价格/.test(raw)) continue;
-    const id = stripRetiring(written).replace(/正式版$/, "").toLowerCase();
+    const id = paygId(written);
     if (!CARRIED["volcesark-payg"].includes(id)) continue;
     if (rows.has(id)) drift(`doc ${DOC.payg}: ${id} is priced twice in the 常规 table`);
     const row = { id };

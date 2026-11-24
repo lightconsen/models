@@ -20,6 +20,7 @@ import { modalPrice } from "./sources/openrouter.mjs";
 import { tierOf, idOf } from "./sources/open-design.mjs";
 import { paygId } from "./sources/volcesark.mjs";
 import { tablesIn } from "./sources/perplexity.mjs";
+import { boundary } from "./sources/vercel.mjs";
 
 let failed = 0;
 const check = (name, got, want) => {
@@ -172,6 +173,18 @@ check("its header survives the quote marker", pxTables[0][0][0], "Model");
 check("the alignment rule is not a row", pxTables[0].length, 3);
 check("and a data row keeps its cells", pxTables[0][1], ["`perplexity/glm-5.3`", "Tier 0", "1,000,000", "131,072", "1.40", "4.40", "0.26"]);
 check("a second tab is a second table", tablesIn(`${px}\n\n> [tab] xAI\n>\n> | Model | Cache read |\n> | - | - |\n> | \`xai/grok-4.7\` | 0.30 |`).length, 2);
+
+console.log("a Vercel length band's upper bound, as the round figure it means");
+// Verbatim from `ai-gateway.vercel.sh/v1/models`: the same 272K boundary is
+// written `max: 272000` on one row and `max: 272001` on another (the first band's
+// `max` is exclusive), and the threshold the entry records must be the round
+// number both spell, not one token above it. A `…000` bound is already the
+// boundary and must not be shifted.
+check("an exclusive max one past a round thousandfold reads as that round number", boundary(272001), 272000);
+check("a max already on the round figure is left alone", boundary(272000), 272000);
+check("the same for 256K and 200K", [boundary(256001), boundary(200001)], [256000, 200000]);
+check("a small band's bound is not a round-figure artefact", boundary(32000), 32000);
+check("an undefined bound stays undefined", boundary(undefined), undefined);
 
 console.log(`\n${failed === 0 ? "all source-parsing cases pass" : `${failed} case(s) failed`}`);
 process.exit(failed > 0 ? 1 : 0);

@@ -1,0 +1,17 @@
+{
+  "id": "vercel",
+  "name": "Vercel AI Gateway",
+  "website": "https://vercel.com/ai-gateway",
+  "tag": "aggregate",
+  "rating": 4.2,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://ai-gateway.vercel.sh/v1"
+    }
+  ],
+  "desc": "Vercel's AI Gateway, routing one API to many providers' models",
+  "prices_as_of": "2026-11-24"
+}

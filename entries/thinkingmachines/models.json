@@ -1,0 +1,18 @@
+[
+  {
+    "id": "thinkingmachines/Inkling-Small",
+    "name": "Inkling-Small",
+    "in": "0.30",
+    "out": "1.20",
+    "cache_read": "0.06",
+    "context": 262144
+  },
+  {
+    "id": "thinkingmachines/Inkling",
+    "name": "Inkling",
+    "in": "1.00",
+    "out": "4.05",
+    "cache_read": "0.17",
+    "context": 262144
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "id": "thinkingmachines",
+  "name": "Thinking Machines",
+  "website": "https://thinkingmachines.ai/",
+  "tag": "official",
+  "rating": 4.3,
+  "billing": "payg",
+  "currency": "USD",
+  "endpoints": [
+    {
+      "protocol": "openai",
+      "endpoint": "https://tinker.thinkingmachines.dev/services/tinker-prod/oai/api/v1"
+    },
+    {
+      "protocol": "anthropic",
+      "endpoint": "https://tinker.thinkingmachines.dev/services/tinker-prod/anthropic/api"
+    }
+  ],
+  "desc": "Thinking Machines' Tinker, serving the Inkling models",
+  "prices_as_of": "2026-11-24"
+}

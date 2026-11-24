@@ -20,6 +20,7 @@ import baseten from "./baseten.mjs";
 import bedrock from "./bedrock.mjs";
 import cerebras from "./cerebras.mjs";
 import cloudflareWorkersAi from "./cloudflare-workers-ai.mjs";
+import chutes from "./chutes.mjs";
 import commandcode from "./commandcode.mjs";
 import deepinfra from "./deepinfra.mjs";
 import deepseek from "./deepseek.mjs";
@@ -33,6 +34,7 @@ import minimax from "./minimax.mjs";
 import nebius from "./nebius.mjs";
 import novita from "./novita.mjs";
 import oci from "./oci.mjs";
+import ollama from "./ollama.mjs";
 import openDesign from "./open-design.mjs";
 import opencode from "./opencode.mjs";
 import opencodeGo from "./opencode-go.mjs";
@@ -41,7 +43,10 @@ import sakana from "./sakana.mjs";
 import siliconflow from "./siliconflow.mjs";
 import siliconflowIntl from "./siliconflow-intl.mjs";
 import stepfun from "./stepfun.mjs";
+import thinkingmachines from "./thinkingmachines.mjs";
 import togetherai from "./togetherai.mjs";
+import venice from "./venice.mjs";
+import vercel from "./vercel.mjs";
 import watsonx from "./watsonx.mjs";
 import openai from "./openai.mjs";
 import openrouter from "./openrouter.mjs";
@@ -60,6 +65,7 @@ export default [
   baseten,
   bedrock,
   cerebras,
+  chutes,
   cloudflareWorkersAi,
   commandcode,
   deepinfra,
@@ -74,6 +80,7 @@ export default [
   nebius,
   novita,
   oci,
+  ollama,
   openDesign,
   opencode,
   opencodeGo,
@@ -82,7 +89,10 @@ export default [
   siliconflow,
   siliconflowIntl,
   ...stepfun,
+  thinkingmachines,
   togetherai,
+  venice,
+  vercel,
   watsonx,
   openai,
   openrouter,
@@ -106,6 +116,14 @@ export default [
   // removal was about — turns out to be client-rendered rather than absent. The
   // same day's perplexity entry reads the Router rate card. Neither uses
   // models.dev for anything.
+  //
+  // Five more joined on 2026-11-24, each on its own keyless feed: chutes
+  // (`llm.chutes.ai/v1/models`), ollama (`ollama.com/pricing`, with its off-peak
+  // twins), venice (`api.venice.ai/api/v1/models`), vercel
+  // (`ai-gateway.vercel.sh/v1/models`) and thinkingmachines — the last of these
+  // returning on `tinker/serverless.json`, which is the entry the 09-18 removal
+  // dropped; its 1.00/4.05/0.17 for Inkling is unchanged, so the removal was right
+  // about the source and the price was right all along.
   //
   // No adapter, and why:
   //   kimi-for-coding          a membership: one price for the service, no per-token rate

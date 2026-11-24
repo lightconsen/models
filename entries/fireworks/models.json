@@ -260,5 +260,12 @@
     "in": "2",
     "out": "10",
     "cache_read": "0.2"
+  },
+  {
+    "id": "accounts/fireworks/models/inkling-2-small",
+    "name": "Inkling 2 Small",
+    "in": "0.3",
+    "out": "1",
+    "cache_read": "0.03"
   }
 ]

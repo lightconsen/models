@@ -59,7 +59,7 @@ import { getText, drift, decimal, MEMBERSHIP, readEntry } from "../lib/fetch.mjs
 
 const MODELS_URL = "https://fireworks.ai/models?modelTypes=Serverless";
 const PRICING_URL = "https://docs.fireworks.ai/serverless/pricing";
-const ALIASES_URL = "https://docs.fireworks.ai/nexus/open-models";
+const ALIASES_URL = "https://docs.fireworks.ai/nexus/open-models.md";
 
 const strip = (s) =>
   s
@@ -119,6 +119,28 @@ const rowsAfter = (html, id, what) => {
   return (table[0].match(/<tr[\s\S]*?<\/tr>/gi) ?? []).map((r) =>
     (r.match(/<t[dh][^>]*>[\s\S]*?<\/t[dh]>/gi) ?? []).map((cell) => ({ html: cell, text: strip(cell) })),
   );
+};
+
+/** The markdown twin of a docs page — Mintlify serves every page's source at
+    `<url>.md`, and it is where a table survives once the rendered HTML stops
+    carrying an anchor id. The alias table's heading lost its `id=` on 2026-11;
+    the `.md` file still has "### Current aliases" and the table under it. The
+    same shape as `rowsAfter`, from a markdown table: header row first, a
+    `---` alignment row dropped, cells plain text (no links to keep). */
+const tableAfterHeading = (md, heading, what) => {
+  const lines = md.split("\n");
+  const at = lines.findIndex((l) => new RegExp(`^#{1,6}\\s+${heading}\\s*$`, "i").test(l.trim()));
+  if (at < 0) drift(`no "${what}" heading in the markdown — the page restructured`);
+  const start = lines.findIndex((l, i) => i > at && l.trim().startsWith("|"));
+  if (start < 0) drift(`"${what}" has no table in the markdown`);
+  const rows = [];
+  for (const l of lines.slice(start)) {
+    if (!l.trim().startsWith("|")) break;
+    const cells = l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => strip(c.trim()).replace(/`/g, ""));
+    if (cells.every((c) => /^-*$/.test(c))) continue; // the alignment rule
+    rows.push(cells.map((text) => ({ html: text, text })));
+  }
+  return rows;
 };
 
 /**
@@ -242,8 +264,8 @@ export default {
     }
 
     // ── the `-latest` aliases, priced at their target's tier ──
-    const aliasesDoc = await getText(ALIASES_URL, { headers: { accept: "text/html" } });
-    const aliasRows = rowsAfter(aliasesDoc, "current-aliases", "Current aliases");
+    const aliasesDoc = await getText(ALIASES_URL);
+    const aliasRows = tableAfterHeading(aliasesDoc, "Current aliases", "Current aliases");
     const header = aliasRows[0] ?? [];
     if (!/^alias$/i.test(header[0]?.text ?? "") || !/^current model$/i.test(header[1]?.text ?? "")) {
       drift(`the alias table's columns changed (${header.map((c) => c.text).join(" | ")})`);

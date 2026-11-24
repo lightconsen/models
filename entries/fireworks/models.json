@@ -36,30 +36,6 @@
     "temperature": true
   },
   {
-    "id": "accounts/fireworks/models/gpt-oss-120b",
-    "name": "GPT OSS 120B",
-    "in": "0.15",
-    "out": "0.6",
-    "cache_read": "0.015",
-    "context": 131072,
-    "max_output": 32768,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "accounts/fireworks/models/inkling",
-    "name": "Inkling",
-    "in": "1",
-    "out": "4.05",
-    "cache_read": "0.17",
-    "context": 1048576,
-    "max_output": 1048576,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
     "id": "accounts/fireworks/models/kimi-k3",
     "name": "Kimi K3",
     "in": "3",
@@ -78,18 +54,6 @@
     "cache_read": "0.06",
     "context": 512000,
     "max_output": 512000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true
-  },
-  {
-    "id": "accounts/fireworks/models/nemotron-3-ultra-nvfp4",
-    "name": "Nemotron 3 Ultra 550B A55B",
-    "in": "0.6",
-    "out": "2.4",
-    "cache_read": "0.12",
-    "context": 262144,
-    "max_output": 128000,
     "reasoning": true,
     "tool_call": true,
     "temperature": true
@@ -286,8 +250,15 @@
   {
     "id": "accounts/fireworks/models/ultramarine-1-flash-us",
     "name": "Ultramarine 1 Flash",
-    "in": "0.225",
-    "out": "0.75",
-    "cache_read": "0.045"
+    "in": "0.15",
+    "out": "0.5",
+    "cache_read": "0.03"
+  },
+  {
+    "id": "accounts/fireworks/models/kimi-k3p1-pro",
+    "name": "Kimi K3.1 Pro",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2"
   }
 ]

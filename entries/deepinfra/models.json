@@ -1381,5 +1381,21 @@
       ]
     },
     "structured_output": true
+  },
+  {
+    "id": "tencent/Hy4-flash",
+    "name": "tencent/Hy4-flash",
+    "in": "0.07",
+    "out": "0.281",
+    "cache_read": "0.003",
+    "context": 1048576,
+    "max_output": 1048576,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    },
+    "structured_output": true
   }
 ]

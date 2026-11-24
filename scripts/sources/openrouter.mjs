@@ -58,6 +58,17 @@
  * looks right and is not: it drops every one of those, including all four rows
  * the entry carries.)
  *
+ * **A `:batch` model is the same row on another schedule, not another model.**
+ * The API lists 92 of them, one per model that sells in batch mode, and they
+ * were enumerated as rows of their own until 2026-11-24 — which doubled the
+ * entry's membership and made every upstream release arrive as forty-odd new
+ * models, a churn the trust policy correctly refused. The schema has a `batch`
+ * field for exactly this and the entries reading a vendor's own table already
+ * use it, so each twin's rate is folded onto its base row's `batch` instead.
+ * Three are sold in batch mode with no base id in the list (`openai/o4-mini`,
+ * `o3-mini`, `gpt-4-turbo`); with no row to fold into they stay rows of their
+ * own rather than disappear.
+ *
  * ~400 endpoint fetches per run: pooled four at a time, and a 429 or a dropped
  * connection backs off and retries before the row is left unpriced and named.
  */
@@ -170,21 +181,53 @@ export default {
   ids: ["openrouter"],
   source: `${MODELS} + /{id}/endpoints`,
   membership: MEMBERSHIP.FOLLOW,
-  owns: ["in", "out", "cache_read", "cache_creation", "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature", "modalities", "knowledge"],
+  owns: ["in", "out", "cache_read", "cache_creation", "batch", "context", "max_output", "reasoning", "tool_call", "structured_output", "temperature", "modalities", "knowledge"],
 
   async read() {
     const body = await getJson(MODELS);
     const all = Array.isArray(body) ? body : body?.data;
     if (!Array.isArray(all) || all.length === 0) drift("no model array in the response");
 
-    const text = all
+    const enumerated = all
       .filter(outputsText)
       .filter((m) => !String(m.id).endsWith(":free"))
       // "~vendor/name-latest" rows are alias stubs: the API lists them as
       // redirects to the dated model and gives them no endpoints. They are not
       // a product surface; the models they point at are already carried.
       .filter((m) => !String(m.id).startsWith("~"));
-    if (text.length === 0) drift("no text-out models in the response");
+    if (enumerated.length === 0) drift("no text-out models in the response");
+
+    // ── a `:batch` model is the same catalogue row, on another schedule ──
+    //
+    // The schema has a `batch` field for exactly this, and the entries that
+    // read a vendor's own table use it (openai, anthropic, xiaomi-mimo). Listing
+    // the batch variant as its own model doubled this entry's membership and,
+    // worse, made every upstream release arrive as forty-odd "new models" — a
+    // churn the trust policy correctly refused, because a name that appears and
+    // disappears with a billing mode is not a membership change.
+    //
+    // So the batch twin's rate is folded onto its base row's `batch` field
+    // instead of being enumerated. **But the API no longer prices most of
+    // them**: `/models/<id>/endpoints` answers 200 with an empty endpoint list
+    // for the batch id of most models (`anthropic/claude-sonnet-5:batch`,
+    // `openai/gpt-4.1:batch`), so a fold that only ran on a successful read
+    // would delete a price the run cannot re-derive. Where the twin does not
+    // price, its existing row is kept — the same rule the rest of this adapter
+    // follows: a number we cannot re-read is not a number to drop.
+    const byApiId = new Map(enumerated.map((m) => [String(m.id), m]));
+    const isBatch = (m) => String(m.id).endsWith(":batch");
+    const baseOf = (id) => id.replace(/:batch$/, "");
+
+    const baseRows = enumerated.filter((m) => !isBatch(m));
+    const batchOnly = enumerated.filter((m) => isBatch(m) && !byApiId.has(baseOf(String(m.id))));
+    const text = [...baseRows, ...batchOnly];
+    const batchTwin = new Map();
+    for (const m of enumerated) {
+      if (!isBatch(m)) continue;
+      const base = baseOf(String(m.id));
+      if (byApiId.has(base)) batchTwin.set(base, m);
+    }
+    const unfolded = [];
 
     // Rows the entry carries keep their canonical id (the bare model name the
     // entry chose), joined through `serves`; a model the entry has not met yet
@@ -260,6 +303,31 @@ export default {
         } else if (endpoints !== null) {
           failed.push(`${id} (no endpoints)`);
         }
+
+        // The batch twin's rate, on the base row's `batch` field. Same modal
+        // rule as the row itself: a batch endpoint set that disagrees with
+        // itself yields nothing. A twin that prices nothing at all means the
+        // run cannot re-derive its rate — that row is kept as its own row so
+        // the fold does not quietly delete a price.
+        const twin = batchTwin.get(id);
+        if (twin) {
+          try {
+            const batchEndpoints = await endpointsOf(String(twin.id));
+            const br = batchEndpoints.length > 0 ? modalPrice(batchEndpoints, id.split("/")[0]) : undefined;
+            if (br) {
+              row.batch = { in: br.in, out: br.out, ...(br.cache_read !== undefined ? { cache_read: br.cache_read } : {}) };
+            } else {
+              // Keep the twin as its own row, carrying no price fields: the
+              // merge leaves an absent field alone, so the number survives.
+              rows.push({ id: canonical.get(String(twin.id).toLowerCase()) ?? String(twin.id), name: twin.name ?? String(twin.id) });
+              unfolded.push(String(twin.id));
+            }
+          } catch (err) {
+            rows.push({ id: canonical.get(String(twin.id).toLowerCase()) ?? String(twin.id), name: twin.name ?? String(twin.id) });
+            unfolded.push(String(twin.id));
+            failed.push(`${twin.id} (batch: ${String(err).slice(0, 50)})`);
+          }
+        }
         rows.push(row);
       }
     });
@@ -267,7 +335,13 @@ export default {
     if (rows.every((r) => r.in === undefined)) drift("no model resolved to an endpoint price — the join is broken");
 
     const notes = [
-      `${rows.filter((r) => r.in !== undefined).length} of ${rows.length} models priced from their upstreams; ${text.length} text-out models enumerated (:free mirrors excluded)`,
+      `${rows.filter((r) => r.in !== undefined).length} of ${rows.length} models priced from their upstreams; ${text.length} text-out models enumerated (:free mirrors excluded, ${batchTwin.size - unfolded.length} :batch twins folded onto their base row)`,
+      ...(batchOnly.length
+        ? [`sold in batch mode only, carried as their own row: ${batchOnly.map((m) => m.id).join(", ")}`]
+        : []),
+      ...(unfolded.length
+        ? [`${unfolded.length} :batch twin(s) the API no longer prices, kept as their own row so the fold does not drop a price: ${unfolded.join(", ")}`]
+        : []),
     ];
     if (spread.length) notes.push(`priced differently per upstream: ${spread.slice(0, 12).join(", ")}`);
     if (failed.length) notes.push(`left unpriced this run (rows keep their numbers): ${failed.slice(0, 12).join(", ")}`);

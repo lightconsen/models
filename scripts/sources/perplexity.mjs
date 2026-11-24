@@ -25,6 +25,19 @@
  * report the rest in the notes for a human to decide rather than adding 43
  * resale rows whose `serves` mapping no adapter can author (see below).
  *
+ * **Checked 2026-11-24: sixteen of those 43 are the same number their own
+ * vendor entry carries** — `claude-opus-5-5` at 4/20/0.20, `claude-haiku-5-5`
+ * at 0.10/0.50/0.01 with the length band and all — so on those the router is
+ * reselling at cost and a row here would duplicate a price the catalogue
+ * already holds. The remaining 27 are models the upstream entries do not carry
+ * at all (older Claude lines, the `gpt-6.2`/`gpt-5.4` family), and that is the
+ * only place this entry could add a price found nowhere else. It still is not
+ * added: those rows are 27 of the *vendor's* discrete products, priced on the
+ * router's terms and reachable only through its namespaced id, so carrying them
+ * would make this entry a partial copy of three vendors rather than Perplexity's
+ * own hosted catalogue. The count is reported every run so the decision stays
+ * visible and revisitable rather than silently settled.
+ *
  * **A new row would need `serves` and cannot be written by an adapter.** The
  * router's own string for a model is `anthropic/claude-fable-5-2`; this
  * catalogue's id would be `claude-fable-5-2`, and the API accepts only the
@@ -130,7 +143,7 @@ export default {
 
         const id = canonical.get(upstream) ?? upstream.split("/").slice(1).join("/");
         if (!carried.has(id)) {
-          uncarried.push(upstream);
+          uncarried.push({ vendor: upstream.split("/")[0], upstream });
           continue;
         }
         // A carried row whose cell gained a second figure is a length band this
@@ -158,12 +171,31 @@ export default {
       drift(`the rate card no longer prices ${lost.join(", ")} — this entry cannot be re-priced from it`);
     }
 
+    // Which of the uncarried rows another entry in this catalogue already
+    // holds under its own vendor — those duplicate a model we carry, and only
+    // the rest could add anything. Read, not guessed: a provider that is not in
+    // the repo (or a row the entry dropped) simply does not count, which errs
+    // toward calling a row unique rather than urgent.
+    const VENDOR_ENTRY = { anthropic: "anthropic", openai: "openai", google: "google-gemini", xai: "xai", zai: "zhipu-glm", moonshot: "kimi", deepseek: "deepseek" };
+    const owned = new Set();
+    for (const { vendor, upstream } of uncarried) {
+      const entry = VENDOR_ENTRY[vendor];
+      if (!entry) continue;
+      try {
+        const theirs = readEntry(entry).models.map((m) => m.id);
+        if (theirs.includes(upstream.split("/").slice(1).join("/")) || theirs.includes(upstream)) owned.add(upstream);
+      } catch {
+        // no such entry in the catalogue: it cannot be a duplicate
+      }
+    }
+
     const notes = [
       `${rateCards.length} rate-card tables read; ${rows.length} of the entry's rows priced`,
       `the page prices ${uncarried.length + rows.length} models: ${uncarried.length} are resold from other vendors and are not this entry's rows — a membership decision`,
+      `of those ${uncarried.length}: ${owned.size} are already carried by the upstream vendor's own entry in this catalogue, and ${uncarried.length - owned.size} are models no other entry carries — the only rows this entry could add`,
       "cache writes now bill at 1.25x the input rate on Anthropic and the listed OpenAI models only; this entry's rows are none of those, so `cache_creation` is left as authored",
     ];
-    if (uncarried.length) notes.push(`not carried: ${uncarried.join(", ")}`);
+    if (uncarried.length) notes.push(`not carried: ${uncarried.map((u) => u.upstream).join(", ")}`);
     return { rows: { perplexity: rows }, notes: { perplexity: notes } };
   },
 };

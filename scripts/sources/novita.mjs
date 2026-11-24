@@ -15,6 +15,13 @@
  * (`function-calling`, `reasoning`, `structured-outputs`), so those flags are
  * true only — a feature the list omits stays absent rather than false, the way
  * this catalogue writes capabilities everywhere else.
+ *
+ * **A scheduled retirement does not leave this list on the day it is announced.**
+ * The docs' changelog retires thirteen models on 2026-11-26, and on 2026-11-24
+ * twelve of them are still returned here, still priced, still in the entry. The
+ * list is "currently available", so the row goes when the API stops serving it —
+ * which means a deprecation arrives as a deletion one run later. The changelog
+ * is the announcement, not the source; this endpoint is the source.
  */
 import { drift, MEMBERSHIP } from "../lib/fetch.mjs";
 

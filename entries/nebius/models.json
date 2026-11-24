@@ -246,5 +246,12 @@
     "out": "1",
     "cache_read": "0.06",
     "context": 1048576
+  },
+  {
+    "id": "deepseek-ai/DeepSeek-V4.1-Flash-1017-fast",
+    "name": "DeepSeek V4.1 Flash 1017 fast",
+    "in": "0.6",
+    "out": "2.4",
+    "context": 1048576
   }
 ]

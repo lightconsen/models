@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-11-24T12:42:23.940Z",
+  "catalog": {
+    "count": 68,
+    "sha256": "1fc5779a179ff3d092d144f1a1076565a62b2ab677e4147c84ecdede40f7c843"
+  },
+  "models": {
+    "version": 127,
+    "sha256": "a6d21cc8e6d1196166281476609152471d3e87df84047d0c9174541241839596"
+  },
+  "news": {
+    "count": 3,
+    "sha256": "504b6a74bc96354eb123f186bf6a08303c7cebb88272fb2692019338b4cb9683"
+  },
+  "history": {
+    "version": 127,
+    "sha256": "a6d21cc8e6d1196166281476609152471d3e87df84047d0c9174541241839596",
+    "archive": "history/archive.json"
+  }
+}

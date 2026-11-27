@@ -267,5 +267,33 @@
     "in": "0.3",
     "out": "1",
     "cache_read": "0.03"
+  },
+  {
+    "id": "accounts/fireworks/models/hy4-flash",
+    "name": "Hy4 flash",
+    "in": "0.07",
+    "out": "0.281",
+    "cache_read": "0.003"
+  },
+  {
+    "id": "accounts/fireworks/models/inkling-2-mini",
+    "name": "Inkling 2 Mini",
+    "in": "0.15",
+    "out": "0.5",
+    "cache_read": "0.015"
+  },
+  {
+    "id": "accounts/fireworks/models/qwen4-max",
+    "name": "Qwen4 Max",
+    "in": "1.5",
+    "out": "4.5",
+    "cache_read": "0.075"
+  },
+  {
+    "id": "accounts/fireworks/routers/deepseek-v4p1-flash-1017-fast",
+    "name": "DeepSeek V4.1 Flash 1017 Ultra-fast",
+    "in": "1.2",
+    "out": "4.8",
+    "cache_read": "0.024"
   }
 ]

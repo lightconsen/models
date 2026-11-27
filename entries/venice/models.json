@@ -267,9 +267,9 @@
   {
     "id": "zai-org-glm-5-1",
     "name": "GLM 5.1",
-    "in": "1.54",
-    "out": "4.84",
-    "cache_read": "0.286",
+    "in": "1.33",
+    "out": "4.18",
+    "cache_read": "0.247",
     "context": 200000,
     "max_output": 80000,
     "reasoning": true,
@@ -388,9 +388,9 @@
   {
     "id": "zai-org-glm-4.7",
     "name": "GLM 4.7",
-    "in": "0.55",
-    "out": "2.65",
-    "cache_read": "0.11",
+    "in": "0.4",
+    "out": "1.75",
+    "cache_read": "0.08",
     "context": 198000,
     "max_output": 16384,
     "reasoning": true,
@@ -451,15 +451,14 @@
     "cache_read": "0.09375",
     "cache_creation": "2.34375",
     "cache_creation_1h": "3.75",
-    "context": 1000000,
-    "max_output": 393216,
+    "context": 262144,
+    "max_output": 65536,
     "reasoning": true,
     "tool_call": true,
     "modalities": {
       "input": [
         "image",
-        "text",
-        "video"
+        "text"
       ],
       "output": [
         "text"
@@ -469,9 +468,9 @@
   {
     "id": "qwen-3-8-2-4t-a95b",
     "name": "Qwen 3.8 2.4T",
-    "in": "2.5",
-    "out": "7.5",
-    "cache_read": "0.3125",
+    "in": "2",
+    "out": "6",
+    "cache_read": "0.25",
     "context": 262144,
     "max_output": 65536,
     "reasoning": true,
@@ -635,8 +634,8 @@
   {
     "id": "qwen3-6-27b",
     "name": "Qwen 3.6 27B",
-    "in": "0.325",
-    "out": "3.25",
+    "in": "0.32",
+    "out": "3.2",
     "context": 256000,
     "max_output": 65536,
     "reasoning": true,
@@ -837,7 +836,7 @@
     "name": "Google Gemma 4 31B Instruct",
     "in": "0.12",
     "out": "0.36",
-    "cache_read": "0.09",
+    "cache_read": "0.05",
     "context": 256000,
     "max_output": 16384,
     "reasoning": true,
@@ -1056,8 +1055,8 @@
   {
     "id": "mistral-small-3-2-24b-instruct",
     "name": "Mistral Small 3.2 24B Instruct",
-    "in": "0.09375",
-    "out": "0.25",
+    "in": "0.075",
+    "out": "0.2",
     "context": 256000,
     "max_output": 16384,
     "tool_call": true,
@@ -1673,9 +1672,9 @@
   {
     "id": "xiaomi-mimo-v2-6-flash",
     "name": "MiMo-V2.6-Flash",
-    "in": "0.175",
-    "out": "0.35",
-    "cache_read": "0.00375",
+    "in": "0.14",
+    "out": "0.28",
+    "cache_read": "0.0028",
     "context": 1000000,
     "max_output": 131072,
     "reasoning": true,
@@ -1882,9 +1881,9 @@
   {
     "id": "deepseek-v3.2",
     "name": "DeepSeek V3.2",
-    "in": "0.33",
-    "out": "0.48",
-    "cache_read": "0.16",
+    "in": "0.26",
+    "out": "0.38",
+    "cache_read": "0.13",
     "context": 160000,
     "max_output": 32768,
     "reasoning": true,
@@ -2982,9 +2981,9 @@
   {
     "id": "nvidia-nemotron-3-ultra-550b-a55b",
     "name": "NVIDIA Nemotron 3 Ultra",
-    "in": "0.625",
-    "out": "3.125",
-    "cache_read": "0.1875",
+    "in": "0.5",
+    "out": "2.2",
+    "cache_read": "0.1",
     "context": 256000,
     "max_output": 32768,
     "reasoning": true,
@@ -3016,25 +3015,6 @@
     }
   },
   {
-    "id": "e2ee-glm-5-2-p",
-    "name": "GLM 5.2",
-    "in": "1.75",
-    "out": "5.75",
-    "cache_read": "0.3",
-    "context": 524288,
-    "max_output": 32768,
-    "reasoning": true,
-    "tool_call": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "e2ee-glm-5-3-p",
     "name": "GLM 5.3",
     "in": "1.75",
@@ -3046,44 +3026,6 @@
     "tool_call": true,
     "modalities": {
       "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "e2ee-gpt-oss-120b-p",
-    "name": "GPT OSS 120B",
-    "in": "0.13",
-    "out": "0.65",
-    "context": 128000,
-    "max_output": 32768,
-    "reasoning": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "e2ee-kimi-k3-p",
-    "name": "Kimi K3",
-    "in": "3.75",
-    "out": "18.75",
-    "cache_read": "0.375",
-    "context": 1000000,
-    "max_output": 131072,
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "modalities": {
-      "input": [
-        "image",
         "text"
       ],
       "output": [
@@ -3166,25 +3108,6 @@
     }
   },
   {
-    "id": "e2ee-deepseek-v4-flash",
-    "name": "DeepSeek V4 Flash",
-    "in": "0.182",
-    "out": "0.373",
-    "cache_read": "0.038",
-    "context": 1000000,
-    "max_output": 8192,
-    "reasoning": true,
-    "tool_call": true,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "e2ee-deepseek-v4-1-flash-1017-abliterated",
     "name": "DeepSeek V4.1 Flash 1017 Abliterated",
     "in": "0.375",
@@ -3244,15 +3167,36 @@
     }
   },
   {
-    "id": "e2ee-kimi-k2-6",
-    "name": "Kimi K2.6",
-    "in": "0.87",
-    "out": "4.12",
-    "cache_read": "0.44",
-    "context": 262144,
-    "max_output": 8192,
+    "id": "hy4-preview",
+    "name": "Hy4 Preview",
+    "in": "1.0425",
+    "out": "3.12625",
+    "cache_read": "0.0525",
+    "context": 1048576,
+    "max_output": 64000,
     "reasoning": true,
     "tool_call": true,
+    "structured_output": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "inkling-2-mini",
+    "name": "Inkling 2 Mini",
+    "in": "0.12",
+    "out": "0.5",
+    "cache_read": "0.024",
+    "context": 524288,
+    "max_output": 131072,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
     "modalities": {
       "input": [
         "image",
@@ -3264,8 +3208,27 @@
     }
   },
   {
-    "id": "hy4-preview",
-    "name": "Hy4 Preview",
+    "id": "e2ee-deepseek-v4-1-flash-1017",
+    "name": "DeepSeek V4.1 Flash 1017",
+    "in": "0.3",
+    "out": "1.2",
+    "cache_read": "0.006",
+    "context": 1000000,
+    "max_output": 8192,
+    "reasoning": true,
+    "tool_call": true,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "hy4",
+    "name": "Hy4",
     "in": "1.0425",
     "out": "3.12625",
     "cache_read": "0.0525",

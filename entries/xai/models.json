@@ -28,33 +28,6 @@
     }
   },
   {
-    "id": "grok-build-0.1",
-    "name": "Grok Build 0.1",
-    "in": "1.00",
-    "out": "2.00",
-    "cache_read": "0.20",
-    "long_context": {
-      "over": 200000,
-      "in": "2.00",
-      "out": "4.00",
-      "cache_read": "0.40"
-    },
-    "reasoning": true,
-    "tool_call": true,
-    "structured_output": true,
-    "temperature": true,
-    "context": 256000,
-    "modalities": {
-      "input": [
-        "image",
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "grok-4.5",
     "name": "Grok 4.5",
     "in": "2.00",

@@ -5449,7 +5449,7 @@
     "out": "0.5",
     "cache_read": "0.015",
     "context": 1048576,
-    "max_output": 131072,
+    "max_output": 1048576,
     "reasoning": true,
     "tool_call": true,
     "temperature": true,
@@ -6804,5 +6804,52 @@
         "text"
       ]
     }
+  },
+  {
+    "id": "google/gemini-4-neon-fast",
+    "name": "Gemini 4 Neon (Fast)",
+    "in": "5.4",
+    "out": "27",
+    "cache_read": "0.27",
+    "context": 1000000,
+    "max_output": 1000000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "pdf",
+        "text",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "thinkingmachines/inkling-2-mini",
+    "name": "Inkling 2 Mini",
+    "in": "0.075",
+    "out": "0.3",
+    "cache_read": "0.015",
+    "context": 1048576,
+    "max_output": 1000000,
+    "reasoning": true,
+    "tool_call": true,
+    "structured_output": true,
+    "temperature": true,
+    "modalities": {
+      "input": [
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "open_weights": true
   }
 ]

@@ -18,25 +18,6 @@
     }
   },
   {
-    "id": "ByteDance/Seed-2.0-mini",
-    "name": "Seed 2.0 Mini",
-    "in": "0.1",
-    "out": "0.4",
-    "cache_read": "0.02",
-    "context": 256000,
-    "max_output": 256000,
-    "reasoning": true,
-    "tool_call": true,
-    "temperature": true,
-    "modalities": {
-      "input": [
-        "text",
-        "image"
-      ]
-    },
-    "structured_output": true
-  },
-  {
     "id": "ByteDance/Seed-2.0-pro",
     "name": "Seed 2.0 Pro",
     "in": "0.5",
@@ -823,15 +804,6 @@
     "structured_output": true
   },
   {
-    "id": "ibm-granite/granite-4.2-8b",
-    "name": "ibm-granite/granite-4.2-8b",
-    "in": "0.06",
-    "out": "0.25",
-    "cache_read": "0.015",
-    "context": 131072,
-    "max_output": 131072
-  },
-  {
     "id": "google/gemini-3.7-flash",
     "name": "google/gemini-3.7-flash",
     "in": "0.75",
@@ -915,22 +887,6 @@
         "text",
         "image",
         "video"
-      ]
-    },
-    "structured_output": true
-  },
-  {
-    "id": "ByteDance/Seed-1.8",
-    "name": "ByteDance/Seed-1.8",
-    "in": "0.25",
-    "out": "2",
-    "cache_read": "0.05",
-    "context": 256000,
-    "max_output": 256000,
-    "modalities": {
-      "input": [
-        "text",
-        "image"
       ]
     },
     "structured_output": true
@@ -1388,6 +1344,39 @@
     "in": "0.07",
     "out": "0.281",
     "cache_read": "0.003",
+    "context": 1048576,
+    "max_output": 1048576,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ]
+    },
+    "structured_output": true
+  },
+  {
+    "id": "inclusionAI/LingSante-3.1-air-VL",
+    "name": "inclusionAI/LingSante-3.1-air-VL",
+    "in": "0.06",
+    "out": "0.18",
+    "cache_read": "0.012",
+    "context": 131072,
+    "max_output": 131072,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ]
+    },
+    "structured_output": true
+  },
+  {
+    "id": "thinkingmachines/Inkling-2-Mini",
+    "name": "thinkingmachines/Inkling-2-Mini",
+    "in": "0.075",
+    "out": "0.3",
+    "cache_read": "0.015",
     "context": 1048576,
     "max_output": 1048576,
     "modalities": {

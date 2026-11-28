@@ -110,17 +110,6 @@
     "cache_read": "0.1"
   },
   {
-    "id": "Qwen/Qwen3-235B-A22B-Instruct-2507",
-    "name": "Qwen3 235B A22B Instruct 2507",
-    "in": "0.2",
-    "out": "0.6",
-    "context": 262144,
-    "max_output": 8192,
-    "tool_call": true,
-    "temperature": true,
-    "cache_read": "0.05"
-  },
-  {
     "id": "Qwen/Qwen3-30B-A3B-Instruct-2507",
     "name": "Qwen3-30B-A3B-Instruct-2507",
     "in": "0.1",
@@ -252,6 +241,7 @@
     "name": "DeepSeek V4.1 Flash 1017 fast",
     "in": "0.6",
     "out": "2.4",
-    "context": 1048576
+    "context": 1048576,
+    "cache_read": "0.012"
   }
 ]

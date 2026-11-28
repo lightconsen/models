@@ -659,5 +659,13 @@
       "cache_read": "0.2",
       "cache_creation": "5"
     }
+  },
+  {
+    "id": "kimi-k3.1-pro",
+    "name": "Kimi K3.1 Pro",
+    "in": "2",
+    "out": "10",
+    "cache_read": "0.2",
+    "cache_creation": "2"
   }
 ]
